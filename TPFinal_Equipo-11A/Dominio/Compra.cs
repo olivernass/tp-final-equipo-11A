@@ -11,7 +11,7 @@ namespace Dominio
         public int Id { get; set; }
         public Proveedor Proveedor { get; set; }
 
-        //public List<ProductoCompra> Productos { get; set; } -- Se podria hacer algo asi
+        //public List<Detalle_Compra> Productos { get; set; } -- Se podria hacer algo asi
         public DateTime FechaCompra { get; set; }
 
         public decimal PrecioTotal { get; set; }
