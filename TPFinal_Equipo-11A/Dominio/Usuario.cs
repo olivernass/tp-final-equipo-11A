@@ -11,6 +11,9 @@ namespace Dominio
         public int Id { get; set; }
         public string NombreUsuario { get; set; }
         public string Contrasenia { get; set; }
-        public string Rol { get; set; } 
+
+        //public Permiso Permiso { get; set; }  ///ME TIRA ERROR
+
+        public bool Activo { get; set; }
     }
 }
