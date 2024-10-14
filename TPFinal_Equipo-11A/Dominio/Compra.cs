@@ -13,5 +13,7 @@ namespace Dominio
 
         //public List<ProductoCompra> Productos { get; set; } -- Se podria hacer algo asi
         public DateTime FechaCompra { get; set; }
+
+        public decimal PrecioTotal { get; set; }
     }
 }
