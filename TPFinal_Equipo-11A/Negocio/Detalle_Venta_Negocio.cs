@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Negocio
 {
-    internal class Detalle_Venta_Negocio
+    public class Detalle_Venta_Negocio
     {
     }
 }
