@@ -19,9 +19,9 @@
             </button>
         </div>
         <div class="col">
-            <button type="button" class="btn btn-light">
-                <img src="Content/Iconos/shopping-basket.png" alt="Productos">
-                <div>Productos</div>
+            <button type="button" class="btn btn-light" onclick="window.location.href='Marcas.aspx';">
+                <img src="Content/Iconos/shipping.png" alt="Marcas">
+                <div>Marcas</div>
             </button>
         </div>
         <div class="col">
