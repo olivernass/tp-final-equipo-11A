@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Acceso_Datos
 {
-    internal class AccesoDatos
+    public class AccesoDatos
     {
         private SqlConnection conexion;
         private SqlCommand comando;
@@ -19,7 +19,7 @@ namespace Acceso_Datos
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLExpress; database=PROMOS_DB; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLExpress; database=comercio_final; integrated security=true");
             comando = new SqlCommand();
         }
 
@@ -93,12 +93,14 @@ namespace Acceso_Datos
             }
         }
 
-        public bool VerificarCodigo(string codigo)
-        {
-            setearConsulta("SELECT COUNT(*) FROM Vouchers WHERE CodigoVoucher = @Codigo AND FechaCanje IS NULL");
-            setearParametro("@Codigo", codigo);
-            int count = (int)ejecutarEscalar();
-            return count > 0;
-        }
+        //public bool VerificarCodigo(string codigo)
+        //{
+        //    setearConsulta("SELECT COUNT(*) FROM Vouchers WHERE CodigoVoucher = @Codigo AND FechaCanje IS NULL");
+        //    setearParametro("@Codigo", codigo);
+        //    int count = (int)ejecutarEscalar();
+        //    return count > 0;
+        //}
+
+        //// ESTO DEBERIA IR EN NEGOCIO SI NO LO BORRO PORQUE CAPAZ LO NECESITAMOS PARA ALGO
     }
 }
