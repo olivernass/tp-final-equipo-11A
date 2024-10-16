@@ -55,7 +55,7 @@
             </button>
         </div>
         <div class="col">
-    <button type="button" class="btn btn-light">
+    <button type="button" class="btn btn-light" onclick="window.location.href='Categorias.aspx';">
         <img src="..." alt="Categorias">
         <div>Categorias</div>
     </button>
