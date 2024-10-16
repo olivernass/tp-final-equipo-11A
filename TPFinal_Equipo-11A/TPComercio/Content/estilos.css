@@ -17,6 +17,12 @@
     padding: 100px;
 }
 
+.containerClientes {
+    display: flex;
+    justify-content: center;
+    padding: 100px;
+}
+
 .col {
     flex-basis: 25%;
     flex-grow: 0;
