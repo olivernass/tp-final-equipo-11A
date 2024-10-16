@@ -200,3 +200,28 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_Alta_Proveedor(
+    @Siglas VARCHAR(5),
+	@Nombre VARCHAR(30),
+	@Direccion VARCHAR(100),
+	@Correo VARCHAR(50),
+	@Telefono VARCHAR(15)
+)
+AS
+BEGIN
+    INSERT INTO Proveedores(Siglas,Nombre,Direccion,Correo,Telefono) VALUES (@Siglas,@Nombre,@Direccion,@Correo,@Telefono)
+END
+GO
+
+CREATE PROCEDURE SP_Alta_Cliente(
+	@Nombre VARCHAR(30),
+	@Apellido VARCHAR(30),
+	@Direccion VARCHAR(50),
+	@Telefono VARCHAR(15),
+	@Correo VARCHAR(50)
+)
+AS
+BEGIN
+    INSERT INTO Clientes(Nombre,Apellido,Direccion,Telefono,Correo) VALUES (@Nombre,@Apellido,@Direccion,@Telefono,@Correo)
+END
+GO
