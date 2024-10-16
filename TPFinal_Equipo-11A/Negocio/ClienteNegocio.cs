@@ -18,7 +18,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT ID, Nombre, Apellido, Direccion, Telefono, Correo FROM CLIENTES");
+                datos.setearConsulta("SELECT * FROM VW_ListaClientes");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())

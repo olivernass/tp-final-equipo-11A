@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Id, NombreMarca FROM MARCAS");
+                datos.setearConsulta("SELECT * FROM VW_ListaMarcas");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -47,8 +47,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO MARCAS VALUES (@Nombre)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearProcedimiento("SP_Alta_Marca");
+                datos.setearParametro("@NombreMarca", nuevo.Nombre);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
