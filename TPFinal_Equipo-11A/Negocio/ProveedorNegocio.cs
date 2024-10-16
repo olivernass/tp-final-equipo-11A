@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Id, Siglas, Nombre, Direccion, Correo, Telefono FROM Proveedores");
+                datos.setearConsulta("SELECT * FROM VW_ListaProveedores");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -51,8 +51,12 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO PROVEEDORES VALUES (@Nombre)");
+                datos.setearProcedimiento("SP_Alta_Proveedor");
+                datos.setearParametro("@Siglas", nuevo.Siglas);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Direccion", nuevo.Direccion);
+                datos.setearParametro("@Correo", nuevo.Contacto);
+                datos.setearParametro("@Telefono", nuevo.Telefono);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

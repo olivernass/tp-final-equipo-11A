@@ -14,6 +14,9 @@
             </columns>
         </asp:GridView>
      </div>
-   
+    <div>
+        <asp:TextBox ID="txtNombre" runat="server"></asp:TextBox>
+        <asp:Button ID="txtAltaMarca" onclick="txtAltaMarca_Click" runat="server" Text="Button" />
+    </div>      
 
 </asp:Content>

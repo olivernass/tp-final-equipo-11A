@@ -10,6 +10,6 @@ namespace Dominio
     {
         public int Id { get; set; }
 
-        public int Nivel { get; set; }
+        public string NombrePermiso { get; set; }
     }
 }

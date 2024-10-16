@@ -1,4 +1,5 @@
-﻿using Negocio;
+﻿using Dominio;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,14 @@ namespace TPComercio
             MarcaNegocio marcaNegocio = new MarcaNegocio();
             gvMarcas.DataSource = marcaNegocio.listar();
             gvMarcas.DataBind();
+        }
+
+        protected void txtAltaMarca_Click(object sender, EventArgs e)
+        {
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            Marca marca = new Marca();
+            marca.Nombre = txtNombre.Text;
+            marcaNegocio.agregar(marca);
         }
     }
 }

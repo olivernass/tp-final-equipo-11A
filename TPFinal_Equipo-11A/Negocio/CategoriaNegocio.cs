@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Id, NombreCategoria FROM CATEGORIAS");
+                datos.setearConsulta("SELECT * FROM VW_ListaCategorias");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -47,8 +47,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO CATEGORIAS VALUES (@Nombre)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearProcedimiento("SP_Alta_Categoria");
+                datos.setearParametro("@NombreCategoria", nuevo.Nombre);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
