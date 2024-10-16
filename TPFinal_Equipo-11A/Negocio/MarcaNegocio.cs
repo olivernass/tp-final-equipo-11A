@@ -24,7 +24,7 @@ namespace Negocio
                 {
                     Marca aux = new Marca();
                     aux.Id = (int)datos.Lector["Id"];
-                    aux.Nombre = (string)datos.Lector["NombreMarca"];
+                    aux.NombreMarca = (string)datos.Lector["NombreMarca"];
 
                     lista.Add(aux);
                 }
@@ -48,7 +48,7 @@ namespace Negocio
             try
             {
                 datos.setearProcedimiento("SP_Alta_Marca");
-                datos.setearParametro("@NombreMarca", nuevo.Nombre);
+                datos.setearParametro("@NombreMarca", nuevo.NombreMarca);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -85,9 +85,9 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE MARCAS SET Nombre = @descripcion WHERE Id = @id");
+                datos.setearConsulta("UPDATE MARCAS SET NombreMarca = @NombreMarca WHERE Id = @id");
                 datos.setearParametro("@id", marca.Id);
-                datos.setearParametro("@Nombre", marca.Nombre);
+                datos.setearParametro("@NombreMarca", marca.NombreMarca);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

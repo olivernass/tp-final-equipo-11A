@@ -87,29 +87,29 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        //public void modificar(Proveedor proveedor)
-        //{
-        //    AccesoDatos datos = new AccesoDatos();
+        public void modificar(Proveedor proveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
-        //    try
-        //    {
-        //        datos.setearConsulta("UPDATE PROVEEDORES SET Nombre = @descripcion WHERE Id = @id");
-        //        datos.setearParametro("@id", Cliente.Id);
-        //        datos.setearParametro("@Nombre", Cliente.Nombre);
-        //        datos.setearParametro("@Apellido", Cliente.Apellido);
-        //        datos.setearParametro("@Direccion", Cliente.Direccion);
-        //        datos.setearParametro("@Telefono", Cliente.Telefono);
-        //        datos.setearParametro("@Correo", Cliente.Correo);
-        //        datos.ejecutarAccion();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    finally
-        //    {
-        //        datos.cerrarConexion();
-        //    }
-        //}
+            try
+            {
+                datos.setearConsulta("UPDATE PROVEEDORES SET Nombre = @Nombre WHERE Id = @id");
+                datos.setearParametro("@id", proveedor.Id);
+                datos.setearParametro("@Siglas", proveedor.Siglas);
+                datos.setearParametro("@Nombre", proveedor.Nombre);
+                datos.setearParametro("@Direccion", proveedor.Direccion);
+                datos.setearParametro("@Correo", proveedor.Correo);
+                datos.setearParametro("@Telefono", proveedor.Telefono);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

@@ -26,12 +26,5 @@ namespace TPComercio
             gvMarcas.DataBind();
         }
 
-        protected void txtAltaMarca_Click(object sender, EventArgs e)
-        {
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-            Marca marca = new Marca();
-            marca.Nombre = txtNombre.Text;
-            marcaNegocio.agregar(marca);
-        }
     }
 }

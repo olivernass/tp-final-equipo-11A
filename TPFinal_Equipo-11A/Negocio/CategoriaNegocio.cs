@@ -24,7 +24,7 @@ namespace Negocio
                 {
                     Categoria aux = new Categoria();
                     aux.Id = (int)datos.Lector["Id"];
-                    aux.Nombre = (string)datos.Lector["NombreCategoria"];
+                    aux.NombreCategoria = (string)datos.Lector["NombreCategoria"];
 
                     lista.Add(aux);
                 }
@@ -48,7 +48,7 @@ namespace Negocio
             try
             {
                 datos.setearProcedimiento("SP_Alta_Categoria");
-                datos.setearParametro("@NombreCategoria", nuevo.Nombre);
+                datos.setearParametro("@NombreCategoria", nuevo.NombreCategoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -85,9 +85,9 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE CATEGORIAS SET Nombre = @descripcion WHERE Id = @id");
+                datos.setearConsulta("UPDATE CATEGORIAS SET NombreCategoria = @NombreCategoria WHERE Id = @id");
                 datos.setearParametro("@id", categoria.Id);
-                datos.setearParametro("@Nombre", categoria.Nombre);
+                datos.setearParametro("@NombreCategoria", categoria.NombreCategoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

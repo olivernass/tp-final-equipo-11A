@@ -143,9 +143,50 @@ CREATE TABLE Productos_x_compra(
 GO
 
 /* INSERTS */
-INSERT INTO Marcas (NombreMarca) values ('Coca')
-INSERT INTO Marcas (NombreMarca) values ('Apple')
-INSERT INTO Marcas (NombreMarca) values ('Samsung')
+
+-- Inserciones en la tabla Marcas
+INSERT INTO Marcas (NombreMarca) VALUES
+('Coca'), 
+('Apple'), 
+('Samsung'),
+('Logitech'), 
+('Sony');
+GO
+
+-- Inserciones en la tabla Categorias
+INSERT INTO Categorias (NombreCategoria, Activo) VALUES
+('Electrónica', 1),
+('Accesorios', 1),
+('Computación', 1),
+('Telefonía', 1),
+('Videojuegos', 1);
+GO
+
+-- Inserciones en la tabla Clientes
+INSERT INTO Clientes (Nombre, Apellido, Direccion, Telefono, Correo, Activo, Fecha_reg) VALUES
+('Juan', 'Pérez', 'Calle Falsa 123', '555-1234', 'juan.perez@example.com', 1, '2023-01-01'),
+('Ana', 'García', 'Av. Principal 456', '555-5678', 'ana.garcia@example.com', 1, '2023-02-01'),
+('Carlos', 'López', 'Av. Siempre Viva 789', '555-9876', 'carlos.lopez@example.com', 1, '2023-03-01'),
+('Lucía', 'Martínez', 'Calle Secundaria 101', '555-1011', 'lucia.martinez@example.com', 1, '2023-04-01'),
+('María', 'Rodríguez', 'Calle del Sol 202', '555-2022', 'maria.rodriguez@example.com', 1, '2023-05-01');
+GO
+
+-- Inserciones en la tabla Proveedores
+INSERT INTO Proveedores (Siglas, Nombre, Direccion, Correo, Telefono, Activo) VALUES
+('ABC', 'ABC Distribuidora', 'Calle Central 123', 'contacto@abcdistribuidora.com', '555-1234', 1),
+('XYZ', 'XYZ Proveedores', 'Av. Comercio 456', 'ventas@xyzproveedores.com', '555-5678', 1),
+('GHI', 'GHI Importaciones', 'Av. Importadora 789', 'info@ghiimportaciones.com', '555-9876', 1),
+('DEF', 'DEF Suministros', 'Calle Comercio 101', 'contacto@defsuministros.com', '555-1011', 1),
+('JKL', 'JKL Global', 'Av. Internacional 202', 'info@jklglobal.com', '555-2022', 1);
+GO
+
+-- Inserciones en la tabla Productos (solo 5 productos)
+INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
+('Teclado Logitech', 'Teclado inalámbrico', 4, 2, 100, 20, 25.00, 40.00, 60.00, 1),
+('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 30, 5, 150.00, 220.00, 46.67, 1),
+('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 15, 5, 800.00, 1100.00, 37.50, 1),
+('Mouse Logitech', 'Mouse inalámbrico', 4, 2, 150, 30, 15.00, 25.00, 66.67, 1),
+('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
 GO
 
 

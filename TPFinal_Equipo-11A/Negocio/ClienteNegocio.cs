@@ -94,7 +94,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE CLIENTES SET Nombre = @descripcion WHERE Id = @id");
+                datos.setearConsulta("UPDATE CLIENTES SET Correo = @Correo WHERE Id = @id");
                 datos.setearParametro("@id", cliente.Id);
                 datos.setearParametro("@Nombre", cliente.Nombre);
                 datos.setearParametro("@Apellido", cliente.Apellido);

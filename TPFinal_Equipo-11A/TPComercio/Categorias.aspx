@@ -9,7 +9,7 @@
     <asp:GridView ID="gvCategorias" runat="server" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table">
         <columns>
             <asp:BoundField DataField="Id" HeaderText="ID" />
-            <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+            <asp:BoundField DataField="NombreCategoria" HeaderText="NombreCategoria" />
         </columns>
     </asp:GridView>
  </div>

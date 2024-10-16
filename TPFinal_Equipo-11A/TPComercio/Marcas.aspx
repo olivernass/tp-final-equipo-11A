@@ -10,13 +10,9 @@
         <asp:GridView ID="gvMarcas" runat="server" AutoGenerateColumns="False" DataKeyNames="Id" CssClass="table">
             <columns>
                 <asp:BoundField DataField="Id" HeaderText="ID" />
-                <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                <asp:BoundField DataField="NombreMarca" HeaderText="NombreMarca" />
             </columns>
         </asp:GridView>
-     </div>
-    <div>
-        <asp:TextBox ID="txtNombre" runat="server"></asp:TextBox>
-        <asp:Button ID="txtAltaMarca" onclick="txtAltaMarca_Click" runat="server" Text="Button" />
-    </div>      
+     </div>    
 
 </asp:Content>
