@@ -43,7 +43,7 @@
             </button>
         </div>
         <div class="col">
-            <button type="button" class="btn btn-light">
+            <button type="button" class="btn btn-light" onclick="window.location.href='Proveedores.aspx';">
                 <img src="Content/Iconos/delivery-courier.png" alt="Proveedores">
                 <div>Proveedores</div>
             </button>
@@ -54,6 +54,12 @@
                 <div>Reportes</div>
             </button>
         </div>
+        <div class="col">
+    <button type="button" class="btn btn-light">
+        <img src="..." alt="Categorias">
+        <div>Categorias</div>
+    </button>
+</div>
 
     </div>
 

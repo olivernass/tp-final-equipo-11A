@@ -10,12 +10,12 @@ namespace Dominio
     {
         public int Id { get; set; }
 
-        //public string Codigo { get; set; } DUDA
+        public string Siglas { get; set; }
         public string Nombre { get; set; }
         public string Contacto { get; set; }
         public string Direccion { get; set; }
 
-        public string Email { get; set; }
+        public string Correo { get; set; }
 
         public string Telefono { get; set; }
         //public List<Producto> Productos { get; set; } DUDA
