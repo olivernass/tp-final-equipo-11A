@@ -66,6 +66,7 @@
   <ItemGroup>
     <Content Include="Categorias.aspx" />
     <Content Include="Clientes.aspx" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\estilos.css" />
     <Content Include="Content\Iconos\bar-chart.png" />
     <Content Include="Content\Iconos\barcode.png" />
@@ -75,8 +76,10 @@
     <Content Include="Content\Iconos\ecommerce.png" />
     <Content Include="Content\Iconos\online-payment.png" />
     <Content Include="Content\Iconos\online-store.png" />
+    <Content Include="Content\Iconos\settings.png" />
     <Content Include="Content\Iconos\shipping.png" />
     <Content Include="Content\Iconos\shopping-basket.png" />
+    <Content Include="Content\Iconos\trash.png" />
     <Content Include="Content\Iconos\usuario.png" />
     <Content Include="Content\Iconos\warehouse.png" />
     <Content Include="Content\Iconos\worldwide-shipping.png" />

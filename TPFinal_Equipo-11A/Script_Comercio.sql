@@ -266,3 +266,5 @@ BEGIN
     INSERT INTO Clientes(Nombre,Apellido,Direccion,Telefono,Correo) VALUES (@Nombre,@Apellido,@Direccion,@Telefono,@Correo)
 END
 GO
+
+SELECT * FROM Marcas
