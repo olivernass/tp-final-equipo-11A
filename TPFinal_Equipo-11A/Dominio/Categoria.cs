@@ -10,7 +10,6 @@ namespace Dominio
     {
         public int Id { get; set; }
         public string NombreCategoria { get; set; }
-
         public bool Activo { get; set; }
 
     }

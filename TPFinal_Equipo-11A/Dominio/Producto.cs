@@ -16,11 +16,9 @@ namespace Dominio
         public int StockActual { get; set; }
         public int StockMinimo { get; set; }
         public decimal Precio_Compra { get; set; }
-
         public decimal Precio_Venta { get; set; }
         public decimal Porcentaje_Ganancia { get; set; }
         public List<Proveedor> Proveedores { get; set; }
-
         public bool Activo { get; set; }
     }
 }

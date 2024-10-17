@@ -14,7 +14,7 @@ GO
 CREATE TABLE Marcas (
 	ID INT NOT NULL IDENTITY(1,1),
     NombreMarca VARCHAR(30) NOT NULL,
-    Activo BIT NOT NULL default '1',
+    Activo BIT NOT NULL default 1,
     PRIMARY KEY(ID)
 );
 GO
@@ -34,6 +34,10 @@ CREATE TABLE Usuarios(
 	PRIMARY KEY(ID),
 	FOREIGN KEY (IDPermiso) REFERENCES Permisos(ID)
 );
+
+-- ¿Queremos generar un perfil de los usuarios para que se uno mismo pueda modificar algunos campos? y el administrador tiene mas alcance
+-- En ese caso necesitariamos por ejemplo una imagen para el usuario, el mail, 
+-- USUARIO DEBE SER UNIQUE
 GO
 CREATE TABLE Clientes(
 	ID BIGINT NOT NULL IDENTITY(1,1),
@@ -46,6 +50,8 @@ CREATE TABLE Clientes(
 	Activo BIT NOT NULL default 1,
 	PRIMARY KEY(ID),
 );
+
+-- FALTARIA EL DNI EN CLIENTES?
 GO
 CREATE TABLE Proveedores(
 	ID INT NOT NULL IDENTITY(1,1),
@@ -107,6 +113,8 @@ CREATE TABLE Ventas(
 	FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
 );
 GO
+-- Nro_Factura deberia de tener un identity(1,1)
+
 CREATE TABLE Productos_x_venta(
 	ID BIGINT NOT NULL IDENTITY(1,1),
 	IDVenta BIGINT NOT NULL,
@@ -129,6 +137,8 @@ CREATE TABLE Compras(
 	FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
 );
 GO
+-- Nro_Recibo deberia de tener un identity(1,1)
+
 CREATE TABLE Productos_x_compra(
 	ID BIGINT NOT NULL IDENTITY(1,1),
 	IDCompra BIGINT NOT NULL,
@@ -212,7 +222,15 @@ CREATE VIEW VW_ListaClientes AS
 SELECT * FROM Clientes
 GO
 
+CREATE VIEW VW_ListaUsuarios AS
+SELECT U.ID, U.IDPermiso, P.NombrePermiso, U.NombreUsuario, U.Contrasenia, U.Activo 
+FROM Usuarios AS U
+INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
+GO
+
 /* STORE PROCEDURE */
+
+-- ALTAS -- 
 
 CREATE PROCEDURE SP_Alta_Marca(
     @NombreMarca VARCHAR(30)
@@ -267,4 +285,83 @@ BEGIN
 END
 GO
 
-SELECT * FROM Marcas
+CREATE PROCEDURE SP_Alta_Usuario(
+	@IDPermiso INT,
+	@NombreUsuario VARCHAR(30),
+	@Contrasenia VARCHAR(30)
+)
+AS
+BEGIN
+    INSERT INTO Usuarios(IDPermiso,NombreUsuario,Contrasenia) VALUES (@IDPermiso,@NombreUsuario,@Contrasenia)
+END
+GO
+
+-- BAJA LOGICA -- 
+
+CREATE PROCEDURE SP_BajaCategoria(
+	@ID INT,
+	@Activo bit
+)
+AS
+BEGIN 
+UPDATE Categorias SET Activo = @Activo WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaMarca(
+	@ID INT,
+	@Activo bit
+)
+AS
+BEGIN 
+UPDATE Marcas SET Activo = @Activo WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaUsuario(
+	@ID INT,
+	@Activo bit
+)
+AS
+BEGIN 
+UPDATE Usuarios SET Activo = @Activo WHERE ID = @ID
+END
+GO
+
+-- MODIFICAR -- 
+
+CREATE PROCEDURE SP_ModificarCategoria(
+	@ID INT,
+	@NombreCategoria VARCHAR(30)
+)
+AS
+BEGIN 
+UPDATE Categorias SET NombreCategoria = @NombreCategoria WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ModificarMarca(
+	@ID INT,
+	@NombreMarca VARCHAR(30)
+)
+AS
+BEGIN 
+UPDATE Marcas SET NombreMarca = @NombreMarca WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ModificarUsuario(
+	@ID INT,
+	@IDPermiso INT,
+	@NombreUsuario VARCHAR(30),
+	@Contrasenia VARCHAR(30),
+	@Activo BIT
+
+)
+AS
+BEGIN 
+UPDATE Usuarios SET IDPermiso = @IDPermiso, NombreUsuario = @NombreUsuario, Contrasenia = @Contrasenia, Activo = @Activo 
+WHERE ID = @ID
+END
+GO
+

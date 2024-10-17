@@ -14,6 +14,6 @@ namespace Dominio
         //public List<Detalle_Venta> Productos { get; set; } -- Se podria hacer algo asi
         public decimal PrecioTotal { get; set; }
         public DateTime FechaVenta { get; set; }
-        public Factura NroFactura { get; set; }
+        public int NroFactura { get; set; }
     }
 }

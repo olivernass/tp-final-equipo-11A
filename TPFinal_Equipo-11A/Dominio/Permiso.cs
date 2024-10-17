@@ -9,7 +9,6 @@ namespace Dominio
     public class Permiso
     {
         public int Id { get; set; }
-
         public string NombrePermiso { get; set; }
     }
 }

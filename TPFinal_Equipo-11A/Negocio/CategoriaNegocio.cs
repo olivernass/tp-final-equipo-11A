@@ -60,14 +60,15 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(int id)
+        public void eliminarL(Categoria aux)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("DELETE FROM CATEGORIAS WHERE Id = @id");
-                datos.setearParametro("@id", id);
+                datos.setearProcedimiento("SP_BajaCategoria");
+                datos.setearParametro("@ID", aux.Id);
+                datos.setearParametro("@Activo", aux.Activo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -85,8 +86,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE CATEGORIAS SET NombreCategoria = @NombreCategoria WHERE Id = @id");
-                datos.setearParametro("@id", categoria.Id);
+                datos.setearProcedimiento("SP_ModificarCategoria");
+                datos.setearParametro("@ID", categoria.Id);
                 datos.setearParametro("@NombreCategoria", categoria.NombreCategoria);
                 datos.ejecutarAccion();
             }
