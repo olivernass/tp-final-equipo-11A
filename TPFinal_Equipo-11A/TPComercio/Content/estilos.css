@@ -95,11 +95,35 @@
     border-radius: 3px; 
 }
 
-.acciones {
-    /*display: flex;
-    justify-content: space-between; 
-    min-width: 120px; */
-    visibility: hidden; 
+.table {
+    width: 100%;
+    table-layout: fixed;
 }
 
+    .table th, .table td {
+        text-align: left;
+        vertical-align: middle;
+        padding: 8px;
+    }
 
+    .table .acciones {
+        width: 200px; /* Ajusta según necesites */
+    }
+
+.btn-acciones {
+    visibility: hidden;
+    margin-right: 5px; /* Espacio entre botones */
+}
+
+tr:hover .btn-acciones {
+    visibility: visible;
+}
+
+/* Asegurándose de que los botones aparezcan en línea */
+.btn-acciones {
+    display: inline-block;
+}
+
+.h2listado{
+    padding-right: 15px;
+}

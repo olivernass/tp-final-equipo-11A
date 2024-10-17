@@ -21,54 +21,73 @@ namespace TPComercio
 
         private void cargarMarcas()
         {
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-            gvMarcas.DataSource = marcaNegocio.listar();
-            gvMarcas.DataBind();
+            MarcaNegocio negocio = new MarcaNegocio();
+            List<Marca> listaMarcas = negocio.listar();
+            rptMarcas.DataSource = listaMarcas;
+            rptMarcas.DataBind();
         }
 
         protected void btnGuardarMarca_Click(object sender, EventArgs e)
         {
-            Marca nuevaMarca = new Marca
+            if (!string.IsNullOrEmpty(txtNombreMarca.Text))
             {
-                NombreMarca = txtNombreMarca.Text
-            };
+                Marca nuevaMarca = new Marca
+                {
+                    NombreMarca = txtNombreMarca.Text
+                };
 
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-            marcaNegocio.agregar(nuevaMarca);
+                MarcaNegocio negocio = new MarcaNegocio();
+                negocio.agregar(nuevaMarca);
 
-            cargarMarcas();
-            txtNombreMarca.Text = "";
+                // Recargar la lista de marcas para que se vea reflejada la nueva marca
+                cargarMarcas();
+
+                // Limpiar el campo de texto
+                txtNombreMarca.Text = string.Empty;
+
+                // Cerrar el modal (esto se hace con JS al actualizar la página)
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
+            }
         }
 
-        // Manejar los comandos Modificar y Eliminar
-        protected void gvMarcas_RowCommand(object sender, GridViewCommandEventArgs e)
+        protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
-            int idMarca = Convert.ToInt32(e.CommandArgument);
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            if (!string.IsNullOrEmpty(txtNombreMarcaMod.Text))
+            {
+                int idMarca = int.Parse(hdnIdMarca.Value); // ID de la marca almacenado en el HiddenField
 
+                Marca marcaModificada = new Marca
+                {
+                    Id = idMarca,
+                    NombreMarca = txtNombreMarcaMod.Text
+                };
+
+                MarcaNegocio negocio = new MarcaNegocio();
+                negocio.modificar(marcaModificada);
+
+                // Recargar la lista de marcas
+                cargarMarcas();
+
+                // Limpiar campos
+                hdnIdMarca.Value = string.Empty;
+                txtNombreMarcaMod.Text = string.Empty;
+
+                // Cerrar el modal
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarMarca').modal('hide');", true);
+            }
+        }
+
+        protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
             if (e.CommandName == "Eliminar")
             {
-                // Eliminar la marca
-                marcaNegocio.eliminarF(idMarca);
-                cargarMarcas();  // Recargar la lista
-            }
-            else if (e.CommandName == "Modificar")
-            {
-                
+                int idMarca = Convert.ToInt32(e.CommandArgument);
+                MarcaNegocio negocio = new MarcaNegocio();
+                negocio.eliminarF(idMarca);
+
+                // Recargar la lista de marcas después de eliminar
+                cargarMarcas();
             }
         }
-
-        // Cambiar el color de la fila o agregar algún estilo al pasar el mouse
-        protected void gvMarcas_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                e.Row.Attributes["onmouseover"] = "this.style.backgroundColor='#f0f0f0';";
-                e.Row.Attributes["onmouseout"] = "this.style.backgroundColor='';";
-            }
-        }
-
     }
-
 }
-
