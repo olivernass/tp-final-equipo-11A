@@ -84,46 +84,61 @@
 
 .btn-add-m {
     display: flex;
-    padding-right: 260px;    
+    padding-right: 260px;
     justify-content: center;
 }
 
 .btn-mod {
-    padding: 2px 5px; 
-    font-size: 12px; 
-    line-height: 1.5; 
-    border-radius: 3px; 
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
 }
 
-.table {
+.tableMarcas {
     width: 100%;
     table-layout: fixed;
 }
 
-    .table th, .table td {
+    .tableMarcas th, .tableMarcas td {
         text-align: left;
         vertical-align: middle;
         padding: 8px;
     }
 
-    .table .acciones {
-        width: 200px; /* Ajusta según necesites */
+    .tableMarcas .acciones {
+        width: 200px;
+    }
+
+.tableClientes {
+    width: 100%;
+}
+
+    .tableClientes th, .tableClientes td {
+        text-align: left;
+        vertical-align: middle;
+        padding: 8px;
+    }
+
+    .tableClientes .acciones {
+        width: 200px;
+        display: inline-block;
     }
 
 .btn-acciones {
     visibility: hidden;
-    margin-right: 5px; /* Espacio entre botones */
+    margin-right: 5px;
 }
 
 tr:hover .btn-acciones {
     visibility: visible;
 }
 
-/* Asegurándose de que los botones aparezcan en línea */
+
 .btn-acciones {
     display: inline-block;
 }
 
-.h2listado{
+.h2listado {
     padding-right: 15px;
 }

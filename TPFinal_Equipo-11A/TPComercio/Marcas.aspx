@@ -13,7 +13,7 @@
         </button>
 
         <!-- Tabla de Marcas -->
-        <table class="table table-hover mt-3">
+        <table class="table tableMarcas table-hover mt-3">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -85,6 +85,7 @@
             </div>
         </div>
     </div>
+
 
     <script type="text/javascript">
         function cargarDatosModal(id, nombre) {

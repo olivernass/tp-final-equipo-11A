@@ -88,6 +88,27 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        // cambiar método eliminarL para aceptar un int
+        //public void eliminarL(int id)
+        //{
+        //    AccesoDatos datos = new AccesoDatos();
+
+        //    try
+        //    {
+        //        datos.setearProcedimiento("SP_BajaCliente");
+        //        datos.setearParametro("@ID", id);
+        //        datos.ejecutarAccion();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
         public void modificar(Cliente cliente)
         {
             AccesoDatos datos = new AccesoDatos();
