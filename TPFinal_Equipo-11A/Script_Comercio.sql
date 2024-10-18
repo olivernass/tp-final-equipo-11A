@@ -298,37 +298,63 @@ GO
 
 -- BAJA LOGICA -- 
 
-CREATE PROCEDURE SP_BajaCategoria(
-	@ID INT,
-	@Activo bit
+CREATE PROCEDURE SP_BajaMarca(
+	@ID INT
 )
 AS
 BEGIN 
-UPDATE Categorias SET Activo = @Activo WHERE ID = @ID
+UPDATE Marcas SET Activo = 0 WHERE ID = @ID
 END
 GO
 
-CREATE PROCEDURE SP_BajaMarca(
-	@ID INT,
-	@Activo bit
+CREATE PROCEDURE SP_BajaCategoria(
+	@ID INT
 )
 AS
 BEGIN 
-UPDATE Marcas SET Activo = @Activo WHERE ID = @ID
+UPDATE Categorias SET Activo = 0 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaProveedor(
+	@ID INT
+)
+AS
+BEGIN 
+UPDATE Proveedores SET Activo = 0 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_BajaCliente(
+	@ID BIGINT
+)
+AS
+BEGIN 
+UPDATE Clientes SET Activo = 0 WHERE ID = @ID
 END
 GO
 
 CREATE PROCEDURE SP_BajaUsuario(
-	@ID INT,
-	@Activo bit
+	@ID INT
 )
 AS
 BEGIN 
-UPDATE Usuarios SET Activo = @Activo WHERE ID = @ID
+UPDATE Usuarios SET Activo = 0 WHERE ID = @ID
 END
 GO
 
+
 -- MODIFICAR -- 
+
+CREATE PROCEDURE SP_ModificarMarca(
+	@ID INT,
+	@NombreMarca VARCHAR(30)
+)
+AS
+BEGIN 
+UPDATE Marcas SET NombreMarca = @NombreMarca WHERE ID = @ID
+END
+GO
 
 CREATE PROCEDURE SP_ModificarCategoria(
 	@ID INT,
@@ -340,15 +366,54 @@ UPDATE Categorias SET NombreCategoria = @NombreCategoria WHERE ID = @ID
 END
 GO
 
-CREATE PROCEDURE SP_ModificarMarca(
+CREATE PROCEDURE SP_ModificarPermiso(
 	@ID INT,
-	@NombreMarca VARCHAR(30)
+	@NombrePermiso VARCHAR(30)
 )
 AS
 BEGIN 
-UPDATE Marcas SET NombreMarca = @NombreMarca WHERE ID = @ID
+UPDATE Permisos SET NombrePermiso = @NombrePermiso WHERE ID = @ID
 END
 GO
+
+-- CONSULTAR SI MANDAMOS ACTIVO EN LOS MODIFICAR
+
+CREATE PROCEDURE SP_ModificarProveedor(
+	@ID INT,
+	@Siglas VARCHAR(5),
+	@Nombre VARCHAR(30),
+	@Direccion VARCHAR(100),
+	@Correo VARCHAR(50),
+	@Telefono VARCHAR(15),
+	@Activo BIT
+)
+AS
+BEGIN 
+UPDATE Proveedores SET Siglas = @Siglas, Nombre = @Nombre, Direccion = @Direccion, Correo = @Correo, Telefono = @Telefono, Activo = @Activo
+WHERE ID = @ID
+END
+GO
+
+-- CONSULTAR SI MANDAMOS ACTIVO EN LOS MODIFICAR
+
+CREATE PROCEDURE SP_ModificarCliente(
+	@ID BIGINT,
+	@Nombre VARCHAR(30),
+	@Apellido VARCHAR(30),
+	@Direccion VARCHAR(50),
+	@Telefono VARCHAR(15),
+	@Correo VARCHAR(50),
+	@Activo BIT
+
+)
+AS
+BEGIN 
+UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Telefono = @Telefono, Correo = @Correo, Activo = @Activo 
+WHERE ID = @ID
+END
+GO
+
+-- CONSULTAR SI MANDAMOS ACTIVO EN LOS MODIFICAR
 
 CREATE PROCEDURE SP_ModificarUsuario(
 	@ID INT,
@@ -364,4 +429,7 @@ UPDATE Usuarios SET IDPermiso = @IDPermiso, NombreUsuario = @NombreUsuario, Cont
 WHERE ID = @ID
 END
 GO
+
+
+
 
