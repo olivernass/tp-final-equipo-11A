@@ -69,14 +69,15 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(int id)
+        public void eliminarF(Cliente cliente)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("DELETE FROM CLIENTES WHERE Id = @id");
-                datos.setearParametro("@id", id);
+                datos.setearProcedimiento("SP_BajaCliente");
+                datos.setearParametro("@ID", cliente.Id);
+                datos.setearParametro("@Activo", cliente.Activo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -94,13 +95,14 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE CLIENTES SET Correo = @Correo WHERE Id = @id");
-                datos.setearParametro("@id", cliente.Id);
+                datos.setearProcedimiento("SP_ModificarCliente");
+                datos.setearParametro("@ID", cliente.Id);
                 datos.setearParametro("@Nombre", cliente.Nombre);
                 datos.setearParametro("@Apellido", cliente.Apellido);
                 datos.setearParametro("@Direccion", cliente.Direccion);
                 datos.setearParametro("@Telefono", cliente.Telefono);
                 datos.setearParametro("@Correo", cliente.Correo);
+                datos.setearParametro("@Activo", cliente.Activo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

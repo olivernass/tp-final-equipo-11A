@@ -23,7 +23,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Marca aux = new Marca();
-                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Id = (int)datos.Lector["ID"];
                     aux.NombreMarca = (string)datos.Lector["NombreMarca"];
 
                     lista.Add(aux);
@@ -60,14 +60,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(int id)
+        public void eliminarL(int id)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("DELETE FROM MARCAS WHERE Id = @id");
-                datos.setearParametro("@id", id);
+                datos.setearProcedimiento("SP_BajaMarca");
+                datos.setearParametro("@ID", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -85,8 +85,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE MARCAS SET NombreMarca = @NombreMarca WHERE Id = @id");
-                datos.setearParametro("@id", marca.Id);
+                datos.setearProcedimiento("SP_ModificarMarca");
+                datos.setearParametro("@ID", marca.Id);
                 datos.setearParametro("@NombreMarca", marca.NombreMarca);
                 datos.ejecutarAccion();
             }

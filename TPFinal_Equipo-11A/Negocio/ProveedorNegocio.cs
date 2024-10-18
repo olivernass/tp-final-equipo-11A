@@ -23,7 +23,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Proveedor aux = new Proveedor();
-                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Id = (int)datos.Lector["ID"];
                     aux.Siglas = (string)datos.Lector["Siglas"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Direccion = (string)datos.Lector["Direccion"];
@@ -68,14 +68,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(int id)
+        public void eliminarL(int id)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("DELETE FROM PROVEEDORES WHERE Id = @id");
-                datos.setearParametro("@id", id);
+                datos.setearProcedimiento("SP_BajaProveedor");
+                datos.setearParametro("@ID", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -93,13 +93,14 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE PROVEEDORES SET Nombre = @Nombre WHERE Id = @id");
-                datos.setearParametro("@id", proveedor.Id);
+                datos.setearProcedimiento("SP_ModificarProveedor");
+                datos.setearParametro("@ID", proveedor.Id);
                 datos.setearParametro("@Siglas", proveedor.Siglas);
                 datos.setearParametro("@Nombre", proveedor.Nombre);
                 datos.setearParametro("@Direccion", proveedor.Direccion);
                 datos.setearParametro("@Correo", proveedor.Correo);
                 datos.setearParametro("@Telefono", proveedor.Telefono);
+                datos.setearParametro("@Activo", proveedor.Activo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
