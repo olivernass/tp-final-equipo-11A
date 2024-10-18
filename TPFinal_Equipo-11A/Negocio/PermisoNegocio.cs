@@ -41,7 +41,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public void agregar(Permiso nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -61,5 +60,25 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public void modificar(Permiso nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ModificarPermiso");
+                datos.setearParametro("@NombrePermiso", nuevo.NombrePermiso);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

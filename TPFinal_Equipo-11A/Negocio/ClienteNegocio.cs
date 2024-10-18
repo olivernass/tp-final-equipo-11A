@@ -69,7 +69,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(Cliente cliente)
+        public void eliminarL(Cliente cliente)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -77,7 +77,6 @@ namespace Negocio
             {
                 datos.setearProcedimiento("SP_BajaCliente");
                 datos.setearParametro("@ID", cliente.Id);
-                datos.setearParametro("@Activo", cliente.Activo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

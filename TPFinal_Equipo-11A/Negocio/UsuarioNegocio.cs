@@ -74,7 +74,6 @@ namespace Negocio
             {
                 datos.setearProcedimiento("SP_BajaUsuario");
                 datos.setearParametro("@ID", aux.Id);
-                datos.setearParametro("@Activo", aux.Activo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

@@ -83,7 +83,7 @@ namespace TPComercio
             {
                 int idMarca = Convert.ToInt32(e.CommandArgument);
                 MarcaNegocio negocio = new MarcaNegocio();
-                negocio.eliminarF(idMarca);
+                negocio.eliminarL(idMarca);
 
                 // Recargar la lista de marcas después de eliminar
                 cargarMarcas();
