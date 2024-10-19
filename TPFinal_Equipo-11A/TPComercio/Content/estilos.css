@@ -1,5 +1,7 @@
-﻿body {
-    background-color: #E4E2DD;
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .container {
@@ -13,14 +15,20 @@
 
 .containerMarcas {
     display: flex;
-    justify-content: center;
-    padding: 100px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 100px;
+    margin: 0 auto;
+    width: 35%;
 }
 
 .containerClientes {
     display: flex;
-    justify-content: center;
-    padding: 100px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 100px;
+    margin: 0 auto;
+    width: 65%;
 }
 
 .containerProveedores {
@@ -35,7 +43,7 @@
     padding: 100px;
 }
 
-.col {
+.coldf {
     flex-basis: 25%;
     flex-grow: 0;
     display: flex;
@@ -43,30 +51,95 @@
     padding: 25px;
 }
 
-.btn {
-    display:flex;
+.btn-default {
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 10px;
-    font-size: 1.2rem; 
-    border-radius: 0.5rem; 
-    height: 100px; 
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    height: 100px;
     width: 100%;
 }
 
-    .btn img {
-        max-height: 75%;
-        width: auto; 
-        display: block; 
-    }
-
-    .btn div {
-        margin-top: 5px;
-        font-size: 1rem;
-    }
-
-.navbar {
-    background-color: #0F9CA9 !important;
+.btn img {
+    max-height: 75%;
+    width: auto;
+    display: block;
 }
-    
+
+.btn div {
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+.btn-sm.cerrar, .btn-sm.guardar {
+    padding: 4px 6px;
+    font-size: 1rem;
+    border-radius: 4px;
+    height: 30px;
+    width: auto;
+}
+
+.btn-primary {
+    color: white;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-add-m {
+    display: flex;
+    padding-right: 260px;
+    justify-content: center;
+}
+
+.btn-mod {
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.tableMarcas {
+    width: 100%;
+    table-layout: fixed;
+}
+
+    .tableMarcas th, .tableMarcas td {
+        text-align: left;
+        vertical-align: middle;
+        padding: 8px;
+    }
+
+    .tableMarcas .acciones {
+        width: 200px;
+    }
+
+.tableClientes {
+    width: 100%;
+}
+
+    .tableClientes th, .tableClientes td {
+        text-align: left;
+        vertical-align: middle;
+        padding: 8px;
+    }
+
+.btn-acciones {
+    visibility: hidden;
+    margin-right: 5px;
+}
+
+tr:hover .btn-acciones {
+    visibility: visible;
+}
+
+
+.btn-acciones {
+    display: inline-block;
+}
+
+.h2listado {
+    padding-right: 15px;
+}

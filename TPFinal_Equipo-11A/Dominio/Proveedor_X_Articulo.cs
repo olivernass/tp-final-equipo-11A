@@ -9,9 +9,7 @@ namespace Dominio
     public class Proveedor_X_Articulo
     {
         public Proveedor Id_Proveedor { get; set; }
-
         public Producto Id_Producto { get; set; }
-
         public decimal Precio_Compra { get; set; }
     }
 }

@@ -17,18 +17,19 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Id, Siglas, Nombre, Direccion, Correo, Telefono FROM Proveedores");
+                datos.setearConsulta("SELECT * FROM VW_ListaProveedores");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Proveedor aux = new Proveedor();
-                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Id = (int)datos.Lector["ID"];
                     aux.Siglas = (string)datos.Lector["Siglas"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Direccion = (string)datos.Lector["Direccion"];
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -51,8 +52,12 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO PROVEEDORES VALUES (@Nombre)");
+                datos.setearProcedimiento("SP_Alta_Proveedor");
+                datos.setearParametro("@Siglas", nuevo.Siglas);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Direccion", nuevo.Direccion);
+                datos.setearParametro("@Correo", nuevo.Correo);
+                datos.setearParametro("@Telefono", nuevo.Telefono);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -64,14 +69,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(int id)
+        public void eliminarL(Proveedor proveedor)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("DELETE FROM PROVEEDORES WHERE Id = @id");
-                datos.setearParametro("@id", id);
+                datos.setearProcedimiento("SP_BajaProveedor");
+                datos.setearParametro("@ID", proveedor.Id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -83,29 +88,31 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        //public void modificar(Proveedor proveedor)
-        //{
-        //    AccesoDatos datos = new AccesoDatos();
+        
+        public void modificar(Proveedor proveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
-        //    try
-        //    {
-        //        datos.setearConsulta("UPDATE PROVEEDORES SET Nombre = @descripcion WHERE Id = @id");
-        //        datos.setearParametro("@id", Cliente.Id);
-        //        datos.setearParametro("@Nombre", Cliente.Nombre);
-        //        datos.setearParametro("@Apellido", Cliente.Apellido);
-        //        datos.setearParametro("@Direccion", Cliente.Direccion);
-        //        datos.setearParametro("@Telefono", Cliente.Telefono);
-        //        datos.setearParametro("@Correo", Cliente.Correo);
-        //        datos.ejecutarAccion();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    finally
-        //    {
-        //        datos.cerrarConexion();
-        //    }
-        //}
+            try
+            {
+                datos.setearProcedimiento("SP_ModificarProveedor");
+                datos.setearParametro("@ID", proveedor.Id);
+                datos.setearParametro("@Siglas", proveedor.Siglas);
+                datos.setearParametro("@Nombre", proveedor.Nombre);
+                datos.setearParametro("@Direccion", proveedor.Direccion);
+                datos.setearParametro("@Correo", proveedor.Correo);
+                datos.setearParametro("@Telefono", proveedor.Telefono);
+                datos.setearParametro("@Activo", proveedor.Activo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

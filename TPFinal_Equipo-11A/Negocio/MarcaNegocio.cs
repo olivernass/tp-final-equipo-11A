@@ -17,14 +17,14 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Id, NombreMarca FROM MARCAS");
+                datos.setearConsulta("SELECT * FROM VW_ListaMarcas");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Marca aux = new Marca();
-                    aux.Id = (int)datos.Lector["Id"];
-                    aux.Nombre = (string)datos.Lector["NombreMarca"];
+                    aux.Id = (int)datos.Lector["ID"];
+                    aux.NombreMarca = (string)datos.Lector["NombreMarca"];
 
                     lista.Add(aux);
                 }
@@ -47,8 +47,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO MARCAS VALUES (@Nombre)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearProcedimiento("SP_Alta_Marca");
+                datos.setearParametro("@NombreMarca", nuevo.NombreMarca);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -60,14 +60,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(int id)
+        public void eliminarL(int id)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("DELETE FROM MARCAS WHERE Id = @id");
-                datos.setearParametro("@id", id);
+                datos.setearProcedimiento("SP_BajaMarca");
+                datos.setearParametro("@ID", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -85,9 +85,9 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE MARCAS SET Nombre = @descripcion WHERE Id = @id");
-                datos.setearParametro("@id", marca.Id);
-                datos.setearParametro("@Nombre", marca.Nombre);
+                datos.setearProcedimiento("SP_ModificarMarca");
+                datos.setearParametro("@ID", marca.Id);
+                datos.setearParametro("@NombreMarca", marca.NombreMarca);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

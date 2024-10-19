@@ -17,14 +17,14 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Id, NombreCategoria FROM CATEGORIAS");
+                datos.setearConsulta("SELECT * FROM VW_ListaCategorias");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Categoria aux = new Categoria();
                     aux.Id = (int)datos.Lector["Id"];
-                    aux.Nombre = (string)datos.Lector["NombreCategoria"];
+                    aux.NombreCategoria = (string)datos.Lector["NombreCategoria"];
 
                     lista.Add(aux);
                 }
@@ -47,8 +47,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO CATEGORIAS VALUES (@Nombre)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearProcedimiento("SP_Alta_Categoria");
+                datos.setearParametro("@NombreCategoria", nuevo.NombreCategoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -60,14 +60,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarF(int id)
+        public void eliminarL(Categoria aux)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("DELETE FROM CATEGORIAS WHERE Id = @id");
-                datos.setearParametro("@id", id);
+                datos.setearProcedimiento("SP_BajaCategoria");
+                datos.setearParametro("@ID", aux.Id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -85,9 +85,9 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE CATEGORIAS SET Nombre = @descripcion WHERE Id = @id");
-                datos.setearParametro("@id", categoria.Id);
-                datos.setearParametro("@Nombre", categoria.Nombre);
+                datos.setearProcedimiento("SP_ModificarCategoria");
+                datos.setearParametro("@ID", categoria.Id);
+                datos.setearParametro("@NombreCategoria", categoria.NombreCategoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
