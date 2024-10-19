@@ -430,6 +430,6 @@ WHERE ID = @ID
 END
 GO
 
-
+SELECT * FROM Proveedores
 
 

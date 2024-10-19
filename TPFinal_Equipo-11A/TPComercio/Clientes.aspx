@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="container">
+    <div class="containerClientes">
         <h2 class="h2listado">Listado de Clientes</h2>
 
         <!-- Botón Agregar Cliente -->
@@ -24,7 +24,7 @@
                     <th scope="col">Direccion</th>
                     <th scope="col">Telefono</th>
                     <th scope="col">Correo</th>
-                    <%--<th scope="col">Fecha de Registro</th>--%>
+                    <th scope="col">Fecha de Registro</th>
                     <th scope="col" class="acciones">Acciones</th>
                 </tr>
             </thead>
@@ -38,7 +38,7 @@
                             <td><%# Eval("Direccion") %></td>
                             <td><%# Eval("Telefono") %></td>
                             <td><%# Eval("Correo") %></td>
-                            <%--<td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>--%>
+                            <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
                             <td>
                                 <!-- Botón Modificar -->
                                 <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"

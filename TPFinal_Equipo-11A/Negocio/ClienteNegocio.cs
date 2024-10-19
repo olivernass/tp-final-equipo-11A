@@ -30,6 +30,7 @@ namespace Negocio
                     aux.Direccion = (string)datos.Lector["Direccion"];
                     aux.Telefono = (string)datos.Lector["Telefono"];
                     aux.Correo = (string)datos.Lector["Correo"];
+                    aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
 
                     lista.Add(aux);
                 }

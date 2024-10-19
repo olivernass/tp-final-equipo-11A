@@ -4,7 +4,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+    <div class="containerMarcas">
         <h2 class="h2listado">Listado de Marcas</h2>
 
         <!-- Botón Agregar Marca -->

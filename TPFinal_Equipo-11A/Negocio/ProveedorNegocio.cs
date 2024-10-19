@@ -29,6 +29,7 @@ namespace Negocio
                     aux.Direccion = (string)datos.Lector["Direccion"];
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -55,7 +56,7 @@ namespace Negocio
                 datos.setearParametro("@Siglas", nuevo.Siglas);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Direccion", nuevo.Direccion);
-                datos.setearParametro("@Correo", nuevo.Contacto);
+                datos.setearParametro("@Correo", nuevo.Correo);
                 datos.setearParametro("@Telefono", nuevo.Telefono);
                 datos.ejecutarAccion();
             }
@@ -68,14 +69,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarL(int id)
+        public void eliminarL(Proveedor proveedor)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
                 datos.setearProcedimiento("SP_BajaProveedor");
-                datos.setearParametro("@ID", id);
+                datos.setearParametro("@ID", proveedor.Id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -87,6 +88,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        
         public void modificar(Proveedor proveedor)
         {
             AccesoDatos datos = new AccesoDatos();
