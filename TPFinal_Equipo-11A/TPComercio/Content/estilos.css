@@ -126,6 +126,21 @@
         padding: 8px;
     }
 
+.tableCategorias {
+    width: 100%;
+    table-layout: fixed;
+}
+
+    .tableCategorias th, .tableCategorias td {
+        text-align: left;
+        vertical-align: middle;
+        padding: 8px;
+    }
+
+    .tableCategorias .acciones {
+        width: 200px;
+    }
+
 .btn-acciones {
     visibility: hidden;
     margin-right: 5px;
