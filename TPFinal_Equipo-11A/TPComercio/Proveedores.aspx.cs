@@ -35,7 +35,8 @@ namespace TPComercio
             if (!string.IsNullOrEmpty(txtNombreProveedor.Text))
             {
                 Proveedor nuevoProveedor = new Proveedor
-                {               
+                {   
+                    CUIT = long.Parse(txtCUITProveedor.Text),
                     Siglas = txtSiglasProveedor.Text,
                     Nombre = txtNombreProveedor.Text,
                     Direccion = txtDireccionProveedor.Text,                    
@@ -50,6 +51,7 @@ namespace TPComercio
                 cargarProveedores();
 
                 // Limpiar el campo de texto
+                txtCUITProveedor.Text = string.Empty;
                 txtSiglasProveedor.Text = string.Empty;
                 txtNombreProveedor.Text = string.Empty;
                 txtDireccionProveedor.Text = string.Empty;
@@ -67,10 +69,12 @@ namespace TPComercio
             if (!string.IsNullOrEmpty(txtNombreProveedorMod.Text))
             {
                 int idProveedor = int.Parse(hdnIdProveedor.Value); // ID del Proveedor almacenado en el HiddenField
+                long CUITProveedor = long.Parse(hdnCUITProveedor.Value);
 
                 Proveedor ProveedorModificado = new Proveedor
                 {
                     Id = idProveedor,
+                    CUIT = CUITProveedor,
                     Siglas = txtSiglasProveedor.Text,
                     Nombre = txtNombreProveedorMod.Text,
                     Direccion = txtDireccionProveedorMod.Text,                    
@@ -87,6 +91,7 @@ namespace TPComercio
 
                 // Limpiar los campos del modal de modificación
                 hdnIdProveedor.Value = string.Empty;
+                hdnCUITProveedor.Value = string.Empty;
                 txtSiglasProveedorMod.Text = string.Empty;
                 txtNombreProveedorMod.Text = string.Empty;
                 txtDireccionProveedorMod.Text = string.Empty;                

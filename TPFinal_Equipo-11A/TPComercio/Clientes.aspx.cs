@@ -34,7 +34,8 @@ namespace TPComercio
             if (!string.IsNullOrEmpty(txtNombreCliente.Text))
             {
                 Cliente nuevoCliente = new Cliente
-                {
+                {   
+                    DNI = int.Parse(txtDNICliente.Text),
                     Nombre = txtNombreCliente.Text,
                     Apellido = txtApellidoCliente.Text,
                     Direccion = txtDireccionCliente.Text,
@@ -49,6 +50,7 @@ namespace TPComercio
                 cargarClientes();
 
                 // Limpiar el campo de texto
+                txtDNICliente.Text = string.Empty;
                 txtNombreCliente.Text = string.Empty;
                 txtApellidoCliente.Text = string.Empty;
                 txtDireccionCliente.Text = string.Empty;
@@ -66,10 +68,12 @@ namespace TPComercio
             if (!string.IsNullOrEmpty(txtNombreClienteMod.Text))
             {
                 int idCliente = int.Parse(hdnIdCliente.Value); // ID del cliente almacenado en el HiddenField
+                int DNICliente = int.Parse(hdnDNICliente.Value);
 
                 Cliente clienteModificado = new Cliente
                 {
                     Id = idCliente,
+                    DNI = DNICliente,
                     Nombre = txtNombreClienteMod.Text,
                     Apellido = txtApellidoClienteMod.Text,
                     Direccion = txtDireccionClienteMod.Text,
@@ -85,6 +89,7 @@ namespace TPComercio
 
                 // Limpiar los campos del modal de modificación
                 hdnIdCliente.Value = string.Empty;
+                hdnDNICliente.Value = string.Empty;
                 txtNombreClienteMod.Text = string.Empty;
                 txtApellidoClienteMod.Text = string.Empty;
                 txtDireccionClienteMod.Text = string.Empty;

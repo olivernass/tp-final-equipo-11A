@@ -72,11 +72,13 @@
             <div class="modal-body">
                 <%--<asp:HiddenField ID="hdnDNICliente" runat="server" />--%>
                 <asp:TextBox ID="txtDNICliente" runat="server" CssClass="form-control mb-2" placeholder="DNI"></asp:TextBox>
+                <asp:RequiredFieldValidator ErrorMessage="El DNI es requerido" ControlToValidate="txtDNICliente" runat="server" />
                 <asp:TextBox ID="txtNombreCliente" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
-                <asp:TextBox ID="txtApellidoCliente" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>             
+                <asp:TextBox ID="txtApellidoCliente" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>
                 <asp:TextBox ID="txtDireccionCliente" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>
                 <asp:TextBox ID="txtTelefonoCliente" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
                 <asp:TextBox ID="txtCorreoCliente" runat="server" CssClass="form-control mb-2" placeholder="Correo"></asp:TextBox>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
