@@ -72,11 +72,19 @@
                 </div>
                 <div class="modal-body">
                     <asp:TextBox ID="txtCUITProveedor" runat="server" CssClass="form-control mb-2" placeholder="CUIT"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El CUIT es requerido" ControlToValidate="txtCUITProveedor" runat="server" />
+                    <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Sólo números" ControlToValidate="txtCUITProveedor" ValidationExpression="^[0-9]+$" runat="server" />
                     <asp:TextBox ID="txtSiglasProveedor" runat="server" CssClass="form-control mb-2" placeholder="Siglas"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtSiglasProveedor" runat="server" />
                     <asp:TextBox ID="txtNombreProveedor" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtNombreProveedor" runat="server" />
                     <asp:TextBox ID="txtDireccionProveedor" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="La Dirección es requerida" ControlToValidate="txtDireccionProveedor" runat="server" />
                     <asp:TextBox ID="txtCorreoProveedor" runat="server" CssClass="form-control mb-2" placeholder="Correo"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Correo es requerido" ControlToValidate="txtCorreoProveedor" runat="server" />
+                    <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Sólo formato de correo" ControlToValidate="txtCorreoProveedor" ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$" runat="server" />
                     <asp:TextBox ID="txtTelefonoProveedor" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Teléfono es requerido" ControlToValidate="txtTelefonoProveedor" runat="server" />
 
                 </div>
                 <div class="modal-footer">

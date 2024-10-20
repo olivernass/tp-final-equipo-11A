@@ -32,6 +32,10 @@ namespace TPComercio
         // Agregar un nuevo Proveedor
         protected void btnGuardarProveedor_Click(object sender, EventArgs e)
         {
+            Page.Validate();
+            if (!Page.IsValid)
+                return;
+
             if (!string.IsNullOrEmpty(txtNombreProveedor.Text))
             {
                 Proveedor nuevoProveedor = new Proveedor

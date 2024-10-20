@@ -72,12 +72,19 @@
             <div class="modal-body">
                 <%--<asp:HiddenField ID="hdnDNICliente" runat="server" />--%>
                 <asp:TextBox ID="txtDNICliente" runat="server" CssClass="form-control mb-2" placeholder="DNI"></asp:TextBox>
-                <asp:RequiredFieldValidator ErrorMessage="El DNI es requerido" ControlToValidate="txtDNICliente" runat="server" />
+                <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El DNI es requerido" ControlToValidate="txtDNICliente" runat="server" />
+                <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Sólo números" ControlToValidate="txtDNICliente" ValidationExpression="^[0-9]+$" runat="server" />
                 <asp:TextBox ID="txtNombreCliente" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
+                <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtNombreCliente" runat="server" />
                 <asp:TextBox ID="txtApellidoCliente" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>
+                <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Apellido es requerido" ControlToValidate="txtApellidoCliente" runat="server" />
                 <asp:TextBox ID="txtDireccionCliente" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>
+                <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="La Dirección es requerida" ControlToValidate="txtDireccionCliente" runat="server" />
                 <asp:TextBox ID="txtTelefonoCliente" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
+                <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Teléfono es requerido" ControlToValidate="txtTelefonoCliente" runat="server" />
                 <asp:TextBox ID="txtCorreoCliente" runat="server" CssClass="form-control mb-2" placeholder="Correo"></asp:TextBox>
+                <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Correo es requerido" ControlToValidate="txtCorreoCliente" runat="server" />
+                <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Sólo formato de correo" ControlToValidate="txtCorreoCliente" ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$" runat="server" />
                 
             </div>
             <div class="modal-footer">

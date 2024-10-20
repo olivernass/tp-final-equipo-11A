@@ -58,6 +58,7 @@
                 </div>
                 <div class="modal-body">
                     <asp:TextBox ID="txtNombreCategoria" runat="server" CssClass="form-control" placeholder="Nombre de la Categoria"></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtNombreCategoria" runat="server" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

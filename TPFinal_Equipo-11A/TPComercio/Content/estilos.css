@@ -158,3 +158,9 @@ tr:hover .btn-acciones {
 .h2listado {
     padding-right: 15px;
 }
+
+/* VALIDACIONES */
+.validacion{
+    color: red;
+    font-size: 10px;
+}
