@@ -19,6 +19,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">CUIT</th>
                     <th scope="col">Siglas</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Direccion</th>
@@ -34,6 +35,7 @@
                     <ItemTemplate>
                         <tr>
                             <th scope="row"><%# Eval("Id") %></th>
+                            <td><%# Eval("CUIT") %></td>
                             <td><%# Eval("Siglas") %></td>
                             <td><%# Eval("Nombre") %></td>
                             <td><%# Eval("Direccion") %></td>
@@ -44,7 +46,7 @@
                             <td>
                                 <!-- Botón Modificar -->
                                 <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarProveedores"
-                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("Siglas") %>', '<%# Eval("Nombre") %>', '<%# Eval("Direccion") %>', '<%# Eval("Correo") %>', '<%# Eval("Telefono") %>'<%--, '<%# Eval("Activo") %>'--%>)">
+                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("CUIT") %>', '<%# Eval("Siglas") %>', '<%# Eval("Nombre") %>', '<%# Eval("Direccion") %>', '<%# Eval("Correo") %>', '<%# Eval("Telefono") %>'<%--, '<%# Eval("Activo") %>'--%>)">
                                     Modificar
                                 </button>
 
@@ -69,6 +71,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <asp:TextBox ID="txtCUITProveedor" runat="server" CssClass="form-control mb-2" placeholder="CUIT"></asp:TextBox>
                     <asp:TextBox ID="txtSiglasProveedor" runat="server" CssClass="form-control mb-2" placeholder="Siglas"></asp:TextBox>
                     <asp:TextBox ID="txtNombreProveedor" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
                     <asp:TextBox ID="txtDireccionProveedor" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>
@@ -94,6 +97,7 @@
                 </div>
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdProveedor" runat="server" />
+                    <asp:HiddenField ID="hdnCUITProveedor" runat="server" />
                     <asp:TextBox ID="txtSiglasProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Siglas"></asp:TextBox>
                     <asp:TextBox ID="txtNombreProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
                     <asp:TextBox ID="txtDireccionProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>
@@ -117,6 +121,7 @@
     <script type="text/javascript">
             function cargarDatosModal(id, siglas, nombre, direccion, correo, telefono) {
             document.getElementById('<%= hdnIdProveedor.ClientID %>').value = id;
+            document.getElementById('<%= hdnCUITProveedor.ClientID %>').value = CUIT;
             document.getElementById('<%= txtSiglasProveedorMod.ClientID %>').value = siglas;
             document.getElementById('<%= txtNombreProveedorMod.ClientID %>').value = nombre;;
             document.getElementById('<%= txtDireccionProveedorMod.ClientID %>').value = direccion;
