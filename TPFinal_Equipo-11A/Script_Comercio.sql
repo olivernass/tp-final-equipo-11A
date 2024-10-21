@@ -260,7 +260,7 @@ END
 GO
 
 CREATE PROCEDURE SP_Alta_Proveedor(
-	@CUIT INT,
+	@CUIT BIGINT,
     @Siglas VARCHAR(5),
 	@Nombre VARCHAR(30),
 	@Direccion VARCHAR(100),
@@ -382,7 +382,7 @@ GO
 
 CREATE PROCEDURE SP_ModificarProveedor(
 	@ID INT,
-	@CUIT INT,
+	@CUIT BIGINT,
 	@Siglas VARCHAR(5),
 	@Nombre VARCHAR(30),
 	@Direccion VARCHAR(100),

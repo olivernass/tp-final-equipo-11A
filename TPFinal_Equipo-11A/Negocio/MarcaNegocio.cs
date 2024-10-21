@@ -88,10 +88,13 @@ namespace Negocio
                 datos.setearProcedimiento("SP_ModificarMarca");
                 datos.setearParametro("@ID", marca.Id);
                 datos.setearParametro("@NombreMarca", marca.NombreMarca);
+
+                Console.WriteLine($"Modificando Marca: ID = {marca.Id}, Nombre = {marca.NombreMarca}");
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error: {ex.Message}");
                 throw ex;
             }
             finally

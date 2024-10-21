@@ -105,6 +105,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.HiddenField hdnDNICliente;
 
         /// <summary>
+        /// Control txtDNIClienteMod.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDNIClienteMod;
+
+        /// <summary>
         /// Control txtNombreClienteMod.
         /// </summary>
         /// <remarks>

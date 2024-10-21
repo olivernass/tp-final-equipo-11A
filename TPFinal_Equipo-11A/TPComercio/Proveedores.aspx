@@ -74,6 +74,7 @@
                     <asp:TextBox ID="txtCUITProveedor" runat="server" CssClass="form-control mb-2" placeholder="CUIT"></asp:TextBox>
                     <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El CUIT es requerido" ControlToValidate="txtCUITProveedor" runat="server" />
                     <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Sólo números" ControlToValidate="txtCUITProveedor" ValidationExpression="^[0-9]+$" runat="server" />
+                    <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="El CUIT debe tener entre 9 y 11 dígitos" ControlToValidate="txtCUITProveedor" ValidationExpression="^[0-9]{9,11}$" runat="server" />
                     <asp:TextBox ID="txtSiglasProveedor" runat="server" CssClass="form-control mb-2" placeholder="Siglas"></asp:TextBox>
                     <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtSiglasProveedor" runat="server" />
                     <asp:TextBox ID="txtNombreProveedor" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
@@ -106,6 +107,7 @@
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdProveedor" runat="server" />
                     <asp:HiddenField ID="hdnCUITProveedor" runat="server" />
+                    <asp:TextBox ID="txtCUITProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="CUIT"></asp:TextBox>
                     <asp:TextBox ID="txtSiglasProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Siglas"></asp:TextBox>
                     <asp:TextBox ID="txtNombreProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
                     <asp:TextBox ID="txtDireccionProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>

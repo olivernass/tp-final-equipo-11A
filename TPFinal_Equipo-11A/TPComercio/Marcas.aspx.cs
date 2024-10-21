@@ -56,6 +56,10 @@ namespace TPComercio
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
+            Page.Validate();
+            if (!Page.IsValid)
+                return;
+
             if (!string.IsNullOrEmpty(txtNombreMarcaMod.Text))
             {
                 int idMarca = int.Parse(hdnIdMarca.Value); // ID de la marca almacenado en el HiddenField

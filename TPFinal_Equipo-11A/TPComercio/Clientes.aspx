@@ -74,6 +74,7 @@
                 <asp:TextBox ID="txtDNICliente" runat="server" CssClass="form-control mb-2" placeholder="DNI"></asp:TextBox>
                 <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El DNI es requerido" ControlToValidate="txtDNICliente" runat="server" />
                 <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Sólo números" ControlToValidate="txtDNICliente" ValidationExpression="^[0-9]+$" runat="server" />
+                <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="El DNI debe tener entre 6 y 8 dígitos" ControlToValidate="txtDNICliente" ValidationExpression="^[0-9]{6,8}$" runat="server" />
                 <asp:TextBox ID="txtNombreCliente" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
                 <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtNombreCliente" runat="server" />
                 <asp:TextBox ID="txtApellidoCliente" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>
@@ -106,6 +107,7 @@
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdCliente" runat="server" />
                     <asp:HiddenField ID="hdnDNICliente" runat="server" />
+                    <asp:TextBox ID="txtDNIClienteMod" runat="server" CssClass="form-control mb-2" placeholder="DNI"></asp:TextBox>
                     <asp:TextBox ID="txtNombreClienteMod" runat="server" CssClass="form-control" placeholder="Nombre del Cliente"></asp:TextBox>
                     <asp:TextBox ID="txtApellidoClienteMod" runat="server" CssClass="form-control" placeholder="Apellido del Cliente"></asp:TextBox>
                     <asp:TextBox ID="txtDireccionClienteMod" runat="server" CssClass="form-control" placeholder="Dirección del Cliente"></asp:TextBox>
