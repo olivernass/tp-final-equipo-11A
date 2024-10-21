@@ -23,7 +23,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Marca aux = new Marca();
-                    aux.Id = (int)datos.Lector["ID"];
+                    aux.Id = (int)datos.Lector["Id"];
                     aux.NombreMarca = (string)datos.Lector["NombreMarca"];
 
                     lista.Add(aux);
@@ -88,13 +88,10 @@ namespace Negocio
                 datos.setearProcedimiento("SP_ModificarMarca");
                 datos.setearParametro("@ID", marca.Id);
                 datos.setearParametro("@NombreMarca", marca.NombreMarca);
-
-                Console.WriteLine($"Modificando Marca: ID = {marca.Id}, Nombre = {marca.NombreMarca}");
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
                 throw ex;
             }
             finally

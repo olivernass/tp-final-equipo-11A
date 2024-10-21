@@ -57,8 +57,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <asp:TextBox ID="txtNombreCategoria" runat="server" CssClass="form-control" placeholder="Nombre de la Categoria"></asp:TextBox>
-                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtNombreCategoria" runat="server" />
+                    <asp:TextBox ID="txtNombreCategoria" runat="server" CssClass="form-control" placeholder="Nombre de la Categoria" ></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtNombreCategoria" runat="server" Enabled="true" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -78,7 +78,8 @@
                 </div>
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdCategoria" runat="server" />
-                    <asp:TextBox ID="txtNombreCategoriaMod" runat="server" CssClass="form-control" placeholder="Nombre de la Categoria"></asp:TextBox>
+                    <asp:TextBox ID="txtNombreCategoriaMod" runat="server" CssClass="form-control" placeholder="Nombre de la Categoria" ></asp:TextBox>
+                    <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El Nombre es requerido" ControlToValidate="txtNombreCategoriaMod" runat="server" Enabled="true" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

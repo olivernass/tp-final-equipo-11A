@@ -56,6 +56,10 @@ namespace TPComercio
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
+            Page.Validate();
+            if (!Page.IsValid)
+                return;
+
             if (!string.IsNullOrEmpty(txtNombreCategoriaMod.Text))
             {
                 int idCategoria = int.Parse(hdnIdCategoria.Value); // ID de la categoria almacenado en el HiddenField
