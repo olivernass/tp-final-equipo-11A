@@ -31,6 +31,15 @@
     width: 65%;
 }
 
+.containerProductos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 100px;
+    margin: 0 auto;
+    width: 65%;
+}
+
 .containerProveedores {
     display: flex;
     justify-content: center;
@@ -126,6 +135,16 @@
         padding: 8px;
     }
 
+.tableProductos {
+    width: 100%;
+}
+
+    .tableProductos th, .tableProductos td {
+        text-align: left;
+        vertical-align: middle;
+        padding: 8px;
+    }
+
 .btn-acciones {
     visibility: hidden;
     margin-right: 5px;
@@ -142,4 +161,10 @@ tr:hover .btn-acciones {
 
 .h2listado {
     padding-right: 15px;
+}
+
+.btn-acciones img {
+    width: 16px; /* Ajusta el tamaño según tus necesidades */
+    height: 16px; /* Ajusta el tamaño según tus necesidades */
+    vertical-align: middle; /* Alinea la imagen verticalmente */
 }
