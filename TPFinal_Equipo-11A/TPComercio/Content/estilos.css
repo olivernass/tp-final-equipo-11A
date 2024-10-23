@@ -31,6 +31,15 @@
     width: 65%;
 }
 
+.containerProductos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 100px;
+    margin: 0 auto;
+    width: 65%;
+}
+
 .containerProveedores {
     display: flex;
     justify-content: center;
@@ -129,19 +138,14 @@
         padding: 8px;
     }
 
-.tableCategorias {
+.tableProductos {
     width: 100%;
-    table-layout: fixed;
 }
 
-    .tableCategorias th, .tableCategorias td {
+    .tableProductos th, .tableProductos td {
         text-align: left;
         vertical-align: middle;
         padding: 8px;
-    }
-
-    .tableCategorias .acciones {
-        width: 200px;
     }
 
 .btn-acciones {
@@ -162,13 +166,8 @@ tr:hover .btn-acciones {
     padding-right: 15px;
 }
 
-.error-message {
-    color: red;
-    font-size: 0.8rem;
-    margin-top: 5px;
+.btn-acciones img {
+    width: 16px; /* Ajusta el tamaño según tus necesidades */
+    height: 16px; /* Ajusta el tamaño según tus necesidades */
+    vertical-align: middle; /* Alinea la imagen verticalmente */
 }
-
-.input-error {
-    border-color: red;
-}
-

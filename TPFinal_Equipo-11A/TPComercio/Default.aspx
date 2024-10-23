@@ -25,7 +25,7 @@
             </button>
         </div>
         <div class="coldf">
-            <button type="button" class="btn btn-light btn-default">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Inventario.aspx';">
                 <img src="Content/Iconos/warehouse.png" alt="Inventario">
                 <div>Inventario</div>
             </button>
