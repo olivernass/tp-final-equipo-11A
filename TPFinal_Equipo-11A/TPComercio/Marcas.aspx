@@ -32,7 +32,6 @@
                                 <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
                                     onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreMarca") %>')">
                                     Modificar
-                               
                                 </button>
 
                                 <!-- Botón Eliminar -->
@@ -56,11 +55,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <asp:TextBox ID="txtNombreMarca" runat="server" CssClass="form-control" placeholder="Nombre de la Marca"></asp:TextBox>
+                    <span class="error-message" id="errorNombreMarca"></span>
+                    <asp:TextBox ID="txtNombreMarca" runat="server" CssClass="form-control validar-nombre" placeholder="Nombre de la Marca"></asp:TextBox>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <asp:Button ID="btnGuardarMarca" runat="server" CssClass="btn btn-primary" Text="Guardar Marca" OnClick="btnGuardarMarca_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarMarca');">Cerrar</button>
+                    <asp:Button ID="btnGuardarMarca" runat="server" CssClass="btn btn-primary" Text="Guardar Marca"
+                        OnClientClick="return validarAgregarMarca();" OnClick="btnGuardarMarca_Click" />
                 </div>
             </div>
         </div>
@@ -76,22 +77,23 @@
                 </div>
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdMarca" runat="server" />
-                    <asp:TextBox ID="txtNombreMarcaMod" runat="server" CssClass="form-control" placeholder="Nombre de la Marca"></asp:TextBox>
+                    <span class="error-message" id="errorNombreMarcaMod"></span>
+                    <asp:TextBox ID="txtNombreMarcaMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre de la Marca"></asp:TextBox>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClick="btnGuardarCambios_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarMarca');">Cerrar</button>
+                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios"
+                        OnClientClick="return validarModificarMarca();" OnClick="btnGuardarCambios_Click" />
                 </div>
             </div>
         </div>
     </div>
-
 
     <script type="text/javascript">
         function cargarDatosModal(id, nombre) {
             document.getElementById('<%= hdnIdMarca.ClientID %>').value = id;
             document.getElementById('<%= txtNombreMarcaMod.ClientID %>').value = nombre;
         }
-</script>
+    </script>
 
 </asp:Content>

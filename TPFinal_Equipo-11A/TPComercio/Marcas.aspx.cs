@@ -27,6 +27,18 @@ namespace TPComercio
             rptMarcas.DataBind();
         }
 
+        // Limpiar campos de modal
+        private void limpiarCampos()
+        {
+            txtNombreMarca.Text = string.Empty;
+        }
+
+        private void limpiarCamposModificacion()
+        {
+            txtNombreMarcaMod.Text = string.Empty;
+            hdnIdMarca.Value = string.Empty;
+        }
+
         protected void btnGuardarMarca_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtNombreMarca.Text))
@@ -42,10 +54,9 @@ namespace TPComercio
                 // Recargar la lista de marcas para que se vea reflejada la nueva marca
                 cargarMarcas();
 
-                // Limpiar el campo de texto
-                txtNombreMarca.Text = string.Empty;
+                limpiarCampos();
 
-                // Cerrar el modal (esto se hace con JS al actualizar la página)
+                // Cerrar el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
             }
         }
@@ -68,9 +79,7 @@ namespace TPComercio
                 // Recargar la lista de marcas
                 cargarMarcas();
 
-                // Limpiar campos
-                hdnIdMarca.Value = string.Empty;
-                txtNombreMarcaMod.Text = string.Empty;
+                limpiarCamposModificacion();
 
                 // Cerrar el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarMarca').modal('hide');", true);
@@ -89,6 +98,5 @@ namespace TPComercio
                 cargarMarcas();
             }
         }
-
     }
 }

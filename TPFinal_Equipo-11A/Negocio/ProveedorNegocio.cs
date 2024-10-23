@@ -24,6 +24,7 @@ namespace Negocio
                 {
                     Proveedor aux = new Proveedor();
                     aux.Id = (int)datos.Lector["ID"];
+                    aux.CUIT = (long)datos.Lector["CUIT"];
                     aux.Siglas = (string)datos.Lector["Siglas"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Direccion = (string)datos.Lector["Direccion"];
@@ -53,6 +54,7 @@ namespace Negocio
             try
             {
                 datos.setearProcedimiento("SP_Alta_Proveedor");
+                datos.setearParametro("@CUIT", nuevo.CUIT);
                 datos.setearParametro("@Siglas", nuevo.Siglas);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Direccion", nuevo.Direccion);
@@ -97,6 +99,7 @@ namespace Negocio
             {
                 datos.setearProcedimiento("SP_ModificarProveedor");
                 datos.setearParametro("@ID", proveedor.Id);
+                datos.setearParametro("@CUIT", proveedor.CUIT);
                 datos.setearParametro("@Siglas", proveedor.Siglas);
                 datos.setearParametro("@Nombre", proveedor.Nombre);
                 datos.setearParametro("@Direccion", proveedor.Direccion);

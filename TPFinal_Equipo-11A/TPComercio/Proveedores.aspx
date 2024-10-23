@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="containerClientes">
@@ -19,12 +18,12 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">CUIT</th>
                     <th scope="col">Siglas</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Direccion</th>
                     <th scope="col">Correo</th>
                     <th scope="col">Telefono</th>
-                    <%--<th scope="col">Fecha de Registro</th>--%>
                     <th scope="col">Activo</th>
                     <th scope="col" class="acciones">Acciones</th>
                 </tr>
@@ -34,17 +33,17 @@
                     <ItemTemplate>
                         <tr>
                             <th scope="row"><%# Eval("Id") %></th>
+                            <td><%# Eval("CUIT") %></td>
                             <td><%# Eval("Siglas") %></td>
                             <td><%# Eval("Nombre") %></td>
                             <td><%# Eval("Direccion") %></td>
                             <td><%# Eval("Correo") %></td>
                             <td><%# Eval("Telefono") %></td>
-                            <%--<td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>--%>
                             <td><%# (bool)Eval("Activo") ? "Sí" : "No" %></td>
                             <td>
                                 <!-- Botón Modificar -->
                                 <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarProveedores"
-                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("Siglas") %>', '<%# Eval("Nombre") %>', '<%# Eval("Direccion") %>', '<%# Eval("Correo") %>', '<%# Eval("Telefono") %>'<%--, '<%# Eval("Activo") %>'--%>)">
+                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("CUIT") %>', '<%# Eval("Siglas") %>', '<%# Eval("Nombre") %>', '<%# Eval("Direccion") %>', '<%# Eval("Correo") %>', '<%# Eval("Telefono") %>')">
                                     Modificar
                                 </button>
 
@@ -69,16 +68,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <asp:TextBox ID="txtSiglasProveedor" runat="server" CssClass="form-control mb-2" placeholder="Siglas"></asp:TextBox>
-                    <asp:TextBox ID="txtNombreProveedor" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
-                    <asp:TextBox ID="txtDireccionProveedor" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>
-                    <asp:TextBox ID="txtCorreoProveedor" runat="server" CssClass="form-control mb-2" placeholder="Correo"></asp:TextBox>
-                    <asp:TextBox ID="txtTelefonoProveedor" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
+                    <span class="error-message" id="errorCUIT"></span>
+                    <asp:TextBox ID="txtCUITProveedor" runat="server" CssClass="form-control mb-2 validar-CUIT" placeholder="CUIT"></asp:TextBox>
 
+                    <span class="error-message" id="errorSiglas"></span>
+                    <asp:TextBox ID="txtSiglasProveedor" runat="server" CssClass="form-control mb-2 validar-siglas" placeholder="Siglas"></asp:TextBox>
+
+                    <span class="error-message" id="errorNombre"></span>
+                    <asp:TextBox ID="txtNombreProveedor" runat="server" CssClass="form-control mb-2 validar-nombre" placeholder="Nombre"></asp:TextBox>
+
+                    <span class="error-message" id="errorDireccion"></span>
+                    <asp:TextBox ID="txtDireccionProveedor" runat="server" CssClass="form-control mb-2 validar-direccion" placeholder="Dirección"></asp:TextBox>
+
+                    <span class="error-message" id="errorCorreo"></span>
+                    <asp:TextBox ID="txtCorreoProveedor" runat="server" CssClass="form-control mb-2 validar-correo" placeholder="Correo"></asp:TextBox>
+
+                    <span class="error-message" id="errorTelefono"></span>
+                    <asp:TextBox ID="txtTelefonoProveedor" runat="server" CssClass="form-control mb-2 validar-telefono" placeholder="Teléfono"></asp:TextBox>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <asp:Button ID="btnGuardarProveedor" runat="server" CssClass="btn btn-primary" Text="Guardar Proveedor" OnClick="btnGuardarProveedor_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarProveedor');">Cerrar</button>
+                    <asp:Button ID="btnGuardarProveedor" runat="server" CssClass="btn btn-primary" Text="Guardar Proveedor" OnClientClick="return validarAgregarProveedor();" OnClick="btnGuardarProveedor_Click" />
                 </div>
             </div>
         </div>
@@ -94,36 +104,43 @@
                 </div>
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdProveedor" runat="server" />
-                    <asp:TextBox ID="txtSiglasProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Siglas"></asp:TextBox>
-                    <asp:TextBox ID="txtNombreProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
-                    <asp:TextBox ID="txtDireccionProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Dirección"></asp:TextBox>
-                    <asp:TextBox ID="txtCorreoProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Correo"></asp:TextBox>
-                    <asp:TextBox ID="txtTelefonoProveedorMod" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
-                    <%--<div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="chkActivoProveedorMod" runat="server" />
-                        <label class="form-check-label" for="chkActivoProveedorMod">Activo</label>
-                    </div>--%>
+
+                    <span class="error-message" id="errorCUITMod"></span>
+                    <asp:TextBox ID="txtCUITProveedorMod" runat="server" CssClass="form-control mb-2 validar-CUIT-mod" placeholder="CUIT"></asp:TextBox>
+
+                    <span class="error-message" id="errorSiglasMod"></span>
+                    <asp:TextBox ID="txtSiglasProveedorMod" runat="server" CssClass="form-control mb-2 validar-siglas-mod" placeholder="Siglas"></asp:TextBox>
+
+                    <span class="error-message" id="errorNombreMod"></span>
+                    <asp:TextBox ID="txtNombreProveedorMod" runat="server" CssClass="form-control mb-2 validar-nombre-mod" placeholder="Nombre"></asp:TextBox>
+
+                    <span class="error-message" id="errorDireccionMod"></span>
+                    <asp:TextBox ID="txtDireccionProveedorMod" runat="server" CssClass="form-control mb-2 validar-direccion-mod" placeholder="Dirección"></asp:TextBox>
+
+                    <span class="error-message" id="errorCorreoMod"></span>
+                    <asp:TextBox ID="txtCorreoProveedorMod" runat="server" CssClass="form-control mb-2 validar-correo-mod" placeholder="Correo"></asp:TextBox>
+
+                    <span class="error-message" id="errorTelefonoMod"></span>
+                    <asp:TextBox ID="txtTelefonoProveedorMod" runat="server" CssClass="form-control mb-2 validar-telefono-mod" placeholder="Teléfono"></asp:TextBox>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClick="btnGuardarCambios_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarProveedor');">Cerrar</button>
+                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClientClick="return validarModificarProveedor();" OnClick="btnGuardarCambios_Click" />
                 </div>
             </div>
         </div>
     </div>
 
-
-
     <script type="text/javascript">
-            function cargarDatosModal(id, siglas, nombre, direccion, correo, telefono) {
+        function cargarDatosModal(id, CUIT, siglas, nombre, direccion, correo, telefono) {
             document.getElementById('<%= hdnIdProveedor.ClientID %>').value = id;
+            document.getElementById('<%= txtCUITProveedorMod.ClientID %>').value = CUIT;
             document.getElementById('<%= txtSiglasProveedorMod.ClientID %>').value = siglas;
-            document.getElementById('<%= txtNombreProveedorMod.ClientID %>').value = nombre;;
+            document.getElementById('<%= txtNombreProveedorMod.ClientID %>').value = nombre;
             document.getElementById('<%= txtDireccionProveedorMod.ClientID %>').value = direccion;
             document.getElementById('<%= txtCorreoProveedorMod.ClientID %>').value = correo;
             document.getElementById('<%= txtTelefonoProveedorMod.ClientID %>').value = telefono;
-            /*document.getElementById('chkActivoProveedorMod').checked = activo === 'True' || activo === '1' || activo === true;*/
-            }
+        }
     </script>
 
 </asp:Content>

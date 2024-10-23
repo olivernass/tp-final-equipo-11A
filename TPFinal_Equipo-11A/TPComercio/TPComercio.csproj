@@ -83,6 +83,7 @@
     <Content Include="Content\Iconos\usuario.png" />
     <Content Include="Content\Iconos\warehouse.png" />
     <Content Include="Content\Iconos\worldwide-shipping.png" />
+    <Content Include="Content\validaciones.js" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Marcas.aspx" />

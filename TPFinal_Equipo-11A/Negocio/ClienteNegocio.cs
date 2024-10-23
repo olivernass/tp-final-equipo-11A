@@ -25,6 +25,7 @@ namespace Negocio
                 {
                     Cliente aux = new Cliente();
                     aux.Id = (long)datos.Lector["ID"];
+                    aux.DNI = (int)datos.Lector["DNI"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Direccion = (string)datos.Lector["Direccion"];
@@ -54,6 +55,7 @@ namespace Negocio
             try
             {
                 datos.setearProcedimiento("SP_Alta_Cliente");
+                datos.setearParametro("@DNI", nuevo.DNI);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Apellido", nuevo.Apellido);
                 datos.setearParametro("@Direccion", nuevo.Direccion);
@@ -118,6 +120,7 @@ namespace Negocio
             {
                 datos.setearProcedimiento("SP_ModificarCliente");
                 datos.setearParametro("@ID", cliente.Id);
+                datos.setearParametro("@DNI", cliente.DNI);
                 datos.setearParametro("@Nombre", cliente.Nombre);
                 datos.setearParametro("@Apellido", cliente.Apellido);
                 datos.setearParametro("@Direccion", cliente.Direccion);
