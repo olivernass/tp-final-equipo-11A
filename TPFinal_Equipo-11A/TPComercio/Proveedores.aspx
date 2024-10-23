@@ -13,6 +13,14 @@
             Agregar Proveedor       
         </button>
 
+        <!-- Filtro -->
+        <div class="col-6">
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <asp:TextBox runat="server" ID="txtFiltroProveedores" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroProveedores_TextChanged"/>
+            </div>
+        </div>
+
         <!-- Tabla de Proveedores -->
         <table class="table tableClientes table-hover mt-3">
             <thead>

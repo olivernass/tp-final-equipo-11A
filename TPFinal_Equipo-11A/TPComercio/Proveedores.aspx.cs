@@ -25,7 +25,9 @@ namespace TPComercio
         {
             ProveedorNegocio negocio = new ProveedorNegocio();
             List<Proveedor> listaProveedores = negocio.listar();
-            rptProveedores.DataSource = listaProveedores;
+            Session.Add("listaProveedores", negocio.listar());
+            rptProveedores.DataSource = Session["listaProveedores"];
+            //rptProveedores.DataSource = listaProveedores;
             rptProveedores.DataBind();
         }
 
@@ -125,6 +127,14 @@ namespace TPComercio
                 negocio.eliminarL(proveedorAEliminar);
                 cargarProveedores();
             }
+        }
+
+        protected void txtFiltroProveedores_TextChanged(object sender, EventArgs e)
+        {
+            List<Proveedor> lista = (List<Proveedor>)Session["listaProveedores"];
+            List<Proveedor> listaFiltrada = lista.FindAll(x => x.Nombre.ToUpper().Contains(txtFiltroProveedores.Text.ToUpper()));
+            rptProveedores.DataSource = listaFiltrada;
+            rptProveedores.DataBind();
         }
     }
 }

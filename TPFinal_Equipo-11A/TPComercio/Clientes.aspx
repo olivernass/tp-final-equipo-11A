@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="containerClientes">
@@ -13,6 +12,14 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">
             Agregar Cliente       
         </button>
+
+        <!-- Filtro -->
+        <div class="col-6">
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <asp:TextBox runat="server" ID="txtFiltroClientes" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroClientes_TextChanged"/>
+            </div>
+        </div>
 
         <!-- Tabla de Clientes -->
         <table class="table tableClientes table-hover mt-3">

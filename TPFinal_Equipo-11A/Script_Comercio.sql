@@ -1,4 +1,4 @@
-USE master
+ï»¿USE master
 GO
 CREATE DATABASE comercio_final
 GO
@@ -174,11 +174,11 @@ GO
 
 -- Inserciones en la tabla Clientes
 INSERT INTO Clientes (DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo) VALUES 
-(12345678, 'Juan', 'Pérez', 'Calle Falsa 123', '1234567890', 'juan.perez@mail.com', '2024-10-01', 1),
-(87654321, 'Ana', 'Gómez', 'Av. Siempre Viva 456', '0987654321', 'ana.gomez@mail.com', '2024-10-02', 1),
-(23456789, 'Pedro', 'Martínez', 'Calle Luna 789', '1112223333', 'pedro.martinez@mail.com', '2024-10-03', 0),
-(34567890, 'Lucía', 'Fernández', 'Av. Sol 987', '4445556666', 'lucia.fernandez@mail.com', '2024-10-04', 1),
-(45678901, 'Carlos', 'Sánchez', 'Calle Estrella 321', '7778889990', 'carlos.sanchez@mail.com', '2024-10-05', 0);
+(12345678, 'Juan', 'Pï¿½rez', 'Calle Falsa 123', '1234567890', 'juan.perez@mail.com', '2024-10-01', 1),
+(87654321, 'Ana', 'Gï¿½mez', 'Av. Siempre Viva 456', '0987654321', 'ana.gomez@mail.com', '2024-10-02', 1),
+(23456789, 'Pedro', 'Martï¿½nez', 'Calle Luna 789', '1112223333', 'pedro.martinez@mail.com', '2024-10-03', 0),
+(34567890, 'Lucï¿½a', 'Fernï¿½ndez', 'Av. Sol 987', '4445556666', 'lucia.fernandez@mail.com', '2024-10-04', 1),
+(45678901, 'Carlos', 'Sï¿½nchez', 'Calle Estrella 321', '7778889990', 'carlos.sanchez@mail.com', '2024-10-05', 0);
 
 
 -- Inserciones en la tabla Proveedores
@@ -474,6 +474,3 @@ INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
 WHERE P.ID = @ID
 END
 GO
-
-
-

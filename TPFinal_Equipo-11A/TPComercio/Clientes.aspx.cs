@@ -25,7 +25,9 @@ namespace TPComercio
         {
             ClienteNegocio negocio = new ClienteNegocio();
             List<Cliente> listaClientes = negocio.listar();
-            rptClientes.DataSource = listaClientes;
+            Session.Add("listaClientes", negocio.listar());
+            rptClientes.DataSource = Session["listaClientes"];
+            //rptClientes.DataSource = listaClientes;
             rptClientes.DataBind();
         }
 
@@ -226,6 +228,12 @@ namespace TPComercio
             }
         }
 
-
+        protected void txtFiltroClientes_TextChanged(object sender, EventArgs e)
+        {
+            List<Cliente> lista = (List<Cliente>)Session["listaClientes"];
+            List<Cliente> listaFiltrada = lista.FindAll(x => x.Nombre.ToUpper().Contains(txtFiltroClientes.Text.ToUpper()));
+            rptClientes.DataSource = listaFiltrada;
+            rptClientes.DataBind();
+        }
     }
 }

@@ -13,6 +13,7 @@
             Agregar Categoria       
         </button>
 
+        <!-- Filtro -->
         <div class="col-6">
             <div class="mb-3">
                 <asp:Label Text="Filtrar por nombre:" runat="server" />
