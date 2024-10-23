@@ -25,6 +25,7 @@ namespace Negocio
                 { 
                     aux.Marca = new Marca();
                     aux.Categoria = new Categoria();
+                    aux.Imagen = new Imagen();
                     aux.Id = (long)datos.Lector["ID"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
@@ -63,9 +64,11 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Producto aux = new Producto();
+                    aux.Imagen = new Imagen();
                     aux.Id = (long)datos.Lector["ID"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Imagen.ImagenUrl = (string)datos.Lector["ImagenURL"];
                     aux.Activo = (bool)datos.Lector["Activo"];
                     lista.Add(aux);
                 }

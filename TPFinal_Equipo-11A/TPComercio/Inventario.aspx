@@ -9,44 +9,33 @@
             Agregar Producto    
         </button>
         <!-- Tabla de Productos -->
-        <table class="tableProductos">
-            <thead>
-               <tr>           
-                  <th scope="col">ID</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Descripción</th>
-                  <th scope="col">Activo</th>
-               </tr>
-            </thead>
-            <tbody>
-             <asp:Repeater ID="rptProductos" runat="server" OnItemCommand="rptProductos_ItemCommand"> 
-                    <ItemTemplate>
-                        <tr>
-                            <td><%# Eval("Id") %></td>
-                            <td><%# Eval("Nombre") %></td>
-                            <td><%# Eval("Descripcion") %></td>
-                            <td><%# Eval("Activo") %></td>
-                            <td>
-                                <!-- DIRIGIRSE A VER DETALLE DONDE TE MUESTRA TAMBIEN LOS PROVEEDORES -->
-                                <button type="button" class="btn btn-acciones btn-sm">
-                                    <img src="Content/Iconos/settings.png" alt="Detalle">
-                                </button>
-                                <!-- Botón Inactivar -->
-                                <asp:Button ID="btnInactivar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
-                                    OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este Producto?');"
-                                    CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
-
-                                <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->
-
-                                <!-- Botón Activar -->
-                                <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Activar"
-                                    OnClientClick="return confirm('¿Estás seguro de que deseas activar este Producto?');"
-                                    CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
-                            </td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tbody>
-        </table>
+        <div class="card-container">
+            <asp:Repeater ID="rptProductos" runat="server" OnItemCommand="rptProductos_ItemCommand"> 
+               <ItemTemplate>
+                   <div class="card">
+                    <div class="card-header">
+                        <h5>ID: <%# Eval("Id") %></h5>
+                    </div>
+                    <div class="card-body">
+                        <h6><%# Eval("Nombre") %></h6>
+                        <p><%# Eval("Descripcion") %></p>
+                        <p><strong>Estado:</strong> <%# Eval("Activo") %></p>
+                        <img src='<%# Eval("Imagen.ImagenUrl") %>' alt="Imagen del producto" width="175px" />     
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-secondary btn-sm">
+                            <img src="Content/Iconos/settings.png" alt="Detalle">
+                        </button>
+                        <asp:Button ID="btnInactivar" runat="server" CssClass="btn btn-danger btn-sm" Text="Inactivar"
+                            OnClientClick="return confirm('¿Inactivar Producto?');"
+                            CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
+                        <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-sm" Text="Activar"
+                            OnClientClick="return confirm('¿Activar Producto?');"
+                            CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
+                    </div>
+                </div>
+               </ItemTemplate>
+            </asp:Repeater>
+        </div>
     </div>
 </asp:Content>

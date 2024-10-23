@@ -64,12 +64,21 @@ CREATE TABLE Proveedores(
 	PRIMARY KEY(ID),
 );
 GO
+
+CREATE TABLE Imagenes(
+	ID BIGINT NOT NULL IDENTITY(1,1),
+	ImagenURL VARCHAR(1000)
+	PRIMARY KEY(ID)
+);
+GO
+
 CREATE TABLE Productos(
 	ID BIGINT NOT NULL IDENTITY(1,10),
 	Nombre VARCHAR(30) NOT NULL,
 	Descripcion VARCHAR(150) NULL,
 	IDMarca INT NOT NULL,
 	IDCategoria INT NOT NULL,
+	IDImagen BIGINT NOT NULL,
 	Stock_Actual INT NOT NULL, 
 	Stock_Minimo INT NOT NULL,
 	Precio_Compra MONEY NOT NULL,
@@ -78,7 +87,8 @@ CREATE TABLE Productos(
 	Activo BIT NOT NULL default 1,
 	PRIMARY KEY(ID),
 	FOREIGN KEY (IDMarca) REFERENCES Marcas(ID),
-	FOREIGN KEY (IDCategoria) REFERENCES Categorias(ID)
+	FOREIGN KEY (IDCategoria) REFERENCES Categorias(ID),
+	FOREIGN KEY (IDImagen) REFERENCES Imagenes(ID)
 );
 GO
 CREATE TABLE Productos_x_Proveedores(
@@ -89,20 +99,7 @@ CREATE TABLE Productos_x_Proveedores(
 	FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
 );
 GO
-CREATE TABLE Imagenes(
-	ID BIGINT NOT NULL,
-	ImagenURL VARCHAR(1000)
-	PRIMARY KEY(ID)
-);
-GO
-CREATE TABLE Imagenes_x_producto(
-	IDImagen BIGINT NOT NULL,
-	IDProducto BIGINT NOT NULL,
-	PRIMARY KEY(IDImagen,IDProducto),
-	FOREIGN KEY (IDImagen) REFERENCES Imagenes(ID),
-	FOREIGN KEY (IDProducto) REFERENCES Productos(ID)
-);
-GO
+
 CREATE TABLE Ventas(
 	ID BIGINT NOT NULL IDENTITY(1,1),
 	IDCliente BIGINT NOT NULL,
@@ -189,14 +186,25 @@ INSERT INTO Proveedores (CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Acti
 (30678901234, 'GHI', 'Proveedor GHI', 'Av. Proveedor 321', 'ghi@proveedor.com', '4455667788', 0),
 (20789012345, 'JKL', 'Proveedor JKL', 'Calle Proveedor 654', 'jkl@proveedor.com', '5566778899', 1);
 
+INSERT INTO Imagenes (ImagenURL) VALUES
+('https://i.pinimg.com/564x/12/53/84/1253845f3d560a17692bdbfb56335f04.jpg'),
+('https://spacegamer.com.ar/img/Public/1058-producto-1019-producto-monitor-samsung-t35f-11-4868-4179.jpg'),
+('https://i.blogs.es/47eaa9/1366_2000/500_333.webp'),
+('https://mexx-img-2019.s3.amazonaws.com/38348_1.jpeg'),
+('https://http2.mlstatic.com/D_NQ_NP_821666-MLA74019269225_012024-O.webp');
 
--- Inserciones en la tabla Productos (solo 5 productos)
-INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
-('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 100, 20, 25.00, 40.00, 60.00, 1),
-('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 30, 5, 150.00, 220.00, 46.67, 1),
-('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 15, 5, 800.00, 1100.00, 37.50, 1),
-('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 150, 30, 15.00, 25.00, 66.67, 1),
-('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
+--Inserciones en la tabla Productos (solo 5 productos)
+INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
+('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 1, 100, 20, 25.00, 40.00, 60.00, 1),
+('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 2, 30, 5, 150.00, 220.00, 46.67, 1),
+('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 3, 15, 5, 800.00, 1100.00, 37.50, 1),
+('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 4, 150, 30, 15.00, 25.00, 66.67, 1),
+('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 5, 10, 2, 450.00, 550.00, 22.22, 1),
+('Auriculares Bose', 'Auriculares con cancelación de ruido', 1, 1, 1, 50, 10, 200.00, 300.00, 50.00, 1),
+('Laptop Dell', 'Laptop 15 pulgadas', 3, 2, 2, 25, 5, 600.00, 900.00, 50.00, 1),
+('Cámara Canon', 'Cámara réflex digital', 2, 3, 3, 20, 4, 400.00, 600.00, 50.00, 1),
+('Impresora HP', 'Impresora multifuncional', 4, 4, 4, 15, 3, 100.00, 150.00, 50.00, 1),
+('Altavoces JBL', 'Altavoces portátiles Bluetooth', 1, 5, 5, 75, 15, 50.00, 80.00, 60.00, 1);
 GO
 
 
@@ -229,8 +237,12 @@ INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
 GO
 
 CREATE VIEW VW_ListaProductos AS
-SELECT P.ID, P.Nombre, P.Descripcion, P.Activo
+SELECT P.ID, P.Nombre, P.Descripcion, I.ImagenURL, P.Activo
 FROM Productos AS P
+INNER JOIN Imagenes as I ON I.ID = P.IDImagen
+GO
+
+SELECT * FROM VW_ListaProductos
 GO
 
 /* STORE PROCEDURE */
@@ -456,6 +468,7 @@ BEGIN
 UPDATE Usuarios SET IDPermiso = @IDPermiso, NombreUsuario = @NombreUsuario, Contrasenia = @Contrasenia, Activo = @Activo 
 WHERE ID = @ID
 END
+GO
 
 -------
 

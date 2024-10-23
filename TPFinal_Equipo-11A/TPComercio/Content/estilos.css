@@ -32,12 +32,7 @@
 }
 
 .containerProductos {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding-top: 100px;
-    margin: 0 auto;
-    width: 65%;
+    margin: 20px;
 }
 
 .containerProveedores {
@@ -166,8 +161,52 @@ tr:hover .btn-acciones {
     padding-right: 15px;
 }
 
-.btn-acciones img {
+.btn-secondary img {
     width: 16px; /* Ajusta el tamaño según tus necesidades */
     height: 16px; /* Ajusta el tamaño según tus necesidades */
     vertical-align: middle; /* Alinea la imagen verticalmente */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Espacio entre cartas */
+    max-width: 100%;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+    transition: transform 0.2s; /* Efecto de hover */
+    flex: 0 1 200px;
+}
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+.card-header {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+    /*padding: 10px;*/
+}
+
+.card-footer {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.img {
+    width: 200px; /* Ajusta el ancho según necesites */
+    height: auto; /* Mantiene la proporción */
+    margin-left: 40px;
+
 }
