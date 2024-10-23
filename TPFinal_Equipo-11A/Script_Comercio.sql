@@ -229,13 +229,9 @@ INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
 GO
 
 CREATE VIEW VW_ListaProductos AS
-SELECT P.ID, P.Nombre, P.Descripcion, M.NombreMarca, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
+SELECT P.ID, P.Nombre, P.Descripcion, P.Activo
 FROM Productos AS P
-INNER JOIN Marcas AS M ON M.ID = P.IDMarca
-INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
 GO
-
-SELECT * FROM VW_ListaProductos
 
 /* STORE PROCEDURE */
 
@@ -307,6 +303,16 @@ BEGIN
 END
 GO
 
+-- ACTIVAR
+
+CREATE PROCEDURE SP_ActivarProducto(
+	@ID BIGINT
+)
+AS
+BEGIN 
+UPDATE Productos SET Activo = 1 WHERE ID = @ID
+END
+GO
 
 -- BAJA LOGICA -- 
 
@@ -355,6 +361,14 @@ UPDATE Usuarios SET Activo = 0 WHERE ID = @ID
 END
 GO
 
+CREATE PROCEDURE SP_BajaProducto(
+	@ID BIGINT
+)
+AS
+BEGIN 
+UPDATE Productos SET Activo = 0 WHERE ID = @ID
+END
+GO
 
 -- MODIFICAR -- 
 
@@ -443,6 +457,23 @@ UPDATE Usuarios SET IDPermiso = @IDPermiso, NombreUsuario = @NombreUsuario, Cont
 WHERE ID = @ID
 END
 
+-------
+
+-- DETALLE DE PRODUCTO
+-- FALTAN PROVEEDORES Y IMAGENES
+
+CREATE PROCEDURE SP_DetalleProducto(
+	@ID BIGINT
+) 
+AS
+BEGIN
+SELECT P.ID, P.Nombre, P.Descripcion, M.NombreMarca, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
+FROM Productos AS P
+INNER JOIN Marcas AS M ON M.ID = P.IDMarca
+INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
+WHERE P.ID = @ID
+END
+GO
 
 
 
