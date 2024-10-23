@@ -35,12 +35,13 @@ CREATE TABLE Usuarios(
 	FOREIGN KEY (IDPermiso) REFERENCES Permisos(ID)
 );
 
--- ¿Queremos generar un perfil de los usuarios para que se uno mismo pueda modificar algunos campos? y el administrador tiene mas alcance
+-- ?Queremos generar un perfil de los usuarios para que se uno mismo pueda modificar algunos campos? y el administrador tiene mas alcance
 -- En ese caso necesitariamos por ejemplo una imagen para el usuario, el mail, 
 -- USUARIO DEBE SER UNIQUE
 GO
 CREATE TABLE Clientes(
 	ID BIGINT NOT NULL IDENTITY(1,1),
+	DNI INT NOT NULL,
 	Nombre VARCHAR(30) NOT NULL,
 	Apellido VARCHAR(30) NOT NULL,
 	Direccion VARCHAR(50) NOT NULL,
@@ -50,11 +51,10 @@ CREATE TABLE Clientes(
 	Activo BIT NOT NULL default 1,
 	PRIMARY KEY(ID),
 );
-
--- FALTARIA EL DNI EN CLIENTES?
 GO
 CREATE TABLE Proveedores(
 	ID INT NOT NULL IDENTITY(1,1),
+	CUIT BIGINT NOT NULL,
 	Siglas VARCHAR(5) NOT NULL UNIQUE,
 	Nombre VARCHAR(30) NOT NULL,
 	Direccion VARCHAR(100) NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE Productos(
 	Stock_Minimo INT NOT NULL,
 	Precio_Compra MONEY NOT NULL,
 	Precio_Venta MONEY NOT NULL,
-	Porcentaje_Ganancia FLOAT NOT NULL,
+	Porcentaje_Ganancia decimal NOT NULL,
 	Activo BIT NOT NULL default 1,
 	PRIMARY KEY(ID),
 	FOREIGN KEY (IDMarca) REFERENCES Marcas(ID),
@@ -155,47 +155,47 @@ GO
 /* INSERTS */
 
 -- Inserciones en la tabla Marcas
-INSERT INTO Marcas (NombreMarca) VALUES
-('Coca'), 
-('Apple'), 
-('Samsung'),
-('Logitech'), 
-('Sony');
-GO
+INSERT INTO Marcas (NombreMarca, Activo) VALUES 
+('Sony', 1),
+('Samsung', 1),
+('LG', 1),
+('Apple', 1),
+('Dell', 1);
+
 
 -- Inserciones en la tabla Categorias
 INSERT INTO Categorias (NombreCategoria, Activo) VALUES
-('Electrónica', 1),
+('Electr?nica', 1),
 ('Accesorios', 1),
-('Computación', 1),
-('Telefonía', 1),
+('Computaci?n', 1),
+('Telefon?a', 1),
 ('Videojuegos', 1);
 GO
 
 -- Inserciones en la tabla Clientes
-INSERT INTO Clientes (Nombre, Apellido, Direccion, Telefono, Correo, Activo, Fecha_reg) VALUES
-('Juan', 'Pérez', 'Calle Falsa 123', '555-1234', 'juan.perez@example.com', 1, '2023-01-01'),
-('Ana', 'García', 'Av. Principal 456', '555-5678', 'ana.garcia@example.com', 1, '2023-02-01'),
-('Carlos', 'López', 'Av. Siempre Viva 789', '555-9876', 'carlos.lopez@example.com', 1, '2023-03-01'),
-('Lucía', 'Martínez', 'Calle Secundaria 101', '555-1011', 'lucia.martinez@example.com', 1, '2023-04-01'),
-('María', 'Rodríguez', 'Calle del Sol 202', '555-2022', 'maria.rodriguez@example.com', 1, '2023-05-01');
-GO
+INSERT INTO Clientes (DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo) VALUES 
+(12345678, 'Juan', 'Pérez', 'Calle Falsa 123', '1234567890', 'juan.perez@mail.com', '2024-10-01', 1),
+(87654321, 'Ana', 'Gómez', 'Av. Siempre Viva 456', '0987654321', 'ana.gomez@mail.com', '2024-10-02', 1),
+(23456789, 'Pedro', 'Martínez', 'Calle Luna 789', '1112223333', 'pedro.martinez@mail.com', '2024-10-03', 0),
+(34567890, 'Lucía', 'Fernández', 'Av. Sol 987', '4445556666', 'lucia.fernandez@mail.com', '2024-10-04', 1),
+(45678901, 'Carlos', 'Sánchez', 'Calle Estrella 321', '7778889990', 'carlos.sanchez@mail.com', '2024-10-05', 0);
+
 
 -- Inserciones en la tabla Proveedores
-INSERT INTO Proveedores (Siglas, Nombre, Direccion, Correo, Telefono, Activo) VALUES
-('ABC', 'ABC Distribuidora', 'Calle Central 123', 'contacto@abcdistribuidora.com', '555-1234', 1),
-('XYZ', 'XYZ Proveedores', 'Av. Comercio 456', 'ventas@xyzproveedores.com', '555-5678', 1),
-('GHI', 'GHI Importaciones', 'Av. Importadora 789', 'info@ghiimportaciones.com', '555-9876', 1),
-('DEF', 'DEF Suministros', 'Calle Comercio 101', 'contacto@defsuministros.com', '555-1011', 1),
-('JKL', 'JKL Global', 'Av. Internacional 202', 'info@jklglobal.com', '555-2022', 1);
-GO
+INSERT INTO Proveedores (CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo) VALUES 
+(20345678901, 'ABC', 'Proveedor ABC', 'Calle Proveedor 123', 'abc@proveedor.com', '1122334455', 1),
+(30567890123, 'XYZ', 'Proveedor XYZ', 'Av. Proveedor 456', 'xyz@proveedor.com', '2233445566', 1),
+(20456789012, 'DEF', 'Proveedor DEF', 'Calle Proveedor 789', 'def@proveedor.com', '3344556677', 1),
+(30678901234, 'GHI', 'Proveedor GHI', 'Av. Proveedor 321', 'ghi@proveedor.com', '4455667788', 0),
+(20789012345, 'JKL', 'Proveedor JKL', 'Calle Proveedor 654', 'jkl@proveedor.com', '5566778899', 1);
+
 
 -- Inserciones en la tabla Productos (solo 5 productos)
 INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
-('Teclado Logitech', 'Teclado inalámbrico', 4, 2, 100, 20, 25.00, 40.00, 60.00, 1),
+('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 100, 20, 25.00, 40.00, 60.00, 1),
 ('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 30, 5, 150.00, 220.00, 46.67, 1),
 ('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 15, 5, 800.00, 1100.00, 37.50, 1),
-('Mouse Logitech', 'Mouse inalámbrico', 4, 2, 150, 30, 15.00, 25.00, 66.67, 1),
+('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 150, 30, 15.00, 25.00, 66.67, 1),
 ('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
 GO
 
@@ -226,6 +226,11 @@ CREATE VIEW VW_ListaUsuarios AS
 SELECT U.ID, U.IDPermiso, P.NombrePermiso, U.NombreUsuario, U.Contrasenia, U.Activo 
 FROM Usuarios AS U
 INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
+GO
+
+CREATE VIEW VW_ListaProductos AS
+SELECT P.ID, P.Nombre, P.Descripcion, P.Activo
+FROM Productos AS P
 GO
 
 /* STORE PROCEDURE */
@@ -260,6 +265,7 @@ END
 GO
 
 CREATE PROCEDURE SP_Alta_Proveedor(
+	@CUIT BIGINT,
     @Siglas VARCHAR(5),
 	@Nombre VARCHAR(30),
 	@Direccion VARCHAR(100),
@@ -268,11 +274,12 @@ CREATE PROCEDURE SP_Alta_Proveedor(
 )
 AS
 BEGIN
-    INSERT INTO Proveedores(Siglas,Nombre,Direccion,Correo,Telefono) VALUES (@Siglas,@Nombre,@Direccion,@Correo,@Telefono)
+    INSERT INTO Proveedores(CUIT,Siglas,Nombre,Direccion,Correo,Telefono) VALUES (@CUIT,@Siglas,@Nombre,@Direccion,@Correo,@Telefono)
 END
 GO
 
 CREATE PROCEDURE SP_Alta_Cliente(
+	@DNI INT,
 	@Nombre VARCHAR(30),
 	@Apellido VARCHAR(30),
 	@Direccion VARCHAR(50),
@@ -281,7 +288,7 @@ CREATE PROCEDURE SP_Alta_Cliente(
 )
 AS
 BEGIN
-    INSERT INTO Clientes(Nombre,Apellido,Direccion,Telefono,Correo) VALUES (@Nombre,@Apellido,@Direccion,@Telefono,@Correo)
+    INSERT INTO Clientes(DNI,Nombre,Apellido,Direccion,Telefono,Correo) VALUES (@DNI,@Nombre,@Apellido,@Direccion,@Telefono,@Correo)
 END
 GO
 
@@ -293,6 +300,17 @@ CREATE PROCEDURE SP_Alta_Usuario(
 AS
 BEGIN
     INSERT INTO Usuarios(IDPermiso,NombreUsuario,Contrasenia) VALUES (@IDPermiso,@NombreUsuario,@Contrasenia)
+END
+GO
+
+-- ACTIVAR
+
+CREATE PROCEDURE SP_ActivarProducto(
+	@ID BIGINT
+)
+AS
+BEGIN 
+UPDATE Productos SET Activo = 1 WHERE ID = @ID
 END
 GO
 
@@ -343,6 +361,14 @@ UPDATE Usuarios SET Activo = 0 WHERE ID = @ID
 END
 GO
 
+CREATE PROCEDURE SP_BajaProducto(
+	@ID BIGINT
+)
+AS
+BEGIN 
+UPDATE Productos SET Activo = 0 WHERE ID = @ID
+END
+GO
 
 -- MODIFICAR -- 
 
@@ -380,6 +406,7 @@ GO
 
 CREATE PROCEDURE SP_ModificarProveedor(
 	@ID INT,
+	@CUIT BIGINT,
 	@Siglas VARCHAR(5),
 	@Nombre VARCHAR(30),
 	@Direccion VARCHAR(100),
@@ -389,7 +416,7 @@ CREATE PROCEDURE SP_ModificarProveedor(
 )
 AS
 BEGIN 
-UPDATE Proveedores SET Siglas = @Siglas, Nombre = @Nombre, Direccion = @Direccion, Correo = @Correo, Telefono = @Telefono, Activo = @Activo
+UPDATE Proveedores SET CUIT = @CUIT, Siglas = @Siglas, Nombre = @Nombre, Direccion = @Direccion, Correo = @Correo, Telefono = @Telefono, Activo = @Activo
 WHERE ID = @ID
 END
 GO
@@ -398,6 +425,7 @@ GO
 
 CREATE PROCEDURE SP_ModificarCliente(
 	@ID BIGINT,
+	@DNI INT,
 	@Nombre VARCHAR(30),
 	@Apellido VARCHAR(30),
 	@Direccion VARCHAR(50),
@@ -408,7 +436,7 @@ CREATE PROCEDURE SP_ModificarCliente(
 )
 AS
 BEGIN 
-UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Telefono = @Telefono, Correo = @Correo, Activo = @Activo 
+UPDATE Clientes SET DNI = @DNI, Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Telefono = @Telefono, Correo = @Correo, Activo = @Activo 
 WHERE ID = @ID
 END
 GO
@@ -428,8 +456,24 @@ BEGIN
 UPDATE Usuarios SET IDPermiso = @IDPermiso, NombreUsuario = @NombreUsuario, Contrasenia = @Contrasenia, Activo = @Activo 
 WHERE ID = @ID
 END
+
+-------
+
+-- DETALLE DE PRODUCTO
+-- FALTAN PROVEEDORES Y IMAGENES
+
+CREATE PROCEDURE SP_DetalleProducto(
+	@ID BIGINT
+) 
+AS
+BEGIN
+SELECT P.ID, P.Nombre, P.Descripcion, M.NombreMarca, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
+FROM Productos AS P
+INNER JOIN Marcas AS M ON M.ID = P.IDMarca
+INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
+WHERE P.ID = @ID
+END
 GO
 
-SELECT * FROM Proveedores
 
 

@@ -60,14 +60,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarL(Categoria aux)
+        public void eliminarL(int id)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
                 datos.setearProcedimiento("SP_BajaCategoria");
-                datos.setearParametro("@ID", aux.Id);
+                datos.setearParametro("@ID", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
