@@ -12,8 +12,11 @@ namespace TPComercio
 {
     public partial class Clientes : System.Web.UI.Page
     {
+        public bool FiltroAvanzado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            FiltroAvanzado = chkAvanzado.Checked;
+
             if (!IsPostBack)
             {
                 cargarClientes();
@@ -234,6 +237,45 @@ namespace TPComercio
             List<Cliente> listaFiltrada = lista.FindAll(x => x.Nombre.ToUpper().Contains(txtFiltroClientes.Text.ToUpper()));
             rptClientes.DataSource = listaFiltrada;
             rptClientes.DataBind();
+        }
+
+        protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
+        {
+            FiltroAvanzado = chkAvanzado.Checked;
+            txtFiltroClientes.Enabled = !FiltroAvanzado;
+        }
+
+        protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlCriterio.Items.Clear();
+
+            if(ddlCampo.SelectedItem.ToString() == "DNI")
+            {
+                ddlCriterio.Items.Add("Igual a");
+                ddlCriterio.Items.Add("Menor a");
+                ddlCriterio.Items.Add("Mayor a");
+            }
+            else
+            {
+                ddlCriterio.Items.Add("Contiene");
+                ddlCriterio.Items.Add("Comienza con");
+                ddlCriterio.Items.Add("Termina con");
+            }
+        }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ClienteNegocio negocio = new ClienteNegocio();
+                rptClientes.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),ddlCriterio.SelectedItem.ToString(),txtFiltroAvanzado.Text,ddlEstado.SelectedItem.ToString());
+                rptClientes.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+                throw;
+            }
         }
     }
 }
