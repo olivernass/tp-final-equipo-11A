@@ -13,6 +13,13 @@
             Agregar Categoria       
         </button>
 
+        <div class="col-6">
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <asp:TextBox runat="server" ID="txtFiltroCategoria" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroCategoria_TextChanged" />
+            </div>
+        </div>
+
         <!-- Tabla de Categorias -->
         <table class="table tableCategorias table-hover mt-3">
             <thead>

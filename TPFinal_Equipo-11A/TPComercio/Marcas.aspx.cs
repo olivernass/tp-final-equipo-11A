@@ -23,7 +23,9 @@ namespace TPComercio
         {
             MarcaNegocio negocio = new MarcaNegocio();
             List<Marca> listaMarcas = negocio.listar();
-            rptMarcas.DataSource = listaMarcas;
+            Session.Add("listaMarcas", negocio.listar());
+            rptMarcas.DataSource = Session["listaMarcas"];
+            //rptMarcas.DataSource = listaMarcas;
             rptMarcas.DataBind();
         }
 
@@ -97,6 +99,14 @@ namespace TPComercio
                 // Recargar la lista de marcas después de eliminar
                 cargarMarcas();
             }
+        }
+
+        protected void txtFiltroMarcas_TextChanged(object sender, EventArgs e)
+        {
+            List<Marca> lista = (List<Marca>)Session["listaMarcas"];
+            List<Marca> listaFiltrada = lista.FindAll(x => x.NombreMarca.ToUpper().Contains(txtFiltroMarcas.Text.ToUpper()));
+            rptMarcas.DataSource = listaFiltrada;
+            rptMarcas.DataBind();
         }
     }
 }

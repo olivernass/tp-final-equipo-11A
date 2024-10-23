@@ -12,6 +12,13 @@
             Agregar Marca       
         </button>
 
+        <div class="col-6">
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged"/>
+            </div>
+        </div>
+
         <!-- Tabla de Marcas -->
         <table class="table tableMarcas table-hover mt-3">
             <thead>

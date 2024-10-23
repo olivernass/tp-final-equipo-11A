@@ -23,7 +23,9 @@ namespace TPComercio
         {
             CategoriaNegocio negocio = new CategoriaNegocio();
             List<Categoria> listaCategorias = negocio.listar();
-            rptCategorias.DataSource = listaCategorias;
+            Session.Add("listaCategorias", negocio.listar());
+            rptCategorias.DataSource = Session["listaCategorias"];
+            //rptCategorias.DataSource = listaCategorias;
             rptCategorias.DataBind();
         }
 
@@ -97,6 +99,14 @@ namespace TPComercio
                 // Recargar la lista de categorias después de eliminar
                 cargarCategorias();
             }
+        }
+
+        protected void txtFiltroCategoria_TextChanged(object sender, EventArgs e)
+        {
+            List<Categoria> lista = (List<Categoria>)Session["listaCategorias"];
+            List<Categoria> listaFiltrada = lista.FindAll(x => x.NombreCategoria.ToUpper().Contains(txtFiltroCategoria.Text.ToUpper()));
+            rptCategorias.DataSource = listaFiltrada;
+            rptCategorias.DataBind();
         }
     }
 }
