@@ -108,5 +108,11 @@ namespace TPComercio
             rptCategorias.DataSource = listaFiltrada;
             rptCategorias.DataBind();
         }
+
+        protected void btnBorrar_Click(object sender, EventArgs e)
+        {
+            txtFiltroCategoria.Text = string.Empty;
+            cargarCategorias();
+        }
     }
 }

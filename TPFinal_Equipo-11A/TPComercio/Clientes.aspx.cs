@@ -264,7 +264,7 @@ namespace TPComercio
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
-        {
+        {   
             try
             {
                 ClienteNegocio negocio = new ClienteNegocio();

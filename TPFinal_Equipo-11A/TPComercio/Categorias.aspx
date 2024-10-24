@@ -17,7 +17,10 @@
         <div class="col-6">
             <div class="mb-3">
                 <asp:Label Text="Filtrar por nombre:" runat="server" />
+                 <div class="d-flex">
                 <asp:TextBox runat="server" ID="txtFiltroCategoria" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroCategoria_TextChanged" />
+                <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
+                     </div>
             </div>
         </div>
 

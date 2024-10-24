@@ -115,5 +115,50 @@ namespace TPComercio
             txtFiltroMarcas.Text = string.Empty;
             cargarMarcas();
         }
+
+        //protected void ddlEstadoMarcas_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.ToString());
+        //        rptMarcas.DataBind();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Session.Add("error", ex);
+        //        throw;
+        //    }
+        //}
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {   
+            try
+            {
+                MarcaNegocio negocio = new MarcaNegocio();
+                rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.SelectedItem.ToString());
+                rptMarcas.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex);
+                throw;
+            }
+        }
+
+        //protected void ddlEstadoMarcas_SelectedIndexChanged1(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.ToString());
+        //        rptMarcas.DataBind();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Session.Add("error", ex);
+        //        throw;
+        //    }
+        //}
     }
 }

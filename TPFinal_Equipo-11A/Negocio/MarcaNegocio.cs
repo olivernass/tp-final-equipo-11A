@@ -99,5 +99,39 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Marca> filtrar(string estado)
+        {
+            List<Marca> lista = new List<Marca>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "select NombreMarca, Activo FROM Marcas";
+
+                if (estado == " Activo")
+                    consulta += " WHERE Activo = 1 ";
+                else if (estado == " Inactivo")
+                    consulta += " WHERE Activo = 0";
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Marca aux = new Marca();
+                    aux.NombreMarca = (string)datos.Lector["NombreMarca"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
