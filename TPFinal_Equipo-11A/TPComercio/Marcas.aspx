@@ -18,7 +18,8 @@
                 <asp:Label Text="Filtrar por nombre:" runat="server" />
                 <div class="d-flex">
                 <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" />
-                    <button type="button" class="btn btn-primary" onclick="btnBorrarFiltroMarca">Borrar</button>
+                    <%--<button type="button" class="btn btn-primary" onclick="btnBorrarFiltroMarca">Borrar</button>--%>
+                    <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
                 </div>
             </div>
             <asp:Label Text="Estado" runat="server" />

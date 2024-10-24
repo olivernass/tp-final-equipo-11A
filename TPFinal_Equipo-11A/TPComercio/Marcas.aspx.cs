@@ -109,5 +109,11 @@ namespace TPComercio
             rptMarcas.DataSource = listaFiltrada;
             rptMarcas.DataBind();
         }
+
+        protected void btnBorrar_Click(object sender, EventArgs e)
+        {
+            txtFiltroMarcas.Text = string.Empty;
+            cargarMarcas();
+        }
     }
 }
