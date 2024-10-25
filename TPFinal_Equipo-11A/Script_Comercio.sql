@@ -236,13 +236,17 @@ FROM Usuarios AS U
 INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
 GO
 
-CREATE VIEW VW_ListaProductos AS
-SELECT P.ID, P.Nombre, P.Descripcion, I.ImagenURL, P.Activo
-FROM Productos AS P
-INNER JOIN Imagenes as I ON I.ID = P.IDImagen
-GO
+--CREATE VIEW VW_ListaProductos AS
+--SELECT P.ID, P.Nombre, P.Descripcion, I.ImagenURL, P.Activo
+--FROM Productos AS P
+--INNER JOIN Imagenes as I ON I.ID = P.IDImagen
+--GO
 
-SELECT * FROM VW_ListaProductos
+CREATE VIEW VW_ALLProducto AS
+SELECT P.ID, P.Nombre, P.Descripcion, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, I.ImagenURL, M.NombreMarca, C.NombreCategoria,P.Activo FROM Productos AS P
+INNER JOIN Imagenes AS I ON I.ID = P.IDImagen
+INNER JOIN Marcas AS M ON M.ID = P.IDMarca
+INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
 GO
 
 /* STORE PROCEDURE */
@@ -473,20 +477,23 @@ GO
 -------
 
 -- DETALLE DE PRODUCTO
--- FALTAN PROVEEDORES Y IMAGENES
-
+-- SIN PROVEEDOR
 CREATE PROCEDURE SP_DetalleProducto(
 	@ID BIGINT
 ) 
 AS
 BEGIN
-SELECT P.ID, P.Nombre, P.Descripcion, M.NombreMarca, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
+SELECT P.ID,I.ImagenURL, P.Nombre, P.Descripcion, M.NombreMarca, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
 FROM Productos AS P
 INNER JOIN Marcas AS M ON M.ID = P.IDMarca
 INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
+INNER JOIN Imagenes AS I ON I.ID = P.IDImagen
 WHERE P.ID = @ID
 END
 GO
+
+
+
 
 
 

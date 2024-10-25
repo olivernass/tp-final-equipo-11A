@@ -27,6 +27,7 @@ namespace Negocio
                     aux.Categoria = new Categoria();
                     aux.Imagen = new Imagen();
                     aux.Id = (long)datos.Lector["ID"];
+                    aux.Imagen.ImagenUrl = (string)datos.Lector["ImagenURL"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Marca.NombreMarca = (string)datos.Lector["NombreMarca"];
@@ -50,7 +51,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public List<Producto> listar()
         {
             List<Producto> lista = new List<Producto>();
@@ -58,18 +58,28 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT * FROM VW_ListaProductos");
+                datos.setearConsulta("SELECT * FROM VW_ALLProducto");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Producto aux = new Producto();
+                    aux.Marca = new Marca();
+                    aux.Categoria = new Categoria();
                     aux.Imagen = new Imagen();
                     aux.Id = (long)datos.Lector["ID"];
+                    aux.Imagen.ImagenUrl = (string)datos.Lector["ImagenURL"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Imagen.ImagenUrl = (string)datos.Lector["ImagenURL"];
+                    aux.Marca.NombreMarca = (string)datos.Lector["NombreMarca"];
+                    aux.Categoria.NombreCategoria = (string)datos.Lector["NombreCategoria"];
+                    aux.StockActual = (int)datos.Lector["Stock_Actual"];
+                    aux.StockMinimo = (int)datos.Lector["Stock_Minimo"];
+                    aux.Precio_Compra = (decimal)datos.Lector["Precio_Compra"];
+                    aux.Precio_Venta = (decimal)datos.Lector["Precio_Venta"];
+                    aux.Porcentaje_Ganancia = (decimal)datos.Lector["Porcentaje_Ganancia"];
                     aux.Activo = (bool)datos.Lector["Activo"];
+                   
                     lista.Add(aux);
                 }
 
@@ -85,7 +95,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public void eliminarL(Producto producto)
         {
             AccesoDatos datos = new AccesoDatos();
