@@ -11,7 +11,15 @@ namespace Dominio
         public int Id { get; set; }
         public string NombreUsuario { get; set; }
         public string Contrasenia { get; set; }
-        public Permiso Permiso { get; set; }  ///ME TIRA ERROR
+        public Permiso Permiso { get; set; }
         public bool Activo { get; set; }
+        public Usuario() { }
+        public Usuario(string nombreUsuario, string contrasenia, int idPermiso)
+        {
+            NombreUsuario = nombreUsuario;
+            Contrasenia = contrasenia;
+            Permiso = new Permiso { Id = idPermiso };  // Inicializa un nuevo Permiso con el ID proporcionado
+            Activo = true;  // inicializar Activo como true por defecto o agregarlo como parámetro si es necesario
+        }
     }
 }

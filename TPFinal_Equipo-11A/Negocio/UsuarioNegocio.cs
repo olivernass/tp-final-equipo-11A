@@ -11,6 +11,41 @@ namespace Negocio
     public class UsuarioNegocio
     {
 
+        public bool loguear(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT ID, IDPermiso, NombrePermiso FROM VW_ListaUsuarios WHERE NombreUsuario = @NombreUsuario AND Contrasenia = @Contrasenia AND Activo = 1");
+                datos.setearParametro("@NombreUsuario", usuario.NombreUsuario);
+                datos.setearParametro("@Contrasenia", usuario.Contrasenia);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    usuario.Id = (int)datos.Lector["ID"];
+                    usuario.Permiso = new Permiso
+                    {
+                        Id = (int)datos.Lector["IDPermiso"],
+                        NombrePermiso = (string)datos.Lector["NombrePermiso"]
+                    };
+
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public List<Usuario> listar()
         {
             List<Usuario> lista = new List<Usuario>();
@@ -23,13 +58,19 @@ namespace Negocio
 
                 while (datos.Lector.Read())
                 {
-                    Usuario aux = new Usuario();
-                    aux.Id = (int)datos.Lector["ID"];
-                    aux.Permiso.Id = (int)datos.Lector["IDPermiso"];
-                    aux.Permiso.NombrePermiso = (string)datos.Lector["NombrePermiso"];
-                    aux.NombreUsuario = (string)datos.Lector["NombreUsuario"];
-                    aux.Contrasenia= (string)datos.Lector["Contrasenia"];
-                    aux.Activo = (bool)datos.Lector["Activo"];
+                    Usuario aux = new Usuario
+                    {
+                        Id = (int)datos.Lector["ID"],
+                        NombreUsuario = (string)datos.Lector["NombreUsuario"],
+                        Contrasenia = (string)datos.Lector["Contrasenia"],
+                        Activo = (bool)datos.Lector["Activo"],
+                        Permiso = new Permiso
+                        {
+                            Id = (int)datos.Lector["IDPermiso"],
+                            NombrePermiso = (string)datos.Lector["NombrePermiso"]
+                        }
+                    };
+
                     lista.Add(aux);
                 }
 
@@ -39,7 +80,6 @@ namespace Negocio
             {
                 throw ex;
             }
-
             finally
             {
                 datos.cerrarConexion();

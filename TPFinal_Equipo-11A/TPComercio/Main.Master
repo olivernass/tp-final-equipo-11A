@@ -27,10 +27,14 @@
                     <div class="collapse navbar-collapse" id="navbarColor01">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" href="Default.aspx">Inicio
-                                </a>
+                                <a class="nav-link active" href="Default.aspx">Inicio</a>
                             </li>
-                        </ul>                       
+                        </ul>
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="Login.aspx">Login</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </nav>
