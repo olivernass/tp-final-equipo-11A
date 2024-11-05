@@ -117,5 +117,90 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Proveedor> filtrar(string campo, string criterio, string filtro, string estado)
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "select CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores WHERE";
+
+                if (campo == "CUIT")
+                {
+                    switch (criterio)
+                    {
+                        case "Mayor a":
+                            consulta += " CUIT > " + filtro;
+                            break;
+                        case "Menor a":
+                            consulta += " CUIT <" + filtro;
+                            break;
+                        default:
+                            consulta += " CUIT =" + filtro;
+                            break;
+                    }
+                }
+                else if (campo == "Siglas")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += " Siglas LIKE '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " Siglas LIKE '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += " Siglas LIKE '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (campo)
+                    {
+                        case "Comienza con":
+                            consulta += " Correo LIKE '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " Correo LIKE '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += " Correo LIKE '%" + filtro + "%'";
+                            break;
+                    }
+                }
+
+                if (estado == "Activo")
+                    consulta += " AND Activo = 1 ";
+                else if (estado == "Inactivo")
+                    consulta += " AND Activo = 0";
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.CUIT = (long)datos.Lector["CUIT"];
+                    aux.Siglas = (string)datos.Lector["Siglas"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Correo = (string)datos.Lector["Correo"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

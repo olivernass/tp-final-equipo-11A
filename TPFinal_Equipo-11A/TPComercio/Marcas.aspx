@@ -12,6 +12,36 @@
             Agregar Marca       
         </button>
 
+        <!-- Filtro -->
+        <div class="col-6">
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <div class="d-flex">
+                <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" />
+                    <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
+                </div>
+            </div>
+            <asp:Label Text="Filtrar por estado:" runat="server" />
+            <%--<asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" OnSelectedIndexChanged="ddlEstadoMarcas_SelectedIndexChanged" />
+                <asp:ListItem Text="Todos" />
+                <asp:ListItem Text="Activo" />
+                <asp:ListItem Text="Inactivo" />
+            </asp:DropDownList>--%>
+            <asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" >
+                <asp:ListItem Text="Todos" />
+                <asp:ListItem Text="Activo" />
+                <asp:ListItem Text="Inactivo" />
+            </asp:DropDownList>
+        </div>
+        
+        
+            <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>
+        
+    
+
+
+
+
         <!-- Tabla de Marcas -->
         <table class="table tableMarcas table-hover mt-3">
             <thead>

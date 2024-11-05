@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TPComercio
 {
@@ -23,7 +24,9 @@ namespace TPComercio
         {
             MarcaNegocio negocio = new MarcaNegocio();
             List<Marca> listaMarcas = negocio.listar();
-            rptMarcas.DataSource = listaMarcas;
+            Session.Add("listaMarcas", negocio.listar());
+            rptMarcas.DataSource = Session["listaMarcas"];
+            //rptMarcas.DataSource = listaMarcas;
             rptMarcas.DataBind();
         }
 
@@ -98,5 +101,64 @@ namespace TPComercio
                 cargarMarcas();
             }
         }
+
+        protected void txtFiltroMarcas_TextChanged(object sender, EventArgs e)
+        {
+            List<Marca> lista = (List<Marca>)Session["listaMarcas"];
+            List<Marca> listaFiltrada = lista.FindAll(x => x.NombreMarca.ToUpper().Contains(txtFiltroMarcas.Text.ToUpper()));
+            rptMarcas.DataSource = listaFiltrada;
+            rptMarcas.DataBind();
+        }
+
+        protected void btnBorrar_Click(object sender, EventArgs e)
+        {
+            txtFiltroMarcas.Text = string.Empty;
+            cargarMarcas();
+        }
+
+        //protected void ddlEstadoMarcas_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.ToString());
+        //        rptMarcas.DataBind();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Session.Add("error", ex);
+        //        throw;
+        //    }
+        //}
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {   
+            try
+            {
+                MarcaNegocio negocio = new MarcaNegocio();
+                rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.SelectedItem.ToString());
+                rptMarcas.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex);
+                throw;
+            }
+        }
+
+        //protected void ddlEstadoMarcas_SelectedIndexChanged1(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.ToString());
+        //        rptMarcas.DataBind();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Session.Add("error", ex);
+        //        throw;
+        //    }
+        //}
     }
 }

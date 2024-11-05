@@ -138,5 +138,92 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Cliente> filtrar(string campo, string criterio, string filtro, string estado)
+        {
+            List<Cliente> lista = new List<Cliente>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "select DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo FROM Clientes WHERE";
+
+                if(campo == "DNI")
+                {
+                    switch (criterio)
+                    {
+                        case "Mayor a":
+                            consulta += " DNI > " + filtro;
+                            break;
+                        case "Menor a":
+                            consulta += " DNI <" + filtro;
+                            break;
+                        default:
+                            consulta += " DNI =" + filtro;
+                            break;
+                    }
+                }
+                else if(campo == "Apellido")
+                {
+                    switch(criterio)
+                    {
+                        case "Comienza con":
+                            consulta += " Apellido LIKE '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " Apellido LIKE '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += " Apellido LIKE '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch(campo)
+                    {
+                        case "Comienza con":
+                            consulta += " Correo LIKE '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " Correo LIKE '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += " Correo LIKE '%" + filtro + "%'";
+                            break;
+                    }
+                }
+
+                if (estado == "Activo")
+                    consulta += " AND Activo = 1 ";
+                else if (estado == "Inactivo")
+                    consulta += " AND Activo = 0";
+
+                datos.setearConsulta( consulta );
+                datos.ejecutarLectura();
+
+                while(datos.Lector.Read())
+                {
+                    Cliente aux = new Cliente();
+                    aux.DNI = (int)datos.Lector["DNI"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.Correo = (string)datos.Lector["Correo"];
+                    aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
