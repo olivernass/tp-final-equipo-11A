@@ -82,6 +82,64 @@
         </div>
     </div>
 
+    <!-- Modal para agregar producto -->
+    <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-labelledby="modalAgregarProductoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarProductoLabel">Agregar Nuevo Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                
+                    <span class="error-message" id="errorNombreProducto"></span>
+                    <asp:TextBox ID="txtNombreProducto" runat="server" CssClass="form-control mb-2" placeholder="Nombre del Producto"></asp:TextBox>
+
+                    <span class="error-message" id="errorDescripcionProducto"></span>
+                    <asp:TextBox ID="txtDescripcionProducto" runat="server" CssClass="form-control mb-2" placeholder="Descripción del Producto"></asp:TextBox>
+
+                    <span class="error-message" id="errorMarcaProducto"></span>
+                    <asp:DropDownList ID="ddlMarcaProducto" runat="server" CssClass="form-control mb-2">
+                    </asp:DropDownList>
+
+                    <span class="error-message" id="errorCategoriaProducto"></span>
+                    <asp:DropDownList ID="ddlCategoriaProducto" runat="server" CssClass="form-control mb-2">
+                    </asp:DropDownList>
+
+                    <span class="error-message" id="errorStockActual"></span>
+                    <asp:TextBox ID="txtStockActual" runat="server" CssClass="form-control mb-2" placeholder="Stock Actual" TextMode="Number"></asp:TextBox>
+
+                    <span class="error-message" id="errorStockMinimo"></span>
+                    <asp:TextBox ID="txtStockMinimo" runat="server" CssClass="form-control mb-2" placeholder="Stock Mínimo" TextMode="Number"></asp:TextBox>
+
+                    <span class="error-message" id="errorPrecioCompra"></span>
+                    <asp:TextBox ID="txtPrecioCompra" runat="server" CssClass="form-control mb-2" placeholder="Precio de Compra"></asp:TextBox>
+
+                    <span class="error-message" id="errorPrecioVenta"></span>
+                    <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control mb-2" placeholder="Precio de Venta"></asp:TextBox>
+
+                    <span class="error-message" id="errorPorcentajeGanancia"></span>
+                    <asp:TextBox ID="txtPorcentajeGanancia" runat="server" CssClass="form-control mb-2" placeholder="Porcentaje de Ganancia" TextMode="Number"></asp:TextBox>
+
+                    <span class="error-message" id="errorImagenProducto"></span>
+                    <asp:TextBox ID="txtImagenProducto" runat="server" CssClass="form-control mb-2" placeholder="Ingrese el nombre o ruta de la imagen" />
+
+                    <span class="error-message" id="errorActivoProducto"></span>
+                    <asp:CheckBox ID="chkActivoProducto" runat="server" CssClass="form-check-input" /> Producto Activo
+                
+                    <span class="error-message" id="errorProveedores"></span>
+                    <asp:ListBox ID="lstProveedoresProducto" runat="server" CssClass="form-control mb-2" SelectionMode="Multiple">
+                    </asp:ListBox>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarProducto');">Cerrar</button>
+                    <asp:Button ID="btnGuardarProducto" runat="server" CssClass="btn btn-primary" Text="Guardar Producto" OnClientClick="return validarAgregarProducto();" OnClick="btnGuardarProducto_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         function mostrarDetalles(button) {
             const id = button.getAttribute('data-id');

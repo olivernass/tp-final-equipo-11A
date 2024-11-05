@@ -89,8 +89,7 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
-        }
-        
+        }   
         public void modificar(Proveedor proveedor)
         {
             AccesoDatos datos = new AccesoDatos();

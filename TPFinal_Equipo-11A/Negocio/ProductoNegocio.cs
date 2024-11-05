@@ -134,6 +134,10 @@ namespace Negocio
             }
         }
 
+        public void agregar(Producto nuevoproducto)
+        {
+            return;
+        }
 
     }
 }
