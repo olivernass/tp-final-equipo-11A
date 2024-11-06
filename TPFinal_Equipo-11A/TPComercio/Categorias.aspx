@@ -22,7 +22,7 @@
                     <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click" />
                 </div>
             </div>
-        </div>
+        
 
             <asp:Label Text="Filtrar por estado:" runat="server" />
             <asp:DropDownList runat="server" ID="ddlEstadoCategorias" CssClass="form-control">

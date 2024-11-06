@@ -305,6 +305,22 @@ GO
 
 -- ACTIVAR
 
+CREATE PROCEDURE SP_ActivarMarca(
+	@ID INT
+)
+AS BEGIN
+UPDATE Marcas SET Activo = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ActivarCategoria(
+	@ID INT
+)
+AS BEGIN
+UPDATE Categorias SET Activo = 1 WHERE ID = @ID
+END
+GO
+
 CREATE PROCEDURE SP_ActivarProducto(
 	@ID BIGINT
 )
