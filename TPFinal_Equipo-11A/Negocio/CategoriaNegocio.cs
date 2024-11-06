@@ -25,6 +25,7 @@ namespace Negocio
                     Categoria aux = new Categoria();
                     aux.Id = (int)datos.Lector["Id"];
                     aux.NombreCategoria = (string)datos.Lector["NombreCategoria"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -60,14 +61,34 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void eliminarL(int id)
+        public void eliminarL(Categoria categoria)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
                 datos.setearProcedimiento("SP_BajaCategoria");
-                datos.setearParametro("@ID", id);
+                datos.setearParametro("@ID", categoria.Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void activar(Categoria categoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ActivarCategoria");
+                datos.setearParametro("@ID", categoria.Id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -97,6 +118,44 @@ namespace Negocio
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        public List<Categoria> filtrar(string estado)
+        {
+            List<Categoria> lista = new List<Categoria>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "select ID, NombreCategoria, Activo FROM Categorias ";
+
+                if (estado == "Activo")
+                    consulta += " WHERE Activo = 1 ";
+                else if (estado == "Inactivo")
+                    consulta += " WHERE Activo = 0";
+                else if (estado == "Todos")
+                    consulta = " select * FROM Categorias";
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Categoria aux = new Categoria();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.NombreCategoria = (string)datos.Lector["NombreCategoria"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }

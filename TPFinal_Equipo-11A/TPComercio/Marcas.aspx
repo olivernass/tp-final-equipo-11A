@@ -55,7 +55,7 @@
                             <td><%# Eval("Activo") %></td>
                             <td>
                                 <!-- Botón Modificar -->
-                                <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
+                                <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
                                     onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreMarca") %>')">
                                     <img src="Content/Iconos/settings.png" alt="Detalle">
                                 </button>
@@ -68,8 +68,8 @@
                                 <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->
 
                                 <!-- Botón Activar -->
-                                <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Activar"
-                                    OnClientClick="return confirm('¿Estás seguro de que deseas activar este Producto?');"
+                                <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
+                                    OnClientClick="return confirm('¿Estás seguro de que deseas activar este marca?');"
                                     CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
 
                             </td>

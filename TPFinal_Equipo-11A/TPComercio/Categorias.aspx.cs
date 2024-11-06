@@ -90,13 +90,26 @@ namespace TPComercio
 
         protected void rptCategorias_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "Eliminar")
+            if (e.CommandName == "Inactivar")
             {
                 int idCategoria = Convert.ToInt32(e.CommandArgument);
+                Categoria categoriaEliminar = new Categoria();
+                {
+                    categoriaEliminar.Id = idCategoria;
+                }
                 CategoriaNegocio negocio = new CategoriaNegocio();
-                negocio.eliminarL(idCategoria);
-
-                // Recargar la lista de categorias después de eliminar
+                negocio.eliminarL(categoriaEliminar);
+                cargarCategorias();
+            }
+            else if (e.CommandName == "Activar")
+            {
+                int idCategoria = Convert.ToInt32(e.CommandArgument);
+                Categoria categoriaActivar = new Categoria();
+                {
+                    categoriaActivar.Id = idCategoria;
+                }
+                CategoriaNegocio negocio = new CategoriaNegocio();
+                negocio.activar(categoriaActivar);
                 cargarCategorias();
             }
         }
@@ -113,6 +126,21 @@ namespace TPComercio
         {
             txtFiltroCategoria.Text = string.Empty;
             cargarCategorias();
+        }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CategoriaNegocio negocio = new CategoriaNegocio();
+                rptCategorias.DataSource = negocio.filtrar(ddlEstadoCategorias.SelectedItem.ToString());
+                rptCategorias.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex);
+                throw;
+            }
         }
     }
 }
