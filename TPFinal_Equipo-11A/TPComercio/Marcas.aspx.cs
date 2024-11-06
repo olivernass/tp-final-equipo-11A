@@ -91,15 +91,28 @@ namespace TPComercio
 
         protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "Eliminar")
-            {
-                int idMarca = Convert.ToInt32(e.CommandArgument);
-                MarcaNegocio negocio = new MarcaNegocio();
-                negocio.eliminarL(idMarca);
-
-                // Recargar la lista de marcas después de eliminar
-                cargarMarcas();
-            }
+                if (e.CommandName == "Inactivar")
+                {
+                    int idMarca = Convert.ToInt32(e.CommandArgument);
+                    Marca marcaEliminar = new Marca();
+                    {
+                        marcaEliminar.Id = idMarca;
+                    }
+                    MarcaNegocio negocio = new MarcaNegocio();
+                    negocio.eliminarL(marcaEliminar);
+                    cargarMarcas();
+                }
+                else if (e.CommandName == "Activar")
+                {
+                    int idMarca = Convert.ToInt32(e.CommandArgument);
+                    Marca marcaActivar = new Marca();
+                    {
+                        marcaActivar.Id = idMarca;
+                    }
+                    MarcaNegocio negocio = new MarcaNegocio();
+                    negocio.activar(marcaActivar);
+                    cargarMarcas();
+                }
         }
 
         protected void txtFiltroMarcas_TextChanged(object sender, EventArgs e)
