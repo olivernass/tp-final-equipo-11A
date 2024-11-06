@@ -74,6 +74,7 @@
     <Content Include="Content\Iconos\credit-card-payment.png" />
     <Content Include="Content\Iconos\delivery-courier.png" />
     <Content Include="Content\Iconos\ecommerce.png" />
+    <Content Include="Content\Iconos\login.png" />
     <Content Include="Content\Iconos\online-payment.png" />
     <Content Include="Content\Iconos\online-store.png" />
     <Content Include="Content\Iconos\settings.png" />
@@ -161,6 +162,7 @@
     <Compile Include="Proveedores.aspx.designer.cs">
       <DependentUpon>Proveedores.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AuthHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Main.Master" />
