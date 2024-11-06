@@ -136,7 +136,32 @@ namespace Negocio
 
         public void agregar(Producto nuevoproducto)
         {
-            return;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ALTA_PRODUCTO");
+                datos.setearParametro("@NOMBRE", nuevoproducto.Nombre);
+                datos.setearParametro("@DESCRIPCION", nuevoproducto.Descripcion);
+                datos.setearParametro("@IDMARCA", nuevoproducto.Marca.Id);
+                datos.setearParametro("@IDCATEGORIA", nuevoproducto.Categoria.Id);
+                datos.setearParametro("@IMAGENURL", nuevoproducto.Imagen.ImagenUrl);
+                datos.setearParametro("@STOCKACTUAL", nuevoproducto.StockActual);
+                datos.setearParametro("@STOCKMINIMO", nuevoproducto.StockMinimo);
+                datos.setearParametro("@PRECIOCOMPRA", nuevoproducto.Precio_Compra);
+                datos.setearParametro("@PRECIOVENTA", nuevoproducto.Precio_Venta);
+                datos.setearParametro("@PORCENTAJEGANANCIA", nuevoproducto.Porcentaje_Ganancia);
+                datos.setearParametro("@IDPROVEEDOR", nuevoproducto.Proveedores.First().Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
     }

@@ -123,13 +123,13 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.CheckBox chkActivoProducto;
 
         /// <summary>
-        /// Control lstProveedoresProducto.
+        /// Control ddlProveedorProducto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lstProveedoresProducto;
+        protected global::System.Web.UI.WebControls.DropDownList ddlProveedorProducto;
 
         /// <summary>
         /// Control btnGuardarProducto.

@@ -67,7 +67,8 @@ GO
 
 CREATE TABLE Imagenes(
 	ID BIGINT NOT NULL IDENTITY(1,1),
-	ImagenURL VARCHAR(1000)
+	ImagenURL VARCHAR(1000),
+	Activo BIT NOT NULL DEFAULT 1
 	PRIMARY KEY(ID)
 );
 GO
@@ -318,6 +319,140 @@ BEGIN
     INSERT INTO Usuarios(IDPermiso,NombreUsuario,Contrasenia) VALUES (@IDPermiso,@NombreUsuario,@Contrasenia)
 END
 GO
+
+CREATE OR ALTER PROCEDURE SP_Nueva_Imagen(
+    @imagenURL VARCHAR(1000),
+    @UltimoID BIGINT OUTPUT
+)
+AS
+BEGIN
+    BEGIN TRY
+        -- Insertar la URL de la imagen
+        INSERT INTO Imagenes(ImagenURL) 
+        VALUES (@imagenURL);
+
+        -- Obtener el último ID insertado (ID de la imagen)
+        SET @UltimoID = SCOPE_IDENTITY();
+
+        -- Verificar que el ID no sea NULL
+        IF @UltimoID IS NULL
+        BEGIN
+            THROW 50001, 'Error al obtener el ID de la imagen insertada', 1;
+        END
+    END TRY
+    BEGIN CATCH
+        -- En caso de error, devolver NULL en @UltimoID
+        SET @UltimoID = NULL;
+        THROW;
+    END CATCH
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE SP_PRODUCT_X_PROV(
+    @IDPRODUCTO BIGINT,
+    @IDPROVEEDOR INT
+)
+AS
+BEGIN
+    BEGIN TRY
+        IF @IDPROVEEDOR IS NULL OR @IDPRODUCTO IS NULL
+        BEGIN
+            THROW 50004, 'Los parámetros no pueden ser NULL', 1;
+        END
+			INSERT INTO Productos_x_Proveedores(IDProducto, IDProveedor) 
+			VALUES (@IDPRODUCTO, @IDPROVEEDOR);
+    END TRY
+    BEGIN CATCH
+        THROW;
+    END CATCH
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE SP_ALTA_PRODUCTO(
+    @NOMBRE VARCHAR(30),
+    @DESCRIPCION VARCHAR(100),
+    @IDMARCA INT,
+    @IDCATEGORIA INT,
+    @IMAGENURL VARCHAR(1000),
+    @STOCKACTUAL INT,
+    @STOCKMINIMO INT,
+    @PRECIOCOMPRA MONEY,
+    @PRECIOVENTA MONEY,
+    @PORCENTAJEGANANCIA DECIMAL(18,0),
+    @IDPROVEEDOR INT
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;  -- Iniciar la transacción
+
+    BEGIN TRY
+		 -- Verificar si el proveedor existe
+        IF NOT EXISTS (SELECT 1 FROM Proveedores WHERE ID = @IDPROVEEDOR AND Activo = 1)
+        BEGIN
+            THROW 50004, 'Proveedor no existe.', 1;
+        END
+        -- Llamar al procedimiento SP_Nueva_Imagen para insertar la imagen y obtener el último ID
+        DECLARE @UltimoID BIGINT;
+        EXEC SP_Nueva_Imagen @IMAGENURL, @UltimoID OUTPUT;
+
+        -- Verificar que @UltimoID no sea NULL
+        IF @UltimoID IS NULL
+        BEGIN
+            THROW 50002, 'No se pudo obtener un ID válido para la imagen', 1;
+        END
+
+        -- Insertar el producto en la tabla Productos
+        INSERT INTO Productos (
+            Nombre, 
+            Descripcion, 
+            IDMarca, 
+            IDCategoria, 
+            IDImagen,
+            Stock_Actual, 
+            Stock_Minimo, 
+            Precio_Compra, 
+            Precio_Venta, 
+            Porcentaje_Ganancia
+        )
+        VALUES (
+            @NOMBRE, 
+            @DESCRIPCION, 
+            @IDMARCA, 
+            @IDCATEGORIA, 
+            @UltimoID,
+            @STOCKACTUAL, 
+            @STOCKMINIMO, 
+            @PRECIOCOMPRA, 
+            @PRECIOVENTA, 
+            @PORCENTAJEGANANCIA
+        );
+
+        -- Obtener el último ID insertado del producto
+        DECLARE @PRODUCTOGENERADO BIGINT;
+        SET @PRODUCTOGENERADO = SCOPE_IDENTITY();
+
+		IF @PRODUCTOGENERADO IS NULL
+        BEGIN
+            THROW 50003, 'No se pudo obtener el ID del producto generado', 1;
+        END
+
+        EXEC SP_PRODUCT_X_PROV @PRODUCTOGENERADO, @IDPROVEEDOR;
+
+        COMMIT TRANSACTION;  -- Confirmar la transacción
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END
+GO
+
+select * from Imagenes
+select * from Productos
+select * from Productos_x_Proveedores
 
 -- ACTIVAR
 

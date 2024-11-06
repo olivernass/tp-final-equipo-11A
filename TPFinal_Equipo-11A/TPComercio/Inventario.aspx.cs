@@ -31,7 +31,6 @@ namespace TPComercio
             rptProductos.DataSource = listaProducto;
             rptProductos.DataBind();
         }
-
         private void cargarMarcas()
         {
             MarcaNegocio negocio = new MarcaNegocio();
@@ -56,12 +55,11 @@ namespace TPComercio
         {
             ProveedorNegocio negocio = new ProveedorNegocio();
             List<Proveedor> listaProveedor = negocio.listar();
-            lstProveedoresProducto.DataSource = listaProveedor;
-            lstProveedoresProducto.DataTextField = "Siglas";
-            lstProveedoresProducto.DataValueField = "Id"; 
-            lstProveedoresProducto.DataBind();
+            ddlProveedorProducto.DataSource = listaProveedor;
+            ddlProveedorProducto.DataTextField = "Siglas";
+            ddlProveedorProducto.DataValueField = "Id"; 
+            ddlProveedorProducto.DataBind();
         }
-
         protected void rptProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "Inactivar")
@@ -87,7 +85,6 @@ namespace TPComercio
                 cargarProductos();
             }
         }
-
         private void limpiarCampos()
         {
             // Limpiar los campos de texto
@@ -103,15 +100,11 @@ namespace TPComercio
             // Limpiar los controles DropDownList
             ddlMarcaProducto.SelectedIndex = 0;
             ddlCategoriaProducto.SelectedIndex = 0;
-
-            // Limpiar el ListBox de proveedores
-            lstProveedoresProducto.ClearSelection();
+            ddlProveedorProducto.SelectedIndex=0;
 
             // Limpiar el CheckBox (Activo)
             chkActivoProducto.Checked = false;
         }
-
-
         protected void btnGuardarProducto_Click(object sender, EventArgs e)
         {
             // Validar que todos los campos estén llenos
@@ -123,7 +116,7 @@ namespace TPComercio
                 string.IsNullOrEmpty(txtPrecioVenta.Text) ||
                 string.IsNullOrEmpty(txtPorcentajeGanancia.Text) ||
                 string.IsNullOrEmpty(txtImagenProducto.Text.Trim()) ||
-                lstProveedoresProducto.SelectedIndex == -1) 
+                ddlProveedorProducto.SelectedIndex == -1) 
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
                 return;
@@ -188,7 +181,7 @@ namespace TPComercio
                 Porcentaje_Ganancia = porcentajeGanancia,
                 Imagen = new Imagen { ImagenUrl = txtImagenProducto.Text },
                 Activo = chkActivoProducto.Checked,
-                Proveedores = lstProveedoresProducto.Items.Cast<ListItem>()
+                Proveedores = ddlProveedorProducto.Items.Cast<ListItem>()
                                .Where(item => item.Selected)
                                .Select(item => new Proveedor { Id = int.Parse(item.Value) })
                                .ToList()
@@ -196,6 +189,7 @@ namespace TPComercio
 
             ProductoNegocio negocio = new ProductoNegocio();
             negocio.agregar(nuevoProducto);
+
             cargarProductos();
             limpiarCampos();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProducto').modal('hide');", true);

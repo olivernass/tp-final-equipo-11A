@@ -128,8 +128,8 @@
                     <asp:CheckBox ID="chkActivoProducto" runat="server" CssClass="form-check-input" /> Producto Activo
                 
                     <span class="error-message" id="errorProveedores"></span>
-                    <asp:ListBox ID="lstProveedoresProducto" runat="server" CssClass="form-control mb-2" SelectionMode="Multiple">
-                    </asp:ListBox>
+                    <asp:DropDownList ID="ddlProveedorProducto" runat="server" CssClass="form-control mb-2">
+                    </asp:DropDownList>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarProducto');">Cerrar</button>
