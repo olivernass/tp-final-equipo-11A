@@ -126,12 +126,14 @@ namespace Negocio
 
             try
             {
-                string consulta = "select NombreMarca, Activo FROM Marcas";
+                string consulta = "select ID, NombreMarca, Activo FROM Marcas ";
 
-                if (estado == " Activo")
+                if (estado == "Activo")
                     consulta += " WHERE Activo = 1 ";
-                else if (estado == " Inactivo")
+                else if (estado == "Inactivo")
                     consulta += " WHERE Activo = 0";
+                else if (estado == "Todos")
+                    consulta = " select * FROM Marcas";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -139,6 +141,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Marca aux = new Marca();
+                    aux.Id = (int)datos.Lector["Id"];
                     aux.NombreMarca = (string)datos.Lector["NombreMarca"];
                     aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
 

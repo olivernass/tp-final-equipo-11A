@@ -125,8 +125,10 @@ namespace TPComercio
 
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
+
             txtFiltroMarcas.Text = string.Empty;
             cargarMarcas();
+
         }
 
         //protected void ddlEstadoMarcas_SelectedIndexChanged(object sender, EventArgs e)

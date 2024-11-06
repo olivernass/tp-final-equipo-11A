@@ -34,13 +34,7 @@
             </asp:DropDownList>
         </div>
         
-        
             <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>
-        
-    
-
-
-
 
         <!-- Tabla de Marcas -->
         <table class="table tableMarcas table-hover mt-3">
