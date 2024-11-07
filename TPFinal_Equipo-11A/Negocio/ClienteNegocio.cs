@@ -340,5 +340,65 @@ namespace Negocio
             }
         }
 
+        public bool existeDNICliente(int dni)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteDNICliente"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@DNI", dni);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si el DNI ya existe
+                }
+
+                return false; // Retorna false si no se encontró el DNI
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public bool existeDNIClienteModificado(int dni, long idCliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteDNIClienteModificado"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@DNI", dni);
+                datos.setearParametro("@IDCliente", idCliente);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si el DNI ya existe para otro cliente
+                }
+
+                return false; // Retorna false si no se encontró el DNI duplicado
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }

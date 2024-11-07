@@ -98,30 +98,68 @@ namespace TPComercio
         }
 
 
+        //protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtNombreCategoriaMod.Text))
+        //    {
+        //        int idCategoria = int.Parse(hdnIdCategoria.Value); // ID de la categoria almacenado en el HiddenField
+
+        //        Categoria categoriaModificada = new Categoria
+        //        {
+        //            Id = idCategoria,
+        //            NombreCategoria = txtNombreCategoriaMod.Text
+        //        };
+
+        //        CategoriaNegocio negocio = new CategoriaNegocio();
+        //        negocio.modificar(categoriaModificada);
+
+        //        // Recargar la lista de categorias
+        //        cargarCategorias();
+
+        //        limpiarCamposModificacion();
+
+        //        // Cerrar el modal
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarCategoria').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
+            // Verificar que el nombre de la categoría no esté vacío
             if (!string.IsNullOrEmpty(txtNombreCategoriaMod.Text))
             {
-                int idCategoria = int.Parse(hdnIdCategoria.Value); // ID de la categoria almacenado en el HiddenField
+                string nombreCategoria = txtNombreCategoriaMod.Text;
+                int idCategoria = int.Parse(hdnIdCategoria.Value); // Obtener el ID de la categoría desde el HiddenField
 
+                CategoriaNegocio negocio = new CategoriaNegocio();
+
+                // Validar que no exista otra categoría con el mismo nombre
+                if (negocio.existeNombreCategoriaModificado(nombreCategoria, idCategoria))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El nombre de la categoría ya está registrado para otra categoría.');", true);
+                    return;
+                }
+
+                // Si la validación pasa, proceder con la modificación de la categoría
                 Categoria categoriaModificada = new Categoria
                 {
                     Id = idCategoria,
-                    NombreCategoria = txtNombreCategoriaMod.Text
+                    NombreCategoria = nombreCategoria
                 };
 
-                CategoriaNegocio negocio = new CategoriaNegocio();
-                negocio.modificar(categoriaModificada);
+                negocio.modificar(categoriaModificada); // Llamar al método de modificación
 
-                // Recargar la lista de categorias
+                // Recargar la lista de categorías
                 cargarCategorias();
 
+                // Limpiar los campos del formulario de modificación
                 limpiarCamposModificacion();
 
                 // Cerrar el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarCategoria').modal('hide');", true);
             }
         }
+
 
         //protected void rptCategorias_ItemCommand(object source, RepeaterCommandEventArgs e)
         //{

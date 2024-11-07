@@ -57,27 +57,97 @@ namespace TPComercio
         }
 
         // Agregar un nuevo cliente
+        //protected void btnGuardarCliente_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtDNICliente.Text) && !string.IsNullOrEmpty(txtNombreCliente.Text))
+        //    {
+        //        // Validar que todos los campos estén llenos
+        //        if (string.IsNullOrEmpty(txtDNICliente.Text)||
+        //        string.IsNullOrEmpty(txtNombreCliente.Text) ||
+        //        string.IsNullOrEmpty(txtApellidoCliente.Text) ||
+        //        string.IsNullOrEmpty(txtDireccionCliente.Text) ||
+        //        string.IsNullOrEmpty(txtTelefonoCliente.Text) ||
+        //        string.IsNullOrEmpty(txtCorreoCliente.Text))
+        //        {
+        //            ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+        //            return;
+        //        }
+
+
+        //        // Validar DNI (solo números)
+        //        if (!Regex.IsMatch(txtDNICliente.Text, @"^\d+$"))
+        //        {
+        //            ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El DNI solo debe contener números.');", true);
+        //            return;
+        //        }
+
+        //        // Validar formato de correo electrónico
+        //        if (!Regex.IsMatch(txtCorreoCliente.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        //        {
+        //            ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
+        //            return;
+        //        }
+
+        //        // Validar teléfono (solo números)
+        //        if (!Regex.IsMatch(txtTelefonoCliente.Text, @"^\d+$"))
+        //        {
+        //            ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
+        //            return;
+        //        }
+
+        //        // Si todas las validaciones son correctas, proceder con la creación del objeto y guardar en base de datos
+        //        Cliente nuevoCliente = new Cliente
+        //        {
+        //            DNI = Convert.ToInt32(txtDNICliente.Text),
+        //            Nombre = txtNombreCliente.Text,
+        //            Apellido = txtApellidoCliente.Text,
+        //            Direccion = txtDireccionCliente.Text,
+        //            Telefono = txtTelefonoCliente.Text,
+        //            Correo = txtCorreoCliente.Text
+        //        };
+
+        //        ClienteNegocio negocio = new ClienteNegocio();
+        //        negocio.agregar(nuevoCliente);
+
+
+        //        cargarClientes();
+
+        //        limpiarCampos();
+
+        //        // Cerrar el modal de agregar cliente
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCliente').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarCliente_Click(object sender, EventArgs e)
         {
+            ClienteNegocio negocio = new ClienteNegocio();
+
             if (!string.IsNullOrEmpty(txtDNICliente.Text) && !string.IsNullOrEmpty(txtNombreCliente.Text))
             {
                 // Validar que todos los campos estén llenos
-                if (string.IsNullOrEmpty(txtDNICliente.Text)||
-                string.IsNullOrEmpty(txtNombreCliente.Text) ||
-                string.IsNullOrEmpty(txtApellidoCliente.Text) ||
-                string.IsNullOrEmpty(txtDireccionCliente.Text) ||
-                string.IsNullOrEmpty(txtTelefonoCliente.Text) ||
-                string.IsNullOrEmpty(txtCorreoCliente.Text))
+                if (string.IsNullOrEmpty(txtDNICliente.Text) ||
+                    string.IsNullOrEmpty(txtNombreCliente.Text) ||
+                    string.IsNullOrEmpty(txtApellidoCliente.Text) ||
+                    string.IsNullOrEmpty(txtDireccionCliente.Text) ||
+                    string.IsNullOrEmpty(txtTelefonoCliente.Text) ||
+                    string.IsNullOrEmpty(txtCorreoCliente.Text))
                 {
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
                     return;
                 }
 
-
                 // Validar DNI (solo números)
                 if (!Regex.IsMatch(txtDNICliente.Text, @"^\d+$"))
                 {
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El DNI solo debe contener números.');", true);
+                    return;
+                }
+
+                // Verificar si el DNI ya existe en la base de datos
+                if (negocio.existeDNICliente(Convert.ToInt32(txtDNICliente.Text)))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El DNI ingresado ya está registrado.');", true);
                     return;
                 }
 
@@ -106,18 +176,16 @@ namespace TPComercio
                     Correo = txtCorreoCliente.Text
                 };
 
-                ClienteNegocio negocio = new ClienteNegocio();
                 negocio.agregar(nuevoCliente);
 
-
                 cargarClientes();
-
                 limpiarCampos();
 
                 // Cerrar el modal de agregar cliente
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCliente').modal('hide');", true);
             }
         }
+
 
 
         //protected void btnGuardarCambios_Click(object sender, EventArgs e)
@@ -155,8 +223,79 @@ namespace TPComercio
         //    }
         //}
 
+        //protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        //{
+        //    // Validación de los campos del formulario
+        //    if (string.IsNullOrEmpty(txtDNIClienteMod.Text) ||
+        //        string.IsNullOrEmpty(txtNombreClienteMod.Text) ||
+        //        string.IsNullOrEmpty(txtApellidoClienteMod.Text) ||
+        //        string.IsNullOrEmpty(txtDireccionClienteMod.Text) ||
+        //        string.IsNullOrEmpty(txtTelefonoClienteMod.Text) ||
+        //        string.IsNullOrEmpty(txtCorreoClienteMod.Text))
+        //    {
+        //        // Mostrar mensaje de error en caso de campos vacíos
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+        //        return;
+        //    }
+
+        //    if (!Regex.IsMatch(txtDNIClienteMod.Text, @"^\d+$"))
+        //    {
+        //        // Mostrar mensaje si el DNI no contiene solo números
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El DNI solo debe contener números.');", true);
+        //        return;
+        //    }
+
+        //    if (!Regex.IsMatch(txtCorreoClienteMod.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        //    {
+        //        // Mostrar mensaje si el formato de correo no es válido
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
+        //        return;
+        //    }
+
+        //    if (!Regex.IsMatch(txtTelefonoClienteMod.Text, @"^\d+$"))
+        //    {
+        //        // Mostrar mensaje si el teléfono no contiene solo números
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
+        //        return;
+        //    }
+
+        //    // Procesar la actualización del cliente
+        //    try
+        //    {
+        //        long idCliente = Convert.ToInt64(hdnIdCliente.Value); // Obtener el ID del cliente desde el HiddenField
+        //        int dniCliente = Convert.ToInt32(txtDNIClienteMod.Text);
+
+        //        Cliente clienteModificado = new Cliente
+        //        {
+        //            Id = idCliente, // Usar el ID obtenido del HiddenField
+        //            DNI = dniCliente,
+        //            Nombre = txtNombreClienteMod.Text,
+        //            Apellido = txtApellidoClienteMod.Text,
+        //            Direccion = txtDireccionClienteMod.Text,
+        //            Telefono = txtTelefonoClienteMod.Text,
+        //            Correo = txtCorreoClienteMod.Text
+        //        };
+
+        //        ClienteNegocio negocio = new ClienteNegocio();
+        //        negocio.modificar(clienteModificado);
+
+        //        cargarClientes(); // Recargar la lista de clientes
+
+        //        // Cerrar el modal y limpiar campos
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarCliente').modal('hide');", true);
+        //        limpiarCamposModificacion(); // Limpia los campos después de la actualización
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Manejo de errores
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "error", "alert('Hubo un error al actualizar el cliente: " + ex.Message + "');", true);
+        //    }
+        //}
+
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
+            ClienteNegocio negocio = new ClienteNegocio();
+
             // Validación de los campos del formulario
             if (string.IsNullOrEmpty(txtDNIClienteMod.Text) ||
                 string.IsNullOrEmpty(txtNombreClienteMod.Text) ||
@@ -177,16 +316,25 @@ namespace TPComercio
                 return;
             }
 
+            // Obtener el ID del cliente y el DNI ingresado
+            long idCliente = Convert.ToInt64(hdnIdCliente.Value); // ID del cliente desde el HiddenField
+            int dniCliente = Convert.ToInt32(txtDNIClienteMod.Text);
+
+            // Verificar si el DNI ya existe para otro cliente
+            if (negocio.existeDNIClienteModificado(dniCliente, idCliente))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El DNI ingresado ya está registrado para otro cliente.');", true);
+                return;
+            }
+
             if (!Regex.IsMatch(txtCorreoClienteMod.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                // Mostrar mensaje si el formato de correo no es válido
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
                 return;
             }
 
             if (!Regex.IsMatch(txtTelefonoClienteMod.Text, @"^\d+$"))
             {
-                // Mostrar mensaje si el teléfono no contiene solo números
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
                 return;
             }
@@ -194,9 +342,6 @@ namespace TPComercio
             // Procesar la actualización del cliente
             try
             {
-                long idCliente = Convert.ToInt64(hdnIdCliente.Value); // Obtener el ID del cliente desde el HiddenField
-                int dniCliente = Convert.ToInt32(txtDNIClienteMod.Text);
-
                 Cliente clienteModificado = new Cliente
                 {
                     Id = idCliente, // Usar el ID obtenido del HiddenField
@@ -208,7 +353,6 @@ namespace TPComercio
                     Correo = txtCorreoClienteMod.Text
                 };
 
-                ClienteNegocio negocio = new ClienteNegocio();
                 negocio.modificar(clienteModificado);
 
                 cargarClientes(); // Recargar la lista de clientes
@@ -223,6 +367,7 @@ namespace TPComercio
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "error", "alert('Hubo un error al actualizar el cliente: " + ex.Message + "');", true);
             }
         }
+
 
 
         // Eliminar un cliente

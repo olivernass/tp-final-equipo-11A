@@ -187,6 +187,37 @@ namespace Negocio
             }
         }
 
+        public bool existeNombreMarcaModificado(string nombreMarca, int idMarca)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteNombreMarcaModificado"); // Procedimiento almacenado
+                datos.setearParametro("@NombreMarca", nombreMarca);
+                datos.setearParametro("@IDMarca", idMarca);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Si count > 0, significa que la marca ya existe
+                }
+
+                return false; // La marca no existe
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
         public bool tieneProductosActivos(int idMarca)
         {
             AccesoDatos datos = new AccesoDatos();

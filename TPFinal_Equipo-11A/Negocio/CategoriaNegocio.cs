@@ -188,6 +188,37 @@ namespace Negocio
             }
         }
 
+        public bool existeNombreCategoriaModificado(string nombreCategoria, int idCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteNombreCategoriaModificado"); // Procedimiento almacenado
+                datos.setearParametro("@NombreCategoria", nombreCategoria);
+                datos.setearParametro("@IDCategoria", idCategoria);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Si count > 0, significa que la categoría ya existe
+                }
+
+                return false; // La categoría no existe
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
         public bool tieneProductosActivos(int idCategoria)
         {
             AccesoDatos datos = new AccesoDatos();

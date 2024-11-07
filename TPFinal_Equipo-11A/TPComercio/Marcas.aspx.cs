@@ -99,30 +99,68 @@ namespace TPComercio
         }
 
 
+        //protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtNombreMarcaMod.Text))
+        //    {
+        //        int idMarca = int.Parse(hdnIdMarca.Value); // ID de la marca almacenado en el HiddenField
+
+        //        Marca marcaModificada = new Marca
+        //        {
+        //            Id = idMarca,
+        //            NombreMarca = txtNombreMarcaMod.Text
+        //        };
+
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        negocio.modificar(marcaModificada);
+
+        //        // Recargar la lista de marcas
+        //        cargarMarcas();
+
+        //        limpiarCamposModificacion();
+
+        //        // Cerrar el modal
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarMarca').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
+            // Verificar que el nombre de la marca no esté vacío
             if (!string.IsNullOrEmpty(txtNombreMarcaMod.Text))
             {
-                int idMarca = int.Parse(hdnIdMarca.Value); // ID de la marca almacenado en el HiddenField
+                string nombreMarca = txtNombreMarcaMod.Text;
+                int idMarca = int.Parse(hdnIdMarca.Value); // Obtener el ID de la marca desde el HiddenField
 
+                MarcaNegocio negocio = new MarcaNegocio();
+
+                // Validar que no exista otra marca con el mismo nombre
+                if (negocio.existeNombreMarcaModificado(nombreMarca, idMarca))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El nombre de la marca ya está registrado para otra marca.');", true);
+                    return;
+                }
+
+                // Si la validación pasa, proceder con la modificación de la marca
                 Marca marcaModificada = new Marca
                 {
                     Id = idMarca,
-                    NombreMarca = txtNombreMarcaMod.Text
+                    NombreMarca = nombreMarca
                 };
 
-                MarcaNegocio negocio = new MarcaNegocio();
-                negocio.modificar(marcaModificada);
+                negocio.modificar(marcaModificada); // Llamar al método de modificación
 
                 // Recargar la lista de marcas
                 cargarMarcas();
 
+                // Limpiar los campos del formulario de modificación
                 limpiarCamposModificacion();
 
                 // Cerrar el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarMarca').modal('hide');", true);
             }
         }
+
 
         //protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
         //{
