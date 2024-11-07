@@ -223,8 +223,8 @@ CREATE VIEW VW_ListaCategorias AS
 SELECT * FROM Categorias
 GO
 
-CREATE VIEW VW_ListaProveedores AS
-SELECT * FROM Proveedores
+CREATE OR ALTER VIEW VW_ListaProveedores AS
+SELECT * FROM Proveedores WHERE Activo = 1
 GO
 
 CREATE VIEW VW_ListaClientes AS
@@ -244,10 +244,12 @@ GO
 --GO
 
 CREATE VIEW VW_ALLProducto AS
-SELECT P.ID, P.Nombre, P.Descripcion, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, I.ImagenURL, M.NombreMarca, C.NombreCategoria,P.Activo FROM Productos AS P
+SELECT P.ID, P.Nombre, P.Descripcion, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, I.ImagenURL, M.NombreMarca, C.NombreCategoria,P.Activo, FROM Productos AS P
 INNER JOIN Imagenes AS I ON I.ID = P.IDImagen
 INNER JOIN Marcas AS M ON M.ID = P.IDMarca
 INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
+INNER JOIN Productos_x_Proveedores AS PXP ON PXP.IDProducto = P.ID
+INNER JOIN Proveedores AS PROV ON PROV.ID = PXP.IDProveedor
 GO
 
 /* STORE PROCEDURE */
@@ -348,7 +350,6 @@ BEGIN
 END
 GO
 
-
 CREATE OR ALTER PROCEDURE SP_PRODUCT_X_PROV(
     @IDPRODUCTO BIGINT,
     @IDPROVEEDOR INT
@@ -365,6 +366,45 @@ BEGIN
     END TRY
     BEGIN CATCH
         THROW;
+    END CATCH
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_PRODUCT_X_PROV2(
+    @IDPRODUCTO BIGINT,
+    @IDPROVEEDOR INT
+)
+AS
+BEGIN
+    BEGIN TRY
+        -- Verifica si los parámetros son NULL
+        IF @IDPROVEEDOR IS NULL OR @IDPRODUCTO IS NULL
+        BEGIN
+            THROW 50004, 'Los parámetros no pueden ser NULL', 1;
+        END
+        
+        -- Verifica si el proveedor ya está asociado al producto
+        IF NOT EXISTS (
+            SELECT 1 
+            FROM Productos_x_Proveedores 
+			INNER JOIN PROVEEDORES AS P ON P.ID = @IDPROVEEDOR
+            WHERE IDProducto = @IDPRODUCTO AND IDProveedor = @IDPROVEEDOR AND P.Activo = 1
+			
+        )
+        BEGIN
+            -- Inserta la asociación en la tabla Productos_x_Proveedores
+            INSERT INTO Productos_x_Proveedores (IDProducto, IDProveedor) 
+            VALUES (@IDPRODUCTO, @IDPROVEEDOR);
+        END
+        ELSE
+        BEGIN
+            -- Si ya existe la asociación, lanzar un error
+            THROW 50005, 'El proveedor ya está asociado al producto.', 1;
+        END
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        THROW;  -- Vuelve a lanzar el error capturado
     END CATCH
 END
 GO
@@ -450,10 +490,20 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROCEDURE SP_Producto_con_proveedor(
+	@IDPRODUCTO BIGINT
+)
+AS
+BEGIN
+	SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE @IDPRODUCTO = IDProducto)
+END
+GO
+
 select * from Imagenes
 select * from Productos
 select * from Productos_x_Proveedores
-
+SELECT * FROM Proveedores
+GO
 -- ACTIVAR
 
 CREATE PROCEDURE SP_ActivarProducto(

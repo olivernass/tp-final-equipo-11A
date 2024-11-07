@@ -116,5 +116,56 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public void agregarProducto(int idproducto, int idproveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_PRODUCT_X_PROV2");
+                datos.setearParametro("@IDPRODUCTO", idproducto);
+                datos.setearParametro("@IDPROVEEDOR", idproveedor);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+        public List<Proveedor> listarxid(long codigoproducto)
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SP_Producto_con_proveedor");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.Id = (int)datos.Lector["ID"];
+                    aux.Siglas = (string)datos.Lector["Siglas"];
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

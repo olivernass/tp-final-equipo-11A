@@ -59,6 +59,11 @@ namespace TPComercio
             ddlProveedorProducto.DataTextField = "Siglas";
             ddlProveedorProducto.DataValueField = "Id"; 
             ddlProveedorProducto.DataBind();
+            ddlProveedorNuevo.DataSource = listaProveedor;
+            ddlProveedorNuevo.DataTextField = "Siglas";
+            ddlProveedorNuevo.DataValueField = "Id";
+            ddlProveedorNuevo.DataBind();
+
         }
         protected void rptProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -84,6 +89,17 @@ namespace TPComercio
                 negocio.activar(productoaActivar);
                 cargarProductos();
             }
+            else if (e.CommandName == "Detalle")
+            {
+                long idProducto = Convert.ToInt64(e.CommandArgument);
+                Producto productodetalle = new Producto();
+                {
+                    productodetalle.Id = idProducto;
+                }
+                ProductoNegocio negocio = new ProductoNegocio();
+                negocio.verDetalle(idProducto);
+                cargarProductos();
+            }
         }
         private void limpiarCampos()
         {
@@ -101,9 +117,6 @@ namespace TPComercio
             ddlMarcaProducto.SelectedIndex = 0;
             ddlCategoriaProducto.SelectedIndex = 0;
             ddlProveedorProducto.SelectedIndex=0;
-
-            // Limpiar el CheckBox (Activo)
-            chkActivoProducto.Checked = false;
         }
         protected void btnGuardarProducto_Click(object sender, EventArgs e)
         {
@@ -180,7 +193,6 @@ namespace TPComercio
                 Precio_Venta = precioVenta,
                 Porcentaje_Ganancia = porcentajeGanancia,
                 Imagen = new Imagen { ImagenUrl = txtImagenProducto.Text },
-                Activo = chkActivoProducto.Checked,
                 Proveedores = ddlProveedorProducto.Items.Cast<ListItem>()
                                .Where(item => item.Selected)
                                .Select(item => new Proveedor { Id = int.Parse(item.Value) })
@@ -189,10 +201,18 @@ namespace TPComercio
 
             ProductoNegocio negocio = new ProductoNegocio();
             negocio.agregar(nuevoProducto);
-
             cargarProductos();
             limpiarCampos();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProducto').modal('hide');", true);
+
+        }
+
+        protected void btnGuardarProveedor_Click(object sender, EventArgs e)
+        {
+            int idProducto = Convert.ToInt32(hfIdProducto.Value);
+            int idproveedor = Convert.ToInt32(ddlProveedorNuevo.SelectedValue);
+            ProveedorNegocio negocio = new ProveedorNegocio();
+            negocio.agregarProducto(idProducto,idproveedor);
 
         }
     }

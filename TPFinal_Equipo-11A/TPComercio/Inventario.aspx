@@ -15,6 +15,7 @@
                    <div class="card">
                     <div class="card-header">
                         <h5>ID: <%# Eval("Id") %></h5>
+                        <label ></label>
                     </div>
                     <div class="card-body">
                         <h6><%# Eval("Nombre") %></h6>
@@ -40,6 +41,9 @@
                                 onclick="mostrarDetalles(this)">
                             <img src="Content/Iconos/settings.png" alt="Configuración">
                         </button>
+<%--                       <asp:Button ID="btnDetalle" runat="server" CssClass="btn btn-danger btn-sm" Text="Detalle"
+                           OnClientClick="return confirm('¿Detalle Producto?');"
+                           CommandName="Detalle" CommandArgument='<%# Eval("Id") %>' />--%>
                         <asp:Button ID="btnInactivar" runat="server" CssClass="btn btn-danger btn-sm" Text="Inactivar"
                             OnClientClick="return confirm('¿Inactivar Producto?');"
                             CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
@@ -75,6 +79,7 @@
                     <p><strong>Estado:</strong> <span id="modalEstado"></span></p>
                     <img id="modalImagen" src="" alt="Imagen del producto" width="175px" />
                 </div>
+                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProveedor" onclick="enviarIdProducto()">Agregar Proveedor</button>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
@@ -123,9 +128,6 @@
 
                     <span class="error-message" id="errorImagenProducto"></span>
                     <asp:TextBox ID="txtImagenProducto" runat="server" CssClass="form-control mb-2" placeholder="Ingrese el nombre o ruta de la imagen" />
-
-                    <span class="error-message" id="errorActivoProducto"></span>
-                    <asp:CheckBox ID="chkActivoProducto" runat="server" CssClass="form-check-input" /> Producto Activo
                 
                     <span class="error-message" id="errorProveedores"></span>
                     <asp:DropDownList ID="ddlProveedorProducto" runat="server" CssClass="form-control mb-2">
@@ -134,6 +136,31 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarProducto');">Cerrar</button>
                     <asp:Button ID="btnGuardarProducto" runat="server" CssClass="btn btn-primary" Text="Guardar Producto" OnClientClick="return validarAgregarProducto();" OnClick="btnGuardarProducto_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Proveedor -->
+    <div class="modal fade" id="modalAgregarProveedor" tabindex="-1" aria-labelledby="modalAgregarProveedorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarProveedorLabel">Agregar nuevo proveedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <p><strong>ID del Producto:</strong> <span id="modalProveedorId"></span></p>
+                </div>
+                <div class="modal-body">
+                    <asp:DropDownList ID="ddlProveedorNuevo" runat="server" CssClass="form-control mb-2">
+                    </asp:DropDownList>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarProveedor');">Cerrar</button>
+                    <asp:HiddenField ID="hfIdProducto" runat="server" />
+                    <asp:Button ID="btnGuardarProveedor" runat="server" CssClass="btn btn-primary" Text="Guardar proveedor"
+                        OnClientClick="enviarIdProducto(); return validarAgregarProveedor();" OnClick="btnGuardarProveedor_Click" />
                 </div>
             </div>
         </div>
@@ -168,9 +195,13 @@
             document.getElementById('modalEstado').innerText = estado;
             document.getElementById('modalImagen').src = imagen;
 
-            // Mostrar el modal
             var modal = new bootstrap.Modal(document.getElementById('modalProducto'));
             modal.show();
+        }
+
+        function enviarIdProducto() {
+            const idProducto = document.getElementById('modalId').textContent;
+            document.getElementById('<%= hfIdProducto.ClientID %>').value = idProducto;
         }
     </script>
     
