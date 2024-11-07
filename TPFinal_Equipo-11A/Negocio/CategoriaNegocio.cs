@@ -158,5 +158,35 @@ namespace Negocio
                 throw ex;
             }
         }
+
+        public bool existeCategoria(string nombreCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteCategoria"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@NombreCategoria", nombreCategoria);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si ya existe la categoría
+                }
+
+                return false; // Retorna false si no se encontró la categoría
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

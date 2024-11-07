@@ -42,27 +42,62 @@ namespace TPComercio
             hdnIdMarca.Value = string.Empty;
         }
 
+        //protected void btnGuardarMarca_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtNombreMarca.Text))
+        //    {
+        //        Marca nuevaMarca = new Marca
+        //        {
+        //            NombreMarca = txtNombreMarca.Text
+        //        };
+
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        negocio.agregar(nuevaMarca);
+
+        //        // Recargar la lista de marcas para que se vea reflejada la nueva marca
+        //        cargarMarcas();
+
+        //        limpiarCampos();
+
+        //        // Cerrar el modal
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarMarca_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtNombreMarca.Text))
+            MarcaNegocio negocio = new MarcaNegocio();
+
+            // Validar que el campo de nombre no esté vacío
+            if (string.IsNullOrEmpty(txtNombreMarca.Text))
             {
-                Marca nuevaMarca = new Marca
-                {
-                    NombreMarca = txtNombreMarca.Text
-                };
-
-                MarcaNegocio negocio = new MarcaNegocio();
-                negocio.agregar(nuevaMarca);
-
-                // Recargar la lista de marcas para que se vea reflejada la nueva marca
-                cargarMarcas();
-
-                limpiarCampos();
-
-                // Cerrar el modal
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El nombre de la marca es obligatorio.');", true);
+                return;
             }
+
+            // Validar si ya existe una marca con el mismo nombre
+            if (negocio.existeMarca(txtNombreMarca.Text))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('La marca ya existe. Por favor, ingrese un nombre diferente.');", true);
+                return;
+            }
+
+            // Si pasa las validaciones, crear la nueva marca
+            Marca nuevaMarca = new Marca
+            {
+                NombreMarca = txtNombreMarca.Text
+            };
+
+            negocio.agregar(nuevaMarca);
+
+            // Recargar la lista de marcas y limpiar el formulario
+            cargarMarcas();
+            limpiarCampos();
+
+            // Cerrar el modal
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
         }
+
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {

@@ -36,7 +36,8 @@ namespace TPComercio
 
         // Limpiar campos del modal
         private void limpiarCampos()
-        {
+        {   
+            txtDNICliente.Text = string.Empty;
             txtNombreCliente.Text = string.Empty;
             txtApellidoCliente.Text = string.Empty;
             txtDireccionCliente.Text = string.Empty;
@@ -45,7 +46,8 @@ namespace TPComercio
         }
 
         private void limpiarCamposModificacion()
-        {
+        {   
+            txtDNIClienteMod.Text = string.Empty;
             txtNombreClienteMod.Text = string.Empty;
             txtApellidoClienteMod.Text = string.Empty;
             txtDireccionClienteMod.Text = string.Empty;
@@ -57,51 +59,64 @@ namespace TPComercio
         // Agregar un nuevo cliente
         protected void btnGuardarCliente_Click(object sender, EventArgs e)
         {
-            // Validar que todos los campos estén llenos
-            if (string.IsNullOrEmpty(txtNombreCliente.Text) ||
+            if (!string.IsNullOrEmpty(txtDNICliente.Text) && !string.IsNullOrEmpty(txtNombreCliente.Text))
+            {
+                // Validar que todos los campos estén llenos
+                if (string.IsNullOrEmpty(txtDNICliente.Text)||
+                string.IsNullOrEmpty(txtNombreCliente.Text) ||
                 string.IsNullOrEmpty(txtApellidoCliente.Text) ||
                 string.IsNullOrEmpty(txtDireccionCliente.Text) ||
                 string.IsNullOrEmpty(txtTelefonoCliente.Text) ||
                 string.IsNullOrEmpty(txtCorreoCliente.Text))
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
-                return;
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+                    return;
+                }
+
+
+                // Validar DNI (solo números)
+                if (!Regex.IsMatch(txtDNICliente.Text, @"^\d+$"))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El DNI solo debe contener números.');", true);
+                    return;
+                }
+
+                // Validar formato de correo electrónico
+                if (!Regex.IsMatch(txtCorreoCliente.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
+                    return;
+                }
+
+                // Validar teléfono (solo números)
+                if (!Regex.IsMatch(txtTelefonoCliente.Text, @"^\d+$"))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
+                    return;
+                }
+
+                // Si todas las validaciones son correctas, proceder con la creación del objeto y guardar en base de datos
+                Cliente nuevoCliente = new Cliente
+                {
+                    DNI = Convert.ToInt32(txtDNICliente.Text),
+                    Nombre = txtNombreCliente.Text,
+                    Apellido = txtApellidoCliente.Text,
+                    Direccion = txtDireccionCliente.Text,
+                    Telefono = txtTelefonoCliente.Text,
+                    Correo = txtCorreoCliente.Text
+                };
+
+                ClienteNegocio negocio = new ClienteNegocio();
+                negocio.agregar(nuevoCliente);
+
+
+                cargarClientes();
+
+                limpiarCampos();
+
+                // Cerrar el modal de agregar cliente
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCliente').modal('hide');", true);
             }
-
-            // Validar formato de correo electrónico
-            if (!Regex.IsMatch(txtCorreoCliente.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
-                return;
-            }
-
-            // Validar teléfono (solo números)
-            if (!Regex.IsMatch(txtTelefonoCliente.Text, @"^\d+$"))
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
-                return;
-            }
-
-            // Si todas las validaciones son correctas, proceder con la creación del objeto y guardar en base de datos
-            Cliente nuevoCliente = new Cliente
-            {
-                Nombre = txtNombreCliente.Text,
-                Apellido = txtApellidoCliente.Text,
-                Direccion = txtDireccionCliente.Text,
-                Telefono = txtTelefonoCliente.Text,
-                Correo = txtCorreoCliente.Text
-            };
-
-            ClienteNegocio negocio = new ClienteNegocio();
-            negocio.agregar(nuevoCliente);
-
-
-            cargarClientes();
-
-            limpiarCampos();
-
-            // Cerrar el modal de agregar cliente
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCliente').modal('hide');", true);
         }
 
 
@@ -143,7 +158,8 @@ namespace TPComercio
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
             // Validación de los campos del formulario
-            if (string.IsNullOrEmpty(txtNombreClienteMod.Text) ||
+            if (string.IsNullOrEmpty(txtDNIClienteMod.Text) ||
+                string.IsNullOrEmpty(txtNombreClienteMod.Text) ||
                 string.IsNullOrEmpty(txtApellidoClienteMod.Text) ||
                 string.IsNullOrEmpty(txtDireccionClienteMod.Text) ||
                 string.IsNullOrEmpty(txtTelefonoClienteMod.Text) ||
@@ -151,6 +167,13 @@ namespace TPComercio
             {
                 // Mostrar mensaje de error en caso de campos vacíos
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+                return;
+            }
+
+            if (!Regex.IsMatch(txtDNIClienteMod.Text, @"^\d+$"))
+            {
+                // Mostrar mensaje si el DNI no contiene solo números
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El DNI solo debe contener números.');", true);
                 return;
             }
 

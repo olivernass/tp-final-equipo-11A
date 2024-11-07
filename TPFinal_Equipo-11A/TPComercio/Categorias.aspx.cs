@@ -41,27 +41,62 @@ namespace TPComercio
             hdnIdCategoria.Value = string.Empty;
         }
 
+        //protected void btnGuardarCategoria_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtNombreCategoria.Text))
+        //    {
+        //        Categoria nuevaCategoria = new Categoria
+        //        {
+        //            NombreCategoria = txtNombreCategoria.Text
+        //        };
+
+        //        CategoriaNegocio negocio = new CategoriaNegocio();
+        //        negocio.agregar(nuevaCategoria);
+
+        //        // Recargar la lista de categorias
+        //        cargarCategorias();
+
+        //        limpiarCampos();
+
+        //        // Cerrar el modal
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCategoria').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarCategoria_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtNombreCategoria.Text))
+            CategoriaNegocio negocio = new CategoriaNegocio();
+
+            // Validar que el campo de nombre no esté vacío
+            if (string.IsNullOrEmpty(txtNombreCategoria.Text))
             {
-                Categoria nuevaCategoria = new Categoria
-                {
-                    NombreCategoria = txtNombreCategoria.Text
-                };
-
-                CategoriaNegocio negocio = new CategoriaNegocio();
-                negocio.agregar(nuevaCategoria);
-
-                // Recargar la lista de categorias
-                cargarCategorias();
-
-                limpiarCampos();
-
-                // Cerrar el modal
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCategoria').modal('hide');", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El nombre de la categoría es obligatorio.');", true);
+                return;
             }
+
+            // Validar si ya existe una categoría con el mismo nombre
+            if (negocio.existeCategoria(txtNombreCategoria.Text))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('La categoría ya existe. Por favor, ingrese un nombre diferente.');", true);
+                return;
+            }
+
+            // Si pasa las validaciones, crear la nueva categoría
+            Categoria nuevaCategoria = new Categoria
+            {
+                NombreCategoria = txtNombreCategoria.Text
+            };
+
+            negocio.agregar(nuevaCategoria);
+
+            // Recargar la lista de categorías y limpiar el formulario
+            cargarCategorias();
+            limpiarCampos();
+
+            // Cerrar el modal
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCategoria').modal('hide');", true);
         }
+
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {

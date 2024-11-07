@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Acceso_Datos;
+using System.Data.SqlClient;
 
 namespace Negocio
 {
@@ -156,5 +157,36 @@ namespace Negocio
                 throw ex;
             }
         }
+
+        public bool existeMarca(string nombreMarca)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteMarca"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@NombreMarca", nombreMarca);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si ya existe la marca
+                }
+
+                return false; // Retorna false si no se encontró la marca
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }
