@@ -278,12 +278,31 @@ namespace TPComercio
         {   
             try
             {
+
                 ClienteNegocio negocio = new ClienteNegocio();
-                rptClientes.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),ddlCriterio.SelectedItem.ToString(),txtFiltroAvanzado.Text,ddlEstado.SelectedItem.ToString());
+
+                // Verificar si se seleccionó algún criterio o texto de filtro avanzado
+                string campo = ddlCampo.SelectedItem.ToString();
+                string criterio = ddlCriterio.SelectedItem != null ? ddlCriterio.SelectedItem.ToString() : string.Empty;
+                string filtroAvanzado = !string.IsNullOrEmpty(txtFiltroAvanzado.Text) ? txtFiltroAvanzado.Text : string.Empty;
+                string estado = ddlEstado.SelectedItem.ToString();
+
+                // Llamar al método filtrar con los parámetros adecuados
+                rptClientes.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado, estado);
                 rptClientes.DataBind();
 
+                // Limpiar los criterios y el filtro avanzado
                 ddlCriterio.Items.Clear();
                 txtFiltroAvanzado.Text = string.Empty;
+
+
+
+                //ClienteNegocio negocio = new ClienteNegocio();
+                //rptClientes.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),ddlCriterio.SelectedItem.ToString(),txtFiltroAvanzado.Text,ddlEstado.SelectedItem.ToString());
+                //rptClientes.DataBind();
+
+                //ddlCriterio.Items.Clear();
+                //txtFiltroAvanzado.Text = string.Empty;
             }
             catch (Exception ex)
             {
@@ -297,6 +316,10 @@ namespace TPComercio
             cargarClientes();
             ddlCriterio.Items.Clear();
             txtFiltroAvanzado.Text = string.Empty;
+
+            // Establecer valores predeterminados en ddlCampo y ddlEstado
+            ddlCampo.SelectedValue = "DNI";
+            ddlEstado.SelectedValue = "Todos";
         }
     }
 }

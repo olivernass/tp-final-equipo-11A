@@ -90,7 +90,27 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        
+
+        public void activar(Proveedor proveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ActivarProveedor");
+                datos.setearParametro("@ID", proveedor.Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void modificar(Proveedor proveedor)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -117,6 +137,92 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        //public List<Proveedor> filtrar(string campo, string criterio, string filtro, string estado)
+        //{
+        //    List<Proveedor> lista = new List<Proveedor>();
+        //    AccesoDatos datos = new AccesoDatos();
+
+        //    try
+        //    {
+        //        string consulta = "select CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores WHERE";
+
+        //        if (campo == "CUIT")
+        //        {
+        //            switch (criterio)
+        //            {
+        //                case "Mayor a":
+        //                    consulta += " CUIT > " + filtro;
+        //                    break;
+        //                case "Menor a":
+        //                    consulta += " CUIT <" + filtro;
+        //                    break;
+        //                default:
+        //                    consulta += " CUIT =" + filtro;
+        //                    break;
+        //            }
+        //        }
+        //        else if (campo == "Siglas")
+        //        {
+        //            switch (criterio)
+        //            {
+        //                case "Comienza con":
+        //                    consulta += " Siglas LIKE '" + filtro + "%' ";
+        //                    break;
+        //                case "Termina con":
+        //                    consulta += " Siglas LIKE '%" + filtro + "'";
+        //                    break;
+        //                default:
+        //                    consulta += " Siglas LIKE '%" + filtro + "%'";
+        //                    break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            switch (campo)
+        //            {
+        //                case "Comienza con":
+        //                    consulta += " Correo LIKE '" + filtro + "%' ";
+        //                    break;
+        //                case "Termina con":
+        //                    consulta += " Correo LIKE '%" + filtro + "'";
+        //                    break;
+        //                default:
+        //                    consulta += " Correo LIKE '%" + filtro + "%'";
+        //                    break;
+        //            }
+        //        }
+
+        //        if (estado == "Activo")
+        //            consulta += " AND Activo = 1 ";
+        //        else if (estado == "Inactivo")
+        //            consulta += " AND Activo = 0";
+
+        //        datos.setearConsulta(consulta);
+        //        datos.ejecutarLectura();
+
+        //        while (datos.Lector.Read())
+        //        {
+        //            Proveedor aux = new Proveedor();
+        //            aux.CUIT = (long)datos.Lector["CUIT"];
+        //            aux.Siglas = (string)datos.Lector["Siglas"];
+        //            aux.Nombre = (string)datos.Lector["Nombre"];
+        //            aux.Direccion = (string)datos.Lector["Direccion"];
+        //            aux.Correo = (string)datos.Lector["Correo"];
+        //            aux.Telefono = (string)datos.Lector["Telefono"];
+        //            aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+        //            lista.Add(aux);
+        //        }
+
+        //        return lista;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+
         public List<Proveedor> filtrar(string campo, string criterio, string filtro, string estado)
         {
             List<Proveedor> lista = new List<Proveedor>();
@@ -124,56 +230,62 @@ namespace Negocio
 
             try
             {
-                string consulta = "select CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores WHERE";
+                // Iniciar la consulta
+                string consulta = "select CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores WHERE 1=1";
 
-                if (campo == "CUIT")
+                // Agregar condición del campo y criterio solo si ambos están presentes
+                if (!string.IsNullOrEmpty(campo) && !string.IsNullOrEmpty(criterio) && !string.IsNullOrEmpty(filtro))
                 {
-                    switch (criterio)
+                    if (campo == "CUIT")
                     {
-                        case "Mayor a":
-                            consulta += " CUIT > " + filtro;
-                            break;
-                        case "Menor a":
-                            consulta += " CUIT <" + filtro;
-                            break;
-                        default:
-                            consulta += " CUIT =" + filtro;
-                            break;
+                        switch (criterio)
+                        {
+                            case "Mayor a":
+                                consulta += " AND CUIT > " + filtro;
+                                break;
+                            case "Menor a":
+                                consulta += " AND CUIT < " + filtro;
+                                break;
+                            default:
+                                consulta += " AND CUIT = " + filtro;
+                                break;
+                        }
                     }
-                }
-                else if (campo == "Siglas")
-                {
-                    switch (criterio)
+                    else if (campo == "Siglas")
                     {
-                        case "Comienza con":
-                            consulta += " Siglas LIKE '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += " Siglas LIKE '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += " Siglas LIKE '%" + filtro + "%'";
-                            break;
+                        switch (criterio)
+                        {
+                            case "Comienza con":
+                                consulta += " AND Siglas LIKE '" + filtro + "%'";
+                                break;
+                            case "Termina con":
+                                consulta += " AND Siglas LIKE '%" + filtro + "'";
+                                break;
+                            default:
+                                consulta += " AND Siglas LIKE '%" + filtro + "%'";
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    switch (campo)
+                    else if (campo == "Correo")
                     {
-                        case "Comienza con":
-                            consulta += " Correo LIKE '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += " Correo LIKE '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += " Correo LIKE '%" + filtro + "%'";
-                            break;
+                        switch (criterio)
+                        {
+                            case "Comienza con":
+                                consulta += " AND Correo LIKE '" + filtro + "%'";
+                                break;
+                            case "Termina con":
+                                consulta += " AND Correo LIKE '%" + filtro + "'";
+                                break;
+                            default:
+                                consulta += " AND Correo LIKE '%" + filtro + "%'";
+                                break;
+                        }
                     }
                 }
 
+                // Agregar condición de estado, sin importar si los otros filtros están vacíos
                 if (estado == "Activo")
-                    consulta += " AND Activo = 1 ";
+                    consulta += " AND Activo = 1";
                 else if (estado == "Inactivo")
                     consulta += " AND Activo = 0";
 
@@ -189,7 +301,7 @@ namespace Negocio
                     aux.Direccion = (string)datos.Lector["Direccion"];
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Telefono = (string)datos.Lector["Telefono"];
-                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -198,9 +310,9 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
+
     }
 }

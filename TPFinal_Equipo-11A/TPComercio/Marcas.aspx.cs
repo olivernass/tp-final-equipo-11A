@@ -128,6 +128,7 @@ namespace TPComercio
 
             cargarMarcas();
             txtFiltroMarcas.Text = string.Empty;
+            ddlEstadoMarcas.SelectedValue = "Todos";
 
         }
 

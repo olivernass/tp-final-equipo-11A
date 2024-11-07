@@ -119,15 +119,26 @@ namespace TPComercio
         // Eliminar un Proveedor
         protected void rptProveedores_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "Eliminar")
+            if (e.CommandName == "Inactivar")
             {
                 int idProveedor = Convert.ToInt32(e.CommandArgument);
-                Proveedor proveedorAEliminar = new Proveedor
+                Proveedor proveedorEliminar = new Proveedor();
                 {
-                    Id = idProveedor
-                };
+                    proveedorEliminar.Id = idProveedor;
+                }
                 ProveedorNegocio negocio = new ProveedorNegocio();
-                negocio.eliminarL(proveedorAEliminar);
+                negocio.eliminarL(proveedorEliminar);
+                cargarProveedores();
+            }
+            else if (e.CommandName == "Activar")
+            {
+                int idProveedor = Convert.ToInt32(e.CommandArgument);
+                Proveedor proveedorActivar = new Proveedor();
+                {
+                    proveedorActivar.Id = idProveedor;
+                }
+                ProveedorNegocio negocio = new ProveedorNegocio();
+                negocio.activar(proveedorActivar);
                 cargarProveedores();
             }
         }
@@ -168,15 +179,44 @@ namespace TPComercio
         {
             try
             {
+
                 ProveedorNegocio negocio = new ProveedorNegocio();
-                rptProveedores.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(), ddlCriterio.SelectedItem.ToString(), txtFiltroAvanzado.Text, ddlEstado.SelectedItem.ToString());
+
+                // Verificar si se seleccionó algún criterio o texto de filtro avanzado
+                string campo = ddlCampo.SelectedItem.ToString();
+                string criterio = ddlCriterio.SelectedItem != null ? ddlCriterio.SelectedItem.ToString() : string.Empty;
+                string filtroAvanzado = !string.IsNullOrEmpty(txtFiltroAvanzado.Text) ? txtFiltroAvanzado.Text : string.Empty;
+                string estado = ddlEstado.SelectedItem.ToString();
+
+                // Llamar al método filtrar con los parámetros adecuados
+                rptProveedores.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado, estado);
                 rptProveedores.DataBind();
+
+                // Limpiar los criterios y el filtro avanzado
+                ddlCriterio.Items.Clear();
+                txtFiltroAvanzado.Text = string.Empty;
+
+
+                //ProveedorNegocio negocio = new ProveedorNegocio();
+                //rptProveedores.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(), ddlCriterio.SelectedItem.ToString(), txtFiltroAvanzado.Text, ddlEstado.SelectedItem.ToString());
+                //rptProveedores.DataBind();
             }
             catch (Exception ex)
             {
                 Session.Add("Error", ex);
                 throw;
             }
+        }
+
+        protected void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            cargarProveedores();
+            ddlCriterio.Items.Clear();
+            txtFiltroAvanzado.Text = string.Empty;
+
+            // Establecer valores predeterminados en ddlCampo y ddlEstado
+            ddlCampo.SelectedValue = "CUIT";
+            ddlEstado.SelectedValue = "Todos";
         }
     }
 }

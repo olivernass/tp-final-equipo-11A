@@ -66,11 +66,11 @@
         <div class="col-3">
             <div class="mb-3">
                 <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>
+                <asp:Button Text="Limpiar" runat="server" CssClass="btn btn-primary" ID="btnLimpiar" OnClick="btnLimpiar_Click" />
             </div>
         </div>
     </div>
     <% } %>
-</div>
 
         <!-- Tabla de Proveedores -->
     <table class="table tableClientes table-hover mt-3">
@@ -101,22 +101,28 @@
                         <td><%# (bool)Eval("Activo") ? "Sí" : "No" %></td>
                         <td>
                             <!-- Botón Modificar -->
-                            <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarProveedores"
+                            <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarProveedores"
                                 onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("CUIT") %>', '<%# Eval("Siglas") %>', '<%# Eval("Nombre") %>', '<%# Eval("Direccion") %>', '<%# Eval("Correo") %>', '<%# Eval("Telefono") %>')">
-                                Modificar
+                                <img src="Content/Iconos/settings.png" alt="Detalle">
                             </button>
 
                             <!-- Botón Eliminar -->
-                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
-                                OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este Proveedor?');"
-                                CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
+                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
+                                OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este Proveedor?');"
+                                CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
+
+                            <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->
+
+                            <!-- Botón Activar -->
+                            <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
+                                OnClientClick="return confirm('¿Estás seguro de que deseas activar este proveedor?');"
+                                CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
                         </td>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>
         </tbody>
     </table>
-    </div>
 
     <!-- Modal Agregar Proveedor -->
     <div class="modal fade" id="modalAgregarProveedor" tabindex="-1" aria-labelledby="modalAgregarProveedor" aria-hidden="true">

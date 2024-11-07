@@ -111,7 +111,7 @@
 
                             <!-- Botón Eliminar -->
                             <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
-                                OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');"
+                                OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este cliente?');"
                                 CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
 
                             <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->

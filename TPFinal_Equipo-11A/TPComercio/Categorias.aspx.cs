@@ -126,6 +126,7 @@ namespace TPComercio
         {
             txtFiltroCategoria.Text = string.Empty;
             cargarCategorias();
+            ddlEstadoCategorias.SelectedValue = "Todos";
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
