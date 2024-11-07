@@ -314,5 +314,63 @@ namespace Negocio
             }
         }
 
+        public bool existeCUITProveedor(long cuit)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteCUITProveedor"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@CUIT", cuit);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si el CUIT ya existe
+                }
+
+                return false; // Retorna false si no se encontró el CUIT
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public bool existeCUITProveedorModificado(long cuit, int idProveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteCUITProveedorModificado"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@CUIT", cuit);
+                datos.setearParametro("@IDProveedor", idProveedor);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si el CUIT ya existe para otro proveedor
+                }
+
+                return false; // Retorna false si no se encontró el DNI duplicado
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

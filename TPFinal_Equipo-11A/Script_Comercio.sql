@@ -505,3 +505,112 @@ INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
 WHERE P.ID = @ID
 END
 GO
+
+-- VERIFICAR DUPLICIDAD AL CARGAR
+CREATE PROCEDURE SP_ExisteMarca(
+	@NombreMarca NVARCHAR(50)
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+END
+GO
+
+CREATE PROCEDURE SP_ExisteCategoria(
+	@NombreCategoria NVARCHAR(50)
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+END
+GO
+
+CREATE PROCEDURE SP_ExisteDNICliente(
+	@DNI INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Clientes WHERE DNI = @DNI
+END
+GO
+
+CREATE PROCEDURE SP_ExisteCUITProveedor(
+	@CUIT BIGINT
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Proveedores WHERE CUIT = @CUIT
+END
+GO
+
+--VERIFICAR DUPLICIDAD AL MODIFICAR
+CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
+	@NombreMarca VARCHAR(50),
+	@IDMarca INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Marcas 
+    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+END
+GO
+
+CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
+	@NombreCategoria VARCHAR(50),
+	@IDCategoria INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Categorias 
+    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+END
+GO
+
+CREATE PROCEDURE SP_ExisteDNIClienteModificado(
+	@DNI INT,
+	@IDCliente BIGINT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Clientes 
+    WHERE DNI = @DNI AND ID <> @IDCliente
+END
+GO
+
+CREATE PROCEDURE SP_ExisteCUITProveedorModificado(
+	@CUIT BIGINT,
+	@IDProveedor INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Proveedores 
+    WHERE CUIT = @CUIT AND ID <> @IDProveedor
+END
+GO
+
+--VERIFICAR SI HAY ARTICULOS
+CREATE PROCEDURE SP_TieneProductosActivosCategoria(
+	@IdCategoria INT
+)
+AS
+BEGIN
+    SELECT COUNT(*)
+    FROM Productos
+    WHERE IDCategoria = @IdCategoria AND Activo = 1
+END
+GO
+
+CREATE PROCEDURE SP_TieneProductosActivosMarca(
+	@IdMarca INT
+)
+AS
+BEGIN
+    SELECT COUNT(*)
+    FROM Productos
+    WHERE IDMarca = @IdMarca AND Activo = 1
+END
+GO

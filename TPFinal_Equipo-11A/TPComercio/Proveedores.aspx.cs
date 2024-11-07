@@ -57,10 +57,79 @@ namespace TPComercio
         }
 
         // Agregar un nuevo Proveedor
+        //protected void btnGuardarProveedor_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtCUITProveedor.Text) && !string.IsNullOrEmpty(txtNombreProveedor.Text))
+        //    {
+        //        Proveedor nuevoProveedor = new Proveedor
+        //        {
+        //            CUIT = Convert.ToInt64(txtCUITProveedor.Text),
+        //            Siglas = txtSiglasProveedor.Text,
+        //            Nombre = txtNombreProveedor.Text,
+        //            Direccion = txtDireccionProveedor.Text,
+        //            Correo = txtCorreoProveedor.Text,
+        //            Telefono = txtTelefonoProveedor.Text
+        //        };
+
+        //        ProveedorNegocio negocio = new ProveedorNegocio();
+        //        negocio.agregar(nuevoProveedor);
+
+        //        // Recargar la lista de Proveedores para reflejar los cambios
+        //        cargarProveedores();
+
+        //        limpiarCampos();
+
+        //        // Cerrar el modal de agregar Proveedor
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProveedor').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarProveedor_Click(object sender, EventArgs e)
         {
+            ProveedorNegocio negocio = new ProveedorNegocio();
+
             if (!string.IsNullOrEmpty(txtCUITProveedor.Text) && !string.IsNullOrEmpty(txtNombreProveedor.Text))
             {
+                // Validar que todos los campos estén llenos
+                if (string.IsNullOrEmpty(txtCUITProveedor.Text) ||
+                    string.IsNullOrEmpty(txtNombreProveedor.Text) ||
+                    string.IsNullOrEmpty(txtDireccionProveedor.Text) ||
+                    string.IsNullOrEmpty(txtTelefonoProveedor.Text) ||
+                    string.IsNullOrEmpty(txtCorreoProveedor.Text))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+                    return;
+                }
+
+                // Validar CUIT (solo números)
+                if (!Regex.IsMatch(txtCUITProveedor.Text, @"^\d+$"))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El CUIT solo debe contener números.');", true);
+                    return;
+                }
+
+                // Verificar si el CUIT ya existe en la base de datos
+                if (negocio.existeCUITProveedor(Convert.ToInt64(txtCUITProveedor.Text)))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El CUIT ingresado ya está registrado.');", true);
+                    return;
+                }
+
+                // Validar formato de correo electrónico
+                if (!Regex.IsMatch(txtCorreoProveedor.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
+                    return;
+                }
+
+                // Validar teléfono (solo números)
+                if (!Regex.IsMatch(txtTelefonoProveedor.Text, @"^\d+$"))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
+                    return;
+                }
+
+                // Si todas las validaciones son correctas, proceder con la creación del objeto y guardar en base de datos
                 Proveedor nuevoProveedor = new Proveedor
                 {
                     CUIT = Convert.ToInt64(txtCUITProveedor.Text),
@@ -71,50 +140,128 @@ namespace TPComercio
                     Telefono = txtTelefonoProveedor.Text
                 };
 
-                ProveedorNegocio negocio = new ProveedorNegocio();
                 negocio.agregar(nuevoProveedor);
 
-                // Recargar la lista de Proveedores para reflejar los cambios
-                cargarProveedores();
+                cargarProveedores(); // Recargar la lista de proveedores
 
-                limpiarCampos();
+                limpiarCampos(); // Limpiar los campos de entrada
 
-                // Cerrar el modal de agregar Proveedor
+                // Cerrar el modal de agregar proveedor
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProveedor').modal('hide');", true);
             }
         }
 
+
         // Modificar un Proveedor existente
+        //protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtCUITProveedorMod.Text) && !string.IsNullOrEmpty(txtNombreProveedorMod.Text))
+        //    {
+        //        int idProveedor = int.Parse(hdnIdProveedor.Value); // ID del Proveedor almacenado en el HiddenField
+        //        long cuitProveedor = Convert.ToInt64(txtCUITProveedorMod.Text);
+
+        //        Proveedor ProveedorModificado = new Proveedor
+        //        {
+        //            Id = idProveedor,
+        //            CUIT = cuitProveedor,
+        //            Siglas = txtSiglasProveedorMod.Text,
+        //            Nombre = txtNombreProveedorMod.Text,
+        //            Direccion = txtDireccionProveedorMod.Text,
+        //            Correo = txtCorreoProveedorMod.Text,
+        //            Telefono = txtTelefonoProveedorMod.Text,
+        //        };
+
+        //        ProveedorNegocio negocio = new ProveedorNegocio();
+        //        negocio.modificar(ProveedorModificado);
+
+        //        // Recargar la lista de Proveedores
+        //        cargarProveedores();
+
+        //        limpiarCamposModificacion();
+
+        //        // Cerrar el modal de modificar Proveedor
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarProveedor').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtCUITProveedorMod.Text) && !string.IsNullOrEmpty(txtNombreProveedorMod.Text))
-            {
-                int idProveedor = int.Parse(hdnIdProveedor.Value); // ID del Proveedor almacenado en el HiddenField
-                long cuitProveedor = Convert.ToInt64(txtCUITProveedorMod.Text);
+            ProveedorNegocio negocio = new ProveedorNegocio();
 
-                Proveedor ProveedorModificado = new Proveedor
+            // Validación de los campos del formulario
+            if (string.IsNullOrEmpty(txtCUITProveedorMod.Text) ||
+                string.IsNullOrEmpty(txtNombreProveedorMod.Text) ||
+                string.IsNullOrEmpty(txtDireccionProveedorMod.Text) ||
+                string.IsNullOrEmpty(txtTelefonoProveedorMod.Text) ||
+                string.IsNullOrEmpty(txtCorreoProveedorMod.Text))
+            {
+                // Mostrar mensaje de error en caso de campos vacíos
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+                return;
+            }
+
+            // Validar CUIT (solo números)
+            if (!Regex.IsMatch(txtCUITProveedorMod.Text, @"^\d+$"))
+            {
+                // Mostrar mensaje si el CUIT no contiene solo números
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El CUIT solo debe contener números.');", true);
+                return;
+            }
+
+            // Obtener el ID del proveedor y el CUIT ingresado
+            int idProveedor = Convert.ToInt32(hdnIdProveedor.Value); // ID del proveedor desde el HiddenField
+            long cuitProveedor = Convert.ToInt64(txtCUITProveedorMod.Text);
+
+            // Verificar si el CUIT ya existe para otro proveedor
+            if (negocio.existeCUITProveedorModificado(cuitProveedor, idProveedor))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El CUIT ingresado ya está registrado para otro proveedor.');", true);
+                return;
+            }
+
+            // Validar formato de correo electrónico
+            if (!Regex.IsMatch(txtCorreoProveedorMod.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
+                return;
+            }
+
+            // Validar teléfono (solo números)
+            if (!Regex.IsMatch(txtTelefonoProveedorMod.Text, @"^\d+$"))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
+                return;
+            }
+
+            // Procesar la actualización del proveedor
+            try
+            {
+                Proveedor proveedorModificado = new Proveedor
                 {
-                    Id = idProveedor,
+                    Id = idProveedor, // Usar el ID obtenido del HiddenField
                     CUIT = cuitProveedor,
                     Siglas = txtSiglasProveedorMod.Text,
                     Nombre = txtNombreProveedorMod.Text,
                     Direccion = txtDireccionProveedorMod.Text,
-                    Correo = txtCorreoProveedorMod.Text,
                     Telefono = txtTelefonoProveedorMod.Text,
+                    Correo = txtCorreoProveedorMod.Text
                 };
 
-                ProveedorNegocio negocio = new ProveedorNegocio();
-                negocio.modificar(ProveedorModificado);
+                negocio.modificar(proveedorModificado);
 
-                // Recargar la lista de Proveedores
-                cargarProveedores();
+                cargarProveedores(); // Recargar la lista de proveedores
 
-                limpiarCamposModificacion();
-
-                // Cerrar el modal de modificar Proveedor
+                // Cerrar el modal y limpiar campos
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarProveedor').modal('hide');", true);
+                limpiarCamposModificacion(); // Limpia los campos después de la actualización
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "error", "alert('Hubo un error al actualizar el proveedor: " + ex.Message + "');", true);
             }
         }
+
 
         // Eliminar un Proveedor
         protected void rptProveedores_ItemCommand(object source, RepeaterCommandEventArgs e)
