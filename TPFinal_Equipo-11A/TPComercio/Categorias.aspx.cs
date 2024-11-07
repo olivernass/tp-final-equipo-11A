@@ -123,31 +123,60 @@ namespace TPComercio
             }
         }
 
+        //protected void rptCategorias_ItemCommand(object source, RepeaterCommandEventArgs e)
+        //{
+        //    if (e.CommandName == "Inactivar")
+        //    {
+        //        int idCategoria = Convert.ToInt32(e.CommandArgument);
+        //        Categoria categoriaEliminar = new Categoria();
+        //        {
+        //            categoriaEliminar.Id = idCategoria;
+        //        }
+        //        CategoriaNegocio negocio = new CategoriaNegocio();
+        //        negocio.eliminarL(categoriaEliminar);
+        //        cargarCategorias();
+        //    }
+        //    else if (e.CommandName == "Activar")
+        //    {
+        //        int idCategoria = Convert.ToInt32(e.CommandArgument);
+        //        Categoria categoriaActivar = new Categoria();
+        //        {
+        //            categoriaActivar.Id = idCategoria;
+        //        }
+        //        CategoriaNegocio negocio = new CategoriaNegocio();
+        //        negocio.activar(categoriaActivar);
+        //        cargarCategorias();
+        //    }
+        //}
+
         protected void rptCategorias_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            int idCategoria = Convert.ToInt32(e.CommandArgument);
+            CategoriaNegocio negocio = new CategoriaNegocio();
+
             if (e.CommandName == "Inactivar")
             {
-                int idCategoria = Convert.ToInt32(e.CommandArgument);
-                Categoria categoriaEliminar = new Categoria();
+                // Verificar si la categoría tiene productos activos asociados
+                if (negocio.tieneProductosActivos(idCategoria))
                 {
-                    categoriaEliminar.Id = idCategoria;
+                    // Mostrar un mensaje de error si la categoría tiene productos activos
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('No se puede inactivar esta categoría porque tiene productos activos asociados.');", true);
+                    return;
                 }
-                CategoriaNegocio negocio = new CategoriaNegocio();
+
+                // Proceder con la inactivación si no hay productos activos asociados
+                Categoria categoriaEliminar = new Categoria { Id = idCategoria };
                 negocio.eliminarL(categoriaEliminar);
                 cargarCategorias();
             }
             else if (e.CommandName == "Activar")
             {
-                int idCategoria = Convert.ToInt32(e.CommandArgument);
-                Categoria categoriaActivar = new Categoria();
-                {
-                    categoriaActivar.Id = idCategoria;
-                }
-                CategoriaNegocio negocio = new CategoriaNegocio();
+                Categoria categoriaActivar = new Categoria { Id = idCategoria };
                 negocio.activar(categoriaActivar);
                 cargarCategorias();
             }
         }
+
 
         protected void txtFiltroCategoria_TextChanged(object sender, EventArgs e)
         {

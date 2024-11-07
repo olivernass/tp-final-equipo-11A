@@ -188,5 +188,34 @@ namespace Negocio
             }
         }
 
+        public bool tieneProductosActivos(int idCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_TieneProductosActivosCategoria"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@IdCategoria", idCategoria);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si hay productos activos asociados
+                }
+
+                return false; // Retorna false si no se encontraron productos activos
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

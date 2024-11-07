@@ -124,31 +124,60 @@ namespace TPComercio
             }
         }
 
+        //protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        //{
+        //        if (e.CommandName == "Inactivar")
+        //        {
+        //            int idMarca = Convert.ToInt32(e.CommandArgument);
+        //            Marca marcaEliminar = new Marca();
+        //            {
+        //                marcaEliminar.Id = idMarca;
+        //            }
+        //            MarcaNegocio negocio = new MarcaNegocio();
+        //            negocio.eliminarL(marcaEliminar);
+        //            cargarMarcas();
+        //        }
+        //        else if (e.CommandName == "Activar")
+        //        {
+        //            int idMarca = Convert.ToInt32(e.CommandArgument);
+        //            Marca marcaActivar = new Marca();
+        //            {
+        //                marcaActivar.Id = idMarca;
+        //            }
+        //            MarcaNegocio negocio = new MarcaNegocio();
+        //            negocio.activar(marcaActivar);
+        //            cargarMarcas();
+        //        }
+        //}
+
         protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-                if (e.CommandName == "Inactivar")
+            int idMarca = Convert.ToInt32(e.CommandArgument);
+            MarcaNegocio negocio = new MarcaNegocio();
+
+            if (e.CommandName == "Inactivar")
+            {
+                // Verificar si la marca tiene productos activos asociados
+                if (negocio.tieneProductosActivos(idMarca))
                 {
-                    int idMarca = Convert.ToInt32(e.CommandArgument);
-                    Marca marcaEliminar = new Marca();
-                    {
-                        marcaEliminar.Id = idMarca;
-                    }
-                    MarcaNegocio negocio = new MarcaNegocio();
-                    negocio.eliminarL(marcaEliminar);
-                    cargarMarcas();
+                    // Mostrar un mensaje de error si la marca tiene productos activos
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('No se puede inactivar esta marca porque tiene productos activos asociados.');", true);
+                    return;
                 }
-                else if (e.CommandName == "Activar")
-                {
-                    int idMarca = Convert.ToInt32(e.CommandArgument);
-                    Marca marcaActivar = new Marca();
-                    {
-                        marcaActivar.Id = idMarca;
-                    }
-                    MarcaNegocio negocio = new MarcaNegocio();
-                    negocio.activar(marcaActivar);
-                    cargarMarcas();
-                }
+
+                // Proceder con la inactivación si no hay productos activos asociados
+                Marca marcaEliminar = new Marca { Id = idMarca };
+                negocio.eliminarL(marcaEliminar);
+                cargarMarcas();
+            }
+            else if (e.CommandName == "Activar")
+            {
+                Marca marcaActivar = new Marca { Id = idMarca };
+                negocio.activar(marcaActivar);
+                cargarMarcas();
+            }
         }
+
 
         protected void txtFiltroMarcas_TextChanged(object sender, EventArgs e)
         {
