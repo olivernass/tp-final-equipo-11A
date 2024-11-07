@@ -66,11 +66,12 @@
             <div class="col-3">
                 <div class="mb-3">
                     <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" />
+                    <asp:Button Text="Limpiar" runat="server" CssClass="btn btn-primary" ID="btnLimpiar" OnClick="btnLimpiar_Click" />
                 </div>
             </div>
         </div>
         <% } %>
-    </div>
+    
 
     <!-- Tabla de Clientes -->
     <table class="table tableClientes table-hover mt-3">
@@ -84,6 +85,7 @@
                 <th scope="col">Telefono</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Fecha de Registro</th>
+                <th scope="col">Activo</th>
                 <th scope="col" class="acciones">Acciones</th>
             </tr>
         </thead>
@@ -99,17 +101,26 @@
                         <td><%# Eval("Telefono") %></td>
                         <td><%# Eval("Correo") %></td>
                         <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
+                        <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
                         <td>
                             <!-- Botón Modificar -->
-                            <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
+                            <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
                                 onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("DNI") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("Direccion") %>', '<%# Eval("Telefono") %>', '<%# Eval("Correo") %>')">
-                                Modificar                           
+                                <img src="Content/Iconos/settings.png" alt="Detalle">                          
                             </button>
 
                             <!-- Botón Eliminar -->
-                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
+                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
                                 OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');"
-                                CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
+                                CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
+
+                            <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->
+
+                            <!-- Botón Activar -->
+                            <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
+                                OnClientClick="return confirm('¿Estás seguro de que deseas activar este cliente?');"
+                                CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
+
                         </td>
                     </tr>
                 </ItemTemplate>

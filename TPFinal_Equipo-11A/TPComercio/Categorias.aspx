@@ -40,7 +40,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Categoria</th>
-                <th scope="col">Estado</th>
+                <th scope="col">Activo</th>
                 <th scope="col" class="acciones">Acciones</th>
             </tr>
         </thead>
@@ -50,7 +50,7 @@
                     <tr>
                         <th scope="row"><%# Eval("Id") %></th>
                         <td><%# Eval("NombreCategoria") %></td>
-                        <td><%# Eval("Activo") %></td>
+                        <td><%# (bool)Eval("Activo") ? "Sí" : "No" %></td>
                         <td>
                             <!-- Botón Modificar -->
                             <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCategoria"

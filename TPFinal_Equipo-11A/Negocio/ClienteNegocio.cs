@@ -32,6 +32,7 @@ namespace Negocio
                     aux.Telefono = (string)datos.Lector["Telefono"];
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -112,6 +113,26 @@ namespace Negocio
         //        datos.cerrarConexion();
         //    }
         //}
+
+        public void activar(Cliente cliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ActivarCliente");
+                datos.setearParametro("@ID", cliente.Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public void modificar(Cliente cliente)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -213,6 +234,7 @@ namespace Negocio
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
                     aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }

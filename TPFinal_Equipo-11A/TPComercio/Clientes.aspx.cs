@@ -218,15 +218,26 @@ namespace TPComercio
 
         protected void rptClientes_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "Eliminar")
+            if (e.CommandName == "Inactivar")
             {
-                int idCliente = Convert.ToInt32(e.CommandArgument);
-                Cliente clienteAEliminar = new Cliente
+                long idCliente = Convert.ToInt64(e.CommandArgument);
+                Cliente clienteEliminar = new Cliente();
                 {
-                    Id = idCliente
-                };
+                    clienteEliminar.Id = idCliente;
+                }
                 ClienteNegocio negocio = new ClienteNegocio();
-                negocio.eliminarL(clienteAEliminar);
+                negocio.eliminarL(clienteEliminar);
+                cargarClientes();
+            }
+            else if (e.CommandName == "Activar")
+            {
+                long idCliente = Convert.ToInt64(e.CommandArgument);
+                Cliente clienteActivar = new Cliente();
+                {
+                    clienteActivar.Id = idCliente;
+                }
+                ClienteNegocio negocio = new ClienteNegocio();
+                negocio.activar(clienteActivar);
                 cargarClientes();
             }
         }
@@ -270,12 +281,22 @@ namespace TPComercio
                 ClienteNegocio negocio = new ClienteNegocio();
                 rptClientes.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),ddlCriterio.SelectedItem.ToString(),txtFiltroAvanzado.Text,ddlEstado.SelectedItem.ToString());
                 rptClientes.DataBind();
+
+                ddlCriterio.Items.Clear();
+                txtFiltroAvanzado.Text = string.Empty;
             }
             catch (Exception ex)
             {
                 Session.Add("Error", ex);
                 throw;
             }
+        }
+
+        protected void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            cargarClientes();
+            ddlCriterio.Items.Clear();
+            txtFiltroAvanzado.Text = string.Empty;
         }
     }
 }

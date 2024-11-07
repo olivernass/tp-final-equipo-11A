@@ -324,9 +324,24 @@ GO
 CREATE PROCEDURE SP_ActivarProducto(
 	@ID BIGINT
 )
-AS
-BEGIN 
+AS BEGIN 
 UPDATE Productos SET Activo = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ActivarProveedor(
+	@ID INT
+)
+AS BEGIN
+UPDATE Proveedores SET Activo = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ActivarCliente(
+	@ID BIGINT
+)
+AS BEGIN
+UPDATE Clientes SET Activo = 1 WHERE ID = @ID
 END
 GO
 

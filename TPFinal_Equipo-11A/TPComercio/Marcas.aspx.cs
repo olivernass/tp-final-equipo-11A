@@ -126,8 +126,8 @@ namespace TPComercio
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
 
-            txtFiltroMarcas.Text = string.Empty;
             cargarMarcas();
+            txtFiltroMarcas.Text = string.Empty;
 
         }
 
@@ -160,6 +160,7 @@ namespace TPComercio
                 throw;
             }
         }
+
 
         //protected void ddlEstadoMarcas_SelectedIndexChanged1(object sender, EventArgs e)
         //{
