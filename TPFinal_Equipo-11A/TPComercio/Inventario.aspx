@@ -10,9 +10,9 @@
         </button>
         <!-- Tabla de Productos -->
         <div class="card-container">
-            <asp:Repeater ID="rptProductos" runat="server" OnItemCommand="rptProductos_ItemCommand"> 
+            <asp:Repeater ID="rptProductos" runat="server"> 
                <ItemTemplate>
-                   <div class="card">
+                   <div class="card" style="cursor: pointer;" onclick="window.location.href='ConfigProducto.aspx?Id=<%# Eval("Id") %>'">
                     <div class="card-header">
                         <h5>ID: <%# Eval("Id") %></h5>
                         <label ></label>
@@ -25,14 +25,6 @@
                         <img src='<%# Eval("Imagen.ImagenUrl") %>' alt="Imagen del producto" width="175px" />     
                     </div>
                     <div class="card-footer">
-                        <asp:Button ID="btnConfiguracion" runat="server" CssClass="btn btn-secondary btn-sm" Text="+ Info"
-                            CommandName="Configurar" CommandArgument='<%# Eval("Id") %>' />
-                        <asp:Button ID="btnInactivar" runat="server" CssClass="btn btn-danger btn-sm" Text="Inactivar"
-                            OnClientClick="return confirm('¿Inactivar Producto?');"
-                            CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
-                        <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-sm" Text="Activar"
-                            OnClientClick="return confirm('¿Activar Producto?');"
-                            CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
                     </div>
                 </div>
                </ItemTemplate>
@@ -95,7 +87,7 @@
     </div>
 
     <!-- Modal Agregar Proveedor -->
-    <div class="modal fade" id="modalAgregarProveedor" tabindex="-1" aria-labelledby="modalAgregarProveedorLabel" aria-hidden="true">
+    <%--<div class="modal fade" id="modalAgregarProveedor" tabindex="-1" aria-labelledby="modalAgregarProveedorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -117,46 +109,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <script>
-        <%--function mostrarDetalles(button) {
-            const id = button.getAttribute('data-id');
-            const nombre = button.getAttribute('data-nombre');
-            const descripcion = button.getAttribute('data-descripcion');
-            const nombreMarca = button.getAttribute('data-nombreMarca');
-            const nombreCategoria = button.getAttribute('data-nombreCategoria');
-            const stockMinimo = button.getAttribute('data-stockMinimo');
-            const stockActual = button.getAttribute('data-stockActual');
-            const precioCompra = button.getAttribute('data-precio_compra');
-            const precioVenta = button.getAttribute('data-precio_venta');
-            const porcentajeGanancia = button.getAttribute('data-porcentaje_ganancia');
-            const estado = button.getAttribute('data-activo') === 'True' ? 'Activo' : 'Inactivo';
-            const imagen = button.getAttribute('data-ImagenUrl');
-
-            document.getElementById('modalId').innerText = id;
-            document.getElementById('modalNombre').innerText = nombre;
-            document.getElementById('modalDescripcion').innerText = descripcion;
-            document.getElementById('modalNombreMarca').innerText = nombreMarca;
-            document.getElementById('modalNombreCategoria').innerText = nombreCategoria;
-            document.getElementById('modalStockMinimo').innerText = stockMinimo;
-            document.getElementById('modalStockActual').innerText = stockActual;
-            document.getElementById('modalPrecioCompra').innerText = precioCompra;
-            document.getElementById('modalPrecioVenta').innerText = precioVenta;
-            document.getElementById('modalPorcentajeGanancia').innerText = porcentajeGanancia;
-            document.getElementById('modalEstado').innerText = estado;
-            document.getElementById('modalImagen').src = imagen;
-
-            var modal = new bootstrap.Modal(document.getElementById('modalProducto'));
-            modal.show();
-        }
-
-        function enviarIdProducto() {
-            const idProducto = document.getElementById('modalId').textContent;
-            document.getElementById('<%= hfIdProducto.ClientID %>').value = idProducto;
-        }--%>
-    </script>
-    
-
+    </div>--%>
 </asp:Content>

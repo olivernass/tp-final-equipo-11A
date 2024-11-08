@@ -59,41 +59,10 @@ namespace TPComercio
             ddlProveedorProducto.DataTextField = "Siglas";
             ddlProveedorProducto.DataValueField = "Id"; 
             ddlProveedorProducto.DataBind();
-            ddlProveedorNuevo.DataSource = listaProveedor;
-            ddlProveedorNuevo.DataTextField = "Siglas";
-            ddlProveedorNuevo.DataValueField = "Id";
-            ddlProveedorNuevo.DataBind();
-
-        }
-        protected void rptProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            if (e.CommandName == "Inactivar")
-            {
-                long idProducto = Convert.ToInt64(e.CommandArgument);
-                Producto productoaEliminar = new Producto();
-                {
-                    productoaEliminar.Id = idProducto;
-                }
-                ProductoNegocio negocio = new ProductoNegocio();
-                negocio.eliminarL(productoaEliminar);
-                cargarProductos();
-            }
-            else if (e.CommandName == "Activar")
-            {
-                long idProducto = Convert.ToInt64(e.CommandArgument);
-                Producto productoaActivar = new Producto();
-                {
-                    productoaActivar.Id = idProducto;
-                }
-                ProductoNegocio negocio = new ProductoNegocio();
-                negocio.activar(productoaActivar);
-                cargarProductos();
-            }
-            else if (e.CommandName == "Configurar")
-            {
-                long idProducto = Convert.ToInt64(e.CommandArgument);
-                Response.Redirect($"ConfigProducto.aspx?id={idProducto}");
-            }
+            //ddlProveedorNuevo.DataSource = listaProveedor;
+            //ddlProveedorNuevo.DataTextField = "Siglas";
+            //ddlProveedorNuevo.DataValueField = "Id";
+            //ddlProveedorNuevo.DataBind();
         }
         private void limpiarCampos()
         {
@@ -200,13 +169,12 @@ namespace TPComercio
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProducto').modal('hide');", true);
 
         }
-
         protected void btnGuardarProveedor_Click(object sender, EventArgs e)
         {
-            int idProducto = Convert.ToInt32(hfIdProducto.Value);
-            int idproveedor = Convert.ToInt32(ddlProveedorNuevo.SelectedValue);
-            ProveedorNegocio negocio = new ProveedorNegocio();
-            negocio.agregarProducto(idProducto,idproveedor);
+            //int idProducto = Convert.ToInt32(hfIdProducto.Value);
+            //int idproveedor = Convert.ToInt32(ddlProveedorNuevo.SelectedValue);
+            //ProveedorNegocio negocio = new ProveedorNegocio();
+            //negocio.agregarProducto(idProducto,idproveedor);
 
         }
     }

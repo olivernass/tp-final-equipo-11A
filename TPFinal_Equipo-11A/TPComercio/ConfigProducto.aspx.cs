@@ -18,11 +18,11 @@ namespace TPComercio
         {
             if (!IsPostBack)
             {
-                if (Request.QueryString["id"] != null)
+                if (Request.QueryString["Id"] != null)
                 {
                     ProductoNegocio negocioProducto = new ProductoNegocio();
                     ProveedorNegocio negocioProveedor = new ProveedorNegocio();
-                    codigo = Request.QueryString["id"].ToString();
+                    codigo = Request.QueryString["Id"].ToString();
                     long numeroProducto = long.Parse(codigo);
                     producto = negocioProducto.verDetalle(numeroProducto);
                     listaproveedores = negocioProveedor.listarxid(numeroProducto);
