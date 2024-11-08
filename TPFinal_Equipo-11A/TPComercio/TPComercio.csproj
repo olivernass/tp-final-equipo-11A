@@ -66,6 +66,7 @@
   <ItemGroup>
     <Content Include="Categorias.aspx" />
     <Content Include="Clientes.aspx" />
+    <Content Include="ConfigProducto.aspx" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\estilos.css" />
     <Content Include="Content\Iconos\bar-chart.png" />
@@ -105,6 +106,13 @@
     </Compile>
     <Compile Include="Clientes.aspx.designer.cs">
       <DependentUpon>Clientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigProducto.aspx.cs">
+      <DependentUpon>ConfigProducto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfigProducto.aspx.designer.cs">
+      <DependentUpon>ConfigProducto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

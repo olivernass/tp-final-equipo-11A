@@ -133,7 +133,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public void agregar(Producto nuevoproducto)
         {
             AccesoDatos datos = new AccesoDatos();

@@ -89,16 +89,10 @@ namespace TPComercio
                 negocio.activar(productoaActivar);
                 cargarProductos();
             }
-            else if (e.CommandName == "Detalle")
+            else if (e.CommandName == "Configurar")
             {
                 long idProducto = Convert.ToInt64(e.CommandArgument);
-                Producto productodetalle = new Producto();
-                {
-                    productodetalle.Id = idProducto;
-                }
-                ProductoNegocio negocio = new ProductoNegocio();
-                negocio.verDetalle(idProducto);
-                cargarProductos();
+                Response.Redirect($"ConfigProducto.aspx?id={idProducto}");
             }
         }
         private void limpiarCampos()

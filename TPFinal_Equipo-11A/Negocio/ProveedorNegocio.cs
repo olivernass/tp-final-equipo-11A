@@ -144,7 +144,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SP_Producto_con_proveedor");
+                datos.setearConsulta("SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = " + codigoproducto + ")");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
