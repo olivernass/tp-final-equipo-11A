@@ -116,7 +116,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void agregarProducto(int idproducto, int idproveedor)
+        public void agregarProducto(long idproducto, int idproveedor)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -144,7 +144,37 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = " + codigoproducto + ")");
+                datos.setearConsulta("SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = " + codigoproducto + " AND Activo=1)");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.Id = (int)datos.Lector["ID"];
+                    aux.Siglas = (string)datos.Lector["Siglas"];
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<Proveedor> listarProvSinProductoAsociado(long codigoproducto)
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT ID,Siglas FROM Proveedores WHERE Activo = 1 AND ID NOT IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = " + codigoproducto + ")");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())

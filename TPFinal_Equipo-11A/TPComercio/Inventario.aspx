@@ -85,29 +85,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal Agregar Proveedor -->
-    <%--<div class="modal fade" id="modalAgregarProveedor" tabindex="-1" aria-labelledby="modalAgregarProveedorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarProveedorLabel">Agregar nuevo proveedor</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <p><strong>ID del Producto:</strong> <span id="modalProveedorId"></span></p>
-                </div>
-                <div class="modal-body">
-                    <asp:DropDownList ID="ddlProveedorNuevo" runat="server" CssClass="form-control mb-2">
-                    </asp:DropDownList>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarProveedor');">Cerrar</button>
-                    <asp:HiddenField ID="hfIdProducto" runat="server" />
-                    <asp:Button ID="btnGuardarProveedor" runat="server" CssClass="btn btn-primary" Text="Guardar proveedor"
-                        OnClientClick="enviarIdProducto(); return validarAgregarProveedor();" OnClick="btnGuardarProveedor_Click" />
-                </div>
-            </div>
-        </div>
-    </div>--%>
 </asp:Content>

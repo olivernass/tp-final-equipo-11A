@@ -59,10 +59,6 @@ namespace TPComercio
             ddlProveedorProducto.DataTextField = "Siglas";
             ddlProveedorProducto.DataValueField = "Id"; 
             ddlProveedorProducto.DataBind();
-            //ddlProveedorNuevo.DataSource = listaProveedor;
-            //ddlProveedorNuevo.DataTextField = "Siglas";
-            //ddlProveedorNuevo.DataValueField = "Id";
-            //ddlProveedorNuevo.DataBind();
         }
         private void limpiarCampos()
         {
@@ -167,14 +163,6 @@ namespace TPComercio
             cargarProductos();
             limpiarCampos();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProducto').modal('hide');", true);
-
-        }
-        protected void btnGuardarProveedor_Click(object sender, EventArgs e)
-        {
-            //int idProducto = Convert.ToInt32(hfIdProducto.Value);
-            //int idproveedor = Convert.ToInt32(ddlProveedorNuevo.SelectedValue);
-            //ProveedorNegocio negocio = new ProveedorNegocio();
-            //negocio.agregarProducto(idProducto,idproveedor);
 
         }
     }

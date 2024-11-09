@@ -495,14 +495,18 @@ CREATE OR ALTER PROCEDURE SP_Producto_con_proveedor(
 )
 AS
 BEGIN
-	SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE @IDPRODUCTO = IDProducto)
+	SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = @IDPRODUCTO)
 END
 GO
 
+SELECT ID,Siglas FROM Proveedores WHERE ID NOT IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = 221) AND Activo = 1
+SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = 221) AND Activo = 1
+
+SELECT * FROM Proveedores
 select * from Imagenes
 select * from Productos
 select * from Productos_x_Proveedores
-SELECT * FROM Proveedores
+
 GO
 -- ACTIVAR
 
