@@ -55,11 +55,17 @@
             </button>
         </div>
         <div class="coldf">
-    <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Categorias.aspx';">
-        <img src="Content/Iconos/categorias.png" alt="Categorias">
-        <div>Categorias</div>
-    </button>
-</div>
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Categorias.aspx';">
+                <img src="Content/Iconos/categorias.png" alt="Categorias">
+                <div>Categorias</div>
+            </button>
+        </div>
+        <div class="coldf">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Admin.aspx';">
+                <img src="Content/Iconos/admin.png" alt="Admin Panel">
+                <div>Admin Panel</div>
+            </button>
+        </div>
 
     </div>
 

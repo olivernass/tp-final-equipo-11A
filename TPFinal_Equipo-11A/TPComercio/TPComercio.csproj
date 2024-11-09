@@ -64,10 +64,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin.aspx" />
     <Content Include="Categorias.aspx" />
     <Content Include="Clientes.aspx" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\estilos.css" />
+    <Content Include="Content\Iconos\admin.png" />
     <Content Include="Content\Iconos\bar-chart.png" />
     <Content Include="Content\Iconos\barcode.png" />
     <Content Include="Content\Iconos\checkout.png" />
@@ -92,9 +94,17 @@
     <Content Include="Login.aspx" />
     <Content Include="Marcas.aspx" />
     <Content Include="Proveedores.aspx" />
+    <Content Include="Usuarios.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Categorias.aspx.cs">
       <DependentUpon>Categorias.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -161,6 +171,13 @@
     </Compile>
     <Compile Include="Proveedores.aspx.designer.cs">
       <DependentUpon>Proveedores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuarios.aspx.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuarios.aspx.designer.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utils\AuthHelper.cs" />
   </ItemGroup>
