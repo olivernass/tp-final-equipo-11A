@@ -667,12 +667,12 @@ GO
 
 -- DETALLE DE PRODUCTO
 -- SIN PROVEEDOR
-CREATE PROCEDURE SP_DetalleProducto(
+CREATE or alter PROCEDURE SP_DetalleProducto(
 	@ID BIGINT
 ) 
 AS
 BEGIN
-SELECT P.ID,I.ImagenURL, P.Nombre, P.Descripcion, M.NombreMarca, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
+SELECT P.ID,I.ImagenURL, P.Nombre, P.Descripcion, M.ID as IdMarca, M.NombreMarca, C.ID as IdCategoria, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
 FROM Productos AS P
 INNER JOIN Marcas AS M ON M.ID = P.IDMarca
 INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
@@ -680,9 +680,3 @@ INNER JOIN Imagenes AS I ON I.ID = P.IDImagen
 WHERE P.ID = @ID
 END
 GO
-
-
-
-
-
-
