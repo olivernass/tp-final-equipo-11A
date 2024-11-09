@@ -614,3 +614,17 @@ BEGIN
     WHERE IDMarca = @IdMarca AND Activo = 1
 END
 GO
+
+--CONTADOR DE PRODUCTOS X MARCA Y CATEGORIA
+use comercio_final
+CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
+AS
+BEGIN
+    SELECT TOP 1 M.Id, M.NombreMarca, COUNT(P.Id) AS CantidadProductos
+    FROM Marcas M
+    JOIN Productos P ON p.IdMarca = M.ID
+    WHERE P.Activo = 1
+    GROUP BY M.ID, M.NombreMarca
+    ORDER BY CantidadProductos DESC;
+END
+GO
