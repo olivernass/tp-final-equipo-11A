@@ -167,6 +167,7 @@ tr:hover .btn-acciones {
     vertical-align: middle; /* Alinea la imagen verticalmente */
 }
 
+
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -204,10 +205,17 @@ tr:hover .btn-acciones {
     align-items: center;
 }
 
-.img {
-    width: 200px; /* Ajusta el ancho según necesites */
-    height: auto; /* Mantiene la proporción */
-    margin-left: 40px;
+/*.img {
+    width: 200px;*/ /* Ajusta el ancho según necesites */
+    /*height: auto;*/ /* Mantiene la proporción */
+    /*margin-left: 40px;
 
+}*/
+
+.btn .btn-icon {
+    width: 16px; /* Ajusta el tamaño de la imagen */
+    height: 16px; /* Ajusta el tamaño de la imagen */
+    vertical-align: middle; /* Alinea la imagen verticalmente con el texto */
+    margin-right: 5px; /* Añade espacio entre la imagen y el texto */
 }
 

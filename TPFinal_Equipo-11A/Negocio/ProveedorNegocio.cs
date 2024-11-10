@@ -89,8 +89,7 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
-        }
-        
+        }   
         public void modificar(Proveedor proveedor)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -112,6 +111,87 @@ namespace Negocio
             {
                 throw ex;
             }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void agregarProducto(long idproducto, int idproveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_PRODUCT_X_PROV2");
+                datos.setearParametro("@IDPRODUCTO", idproducto);
+                datos.setearParametro("@IDPROVEEDOR", idproveedor);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+        public List<Proveedor> listarxid(long codigoproducto)
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = " + codigoproducto + " AND Activo=1)");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.Id = (int)datos.Lector["ID"];
+                    aux.Siglas = (string)datos.Lector["Siglas"];
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<Proveedor> listarProvSinProductoAsociado(long codigoproducto)
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT ID,Siglas FROM Proveedores WHERE Activo = 1 AND ID NOT IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = " + codigoproducto + ")");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.Id = (int)datos.Lector["ID"];
+                    aux.Siglas = (string)datos.Lector["Siglas"];
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
             finally
             {
                 datos.cerrarConexion();
