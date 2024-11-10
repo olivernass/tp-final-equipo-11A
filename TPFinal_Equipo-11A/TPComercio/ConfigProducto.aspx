@@ -50,7 +50,7 @@
                 data-id="<%= producto.Id %>" onclick="guardarIdProductoEnModal(this)">
                 Agregar Proveedor
             </button>
-            <asp:Button ID="btnModificar" class="btn btn-primary" runat="server" Text="Modificar producto" />
+            <asp:Button ID="btnModificar" class="btn btn-primary" runat="server" Text="Modificar producto" Onclick="btnModificar_Click" />
         </div>
     </div>
 

@@ -72,5 +72,25 @@ namespace TPComercio
             // Redirigir después de guardar
             Response.Redirect("Inventario.aspx");
         }
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            ProductoNegocio negocio = new ProductoNegocio();
+            Producto producto = new Producto();
+            producto.Marca = new Marca();
+            producto.Categoria = new Categoria();
+            producto.Id = long.Parse(txtCodigo.Text);
+            producto.Nombre = txtNombre.Text;
+            producto.Descripcion = txtDescripcion.Text;
+            producto.Marca.Id = int.Parse(ddlMarca.SelectedValue);
+            producto.Categoria.Id = int.Parse(ddlCategoria.SelectedValue);
+            producto.StockActual = int.Parse(txtStockActual.Text);
+            producto.StockMinimo = int.Parse(txtStockMinimo.Text);
+            producto.Precio_Compra = decimal.Parse(txtPrecioCompra.Text);
+            producto.Precio_Venta = decimal.Parse(txtPrecioVenta.Text);
+            producto.Porcentaje_Ganancia = decimal.Parse(txtPorcentajeGanancia.Text);
+            negocio.modificar(producto);
+            Response.Redirect("Inventario.aspx");
+        }
     }
 }

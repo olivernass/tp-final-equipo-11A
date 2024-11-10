@@ -165,5 +165,33 @@ namespace Negocio
             }
         }
 
+        public void modificar(Producto modificar)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_MODIFICAR_PRODUCTO");
+                datos.setearParametro("ID", modificar.Id);
+                datos.setearParametro("@NOMBRE", modificar.Nombre);
+                datos.setearParametro("@DESCRIPCION", modificar.Descripcion);
+                datos.setearParametro("@IDMARCA", modificar.Marca.Id);
+                datos.setearParametro("@IDCATEGORIA", modificar.Categoria.Id);
+                datos.setearParametro("@STOCKACTUAL", modificar.StockActual);
+                datos.setearParametro("@STOCKMINIMO", modificar.StockMinimo);
+                datos.setearParametro("@PRECIOCOMPRA", modificar.Precio_Compra);
+                datos.setearParametro("@PRECIOVENTA", modificar.Precio_Venta);
+                datos.setearParametro("@PORCENTAJEGANANCIA", modificar.Porcentaje_Ganancia);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
