@@ -31,7 +31,7 @@
             </button>
         </div>
         <div class="coldf">
-            <button type="button" class="btn btn-light btn-default">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Usuarios.aspx';">
                 <img src="Content/Iconos/usuario.png" alt="Usuarios">
                 <div>Usuarios</div>
             </button>

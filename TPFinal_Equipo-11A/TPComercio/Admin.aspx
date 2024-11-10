@@ -10,7 +10,7 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active" href="Usuarios.aspx">
                             Usuarios
                         </a>
                     </li>
@@ -26,8 +26,7 @@
         <!-- Contenido principal -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <h1>Panel de Administración</h1>
-            <p>Aquí puedes administrar las configuraciones y otros elementos.</p>
-            <!-- Resto del contenido -->
+            <p>Aquí puedes administrar las configuraciones y otros elementos.</p>          
         </main>
     </div>
 </div>

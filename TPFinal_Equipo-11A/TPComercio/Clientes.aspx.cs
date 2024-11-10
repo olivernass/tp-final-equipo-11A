@@ -104,42 +104,6 @@ namespace TPComercio
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarCliente').modal('hide');", true);
         }
 
-
-        //protected void btnGuardarCambios_Click(object sender, EventArgs e)
-        //{
-        //    if (!string.IsNullOrEmpty(txtNombreClienteMod.Text))
-        //    {
-        //        int idCliente = int.Parse(hdnIdCliente.Value); // ID del cliente almacenado en el HiddenField
-
-        //        Cliente clienteModificado = new Cliente
-        //        {
-        //            Id = idCliente,
-        //            Nombre = txtNombreClienteMod.Text,
-        //            Apellido = txtApellidoClienteMod.Text,
-        //            Direccion = txtDireccionClienteMod.Text,
-        //            Telefono = txtTelefonoClienteMod.Text,
-        //            Correo = txtCorreoClienteMod.Text
-        //        };
-
-        //        ClienteNegocio negocio = new ClienteNegocio();
-        //        negocio.modificar(clienteModificado);
-
-        //        // Recargar la lista de clientes
-        //        cargarClientes();
-
-        //        // Limpiar los campos del modal de modificación
-        //        hdnIdCliente.Value = string.Empty;
-        //        txtNombreClienteMod.Text = string.Empty;
-        //        txtApellidoClienteMod.Text = string.Empty;
-        //        txtDireccionClienteMod.Text = string.Empty;
-        //        txtTelefonoClienteMod.Text = string.Empty;
-        //        txtCorreoClienteMod.Text = string.Empty;
-
-        //        // Cerrar el modal de modificar cliente
-        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarCliente').modal('hide');", true);
-        //    }
-        //}
-
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
             // Validación de los campos del formulario

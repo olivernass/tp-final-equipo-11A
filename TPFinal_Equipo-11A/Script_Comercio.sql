@@ -202,6 +202,9 @@ GO
 
 /* Vistas */
 
+SELECT ID, NombrePermiso
+FROM Permisos;
+
 CREATE VIEW VW_ListaMarcas AS 
 SELECT * FROM Marcas
 GO

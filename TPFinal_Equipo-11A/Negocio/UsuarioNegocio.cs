@@ -46,19 +46,19 @@ namespace Negocio
             }
         }
 
-        public List<Usuario> listar()
+        public List<Usuario> listarConPermisos()
         {
             List<Usuario> lista = new List<Usuario>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("SELECT * FROM VW_ListaUsuarios");
+                datos.setearConsulta("SELECT ID, IDPermiso, NombrePermiso, NombreUsuario, Contrasenia, Activo FROM VW_ListaUsuarios");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Usuario aux = new Usuario
+                    Usuario usuario = new Usuario
                     {
                         Id = (int)datos.Lector["ID"],
                         NombreUsuario = (string)datos.Lector["NombreUsuario"],
@@ -71,7 +71,7 @@ namespace Negocio
                         }
                     };
 
-                    lista.Add(aux);
+                    lista.Add(usuario);
                 }
 
                 return lista;
@@ -80,11 +80,9 @@ namespace Negocio
             {
                 throw ex;
             }
-            finally
-            {
-                datos.cerrarConexion();
-            }
         }
+
+
         public void agregar(Usuario nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -148,5 +146,90 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Usuario> filtrar(string campo, string criterio, string filtro, string estado)
+        {
+            List<Usuario> lista = new List<Usuario>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "SELECT NombreUsuario, Contrasenia, IDPermiso, Activo FROM Usuarios WHERE";
+
+                if (campo == "IDPermiso")
+                {
+                    switch (criterio)
+                    {
+                        case "Mayor a":
+                            consulta += " IDPermiso > " + filtro;
+                            break;
+                        case "Menor a":
+                            consulta += " IDPermiso < " + filtro;
+                            break;
+                        default:
+                            consulta += " IDPermiso = " + filtro;
+                            break;
+                    }
+                }
+                else if (campo == "NombreUsuario")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += " NombreUsuario LIKE '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " NombreUsuario LIKE '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += " NombreUsuario LIKE '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                else if (campo == "Contrasenia")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += " Contrasenia LIKE '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " Contrasenia LIKE '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += " Contrasenia LIKE '%" + filtro + "%'";
+                            break;
+                    }
+                }
+
+                if (estado == "Activo")
+                    consulta += " AND Activo = 1 ";
+                else if (estado == "Inactivo")
+                    consulta += " AND Activo = 0";
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Usuario aux = new Usuario
+                    {
+                        NombreUsuario = (string)datos.Lector["NombreUsuario"],
+                        Contrasenia = (string)datos.Lector["Contrasenia"],
+                        Activo = bool.Parse(datos.Lector["Activo"].ToString()),
+                        Permiso = new Permiso { Id = (int)datos.Lector["IDPermiso"] } // Asignación directa del permiso
+                    };
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
