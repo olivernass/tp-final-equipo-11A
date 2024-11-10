@@ -510,12 +510,43 @@ select * from Productos_x_Proveedores
 GO
 -- ACTIVAR
 
+CREATE PROCEDURE SP_ActivarMarca(
+	@ID INT
+)
+AS BEGIN
+UPDATE Marcas SET Activo = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ActivarCategoria(
+	@ID INT
+)
+AS BEGIN
+UPDATE Categorias SET Activo = 1 WHERE ID = @ID
+END
+GO
+
 CREATE PROCEDURE SP_ActivarProducto(
 	@ID BIGINT
 )
-AS
-BEGIN 
+AS BEGIN 
 UPDATE Productos SET Activo = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ActivarProveedor(
+	@ID INT
+)
+AS BEGIN
+UPDATE Proveedores SET Activo = 1 WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE SP_ActivarCliente(
+	@ID BIGINT
+)
+AS BEGIN
+UPDATE Clientes SET Activo = 1 WHERE ID = @ID
 END
 GO
 
@@ -698,5 +729,128 @@ INNER JOIN Marcas AS M ON M.ID = P.IDMarca
 INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
 INNER JOIN Imagenes AS I ON I.ID = P.IDImagen
 WHERE P.ID = @ID
+END
+GO
+
+-- VERIFICAR DUPLICIDAD AL CARGAR
+CREATE PROCEDURE SP_ExisteMarca(
+	@NombreMarca NVARCHAR(50)
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+END
+GO
+
+CREATE PROCEDURE SP_ExisteCategoria(
+	@NombreCategoria NVARCHAR(50)
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+END
+GO
+
+CREATE PROCEDURE SP_ExisteDNICliente(
+	@DNI INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Clientes WHERE DNI = @DNI
+END
+GO
+
+CREATE PROCEDURE SP_ExisteCUITProveedor(
+	@CUIT BIGINT
+)
+AS
+BEGIN
+    SELECT COUNT(*) FROM Proveedores WHERE CUIT = @CUIT
+END
+GO
+
+--VERIFICAR DUPLICIDAD AL MODIFICAR
+CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
+	@NombreMarca VARCHAR(50),
+	@IDMarca INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Marcas 
+    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+END
+GO
+
+CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
+	@NombreCategoria VARCHAR(50),
+	@IDCategoria INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Categorias 
+    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+END
+GO
+
+CREATE PROCEDURE SP_ExisteDNIClienteModificado(
+	@DNI INT,
+	@IDCliente BIGINT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Clientes 
+    WHERE DNI = @DNI AND ID <> @IDCliente
+END
+GO
+
+CREATE PROCEDURE SP_ExisteCUITProveedorModificado(
+	@CUIT BIGINT,
+	@IDProveedor INT
+)
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM Proveedores 
+    WHERE CUIT = @CUIT AND ID <> @IDProveedor
+END
+GO
+
+--VERIFICAR SI HAY ARTICULOS
+CREATE PROCEDURE SP_TieneProductosActivosCategoria(
+	@IdCategoria INT
+)
+AS
+BEGIN
+    SELECT COUNT(*)
+    FROM Productos
+    WHERE IDCategoria = @IdCategoria AND Activo = 1
+END
+GO
+
+CREATE PROCEDURE SP_TieneProductosActivosMarca(
+	@IdMarca INT
+)
+AS
+BEGIN
+    SELECT COUNT(*)
+    FROM Productos
+    WHERE IDMarca = @IdMarca AND Activo = 1
+END
+GO
+
+--CONTADOR DE PRODUCTOS X MARCA Y CATEGORIA
+use comercio_final
+CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
+AS
+BEGIN
+    SELECT TOP 1 M.Id, M.NombreMarca, COUNT(P.Id) AS CantidadProductos
+    FROM Marcas M
+    JOIN Productos P ON p.IdMarca = M.ID
+    WHERE P.Activo = 1
+    GROUP BY M.ID, M.NombreMarca
+    ORDER BY CantidadProductos DESC;
 END
 GO

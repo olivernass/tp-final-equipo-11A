@@ -54,6 +54,7 @@
 }
 
 function validarModificarCliente() {
+    var dni = document.querySelector('.validar-DNI-mod');
     var nombre = document.querySelector('.validar-nombre-mod');
     var apellido = document.querySelector('.validar-apellido-mod');
     var direccion = document.querySelector('.validar-direccion-mod');
@@ -61,6 +62,17 @@ function validarModificarCliente() {
     var correo = document.querySelector('.validar-correo-mod');
 
     let valid = true;
+
+    if (!dni.value) {
+        document.getElementById('errorDNIMod').textContent = "El DNI es obligatorio.";
+        dni.classList.add('input-error');
+        valid = false;
+    } else if (!/^[0-9]+$/.test(dni.value)) {
+        document.getElementById('errorDNIMod').textContent = "El DNI solo debe contener números.";
+        dni.classList.add('input-error');
+        valid = false;
+    }
+
     if (!nombre.value) {
         document.getElementById('errorNombreMod').textContent = "El nombre es obligatorio.";
         nombre.classList.add('input-error');

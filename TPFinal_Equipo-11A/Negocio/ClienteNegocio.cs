@@ -32,6 +32,7 @@ namespace Negocio
                     aux.Telefono = (string)datos.Lector["Telefono"];
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -112,6 +113,26 @@ namespace Negocio
         //        datos.cerrarConexion();
         //    }
         //}
+
+        public void activar(Cliente cliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ActivarCliente");
+                datos.setearParametro("@ID", cliente.Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public void modificar(Cliente cliente)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -139,6 +160,94 @@ namespace Negocio
             }
         }
 
+        //public List<Cliente> filtrar(string campo, string criterio, string filtro, string estado)
+        //{
+        //    List<Cliente> lista = new List<Cliente>();
+        //    AccesoDatos datos = new AccesoDatos();
+
+        //    try
+        //    {
+        //        string consulta = "select DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo FROM Clientes WHERE";
+
+        //        if(campo == "DNI")
+        //        {
+        //            switch (criterio)
+        //            {
+        //                case "Mayor a":
+        //                    consulta += " DNI > " + filtro;
+        //                    break;
+        //                case "Menor a":
+        //                    consulta += " DNI <" + filtro;
+        //                    break;
+        //                default:
+        //                    consulta += " DNI =" + filtro;
+        //                    break;
+        //            }
+        //        }
+        //        else if(campo == "Apellido")
+        //        {
+        //            switch(criterio)
+        //            {
+        //                case "Comienza con":
+        //                    consulta += " Apellido LIKE '" + filtro + "%' ";
+        //                    break;
+        //                case "Termina con":
+        //                    consulta += " Apellido LIKE '%" + filtro + "'";
+        //                    break;
+        //                default:
+        //                    consulta += " Apellido LIKE '%" + filtro + "%'";
+        //                    break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            switch(campo)
+        //            {
+        //                case "Comienza con":
+        //                    consulta += " Correo LIKE '" + filtro + "%' ";
+        //                    break;
+        //                case "Termina con":
+        //                    consulta += " Correo LIKE '%" + filtro + "'";
+        //                    break;
+        //                default:
+        //                    consulta += " Correo LIKE '%" + filtro + "%'";
+        //                    break;
+        //            }
+        //        }
+
+        //        if (estado == "Activo")
+        //            consulta += " AND Activo = 1 ";
+        //        else if (estado == "Inactivo")
+        //            consulta += " AND Activo = 0";
+
+        //        datos.setearConsulta( consulta );
+        //        datos.ejecutarLectura();
+
+        //        while(datos.Lector.Read())
+        //        {
+        //            Cliente aux = new Cliente();
+        //            aux.DNI = (int)datos.Lector["DNI"];
+        //            aux.Nombre = (string)datos.Lector["Nombre"];
+        //            aux.Apellido = (string)datos.Lector["Apellido"];
+        //            aux.Direccion = (string)datos.Lector["Direccion"];
+        //            aux.Telefono = (string)datos.Lector["Telefono"];
+        //            aux.Correo = (string)datos.Lector["Correo"];
+        //            aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
+        //            aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+        //            aux.Activo = (bool)datos.Lector["Activo"];
+
+        //            lista.Add(aux);
+        //        }
+
+        //        return lista;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+
         public List<Cliente> filtrar(string campo, string criterio, string filtro, string estado)
         {
             List<Cliente> lista = new List<Cliente>();
@@ -146,63 +255,69 @@ namespace Negocio
 
             try
             {
-                string consulta = "select DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo FROM Clientes WHERE";
+                // Iniciar la consulta
+                string consulta = "select DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo FROM Clientes WHERE 1=1";
 
-                if(campo == "DNI")
+                // Agregar condición del campo y criterio solo si ambos están presentes
+                if (!string.IsNullOrEmpty(campo) && !string.IsNullOrEmpty(criterio) && !string.IsNullOrEmpty(filtro))
                 {
-                    switch (criterio)
+                    if (campo == "DNI")
                     {
-                        case "Mayor a":
-                            consulta += " DNI > " + filtro;
-                            break;
-                        case "Menor a":
-                            consulta += " DNI <" + filtro;
-                            break;
-                        default:
-                            consulta += " DNI =" + filtro;
-                            break;
+                        switch (criterio)
+                        {
+                            case "Mayor a":
+                                consulta += " AND DNI > " + filtro;
+                                break;
+                            case "Menor a":
+                                consulta += " AND DNI < " + filtro;
+                                break;
+                            default:
+                                consulta += " AND DNI = " + filtro;
+                                break;
+                        }
                     }
-                }
-                else if(campo == "Apellido")
-                {
-                    switch(criterio)
+                    else if (campo == "Apellido")
                     {
-                        case "Comienza con":
-                            consulta += " Apellido LIKE '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += " Apellido LIKE '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += " Apellido LIKE '%" + filtro + "%'";
-                            break;
+                        switch (criterio)
+                        {
+                            case "Comienza con":
+                                consulta += " AND Apellido LIKE '" + filtro + "%'";
+                                break;
+                            case "Termina con":
+                                consulta += " AND Apellido LIKE '%" + filtro + "'";
+                                break;
+                            default:
+                                consulta += " AND Apellido LIKE '%" + filtro + "%'";
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    switch(campo)
+                    else if (campo == "Correo")
                     {
-                        case "Comienza con":
-                            consulta += " Correo LIKE '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += " Correo LIKE '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += " Correo LIKE '%" + filtro + "%'";
-                            break;
+                        switch (criterio)
+                        {
+                            case "Comienza con":
+                                consulta += " AND Correo LIKE '" + filtro + "%'";
+                                break;
+                            case "Termina con":
+                                consulta += " AND Correo LIKE '%" + filtro + "'";
+                                break;
+                            default:
+                                consulta += " AND Correo LIKE '%" + filtro + "%'";
+                                break;
+                        }
                     }
                 }
 
+                // Agregar condición de estado, sin importar si los otros filtros están vacíos
                 if (estado == "Activo")
-                    consulta += " AND Activo = 1 ";
+                    consulta += " AND Activo = 1";
                 else if (estado == "Inactivo")
                     consulta += " AND Activo = 0";
 
-                datos.setearConsulta( consulta );
+                datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
 
-                while(datos.Lector.Read())
+                while (datos.Lector.Read())
                 {
                     Cliente aux = new Cliente();
                     aux.DNI = (int)datos.Lector["DNI"];
@@ -212,7 +327,7 @@ namespace Negocio
                     aux.Telefono = (string)datos.Lector["Telefono"];
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
-                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -221,9 +336,69 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
+
+        public bool existeDNICliente(int dni)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteDNICliente"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@DNI", dni);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si el DNI ya existe
+                }
+
+                return false; // Retorna false si no se encontró el DNI
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public bool existeDNIClienteModificado(int dni, long idCliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ExisteDNIClienteModificado"); // Nombre del procedimiento almacenado
+                datos.setearParametro("@DNI", dni);
+                datos.setearParametro("@IDCliente", idCliente);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = datos.Lector.GetInt32(0);
+                    return count > 0; // Retorna true si el DNI ya existe para otro cliente
+                }
+
+                return false; // Retorna false si no se encontró el DNI duplicado
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }

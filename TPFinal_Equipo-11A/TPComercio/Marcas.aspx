@@ -34,13 +34,7 @@
             </asp:DropDownList>
         </div>
         
-        
             <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>
-        
-    
-
-
-
 
         <!-- Tabla de Marcas -->
         <table class="table tableMarcas table-hover mt-3">
@@ -48,6 +42,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Marca</th>
+                    <th scope="col">Activo</th>
                     <th scope="col" class="acciones">Acciones</th>
                 </tr>
             </thead>
@@ -57,17 +52,26 @@
                         <tr>
                             <th scope="row"><%# Eval("Id") %></th>
                             <td><%# Eval("NombreMarca") %></td>
+                            <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
                             <td>
                                 <!-- Botón Modificar -->
-                                <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
+                                <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
                                     onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreMarca") %>')">
-                                    Modificar
+                                    <img src="Content/Iconos/settings.png" alt="Detalle">
                                 </button>
 
-                                <!-- Botón Eliminar -->
-                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
+                                <!-- Botón Inactivar -->
+                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
                                     OnClientClick="return confirm('¿Estás seguro de que deseas eliminar esta marca?');"
-                                    CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
+                                    CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
+
+                                <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->
+
+                                <!-- Botón Activar -->
+                                <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
+                                    OnClientClick="return confirm('¿Estás seguro de que deseas activar este marca?');"
+                                    CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
+
                             </td>
                         </tr>
                     </ItemTemplate>

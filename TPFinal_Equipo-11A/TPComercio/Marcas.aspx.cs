@@ -42,46 +42,118 @@ namespace TPComercio
             hdnIdMarca.Value = string.Empty;
         }
 
+        //protected void btnGuardarMarca_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtNombreMarca.Text))
+        //    {
+        //        Marca nuevaMarca = new Marca
+        //        {
+        //            NombreMarca = txtNombreMarca.Text
+        //        };
+
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        negocio.agregar(nuevaMarca);
+
+        //        // Recargar la lista de marcas para que se vea reflejada la nueva marca
+        //        cargarMarcas();
+
+        //        limpiarCampos();
+
+        //        // Cerrar el modal
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
+        //    }
+        //}
+
         protected void btnGuardarMarca_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtNombreMarca.Text))
+            MarcaNegocio negocio = new MarcaNegocio();
+
+            // Validar que el campo de nombre no esté vacío
+            if (string.IsNullOrEmpty(txtNombreMarca.Text))
             {
-                Marca nuevaMarca = new Marca
-                {
-                    NombreMarca = txtNombreMarca.Text
-                };
-
-                MarcaNegocio negocio = new MarcaNegocio();
-                negocio.agregar(nuevaMarca);
-
-                // Recargar la lista de marcas para que se vea reflejada la nueva marca
-                cargarMarcas();
-
-                limpiarCampos();
-
-                // Cerrar el modal
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El nombre de la marca es obligatorio.');", true);
+                return;
             }
+
+            // Validar si ya existe una marca con el mismo nombre
+            if (negocio.existeMarca(txtNombreMarca.Text))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('La marca ya existe. Por favor, ingrese un nombre diferente.');", true);
+                return;
+            }
+
+            // Si pasa las validaciones, crear la nueva marca
+            Marca nuevaMarca = new Marca
+            {
+                NombreMarca = txtNombreMarca.Text
+            };
+
+            negocio.agregar(nuevaMarca);
+
+            // Recargar la lista de marcas y limpiar el formulario
+            cargarMarcas();
+            limpiarCampos();
+
+            // Cerrar el modal
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarMarca').modal('hide');", true);
         }
+
+
+        //protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtNombreMarcaMod.Text))
+        //    {
+        //        int idMarca = int.Parse(hdnIdMarca.Value); // ID de la marca almacenado en el HiddenField
+
+        //        Marca marcaModificada = new Marca
+        //        {
+        //            Id = idMarca,
+        //            NombreMarca = txtNombreMarcaMod.Text
+        //        };
+
+        //        MarcaNegocio negocio = new MarcaNegocio();
+        //        negocio.modificar(marcaModificada);
+
+        //        // Recargar la lista de marcas
+        //        cargarMarcas();
+
+        //        limpiarCamposModificacion();
+
+        //        // Cerrar el modal
+        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarMarca').modal('hide');", true);
+        //    }
+        //}
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
+            // Verificar que el nombre de la marca no esté vacío
             if (!string.IsNullOrEmpty(txtNombreMarcaMod.Text))
             {
-                int idMarca = int.Parse(hdnIdMarca.Value); // ID de la marca almacenado en el HiddenField
+                string nombreMarca = txtNombreMarcaMod.Text;
+                int idMarca = int.Parse(hdnIdMarca.Value); // Obtener el ID de la marca desde el HiddenField
 
+                MarcaNegocio negocio = new MarcaNegocio();
+
+                // Validar que no exista otra marca con el mismo nombre
+                if (negocio.existeNombreMarcaModificado(nombreMarca, idMarca))
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El nombre de la marca ya está registrado para otra marca.');", true);
+                    return;
+                }
+
+                // Si la validación pasa, proceder con la modificación de la marca
                 Marca marcaModificada = new Marca
                 {
                     Id = idMarca,
-                    NombreMarca = txtNombreMarcaMod.Text
+                    NombreMarca = nombreMarca
                 };
 
-                MarcaNegocio negocio = new MarcaNegocio();
-                negocio.modificar(marcaModificada);
+                negocio.modificar(marcaModificada); // Llamar al método de modificación
 
                 // Recargar la lista de marcas
                 cargarMarcas();
 
+                // Limpiar los campos del formulario de modificación
                 limpiarCamposModificacion();
 
                 // Cerrar el modal
@@ -89,18 +161,61 @@ namespace TPComercio
             }
         }
 
+
+        //protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        //{
+        //        if (e.CommandName == "Inactivar")
+        //        {
+        //            int idMarca = Convert.ToInt32(e.CommandArgument);
+        //            Marca marcaEliminar = new Marca();
+        //            {
+        //                marcaEliminar.Id = idMarca;
+        //            }
+        //            MarcaNegocio negocio = new MarcaNegocio();
+        //            negocio.eliminarL(marcaEliminar);
+        //            cargarMarcas();
+        //        }
+        //        else if (e.CommandName == "Activar")
+        //        {
+        //            int idMarca = Convert.ToInt32(e.CommandArgument);
+        //            Marca marcaActivar = new Marca();
+        //            {
+        //                marcaActivar.Id = idMarca;
+        //            }
+        //            MarcaNegocio negocio = new MarcaNegocio();
+        //            negocio.activar(marcaActivar);
+        //            cargarMarcas();
+        //        }
+        //}
+
         protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "Eliminar")
-            {
-                int idMarca = Convert.ToInt32(e.CommandArgument);
-                MarcaNegocio negocio = new MarcaNegocio();
-                negocio.eliminarL(idMarca);
+            int idMarca = Convert.ToInt32(e.CommandArgument);
+            MarcaNegocio negocio = new MarcaNegocio();
 
-                // Recargar la lista de marcas después de eliminar
+            if (e.CommandName == "Inactivar")
+            {
+                // Verificar si la marca tiene productos activos asociados
+                if (negocio.tieneProductosActivos(idMarca))
+                {
+                    // Mostrar un mensaje de error si la marca tiene productos activos
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('No se puede inactivar esta marca porque tiene productos activos asociados.');", true);
+                    return;
+                }
+
+                // Proceder con la inactivación si no hay productos activos asociados
+                Marca marcaEliminar = new Marca { Id = idMarca };
+                negocio.eliminarL(marcaEliminar);
+                cargarMarcas();
+            }
+            else if (e.CommandName == "Activar")
+            {
+                Marca marcaActivar = new Marca { Id = idMarca };
+                negocio.activar(marcaActivar);
                 cargarMarcas();
             }
         }
+
 
         protected void txtFiltroMarcas_TextChanged(object sender, EventArgs e)
         {
@@ -112,8 +227,11 @@ namespace TPComercio
 
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
-            txtFiltroMarcas.Text = string.Empty;
+
             cargarMarcas();
+            txtFiltroMarcas.Text = string.Empty;
+            ddlEstadoMarcas.SelectedValue = "Todos";
+
         }
 
         //protected void ddlEstadoMarcas_SelectedIndexChanged(object sender, EventArgs e)
@@ -145,6 +263,7 @@ namespace TPComercio
                 throw;
             }
         }
+
 
         //protected void ddlEstadoMarcas_SelectedIndexChanged1(object sender, EventArgs e)
         //{
