@@ -302,6 +302,18 @@ namespace TPComercio
         {
             FiltroAvanzado = chkAvanzado.Checked;
             txtFiltroProveedores.Enabled = !FiltroAvanzado;
+
+            if (FiltroAvanzado)
+            {
+                // Establecer "CUIT" como valor predeterminado en ddlCampo
+                ddlCampo.SelectedValue = "CUIT";
+
+                // Llamar al método para actualizar los criterios según el campo seleccionado
+                ddlCampo_SelectedIndexChanged(sender, e);
+
+                // Establecer "Igual a" como valor predeterminado en ddlCriterio
+                ddlCriterio.SelectedValue = "Igual a";
+            }
         }
 
         protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
@@ -339,9 +351,21 @@ namespace TPComercio
                 rptProveedores.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado, estado);
                 rptProveedores.DataBind();
 
-                // Limpiar los criterios y el filtro avanzado
-                ddlCriterio.Items.Clear();
+                //// Limpiar los criterios y el filtro avanzado
+                //ddlCriterio.Items.Clear();
+                //txtFiltroAvanzado.Text = string.Empty;
+
+                // Limpiar el filtro avanzado
                 txtFiltroAvanzado.Text = string.Empty;
+
+                // Restablecer "CUIT" como valor predeterminado en ddlCampo
+                ddlCampo.SelectedValue = "CUIT";
+
+                // Llamar al método para actualizar los criterios de "DNI"
+                ddlCampo_SelectedIndexChanged(sender, e);
+
+                // Establecer "Igual a" como valor predeterminado en ddlCriterio
+                ddlCriterio.SelectedValue = "Igual a";
 
 
                 //ProveedorNegocio negocio = new ProveedorNegocio();
@@ -361,8 +385,20 @@ namespace TPComercio
             ddlCriterio.Items.Clear();
             txtFiltroAvanzado.Text = string.Empty;
 
-            // Establecer valores predeterminados en ddlCampo y ddlEstado
+            //// Establecer valores predeterminados en ddlCampo y ddlEstado
+            //ddlCampo.SelectedValue = "CUIT";
+            //ddlEstado.SelectedValue = "Todos";
+
+            // Establecer "CUIT" como valor predeterminado en ddlCampo
             ddlCampo.SelectedValue = "CUIT";
+
+            // Llamar a ddlCampo_SelectedIndexChanged para cargar los criterios de "DNI"
+            ddlCampo_SelectedIndexChanged(sender, e);
+
+            // Establecer "Igual a" como valor predeterminado en ddlCriterio
+            ddlCriterio.SelectedValue = "Igual a";
+
+            // Establecer el estado predeterminado en ddlEstado
             ddlEstado.SelectedValue = "Todos";
         }
     }

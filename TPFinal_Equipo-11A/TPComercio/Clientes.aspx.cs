@@ -422,13 +422,26 @@ namespace TPComercio
         {
             FiltroAvanzado = chkAvanzado.Checked;
             txtFiltroClientes.Enabled = !FiltroAvanzado;
+
+            if (FiltroAvanzado)
+            {
+                // Establecer "DNI" como valor predeterminado en ddlCampo
+                ddlCampo.SelectedValue = "DNI";
+
+                // Llamar al método para actualizar los criterios según el campo seleccionado
+                ddlCampo_SelectedIndexChanged(sender, e);
+
+                // Establecer "Igual a" como valor predeterminado en ddlCriterio
+                ddlCriterio.SelectedValue = "Igual a";
+            }
+
         }
 
         protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
             ddlCriterio.Items.Clear();
 
-            if(ddlCampo.SelectedItem.ToString() == "DNI")
+            if (ddlCampo.SelectedItem.ToString() == "DNI")
             {
                 ddlCriterio.Items.Add("Igual a");
                 ddlCriterio.Items.Add("Menor a");
@@ -459,10 +472,22 @@ namespace TPComercio
                 rptClientes.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado, estado);
                 rptClientes.DataBind();
 
-                // Limpiar los criterios y el filtro avanzado
-                ddlCriterio.Items.Clear();
+                //// Limpiar los criterios y el filtro avanzado
+                //ddlCriterio.Items.Clear();
+                //txtFiltroAvanzado.Text = string.Empty;
+
+
+                // Limpiar el filtro avanzado
                 txtFiltroAvanzado.Text = string.Empty;
 
+                // Restablecer "DNI" como valor predeterminado en ddlCampo
+                ddlCampo.SelectedValue = "DNI";
+
+                // Llamar al método para actualizar los criterios de "DNI"
+                ddlCampo_SelectedIndexChanged(sender, e);
+
+                // Establecer "Igual a" como valor predeterminado en ddlCriterio
+                ddlCriterio.SelectedValue = "Igual a";
 
 
                 //ClienteNegocio negocio = new ClienteNegocio();
@@ -482,11 +507,24 @@ namespace TPComercio
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
             cargarClientes();
-            ddlCriterio.Items.Clear();
+            //ddlCriterio.Items.Clear();
             txtFiltroAvanzado.Text = string.Empty;
 
-            // Establecer valores predeterminados en ddlCampo y ddlEstado
+            //// Establecer valores predeterminados en ddlCampo y ddlEstado
+            //ddlCampo.SelectedValue = "DNI";
+            //ddlCriterio.SelectedValue = "Igual a";
+            //ddlEstado.SelectedValue = "Todos";
+
+            // Establecer "DNI" como valor predeterminado en ddlCampo
             ddlCampo.SelectedValue = "DNI";
+
+            // Llamar a ddlCampo_SelectedIndexChanged para cargar los criterios de "DNI"
+            ddlCampo_SelectedIndexChanged(sender, e);
+
+            // Establecer "Igual a" como valor predeterminado en ddlCriterio
+            ddlCriterio.SelectedValue = "Igual a";
+
+            // Establecer el estado predeterminado en ddlEstado
             ddlEstado.SelectedValue = "Todos";
         }
     }
