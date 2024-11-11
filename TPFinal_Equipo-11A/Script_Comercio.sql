@@ -188,13 +188,11 @@ GO
 --INNER JOIN Imagenes as I ON I.ID = P.IDImagen
 --GO
 
-CREATE VIEW VW_ALLProducto AS
+CREATE OR ALTER VIEW VW_ALLProducto AS
 SELECT P.ID, P.Nombre, P.Descripcion, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, I.ImagenURL, M.NombreMarca, C.NombreCategoria,P.Activo FROM Productos AS P
 INNER JOIN Imagenes AS I ON I.ID = P.IDImagen
 INNER JOIN Marcas AS M ON M.ID = P.IDMarca
 INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
-INNER JOIN Productos_x_Proveedores AS PXP ON PXP.IDProducto = P.ID
-INNER JOIN Proveedores AS PROV ON PROV.ID = PXP.IDProveedor
 GO
 
 /* STORE PROCEDURE */
@@ -267,7 +265,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE SP_Nueva_Imagen(
+CREATE PROCEDURE SP_Nueva_Imagen(
     @imagenURL VARCHAR(1000),
     @UltimoID BIGINT OUTPUT
 )
@@ -295,7 +293,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE SP_PRODUCT_X_PROV(
+CREATE PROCEDURE SP_PRODUCT_X_PROV(
     @IDPRODUCTO BIGINT,
     @IDPROVEEDOR INT
 )
@@ -950,5 +948,3 @@ INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria, Stock_Actual, 
 ('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
 GO
 */
-
-
