@@ -36,7 +36,7 @@ namespace TPComercio
 
         // Limpiar campos del modal
         private void limpiarCampos()
-        {   
+        {
             txtDNICliente.Text = string.Empty;
             txtNombreCliente.Text = string.Empty;
             txtApellidoCliente.Text = string.Empty;
@@ -46,7 +46,7 @@ namespace TPComercio
         }
 
         private void limpiarCamposModificacion()
-        {   
+        {
             txtDNIClienteMod.Text = string.Empty;
             txtNombreClienteMod.Text = string.Empty;
             txtApellidoClienteMod.Text = string.Empty;
@@ -456,7 +456,7 @@ namespace TPComercio
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
-        {   
+        {
             try
             {
 

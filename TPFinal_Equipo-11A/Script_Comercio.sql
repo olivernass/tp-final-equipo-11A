@@ -1,4 +1,4 @@
-USE master
+ÔªøUSE master
 GO
 CREATE DATABASE comercio_final
 GO
@@ -11,6 +11,7 @@ CREATE TABLE Permisos (
     PRIMARY KEY(ID)
 );
 GO
+
 CREATE TABLE Marcas (
 	ID INT NOT NULL IDENTITY(1,1),
     NombreMarca VARCHAR(30) NOT NULL,
@@ -64,7 +65,6 @@ CREATE TABLE Proveedores(
 	PRIMARY KEY(ID),
 );
 GO
-
 CREATE TABLE Imagenes(
 	ID BIGINT NOT NULL IDENTITY(1,1),
 	ImagenURL VARCHAR(1000),
@@ -72,7 +72,6 @@ CREATE TABLE Imagenes(
 	PRIMARY KEY(ID)
 );
 GO
-
 CREATE TABLE Productos(
 	ID BIGINT NOT NULL IDENTITY(1,10),
 	Nombre VARCHAR(30) NOT NULL,
@@ -150,65 +149,6 @@ CREATE TABLE Productos_x_compra(
 );
 GO
 
-/* INSERTS */
-
--- Inserciones en la tabla Marcas
-INSERT INTO Marcas (NombreMarca, Activo) VALUES 
-('Sony', 1),
-('Samsung', 1),
-('LG', 1),
-('Apple', 1),
-('Dell', 1);
-
-
--- Inserciones en la tabla Categorias
-INSERT INTO Categorias (NombreCategoria, Activo) VALUES
-('Electr?nica', 1),
-('Accesorios', 1),
-('Computaci?n', 1),
-('Telefon?a', 1),
-('Videojuegos', 1);
-GO
-
--- Inserciones en la tabla Clientes
-INSERT INTO Clientes (DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo) VALUES 
-(12345678, 'Juan', 'PÈrez', 'Calle Falsa 123', '1234567890', 'juan.perez@mail.com', '2024-10-01', 1),
-(87654321, 'Ana', 'GÛmez', 'Av. Siempre Viva 456', '0987654321', 'ana.gomez@mail.com', '2024-10-02', 1),
-(23456789, 'Pedro', 'MartÌnez', 'Calle Luna 789', '1112223333', 'pedro.martinez@mail.com', '2024-10-03', 0),
-(34567890, 'LucÌa', 'Fern·ndez', 'Av. Sol 987', '4445556666', 'lucia.fernandez@mail.com', '2024-10-04', 1),
-(45678901, 'Carlos', 'S·nchez', 'Calle Estrella 321', '7778889990', 'carlos.sanchez@mail.com', '2024-10-05', 0);
-
-
--- Inserciones en la tabla Proveedores
-INSERT INTO Proveedores (CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo) VALUES 
-(20345678901, 'ABC', 'Proveedor ABC', 'Calle Proveedor 123', 'abc@proveedor.com', '1122334455', 1),
-(30567890123, 'XYZ', 'Proveedor XYZ', 'Av. Proveedor 456', 'xyz@proveedor.com', '2233445566', 1),
-(20456789012, 'DEF', 'Proveedor DEF', 'Calle Proveedor 789', 'def@proveedor.com', '3344556677', 1),
-(30678901234, 'GHI', 'Proveedor GHI', 'Av. Proveedor 321', 'ghi@proveedor.com', '4455667788', 0),
-(20789012345, 'JKL', 'Proveedor JKL', 'Calle Proveedor 654', 'jkl@proveedor.com', '5566778899', 1);
-
-INSERT INTO Imagenes (ImagenURL) VALUES
-('https://i.pinimg.com/564x/12/53/84/1253845f3d560a17692bdbfb56335f04.jpg'),
-('https://spacegamer.com.ar/img/Public/1058-producto-1019-producto-monitor-samsung-t35f-11-4868-4179.jpg'),
-('https://i.blogs.es/47eaa9/1366_2000/500_333.webp'),
-('https://mexx-img-2019.s3.amazonaws.com/38348_1.jpeg'),
-('https://http2.mlstatic.com/D_NQ_NP_821666-MLA74019269225_012024-O.webp');
-
---Inserciones en la tabla Productos (solo 5 productos)
-INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
-('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 1, 100, 20, 25.00, 40.00, 60.00, 1),
-('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 2, 30, 5, 150.00, 220.00, 46.67, 1),
-('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 3, 15, 5, 800.00, 1100.00, 37.50, 1),
-('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 4, 150, 30, 15.00, 25.00, 66.67, 1),
-('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 5, 10, 2, 450.00, 550.00, 22.22, 1),
-('Auriculares Bose', 'Auriculares con cancelaciÛn de ruido', 1, 1, 1, 50, 10, 200.00, 300.00, 50.00, 1),
-('Laptop Dell', 'Laptop 15 pulgadas', 3, 2, 2, 25, 5, 600.00, 900.00, 50.00, 1),
-('C·mara Canon', 'C·mara rÈflex digital', 2, 3, 3, 20, 4, 400.00, 600.00, 50.00, 1),
-('Impresora HP', 'Impresora multifuncional', 4, 4, 4, 15, 3, 100.00, 150.00, 50.00, 1),
-('Altavoces JBL', 'Altavoces port·tiles Bluetooth', 1, 5, 5, 75, 15, 50.00, 80.00, 60.00, 1);
-GO
-
-
 /* Vistas */
 
 CREATE VIEW VW_ListaMarcas AS 
@@ -223,7 +163,7 @@ CREATE VIEW VW_ListaCategorias AS
 SELECT * FROM Categorias
 GO
 
-CREATE OR ALTER VIEW VW_ListaProveedores AS
+CREATE VIEW VW_ListaProveedores AS
 SELECT * FROM Proveedores WHERE Activo = 1
 GO
 
@@ -237,6 +177,11 @@ FROM Usuarios AS U
 INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
 GO
 
+CREATE VIEW VW_ListaProductos AS
+SELECT P.ID, P.Nombre, P.Descripcion, P.Activo
+FROM Productos AS P
+GO
+
 --CREATE VIEW VW_ListaProductos AS
 --SELECT P.ID, P.Nombre, P.Descripcion, I.ImagenURL, P.Activo
 --FROM Productos AS P
@@ -244,7 +189,7 @@ GO
 --GO
 
 CREATE VIEW VW_ALLProducto AS
-SELECT P.ID, P.Nombre, P.Descripcion, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, I.ImagenURL, M.NombreMarca, C.NombreCategoria,P.Activo, FROM Productos AS P
+SELECT P.ID, P.Nombre, P.Descripcion, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, I.ImagenURL, M.NombreMarca, C.NombreCategoria,P.Activo FROM Productos AS P
 INNER JOIN Imagenes AS I ON I.ID = P.IDImagen
 INNER JOIN Marcas AS M ON M.ID = P.IDMarca
 INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
@@ -333,7 +278,7 @@ BEGIN
         INSERT INTO Imagenes(ImagenURL) 
         VALUES (@imagenURL);
 
-        -- Obtener el ˙ltimo ID insertado (ID de la imagen)
+        -- Obtener el √∫ltimo ID insertado (ID de la imagen)
         SET @UltimoID = SCOPE_IDENTITY();
 
         -- Verificar que el ID no sea NULL
@@ -359,7 +304,7 @@ BEGIN
     BEGIN TRY
         IF @IDPROVEEDOR IS NULL OR @IDPRODUCTO IS NULL
         BEGIN
-            THROW 50004, 'Los par·metros no pueden ser NULL', 1;
+            THROW 50004, 'Los par√°metros no pueden ser NULL', 1;
         END
 			INSERT INTO Productos_x_Proveedores(IDProducto, IDProveedor) 
 			VALUES (@IDPRODUCTO, @IDPROVEEDOR);
@@ -377,13 +322,13 @@ CREATE OR ALTER PROCEDURE SP_PRODUCT_X_PROV2(
 AS
 BEGIN
     BEGIN TRY
-        -- Verifica si los par·metros son NULL
+        -- Verifica si los par√°metros son NULL
         IF @IDPROVEEDOR IS NULL OR @IDPRODUCTO IS NULL
         BEGIN
-            THROW 50004, 'Los par·metros no pueden ser NULL', 1;
+            THROW 50004, 'Los par√°metros no pueden ser NULL', 1;
         END
         
-        -- Verifica si el proveedor ya est· asociado al producto
+        -- Verifica si el proveedor ya est√° asociado al producto
         IF NOT EXISTS (
             SELECT 1 
             FROM Productos_x_Proveedores 
@@ -392,14 +337,14 @@ BEGIN
 			
         )
         BEGIN
-            -- Inserta la asociaciÛn en la tabla Productos_x_Proveedores
+            -- Inserta la asociaci√≥n en la tabla Productos_x_Proveedores
             INSERT INTO Productos_x_Proveedores (IDProducto, IDProveedor) 
             VALUES (@IDPRODUCTO, @IDPROVEEDOR);
         END
         ELSE
         BEGIN
-            -- Si ya existe la asociaciÛn, lanzar un error
-            THROW 50005, 'El proveedor ya est· asociado al producto.', 1;
+            -- Si ya existe la asociaci√≥n, lanzar un error
+            THROW 50005, 'El proveedor ya est√° asociado al producto.', 1;
         END
     END TRY
     BEGIN CATCH
@@ -409,6 +354,8 @@ BEGIN
 END
 GO
 
+SELECT * FROM Marcas
+SELECT * FROM Productos
 
 CREATE OR ALTER PROCEDURE SP_ALTA_PRODUCTO(
     @NOMBRE VARCHAR(30),
@@ -425,7 +372,7 @@ CREATE OR ALTER PROCEDURE SP_ALTA_PRODUCTO(
 )
 AS
 BEGIN
-    BEGIN TRANSACTION;  -- Iniciar la transacciÛn
+    BEGIN TRANSACTION;  -- Iniciar la transacci√≥n
 
     BEGIN TRY
 		 -- Verificar si el proveedor existe
@@ -433,14 +380,14 @@ BEGIN
         BEGIN
             THROW 50004, 'Proveedor no existe.', 1;
         END
-        -- Llamar al procedimiento SP_Nueva_Imagen para insertar la imagen y obtener el ˙ltimo ID
+        -- Llamar al procedimiento SP_Nueva_Imagen para insertar la imagen y obtener el √∫ltimo ID
         DECLARE @UltimoID BIGINT;
         EXEC SP_Nueva_Imagen @IMAGENURL, @UltimoID OUTPUT;
 
         -- Verificar que @UltimoID no sea NULL
         IF @UltimoID IS NULL
         BEGIN
-            THROW 50002, 'No se pudo obtener un ID v·lido para la imagen', 1;
+            THROW 50002, 'No se pudo obtener un ID v√°lido para la imagen', 1;
         END
 
         -- Insertar el producto en la tabla Productos
@@ -469,7 +416,7 @@ BEGIN
             @PORCENTAJEGANANCIA
         );
 
-        -- Obtener el ˙ltimo ID insertado del producto
+        -- Obtener el √∫ltimo ID insertado del producto
         DECLARE @PRODUCTOGENERADO BIGINT;
         SET @PRODUCTOGENERADO = SCOPE_IDENTITY();
 
@@ -480,7 +427,7 @@ BEGIN
 
         EXEC SP_PRODUCT_X_PROV @PRODUCTOGENERADO, @IDPROVEEDOR;
 
-        COMMIT TRANSACTION;  -- Confirmar la transacciÛn
+        COMMIT TRANSACTION;  -- Confirmar la transacci√≥n
 
     END TRY
     BEGIN CATCH
@@ -499,15 +446,6 @@ BEGIN
 END
 GO
 
-SELECT ID,Siglas FROM Proveedores WHERE ID NOT IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = 221) AND Activo = 1
-SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = 221) AND Activo = 1
-
-SELECT * FROM Proveedores
-select * from Imagenes
-select * from Productos
-select * from Productos_x_Proveedores
-
-GO
 -- ACTIVAR
 
 CREATE PROCEDURE SP_ActivarMarca(
@@ -710,11 +648,24 @@ AS
 BEGIN
 	UPDATE Productos SET Nombre = @NOMBRE, Descripcion = @DESCRIPCION, IDMarca = @IDMARCA, IDCategoria = @IDCATEGORIA, Stock_Actual = @STOCKACTUAL, Stock_Minimo = @STOCKMINIMO, Precio_Compra = @PRECIOCOMPRA, Precio_Venta = @PRECIOVENTA, Porcentaje_Ganancia = @PORCENTAJEGANANCIA WHERE ID = @ID
 END
-
-
-
-
+GO
 -------
+
+-- DETALLE DE PRODUCTO
+-- FALTAN PROVEEDORES Y IMAGENES
+
+--CREATE PROCEDURE SP_DetalleProducto(
+--	@ID BIGINT
+--) 
+--AS
+--BEGIN
+--SELECT P.ID, P.Nombre, P.Descripcion, M.NombreMarca, C.NombreCategoria, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Precio_Venta, P.Porcentaje_Ganancia, P.Activo
+--FROM Productos AS P
+--INNER JOIN Marcas AS M ON M.ID = P.IDMarca
+--INNER JOIN Categorias AS C ON C.ID = P.IDCategoria
+--WHERE P.ID = @ID
+--END
+--GO
 
 -- DETALLE DE PRODUCTO
 -- SIN PROVEEDOR
@@ -842,7 +793,6 @@ END
 GO
 
 --CONTADOR DE PRODUCTOS X MARCA Y CATEGORIA
-use comercio_final
 CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
 AS
 BEGIN
@@ -854,3 +804,148 @@ BEGIN
     ORDER BY CantidadProductos DESC;
 END
 GO
+
+
+--INSERTS
+
+INSERT INTO Marcas (NombreMarca, Activo) VALUES
+('Sony', 1),
+('Samsung', 1),
+('LG', 1),
+('Apple', 1),
+('Huawei', 1),
+('Dell', 1),
+('HP', 1),
+('Lenovo', 1),
+('Acer', 1),
+('Asus', 1),
+('Xiaomi', 1),
+('Microsoft', 1),
+('Nokia', 1),
+('Panasonic', 1),
+('Canon', 1);
+GO
+
+INSERT INTO Categorias (NombreCategoria, Activo) VALUES
+('Electr√≥nica', 1),
+('Computadoras', 1),
+('Smartphones', 1),
+('C√°maras', 1),
+('Audio', 1),
+('Televisores', 1),
+('Electrodom√©sticos', 1),
+('Gaming', 1),
+('Tablets', 1),
+('Accesorios', 1),
+('Relojes inteligentes', 1),
+('Impresoras', 1),
+('Proyectores', 1),
+('Componentes', 1),
+('Hogar Inteligente', 1);
+GO
+
+INSERT INTO Clientes (DNI, Nombre, Apellido, Direccion, Telefono, Correo, Activo) VALUES
+(30123456, 'Juan', 'P√©rez', 'Av. Siempre Viva 123', '1234567890', 'juan.perez@email.com', 1),
+(31456789, 'Ana', 'G√≥mez', 'Calle Falsa 456', '0987654321', 'ana.gomez@email.com', 1),
+(32987654, 'Mar√≠a', 'L√≥pez', 'Av. del Libertador 789', '1122334455', 'maria.lopez@email.com', 1),
+(34234567, 'Carlos', 'Mart√≠nez', 'Pje. las Flores 12', '2233445566', 'carlos.martinez@email.com', 1),
+(35678901, 'Laura', 'Garc√≠a', 'Av. Corrientes 432', '3344556677', 'laura.garcia@email.com', 1),
+(36123456, 'Jorge', 'Rodr√≠guez', 'Calle Luna 50', '4455667788', 'jorge.rodriguez@email.com', 1),
+(37567890, 'Rosa', 'Fern√°ndez', 'Av. de Mayo 345', '5566778899', 'rosa.fernandez@email.com', 1),
+(38901234, 'Pablo', 'Gim√©nez', 'Calle Olivos 28', '6677889900', 'pablo.gimenez@email.com', 1),
+(39012345, 'Luc√≠a', 'Ruiz', 'Av. Mitre 222', '7788990011', 'lucia.ruiz@email.com', 1),
+(40456789, 'Pedro', 'S√°nchez', 'Calle Aconcagua 456', '8899001122', 'pedro.sanchez@email.com', 1),
+(41789012, 'Florencia', 'Luna', 'Av. Belgrano 789', '9900112233', 'florencia.luna@email.com', 1),
+(43012345, 'Federico', 'M√©ndez', 'Calle San Mart√≠n 100', '1010101010', 'federico.mendez@email.com', 1),
+(44567890, 'Elena', 'Paredes', 'Av. Alem 500', '2020202020', 'elena.paredes@email.com', 1),
+(45901234, 'David', 'D√≠az', 'Calle Roca 1122', '3030303030', 'david.diaz@email.com', 1),
+(47345678, 'Marta', 'Ramos', 'Av. Sarmiento 333', '4040404040', 'marta.ramos@email.com', 1);
+GO
+
+INSERT INTO Proveedores (CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo) VALUES
+(30712345678, 'SONY', 'Sony Corp.', 'Av. Principal 123, Tokio, Jap√≥n', 'contacto@sony.com', '1123456789', 1),
+(30798765432, 'SAMG', 'Samsung Ltd.', 'Samsung Town, Se√∫l, Corea del Sur', 'info@samsung.com', '2123456789', 1),
+(30812345678, 'APPLE', 'Apple Inc.', '1 Infinite Loop, Cupertino, CA, EE.UU.', 'support@apple.com', '3123456789', 1),
+(30898765432, 'LG', 'LG Electronics', 'LG Twin Towers, Se√∫l, Corea del Sur', 'contact@lg.com', '4123456789', 1),
+(30912345678, 'HUAWE', 'Huawei Ltd.', 'Huawei Campus, Shenzhen, China', 'support@huawei.com', '5123456789', 1),
+(30998765432, 'DELL', 'Dell Technologies', 'Round Rock, TX, EE.UU.', 'info@dell.com', '6123456789', 1),
+(31012345678, 'HP', 'HP Inc.', '1501 Page Mill Road, Palo Alto, CA, EE.UU.', 'contact@hp.com', '7123456789', 1),
+(31098765432, 'LENOV', 'Lenovo Group', 'No.6 Chuangye Road, Beijing, China', 'support@lenovo.com', '8123456789', 1),
+(31112345678, 'ACER', 'Acer Inc.', 'Xizhi District, Taip√©i, Taiw√°n', 'contact@acer.com', '9123456789', 1),
+(31198765432, 'ASUS', 'AsusTek', 'Beitou, Taip√©i, Taiw√°n', 'support@asus.com', '1023456789', 1),
+(31212345678, 'XIAOM', 'Xiaomi Corp.', 'Haidian District, Pek√≠n, China', 'info@xiaomi.com', '1123456789', 1),
+(31298765432, 'MSFT', 'Microsoft', 'Redmond, WA, EE.UU.', 'contact@microsoft.com', '1223456789', 1),
+(31312345678, 'NOKIA', 'Nokia Corp.', 'Espoo, Finlandia', 'support@nokia.com', '1323456789', 1),
+(31398765432, 'PANA', 'Panasonic', 'Kadoma, Osaka, Jap√≥n', 'info@panasonic.com', '1423456789', 1),
+(31412345678, 'CANON', 'Canon Inc.', 'Ota, Tokio, Jap√≥n', 'contact@canon.com', '1523456789', 1);
+GO
+
+--INSERT INTO Imagenes (ImagenURL) VALUES
+--('https://i.pinimg.com/564x/12/53/84/1253845f3d560a17692bdbfb56335f04.jpg'),
+--('https://spacegamer.com.ar/img/Public/1058-producto-1019-producto-monitor-samsung-t35f-11-4868-4179.jpg'),
+--('https://i.blogs.es/47eaa9/1366_2000/500_333.webp'),
+--('https://mexx-img-2019.s3.amazonaws.com/38348_1.jpeg'),
+--('https://http2.mlstatic.com/D_NQ_NP_821666-MLA74019269225_012024-O.webp');
+--GO
+
+--SELECT * FROM Productos
+
+----Inserciones en la tabla Productos (solo 5 productos)
+--INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
+--('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 1, 100, 20, 25.00, 40.00, 60.00, 1),
+--('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 2, 30, 5, 150.00, 220.00, 46.67, 1),
+--('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 3, 15, 5, 800.00, 1100.00, 37.50, 1),
+--('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 4, 150, 30, 15.00, 25.00, 66.67, 1),
+--('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
+--GO
+
+/* INSERTS */
+/*VIEJOS INSERTS
+
+-- Inserciones en la tabla Marcas
+INSERT INTO Marcas (NombreMarca, Activo) VALUES 
+('Sony', 1),
+('Samsung', 1),
+('LG', 1),
+('Apple', 1),
+('Dell', 1);
+
+
+-- Inserciones en la tabla Categorias
+INSERT INTO Categorias (NombreCategoria, Activo) VALUES
+('Electr?nica', 1),
+('Accesorios', 1),
+('Computaci?n', 1),
+('Telefon?a', 1),
+('Videojuegos', 1);
+GO
+
+-- Inserciones en la tabla Clientes
+INSERT INTO Clientes (DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo) VALUES 
+(12345678, 'Juan', 'PÔøΩrez', 'Calle Falsa 123', '1234567890', 'juan.perez@mail.com', '2024-10-01', 1),
+(87654321, 'Ana', 'GÔøΩmez', 'Av. Siempre Viva 456', '0987654321', 'ana.gomez@mail.com', '2024-10-02', 1),
+(23456789, 'Pedro', 'MartÔøΩnez', 'Calle Luna 789', '1112223333', 'pedro.martinez@mail.com', '2024-10-03', 0),
+(34567890, 'LucÔøΩa', 'FernÔøΩndez', 'Av. Sol 987', '4445556666', 'lucia.fernandez@mail.com', '2024-10-04', 1),
+(45678901, 'Carlos', 'SÔøΩnchez', 'Calle Estrella 321', '7778889990', 'carlos.sanchez@mail.com', '2024-10-05', 0);
+
+
+-- Inserciones en la tabla Proveedores
+INSERT INTO Proveedores (CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo) VALUES 
+(20345678901, 'ABC', 'Proveedor ABC', 'Calle Proveedor 123', 'abc@proveedor.com', '1122334455', 1),
+(30567890123, 'XYZ', 'Proveedor XYZ', 'Av. Proveedor 456', 'xyz@proveedor.com', '2233445566', 1),
+(20456789012, 'DEF', 'Proveedor DEF', 'Calle Proveedor 789', 'def@proveedor.com', '3344556677', 1),
+(30678901234, 'GHI', 'Proveedor GHI', 'Av. Proveedor 321', 'ghi@proveedor.com', '4455667788', 0),
+(20789012345, 'JKL', 'Proveedor JKL', 'Calle Proveedor 654', 'jkl@proveedor.com', '5566778899', 1);
+
+
+-- Inserciones en la tabla Productos (solo 5 productos)
+INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
+('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 100, 20, 25.00, 40.00, 60.00, 1),
+('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 30, 5, 150.00, 220.00, 46.67, 1),
+('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 15, 5, 800.00, 1100.00, 37.50, 1),
+('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 150, 30, 15.00, 25.00, 66.67, 1),
+('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
+GO
+*/
+
+

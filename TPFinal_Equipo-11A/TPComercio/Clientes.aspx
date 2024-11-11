@@ -62,6 +62,7 @@
                 <div class="col-3">
                     <div class="mb-3">
                         <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" />
+                        <asp:Button Text="Limpiar" runat="server" CssClass="btn btn-primary" ID="btnLimpiar" OnClick="btnLimpiar_Click"/>
                     </div>
                 </div>
             </div>
