@@ -3,62 +3,122 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="containerClientes">
         <h2 class="h2listado">Listado de Clientes</h2>
 
+        <!-- Sección de Filtro -->
+        <div class="row">
+            <!-- Inserta el código del filtro aquí -->
+            <div class="col-6">
+                <div class="mb-3">
+                    <asp:Label Text="Filtrar por nombre:" runat="server" />
+                    <asp:TextBox runat="server" ID="txtFiltroClientes" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroClientes_TextChanged" />
+                </div>
+            </div>
+            <div class="col-6" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <div class="mb-3">
+                    <asp:CheckBox Text="Filtro Avanzado" runat="server" CssClass="" ID="chkAvanzado" AutoPostBack="true" OnCheckedChanged="chkAvanzado_CheckedChanged" />
+                </div>
+            </div>
+
+            <% if (FiltroAvanzado) { %>
+            <div class="row">
+                <div class="col-3">
+                    <div class="mb-3">
+                        <asp:Label Text="Campo" ID="lCampo" runat="server" />
+                        <asp:DropDownList runat="server" AutoPostBack="true" CssClass="form-control" ID="ddlCampo" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
+                            <asp:ListItem Text="DNI" />
+                            <asp:ListItem Text="Apellido" />
+                            <asp:ListItem Text="Correo" />
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mb-3">
+                        <asp:Label Text="Criterio" runat="server" />
+                        <asp:DropDownList runat="server" ID="ddlCriterio" CssClass="form-control"></asp:DropDownList>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mb-3">
+                        <asp:Label Text="Filtro" runat="server" />
+                        <asp:TextBox runat="server" ID="txtFiltroAvanzado" CssClass="form-control" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mb-3">
+                        <asp:Label Text="Estado" runat="server" />
+                        <asp:DropDownList runat="server" ID="ddlEstado" CssClass="form-control">
+                            <asp:ListItem Text="Todos" />
+                            <asp:ListItem Text="Activo" />
+                            <asp:ListItem Text="Inactivo" />
+                        </asp:DropDownList>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="mb-3">
+                        <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" />
+                        <asp:Button Text="Limpiar" runat="server" CssClass="btn btn-primary" ID="btnLimpiar" OnClick="btnLimpiar_Click"/>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
         <!-- Botón Agregar Cliente -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">
             Agregar Cliente       
         </button>
+ </div>
 
-        <!-- Tabla de Clientes -->
-        <table class="table tableClientes table-hover mt-3">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">DNI</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">Direccion</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col">Correo</th>
-                    <th scope="col">Fecha de Registro</th>
-                    <th scope="col" class="acciones">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <asp:Repeater ID="rptClientes" runat="server" OnItemCommand="rptClientes_ItemCommand">
-                    <ItemTemplate>
-                        <tr>
-                            <th scope="row"><%# Eval("Id") %></th>
-                            <td><%# Eval("DNI") %></td>
-                            <td><%# Eval("Nombre") %></td>
-                            <td><%# Eval("Apellido") %></td>
-                            <td><%# Eval("Direccion") %></td>
-                            <td><%# Eval("Telefono") %></td>
-                            <td><%# Eval("Correo") %></td>
-                            <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
-                            <td>
-                                <!-- Botón Modificar -->
-                                <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
-                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("DNI") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("Direccion") %>', '<%# Eval("Telefono") %>', '<%# Eval("Correo") %>')">
-                                    Modificar                           
-                                </button>
+    <!-- Tabla de Clientes -->
+    <table class="table tableClientes table-hover mt-3">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Direccion</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Fecha de Registro</th>
+                <th scope="col" class="acciones">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <asp:Repeater ID="rptClientes" runat="server" OnItemCommand="rptClientes_ItemCommand">
+                <ItemTemplate>
+                    <tr>
+                        <th scope="row"><%# Eval("Id") %></th>
+                        <td><%# Eval("DNI") %></td>
+                        <td><%# Eval("Nombre") %></td>
+                        <td><%# Eval("Apellido") %></td>
+                        <td><%# Eval("Direccion") %></td>
+                        <td><%# Eval("Telefono") %></td>
+                        <td><%# Eval("Correo") %></td>
+                        <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
+                        <td>
+                            <!-- Botón Modificar -->
+                            <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
+                                onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("DNI") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("Direccion") %>', '<%# Eval("Telefono") %>', '<%# Eval("Correo") %>')">
+                                Modificar                           
+                            </button>
 
-                                <!-- Botón Eliminar -->
-                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
-                                    OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');"
-                                    CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
-                            </td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tbody>
-        </table>
-    </div>
+                            <!-- Botón Eliminar -->
+                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
+                                OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');"
+                                CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
+                        </td>
+                    </tr>
+                </ItemTemplate>
+            </asp:Repeater>
+        </tbody>
+    </table>
 
     <!-- Modal Agregar Cliente -->
     <div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">

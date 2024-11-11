@@ -25,10 +25,14 @@ namespace Negocio
                 { 
                     aux.Marca = new Marca();
                     aux.Categoria = new Categoria();
+                    aux.Imagen = new Imagen();
                     aux.Id = (long)datos.Lector["ID"];
+                    aux.Imagen.ImagenUrl = (string)datos.Lector["ImagenURL"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Marca.NombreMarca = (string)datos.Lector["NombreMarca"];
+                    aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
                     aux.Categoria.NombreCategoria = (string)datos.Lector["NombreCategoria"];
                     aux.StockActual = (int)datos.Lector["Stock_Actual"];
                     aux.StockMinimo = (int)datos.Lector["Stock_Minimo"];
@@ -49,7 +53,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public List<Producto> listar()
         {
             List<Producto> lista = new List<Producto>();
@@ -57,16 +60,28 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT * FROM VW_ListaProductos");
+                datos.setearConsulta("SELECT * FROM VW_ALLProducto");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Producto aux = new Producto();
+                    aux.Marca = new Marca();
+                    aux.Categoria = new Categoria();
+                    aux.Imagen = new Imagen();
                     aux.Id = (long)datos.Lector["ID"];
+                    aux.Imagen.ImagenUrl = (string)datos.Lector["ImagenURL"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Marca.NombreMarca = (string)datos.Lector["NombreMarca"];
+                    aux.Categoria.NombreCategoria = (string)datos.Lector["NombreCategoria"];
+                    aux.StockActual = (int)datos.Lector["Stock_Actual"];
+                    aux.StockMinimo = (int)datos.Lector["Stock_Minimo"];
+                    aux.Precio_Compra = (decimal)datos.Lector["Precio_Compra"];
+                    aux.Precio_Venta = (decimal)datos.Lector["Precio_Venta"];
+                    aux.Porcentaje_Ganancia = (decimal)datos.Lector["Porcentaje_Ganancia"];
                     aux.Activo = (bool)datos.Lector["Activo"];
+                   
                     lista.Add(aux);
                 }
 
@@ -82,7 +97,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public void eliminarL(Producto producto)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -121,7 +135,63 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public void agregar(Producto nuevoproducto)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearProcedimiento("SP_ALTA_PRODUCTO");
+                datos.setearParametro("@NOMBRE", nuevoproducto.Nombre);
+                datos.setearParametro("@DESCRIPCION", nuevoproducto.Descripcion);
+                datos.setearParametro("@IDMARCA", nuevoproducto.Marca.Id);
+                datos.setearParametro("@IDCATEGORIA", nuevoproducto.Categoria.Id);
+                datos.setearParametro("@IMAGENURL", nuevoproducto.Imagen.ImagenUrl);
+                datos.setearParametro("@STOCKACTUAL", nuevoproducto.StockActual);
+                datos.setearParametro("@STOCKMINIMO", nuevoproducto.StockMinimo);
+                datos.setearParametro("@PRECIOCOMPRA", nuevoproducto.Precio_Compra);
+                datos.setearParametro("@PRECIOVENTA", nuevoproducto.Precio_Venta);
+                datos.setearParametro("@PORCENTAJEGANANCIA", nuevoproducto.Porcentaje_Ganancia);
+                datos.setearParametro("@IDPROVEEDOR", nuevoproducto.Proveedores.First().Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificar(Producto modificar)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_MODIFICAR_PRODUCTO");
+                datos.setearParametro("ID", modificar.Id);
+                datos.setearParametro("@NOMBRE", modificar.Nombre);
+                datos.setearParametro("@DESCRIPCION", modificar.Descripcion);
+                datos.setearParametro("@IDMARCA", modificar.Marca.Id);
+                datos.setearParametro("@IDCATEGORIA", modificar.Categoria.Id);
+                datos.setearParametro("@STOCKACTUAL", modificar.StockActual);
+                datos.setearParametro("@STOCKMINIMO", modificar.StockMinimo);
+                datos.setearParametro("@PRECIOCOMPRA", modificar.Precio_Compra);
+                datos.setearParametro("@PRECIOVENTA", modificar.Precio_Venta);
+                datos.setearParametro("@PORCENTAJEGANANCIA", modificar.Porcentaje_Ganancia);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

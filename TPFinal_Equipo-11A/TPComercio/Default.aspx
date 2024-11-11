@@ -31,7 +31,7 @@
             </button>
         </div>
         <div class="coldf">
-            <button type="button" class="btn btn-light btn-default">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Usuarios.aspx';">
                 <img src="Content/Iconos/usuario.png" alt="Usuarios">
                 <div>Usuarios</div>
             </button>
@@ -49,17 +49,23 @@
             </button>
         </div>
         <div class="coldf">
-            <button type="button" class="btn btn-light btn-default">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Reportes.aspx';">
                 <img src="Content/Iconos/bar-chart.png" alt="Balances">
                 <div>Reportes</div>
             </button>
         </div>
         <div class="coldf">
-    <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Categorias.aspx';">
-        <img src="Content/Iconos/categorias.png" alt="Categorias">
-        <div>Categorias</div>
-    </button>
-</div>
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Categorias.aspx';">
+                <img src="Content/Iconos/categorias.png" alt="Categorias">
+                <div>Categorias</div>
+            </button>
+        </div>
+        <div class="coldf">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Admin.aspx';">
+                <img src="Content/Iconos/admin.png" alt="Admin Panel">
+                <div>Admin Panel</div>
+            </button>
+        </div>
 
     </div>
 

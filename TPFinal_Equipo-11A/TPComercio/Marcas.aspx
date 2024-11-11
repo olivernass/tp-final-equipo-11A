@@ -12,12 +12,37 @@
             Agregar Marca       
         </button>
 
+        <!-- Filtro -->
+        <div class="col-6">
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <div class="d-flex">
+                <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" />
+                    <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
+                </div>
+            </div>
+            <asp:Label Text="Filtrar por estado:" runat="server" />
+            <%--<asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" OnSelectedIndexChanged="ddlEstadoMarcas_SelectedIndexChanged" />
+                <asp:ListItem Text="Todos" />
+                <asp:ListItem Text="Activo" />
+                <asp:ListItem Text="Inactivo" />
+            </asp:DropDownList>--%>
+            <asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" >
+                <asp:ListItem Text="Todos" />
+                <asp:ListItem Text="Activo" />
+                <asp:ListItem Text="Inactivo" />
+            </asp:DropDownList>
+        </div>
+        
+            <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>
+
         <!-- Tabla de Marcas -->
         <table class="table tableMarcas table-hover mt-3">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Marca</th>
+                    <th scope="col">Activo</th>
                     <th scope="col" class="acciones">Acciones</th>
                 </tr>
             </thead>
@@ -27,17 +52,26 @@
                         <tr>
                             <th scope="row"><%# Eval("Id") %></th>
                             <td><%# Eval("NombreMarca") %></td>
+                            <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
                             <td>
                                 <!-- Botón Modificar -->
-                                <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
+                                <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
                                     onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreMarca") %>')">
-                                    Modificar
+                                    <img src="Content/Iconos/settings.png" alt="Detalle">
                                 </button>
 
-                                <!-- Botón Eliminar -->
-                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
+                                <!-- Botón Inactivar -->
+                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
                                     OnClientClick="return confirm('¿Estás seguro de que deseas eliminar esta marca?');"
-                                    CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
+                                    CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
+
+                                <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->
+
+                                <!-- Botón Activar -->
+                                <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
+                                    OnClientClick="return confirm('¿Estás seguro de que deseas activar este marca?');"
+                                    CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
+
                             </td>
                         </tr>
                     </ItemTemplate>

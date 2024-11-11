@@ -11,17 +11,17 @@ namespace TPComercio
 {
 
 
-    public partial class Clientes
+    public partial class Usuarios
     {
 
         /// <summary>
-        /// txtFiltroClientes control.
+        /// txtFiltroUsuarios control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFiltroClientes;
+        protected global::System.Web.UI.WebControls.TextBox txtFiltroUsuarios;
 
         /// <summary>
         /// chkAvanzado control.
@@ -87,148 +87,85 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.Button btnBuscar;
 
         /// <summary>
-        /// btnLimpiar control.
+        /// rptUsuarios control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLimpiar;
+        protected global::System.Web.UI.WebControls.Repeater rptUsuarios;
 
         /// <summary>
-        /// rptClientes control.
+        /// txtNombreUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptClientes;
+        protected global::System.Web.UI.WebControls.TextBox txtNombreUsuario;
 
         /// <summary>
-        /// txtDNICliente control.
+        /// txtContraseniaUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDNICliente;
+        protected global::System.Web.UI.WebControls.TextBox txtContraseniaUsuario;
 
         /// <summary>
-        /// txtNombreCliente control.
+        /// ddlPermisoUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreCliente;
+        protected global::System.Web.UI.WebControls.DropDownList ddlPermisoUsuario;
 
         /// <summary>
-        /// txtApellidoCliente control.
+        /// btnGuardarUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtApellidoCliente;
+        protected global::System.Web.UI.WebControls.Button btnGuardarUsuario;
 
         /// <summary>
-        /// txtDireccionCliente control.
+        /// hdnIdUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDireccionCliente;
+        protected global::System.Web.UI.WebControls.HiddenField hdnIdUsuario;
 
         /// <summary>
-        /// txtTelefonoCliente control.
+        /// txtNombreUsuarioMod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTelefonoCliente;
+        protected global::System.Web.UI.WebControls.TextBox txtNombreUsuarioMod;
 
         /// <summary>
-        /// txtCorreoCliente control.
+        /// txtContraseniaUsuarioMod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCorreoCliente;
+        protected global::System.Web.UI.WebControls.TextBox txtContraseniaUsuarioMod;
 
         /// <summary>
-        /// btnGuardarCliente control.
+        /// ddlPermisoUsuarioMod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardarCliente;
-
-        /// <summary>
-        /// hdnIdCliente control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnIdCliente;
-
-        /// <summary>
-        /// txtDNIClienteMod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDNIClienteMod;
-
-        /// <summary>
-        /// txtNombreClienteMod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreClienteMod;
-
-        /// <summary>
-        /// txtApellidoClienteMod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtApellidoClienteMod;
-
-        /// <summary>
-        /// txtDireccionClienteMod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDireccionClienteMod;
-
-        /// <summary>
-        /// txtTelefonoClienteMod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTelefonoClienteMod;
-
-        /// <summary>
-        /// txtCorreoClienteMod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCorreoClienteMod;
+        protected global::System.Web.UI.WebControls.DropDownList ddlPermisoUsuarioMod;
 
         /// <summary>
         /// btnGuardarCambios control.

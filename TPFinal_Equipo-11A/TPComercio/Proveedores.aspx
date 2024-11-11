@@ -5,59 +5,124 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="containerClientes">
-        <h2 class="h2listado">Listado de Proveedores</h2>
+    <%--<div class="containerClientes">--%>
+    <h2 class="h2listado">Listado de Proveedores</h2>
 
-        <!-- Botón Agregar Proveedor -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProveedor">
-            Agregar Proveedor       
-        </button>
+    <!-- Botón Agregar Proveedor -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProveedor">
+        Agregar Proveedor       
+    </button>
+
+    <!-- Filtro -->
+    <div class="col-6">
+        <div class="mb-3">
+            <asp:Label Text="Filtrar por nombre:" runat="server" />
+            <asp:TextBox runat="server" ID="txtFiltroProveedores" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroProveedores_TextChanged" />
+        </div>
+    </div>
+    <div class="col-6" style="display: flex; flex-direction: column; justify-content: flex-end;">
+        <div class="mb-3">
+            <asp:CheckBox Text="Filtro Avanzado" runat="server" CssClass="" ID="chkAvanzado" AutoPostBack="true" OnCheckedChanged="chkAvanzado_CheckedChanged"/>
+        </div>
+    </div>
+
+    <% if (FiltroAvanzado)
+        { %>
+    <div class="row">
+        <div class="col-3">
+            <div class="mb-3">
+                <asp:Label Text="Campo" ID="lCampo" runat="server" />
+                <asp:DropDownList runat="server" AutoPostBack="true" CssClass="form-control" ID="ddlCampo" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
+                    <asp:ListItem Text="CUIT" />
+                    <asp:ListItem Text="Siglas" />
+                    <asp:ListItem Text="Correo" />
+                </asp:DropDownList>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="mb-3">
+                <asp:Label Text="Criterio" runat="server" />
+                <asp:DropDownList runat="server" ID="ddlCriterio" CssClass="form-control"></asp:DropDownList>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="mb-3">
+                <asp:Label Text="Filtro" runat="server" />
+                <asp:TextBox runat="server" ID="txtFiltroAvanzado" CssClass="form-control" />
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="mb-3">
+                <asp:Label Text="Estado" runat="server" />
+                <asp:DropDownList runat="server" ID="ddlEstado" CssClass="form-control">
+                    <asp:ListItem Text="Todos" />
+                    <asp:ListItem Text="Activo" />
+                    <asp:ListItem Text="Inactivo" />
+                </asp:DropDownList>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <div class="mb-3">
+                <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>
+                <asp:Button Text="Limpiar" runat="server" CssClass="btn btn-primary" ID="btnLimpiar" OnClick="btnLimpiar_Click" />
+            </div>
+        </div>
+    </div>
+    <% } %>
 
         <!-- Tabla de Proveedores -->
-        <table class="table tableClientes table-hover mt-3">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">CUIT</th>
-                    <th scope="col">Siglas</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Direccion</th>
-                    <th scope="col">Correo</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col">Activo</th>
-                    <th scope="col" class="acciones">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <asp:Repeater ID="rptProveedores" runat="server" OnItemCommand="rptProveedores_ItemCommand">
-                    <ItemTemplate>
-                        <tr>
-                            <th scope="row"><%# Eval("Id") %></th>
-                            <td><%# Eval("CUIT") %></td>
-                            <td><%# Eval("Siglas") %></td>
-                            <td><%# Eval("Nombre") %></td>
-                            <td><%# Eval("Direccion") %></td>
-                            <td><%# Eval("Correo") %></td>
-                            <td><%# Eval("Telefono") %></td>
-                            <td><%# (bool)Eval("Activo") ? "Sí" : "No" %></td>
-                            <td>
-                                <!-- Botón Modificar -->
-                                <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarProveedores"
-                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("CUIT") %>', '<%# Eval("Siglas") %>', '<%# Eval("Nombre") %>', '<%# Eval("Direccion") %>', '<%# Eval("Correo") %>', '<%# Eval("Telefono") %>')">
-                                    Modificar
-                                </button>
+    <table class="table tableClientes table-hover mt-3">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">CUIT</th>
+                <th scope="col">Siglas</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Direccion</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Activo</th>
+                <th scope="col" class="acciones">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <asp:Repeater ID="rptProveedores" runat="server" OnItemCommand="rptProveedores_ItemCommand">
+                <ItemTemplate>
+                    <tr>
+                        <th scope="row"><%# Eval("Id") %></th>
+                        <td><%# Eval("CUIT") %></td>
+                        <td><%# Eval("Siglas") %></td>
+                        <td><%# Eval("Nombre") %></td>
+                        <td><%# Eval("Direccion") %></td>
+                        <td><%# Eval("Correo") %></td>
+                        <td><%# Eval("Telefono") %></td>
+                        <td><%# (bool)Eval("Activo") ? "Sí" : "No" %></td>
+                        <td>
+                            <!-- Botón Modificar -->
+                            <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarProveedores"
+                                onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("CUIT") %>', '<%# Eval("Siglas") %>', '<%# Eval("Nombre") %>', '<%# Eval("Direccion") %>', '<%# Eval("Correo") %>', '<%# Eval("Telefono") %>')">
+                                <img src="Content/Iconos/settings.png" alt="Detalle">
+                            </button>
 
-                                <!-- Botón Eliminar -->
-                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
-                                    OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este Proveedor?');"
-                                    CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
-                            </td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tbody>
-        </table>
-    </div>
+                            <!-- Botón Eliminar -->
+                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
+                                OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este Proveedor?');"
+                                CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
+
+                            <!-- Se deben bloquear uno o el otro al momento de estar ya inactivos o activos -->
+
+                            <!-- Botón Activar -->
+                            <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
+                                OnClientClick="return confirm('¿Estás seguro de que deseas activar este proveedor?');"
+                                CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
+                        </td>
+                    </tr>
+                </ItemTemplate>
+            </asp:Repeater>
+        </tbody>
+    </table>
 
     <!-- Modal Agregar Proveedor -->
     <div class="modal fade" id="modalAgregarProveedor" tabindex="-1" aria-labelledby="modalAgregarProveedor" aria-hidden="true">
