@@ -880,6 +880,14 @@ INSERT INTO Proveedores (CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Acti
 (31412345678, 'CANON', 'Canon Inc.', 'Ota, Tokio, Japón', 'contact@canon.com', '1523456789', 1);
 GO
 
+INSERT INTO Usuarios (IDPermiso, NombreUsuario, Contrasenia, Activo)
+VALUES (1, 'admin', 'admin', 1);
+
+INSERT INTO Permisos (NombrePermiso)
+VALUES ('Admin');
+
+
+
 --INSERT INTO Imagenes (ImagenURL) VALUES
 --('https://i.pinimg.com/564x/12/53/84/1253845f3d560a17692bdbfb56335f04.jpg'),
 --('https://spacegamer.com.ar/img/Public/1058-producto-1019-producto-monitor-samsung-t35f-11-4868-4179.jpg'),
@@ -887,8 +895,6 @@ GO
 --('https://mexx-img-2019.s3.amazonaws.com/38348_1.jpeg'),
 --('https://http2.mlstatic.com/D_NQ_NP_821666-MLA74019269225_012024-O.webp');
 --GO
-
---SELECT * FROM Productos
 
 ----Inserciones en la tabla Productos (solo 5 productos)
 --INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
