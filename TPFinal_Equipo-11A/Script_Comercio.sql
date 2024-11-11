@@ -883,22 +883,22 @@ INSERT INTO Usuarios (IDPermiso, NombreUsuario, Contrasenia, Activo)
 VALUES (1, 'admin', 'admin', 1);
 GO
 
---INSERT INTO Imagenes (ImagenURL) VALUES
---('https://i.pinimg.com/564x/12/53/84/1253845f3d560a17692bdbfb56335f04.jpg'),
---('https://spacegamer.com.ar/img/Public/1058-producto-1019-producto-monitor-samsung-t35f-11-4868-4179.jpg'),
---('https://i.blogs.es/47eaa9/1366_2000/500_333.webp'),
---('https://mexx-img-2019.s3.amazonaws.com/38348_1.jpeg'),
---('https://http2.mlstatic.com/D_NQ_NP_821666-MLA74019269225_012024-O.webp');
---GO
+INSERT INTO Imagenes (ImagenURL) VALUES
+('https://i.pinimg.com/564x/12/53/84/1253845f3d560a17692bdbfb56335f04.jpg'),
+('https://spacegamer.com.ar/img/Public/1058-producto-1019-producto-monitor-samsung-t35f-11-4868-4179.jpg'),
+('https://i.blogs.es/47eaa9/1366_2000/500_333.webp'),
+('https://mexx-img-2019.s3.amazonaws.com/38348_1.jpeg'),
+('https://http2.mlstatic.com/D_NQ_NP_821666-MLA74019269225_012024-O.webp');
+GO
 
-----Inserciones en la tabla Productos (solo 5 productos)
---INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
---('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 1, 100, 20, 25.00, 40.00, 60.00, 1),
---('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 2, 30, 5, 150.00, 220.00, 46.67, 1),
---('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 3, 15, 5, 800.00, 1100.00, 37.50, 1),
---('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 4, 150, 30, 15.00, 25.00, 66.67, 1),
---('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
---GO
+--Inserciones en la tabla Productos (solo 5 productos)
+INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
+('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 1, 100, 20, 25.00, 40.00, 60.00, 1),
+('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 2, 30, 5, 150.00, 220.00, 46.67, 1),
+('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 3, 15, 5, 800.00, 1100.00, 37.50, 1),
+('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 4, 150, 30, 15.00, 25.00, 66.67, 1),
+('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
+GO
 
 /* INSERTS */
 /*VIEJOS INSERTS
