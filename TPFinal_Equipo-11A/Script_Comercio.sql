@@ -354,9 +354,6 @@ BEGIN
 END
 GO
 
-SELECT * FROM Marcas
-SELECT * FROM Productos
-
 CREATE OR ALTER PROCEDURE SP_ALTA_PRODUCTO(
     @NOMBRE VARCHAR(30),
     @DESCRIPCION VARCHAR(100),
@@ -880,13 +877,13 @@ INSERT INTO Proveedores (CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Acti
 (31412345678, 'CANON', 'Canon Inc.', 'Ota, Tokio, Japón', 'contact@canon.com', '1523456789', 1);
 GO
 
-INSERT INTO Usuarios (IDPermiso, NombreUsuario, Contrasenia, Activo)
-VALUES (1, 'admin', 'admin', 1);
-
 INSERT INTO Permisos (NombrePermiso)
 VALUES ('Admin');
+GO
 
-
+INSERT INTO Usuarios (IDPermiso, NombreUsuario, Contrasenia, Activo)
+VALUES (1, 'admin', 'admin', 1);
+GO
 
 --INSERT INTO Imagenes (ImagenURL) VALUES
 --('https://i.pinimg.com/564x/12/53/84/1253845f3d560a17692bdbfb56335f04.jpg'),
