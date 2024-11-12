@@ -679,21 +679,44 @@ END
 GO
 
 -- VERIFICAR DUPLICIDAD AL CARGAR
+
+--CREATE PROCEDURE SP_ExisteMarca(
+--	@NombreMarca NVARCHAR(50)
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteMarca(
-	@NombreMarca NVARCHAR(50)
+    @NombreMarca NVARCHAR(50)
 )
 AS
 BEGIN
-    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+    SELECT COUNT(*)
+    FROM Marcas
+    WHERE NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI
 END
 GO
 
+--CREATE PROCEDURE SP_ExisteCategoria(
+--	@NombreCategoria NVARCHAR(50)
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteCategoria(
-	@NombreCategoria NVARCHAR(50)
+    @NombreCategoria NVARCHAR(50)
 )
 AS
 BEGIN
-    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+    SELECT COUNT(*)
+    FROM Categorias
+    WHERE NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI
 END
 GO
 
@@ -716,27 +739,54 @@ END
 GO
 
 --VERIFICAR DUPLICIDAD AL MODIFICAR
+
+--CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
+--	@NombreMarca VARCHAR(50),
+--	@IDMarca INT
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) 
+--    FROM Marcas 
+--    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
-	@NombreMarca VARCHAR(50),
-	@IDMarca INT
+    @NombreMarca NVARCHAR(50),
+    @IDMarca INT
 )
 AS
 BEGIN
     SELECT COUNT(*) 
     FROM Marcas 
-    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+    WHERE NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI 
+    AND Id <> @IDMarca
 END
 GO
 
+--CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
+--	@NombreCategoria VARCHAR(50),
+--	@IDCategoria INT
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) 
+--    FROM Categorias 
+--    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
-	@NombreCategoria VARCHAR(50),
-	@IDCategoria INT
+    @NombreCategoria NVARCHAR(50),
+    @IDCategoria INT
 )
 AS
 BEGIN
     SELECT COUNT(*) 
     FROM Categorias 
-    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+    WHERE NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI 
+    AND Id <> @IDCategoria
 END
 GO
 
