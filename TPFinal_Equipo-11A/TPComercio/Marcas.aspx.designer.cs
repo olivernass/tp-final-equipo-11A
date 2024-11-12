@@ -15,6 +15,15 @@ namespace TPComercio
     {
 
         /// <summary>
+        /// Control chkFiltroNombre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFiltroNombre;
+
+        /// <summary>
         /// Control txtFiltroMarcas.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,15 @@ namespace TPComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBorrar;
+
+        /// <summary>
+        /// Control chkFiltroEstado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFiltroEstado;
 
         /// <summary>
         /// Control ddlEstadoMarcas.

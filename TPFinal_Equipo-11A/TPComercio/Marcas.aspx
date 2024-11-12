@@ -13,7 +13,7 @@
         </button>
 
         <!-- Filtro -->
-        <div class="col-6">
+        <%--<div class="col-6">
             <div class="mb-3">
                 <asp:Label Text="Filtrar por nombre:" runat="server" />
                 <div class="d-flex">
@@ -27,14 +27,68 @@
                 <asp:ListItem Text="Activo" />
                 <asp:ListItem Text="Inactivo" />
             </asp:DropDownList>--%>
-            <asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" >
+            <%--<asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" >
                 <asp:ListItem Text="Todos" />
                 <asp:ListItem Text="Activo" />
                 <asp:ListItem Text="Inactivo" />
             </asp:DropDownList>
         </div>
         
-            <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>
+            <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click"/>--%>
+
+<%--        <!-- Filtro -->
+        <div class="col-6">
+            <!-- Filtro por nombre -->
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <asp:CheckBox ID="chkFiltroNombre" runat="server" AutoPostBack="false" OnClick="toggleFiltro('nombre')" />
+                <div class="d-flex">
+                    <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" Enabled="false" />
+                    <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
+                </div>
+            </div>
+    
+            <!-- Filtro por estado -->
+            <asp:Label Text="Filtrar por estado:" runat="server" />
+            <asp:CheckBox ID="chkFiltroEstado" runat="server" AutoPostBack="false" OnClick="toggleFiltro('estado')" />
+            <asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" Enabled="false">
+                <asp:ListItem Text="Todos" />
+                <asp:ListItem Text="Activo" />
+                <asp:ListItem Text="Inactivo" />
+            </asp:DropDownList>
+
+            <!-- Botón Buscar, que solo se activa con el filtro de estado -->
+            <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" Enabled="false"/>
+        </div>--%>
+
+
+        <!-- Filtro -->
+        <div class="col-6">
+            <!-- Filtro por nombre -->
+            <div class="mb-3">
+                <asp:Label Text="Filtrar por nombre:" runat="server" />
+                <asp:CheckBox ID="chkFiltroNombre" runat="server" AutoPostBack="false" OnClick="toggleFiltro('nombre')" />
+                <div class="d-flex">
+                    <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" Enabled="false" />
+                    <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
+                </div>
+            </div>
+    
+            <!-- Filtro por estado -->
+            <asp:Label Text="Filtrar por estado:" runat="server" />
+            <asp:CheckBox ID="chkFiltroEstado" runat="server" AutoPostBack="false" OnClick="toggleFiltro('estado')" />
+            <asp:DropDownList runat="server" ID="ddlEstadoMarcas" CssClass="form-control" Enabled="false">
+                <asp:ListItem Text="Todos" />
+                <asp:ListItem Text="Activo" />
+                <asp:ListItem Text="Inactivo" />
+            </asp:DropDownList>
+
+            <!-- Botón Buscar, que solo se activa con el filtro de estado -->
+            <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" Enabled="false"/>
+        </div>
+
+
+
 
         <!-- Tabla de Marcas -->
         <table class="table tableMarcas table-hover mt-3">
@@ -129,5 +183,62 @@
             document.getElementById('<%= txtNombreMarcaMod.ClientID %>').value = nombre;
         }
     </script>
+
+    <%--<script type="text/javascript">
+        function toggleFiltro(filtro) {
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroMarcas = document.getElementById('<%= txtFiltroMarcas.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoMarcas = document.getElementById('<%= ddlEstadoMarcas.ClientID %>');
+        var btnBuscar = document.getElementById('<%= btnBuscar.ClientID %>');
+
+            if (filtro === 'nombre') {
+                txtFiltroMarcas.disabled = !chkFiltroNombre.checked;
+                ddlEstadoMarcas.disabled = chkFiltroNombre.checked;
+                btnBuscar.disabled = chkFiltroNombre.checked; // Deshabilita "Buscar" cuando se selecciona el filtro por nombre
+                chkFiltroEstado.checked = false; // Desmarcar la casilla de estado si se activa el filtro de nombre
+            } else if (filtro === 'estado') {
+                ddlEstadoMarcas.disabled = !chkFiltroEstado.checked;
+                txtFiltroMarcas.disabled = chkFiltroEstado.checked;
+                btnBuscar.disabled = !chkFiltroEstado.checked; // Habilita "Buscar" solo cuando el filtro de estado está seleccionado
+                chkFiltroNombre.checked = false; // Desmarcar la casilla de nombre si se activa el filtro de estado
+            }
+        }
+    </script>--%>
+
+
+    <script type="text/javascript">
+        function toggleFiltro(filtro) {
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroMarcas = document.getElementById('<%= txtFiltroMarcas.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoMarcas = document.getElementById('<%= ddlEstadoMarcas.ClientID %>');
+        var btnBuscar = document.getElementById('<%= btnBuscar.ClientID %>');
+
+            if (filtro === 'nombre') {
+                // Activar el filtro por nombre y desactivar el de estado
+                txtFiltroMarcas.disabled = !chkFiltroNombre.checked;
+                ddlEstadoMarcas.disabled = chkFiltroNombre.checked;
+                btnBuscar.disabled = chkFiltroNombre.checked;
+
+                if (chkFiltroNombre.checked) {
+                    ddlEstadoMarcas.selectedIndex = 0; // Restablecer el filtro de estado a "Todos"
+                    chkFiltroEstado.checked = false; // Desmarcar la casilla de estado
+                }
+            } else if (filtro === 'estado') {
+                // Activar el filtro por estado y desactivar el de nombre
+                ddlEstadoMarcas.disabled = !chkFiltroEstado.checked;
+                txtFiltroMarcas.disabled = chkFiltroEstado.checked;
+                btnBuscar.disabled = !chkFiltroEstado.checked;
+
+                if (chkFiltroEstado.checked) {
+                    txtFiltroMarcas.value = ''; // Limpiar el campo de texto de filtro de nombre
+                    chkFiltroNombre.checked = false; // Desmarcar la casilla de nombre
+                }
+            }
+        }
+    </script>
+
+
 
 </asp:Content>

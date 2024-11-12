@@ -228,9 +228,25 @@ namespace TPComercio
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
 
+            //cargarMarcas();
+            //txtFiltroMarcas.Text = string.Empty;
+            //ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Cargar todas las marcas
             cargarMarcas();
+
+            // Limpiar los controles de filtro
             txtFiltroMarcas.Text = string.Empty;
             ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroMarcas.Enabled = false;
+            ddlEstadoMarcas.Enabled = false;
+            btnBuscar.Enabled = false;
 
         }
 
