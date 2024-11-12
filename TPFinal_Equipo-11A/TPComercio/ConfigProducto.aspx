@@ -33,18 +33,19 @@
             </p>
 
             <p style="font-size: 16px; margin: 5px 0;"><strong>Precio compra:</strong>
-                <asp:TextBox ID="txtPrecioCompra" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)"></asp:TextBox>
+                <asp:TextBox ID="txtPrecioCompra" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)" OnTextChanged="txtPrecioCompra_TextChanged" AutoPostBack="True"></asp:TextBox>
             </p>
 
             <p style="font-size: 16px; margin: 5px 0;"><strong>Porcentaje ganancia:</strong>
-                <asp:TextBox ID="txtPorcentajeGanancia" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)" OnTextChanged="txtPorcentajeGanancia_TextChanged" AutoPostBack="False"></asp:TextBox>
+                <asp:TextBox ID="txtPorcentajeGanancia" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)" OnTextChanged="txtPorcentajeGanancia_TextChanged" AutoPostBack="True"></asp:TextBox>
             </p>
 
             <p style="font-size: 16px; margin: 5px 0;"><strong>Precio venta:</strong>
                 <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)" Enabled="False"></asp:TextBox>
             </p>
-
-            <asp:Label ID="lblActivo" runat="server" Text="" Visible="False"></asp:Label>
+            <div class="alert alert-primary" role="alert">
+                <asp:Label ID="lblActivo" CssClass="" runat="server" Text="" Visible="True"></asp:Label>
+            </div>
             <h5>Proveedores:</h5>
             <asp:DropDownList ID="ddlProveedorProducto" runat="server" CssClass="form-control mb-2">
             </asp:DropDownList>
