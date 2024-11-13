@@ -17,14 +17,13 @@ namespace TPComercio
             UsuarioNegocio negocio = new UsuarioNegocio();
 
             try
-            {
-                // Usamos el constructor con nombre de usuario, contraseña y un ID de permiso (0 como predeterminado)
-                usuario = new Usuario(txtUser.Text, txtPassword.Text, 0);  // Suponiendo 0 como un valor predeterminado de permiso si no está definido
+            {             
+                usuario = new Usuario(txtUser.Text, txtPassword.Text);
 
                 if (negocio.loguear(usuario))
                 {
                     Session.Add("usuario", usuario);
-                    Response.Redirect("Login.aspx", false);
+                    Response.Redirect("Default.aspx", false);
                 }
                 else
                 {

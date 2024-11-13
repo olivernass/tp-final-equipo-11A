@@ -13,13 +13,40 @@ namespace Dominio
         public string Contrasenia { get; set; }
         public Permiso Permiso { get; set; }
         public bool Activo { get; set; }
-        public Usuario() { }
-        public Usuario(string nombreUsuario, string contrasenia, int idPermiso)
+        public string Nombre { get; set; } 
+        public string Apellido { get; set; } 
+        public string CorreoElectronico { get; set; }
+        public string Telefono { get; set; } 
+        public Imagen Imagen { get; set; }
+        public DateTime FechaCreacion { get; set; }
+
+        public Usuario()
+        {
+            FechaCreacion = DateTime.Now;
+            Activo = true;
+        }
+
+        public Usuario(
+            string nombreUsuario,
+            string contrasenia,
+            int idPermiso = 0,
+            string nombre = null,
+            string apellido = null,
+            string correoElectronico = null,
+            string telefono = null,
+            Imagen imagen = null
+        )
         {
             NombreUsuario = nombreUsuario;
             Contrasenia = contrasenia;
-            Permiso = new Permiso { Id = idPermiso };  // Inicializa un nuevo Permiso con el ID proporcionado
-            Activo = true;  // inicializar Activo como true por defecto o agregarlo como parámetro si es necesario
+            Permiso = new Permiso { Id = idPermiso };
+            Nombre = nombre;
+            Apellido = apellido;
+            CorreoElectronico = correoElectronico;
+            Telefono = telefono;
+            Imagen = imagen;
+            FechaCreacion = DateTime.Now;
+            Activo = true;
         }
     }
 }

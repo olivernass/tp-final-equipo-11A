@@ -53,7 +53,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT ID, IDPermiso, NombrePermiso, NombreUsuario, Contrasenia, Activo FROM VW_ListaUsuarios");
+                datos.setearConsulta("SELECT ID, IDPermiso, NombrePermiso, NombreUsuario, Contrasenia, Activo, Nombre, Apellido, CorreoElectronico, Telefono, ImagenURL FROM VW_ListaUsuarios");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -64,6 +64,11 @@ namespace Negocio
                         NombreUsuario = (string)datos.Lector["NombreUsuario"],
                         Contrasenia = (string)datos.Lector["Contrasenia"],
                         Activo = (bool)datos.Lector["Activo"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString(),
+                        CorreoElectronico = datos.Lector["CorreoElectronico"].ToString(),
+                        Telefono = datos.Lector["Telefono"].ToString(),
+                        Imagen = new Imagen { ImagenUrl = datos.Lector["ImagenURL"].ToString() },
                         Permiso = new Permiso
                         {
                             Id = (int)datos.Lector["IDPermiso"],
@@ -80,19 +85,28 @@ namespace Negocio
             {
                 throw ex;
             }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
+
 
 
         public void agregar(Usuario nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
-
             try
             {
                 datos.setearProcedimiento("SP_Alta_Usuario");
                 datos.setearParametro("@IDPermiso", nuevo.Permiso.Id);
                 datos.setearParametro("@NombreUsuario", nuevo.NombreUsuario);
                 datos.setearParametro("@Contrasenia", nuevo.Contrasenia);
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Apellido", nuevo.Apellido);
+                datos.setearParametro("@CorreoElectronico", nuevo.CorreoElectronico);
+                datos.setearParametro("@Telefono", nuevo.Telefono);
+                datos.setearParametro("@ImagenURL", nuevo.Imagen.ImagenUrl);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -104,6 +118,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public void eliminarL(Usuario aux)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -126,7 +141,6 @@ namespace Negocio
         public void modificar(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
-
             try
             {
                 datos.setearProcedimiento("SP_ModificarUsuario");
@@ -134,6 +148,11 @@ namespace Negocio
                 datos.setearParametro("@IDPermiso", usuario.Permiso.Id);
                 datos.setearParametro("@NombreUsuario", usuario.NombreUsuario);
                 datos.setearParametro("@Contrasenia", usuario.Contrasenia);
+                datos.setearParametro("@Nombre", usuario.Nombre);
+                datos.setearParametro("@Apellido", usuario.Apellido);
+                datos.setearParametro("@CorreoElectronico", usuario.CorreoElectronico);
+                datos.setearParametro("@Telefono", usuario.Telefono);
+                datos.setearParametro("@ImagenURL", usuario.Imagen.ImagenUrl);
                 datos.setearParametro("@Activo", usuario.Activo);
                 datos.ejecutarAccion();
             }
@@ -147,6 +166,7 @@ namespace Negocio
             }
         }
 
+
         public List<Usuario> filtrar(string campo, string criterio, string filtro, string estado)
         {
             List<Usuario> lista = new List<Usuario>();
@@ -154,7 +174,7 @@ namespace Negocio
 
             try
             {
-                string consulta = "SELECT NombreUsuario, Contrasenia, IDPermiso, Activo FROM Usuarios WHERE";
+                string consulta = "SELECT NombreUsuario, Contrasenia, IDPermiso, Activo, Nombre, Apellido, CorreoElectronico, Telefono, ImagenURL FROM Usuarios WHERE";
 
                 if (campo == "IDPermiso")
                 {
@@ -217,7 +237,12 @@ namespace Negocio
                         NombreUsuario = (string)datos.Lector["NombreUsuario"],
                         Contrasenia = (string)datos.Lector["Contrasenia"],
                         Activo = bool.Parse(datos.Lector["Activo"].ToString()),
-                        Permiso = new Permiso { Id = (int)datos.Lector["IDPermiso"] } // Asignación directa del permiso
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString(),
+                        CorreoElectronico = datos.Lector["CorreoElectronico"].ToString(),
+                        Telefono = datos.Lector["Telefono"].ToString(),
+                        Imagen = new Imagen { ImagenUrl = datos.Lector["ImagenURL"].ToString() },
+                        Permiso = new Permiso { Id = (int)datos.Lector["IDPermiso"] }
                     };
 
                     lista.Add(aux);
@@ -229,7 +254,12 @@ namespace Negocio
             {
                 throw ex;
             }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
+
 
     }
 }

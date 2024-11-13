@@ -87,6 +87,11 @@
                 <th scope="col">Contraseña</th>
                 <th scope="col">Tipo de permisos</th>
                 <th scope="col">Activo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Correo Electrónico</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Imagen</th>
                 <th scope="col" class="acciones">Acciones</th>
             </tr>
         </thead>
@@ -99,10 +104,17 @@
                         <td><%# Eval("Contrasenia") %></td>
                         <td><%# Eval("Permiso.NombrePermiso") %></td>
                         <td><%# Eval("Activo") %></td>
+                        <td><%# Eval("Nombre") %></td>
+                        <td><%# Eval("Apellido") %></td>
+                        <td><%# Eval("CorreoElectronico") %></td>
+                        <td><%# Eval("Telefono") %></td>
+                        <td>
+                            <img src='<%# Eval("Imagen.ImagenUrl") %>' alt="Imagen Usuario" style="width: 50px; height: auto;" />
+                        </td>
                         <td>
                             <!-- Botón Modificar -->
                             <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarUsuario"
-                                onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreUsuario") %>', '<%# Eval("Contrasenia") %>', '<%# Eval("Permiso") %>', '<%# Eval("Activo") %>')">
+                                onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreUsuario") %>', '<%# Eval("Contrasenia") %>', '<%# Eval("Permiso.Id") %>', '<%# Eval("Activo") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("CorreoElectronico") %>', '<%# Eval("Telefono") %>', '<%# Eval("Imagen.ImagenUrl") %>')">
                                 Modificar                           
                             </button>
 
@@ -117,6 +129,7 @@
         </tbody>
     </table>
 
+
     <!-- Modal Agregar Usuario -->
     <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -126,25 +139,26 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
+                    <asp:TextBox ID="txtApellido" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>
+                    <asp:TextBox ID="txtCorreoElectronico" runat="server" CssClass="form-control mb-2" placeholder="Correo Electrónico"></asp:TextBox>
+                    <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
 
-                    <span class="error-message" id="errorNombreUsuario"></span>
-                    <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control mb-2 validar-nombre-usuario" placeholder="Nombre de Usuario"></asp:TextBox>
+                    <!-- TextBox para ingresar la URL de la imagen -->
+                    <asp:TextBox ID="txtImagenURL" runat="server" CssClass="form-control mb-2" placeholder="URL de la Imagen"></asp:TextBox>
 
-                    <span class="error-message" id="errorContrasenia"></span>
-                    <asp:TextBox ID="txtContraseniaUsuario" runat="server" CssClass="form-control mb-2 validar-contrasenia" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
-
-                    <asp:Label Text="Permiso" runat="server" />
-                    <asp:DropDownList ID="ddlPermisoUsuario" runat="server" CssClass="form-control mb-2 validar-idpermiso"></asp:DropDownList>
-                   
-           
+                    <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control mb-2" placeholder="Nombre de Usuario"></asp:TextBox>
+                    <asp:TextBox ID="txtContraseniaUsuario" runat="server" CssClass="form-control mb-2" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
+                    <asp:DropDownList ID="ddlPermisoUsuario" runat="server" CssClass="form-control mb-2"></asp:DropDownList>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarUsuario');">Cerrar</button>
-                    <asp:Button ID="btnGuardarUsuario" runat="server" CssClass="btn btn-primary" Text="Guardar Usuario" OnClientClick="return validarAgregarUsuario();" OnClick="btnGuardarUsuario_Click" />
+                    <asp:Button ID="btnGuardarUsuario" runat="server" CssClass="btn btn-primary" Text="Guardar Usuario" OnClick="btnGuardarUsuario_Click" />
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Modal Modificar Usuario -->
     <div class="modal fade" id="modalModificarUsuario" tabindex="-1" aria-labelledby="modalModificarUsuarioLabel" aria-hidden="true">
@@ -157,32 +171,44 @@
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdUsuario" runat="server" />
 
-                    <span class="error-message" id="errorNombreUsuarioMod"></span>
-                    <asp:TextBox ID="txtNombreUsuarioMod" runat="server" CssClass="form-control mb-2 validar-nombre-usuario-mod" placeholder="Nombre de Usuario"></asp:TextBox>
+                    <asp:TextBox ID="txtNombreUsuarioMod" runat="server" CssClass="form-control mb-2" placeholder="Nombre de Usuario"></asp:TextBox>
+                    <asp:TextBox ID="txtContraseniaUsuarioMod" runat="server" CssClass="form-control mb-2" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
 
-                    <span class="error-message" id="errorContraseniaMod"></span>
-                    <asp:TextBox ID="txtContraseniaUsuarioMod" runat="server" CssClass="form-control mb-2 validar-contrasenia-mod" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="txtNombreMod" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
+                    <asp:TextBox ID="txtApellidoMod" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>
+                    <asp:TextBox ID="txtCorreoElectronicoMod" runat="server" CssClass="form-control mb-2" placeholder="Correo Electrónico"></asp:TextBox>
+                    <asp:TextBox ID="txtTelefonoMod" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
 
-                    <asp:Label Text="Permiso" runat="server" />
-                    <asp:DropDownList ID="ddlPermisoUsuarioMod" runat="server" CssClass="form-control mb-2 validar-idpermiso-mod"></asp:DropDownList>
+                    <!-- TextBox para ingresar la URL de la imagen -->
+                    <asp:TextBox ID="txtImagenURLMod" runat="server" CssClass="form-control mb-2" placeholder="URL de la Imagen"></asp:TextBox>
 
-           
+                    <asp:DropDownList ID="ddlPermisoUsuarioMod" runat="server" CssClass="form-control mb-2"></asp:DropDownList>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarUsuario');">Cerrar</button>
-                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClientClick="return validarModificarUsuario();" OnClick="btnGuardarCambios_Click" />
+                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClick="btnGuardarCambios_Click" />
                 </div>
             </div>
         </div>
     </div>
 
 
+
+
     <script type="text/javascript">
-        function cargarDatosModal(id, nombreUsuario, contrasenia, idPermiso, activo) {
+        function cargarDatosModal(id, nombreUsuario, contrasenia, idPermiso, activo, nombre, apellido, correoElectronico, telefono, imagenURL) {
+            // Asignar valores a los campos ocultos y de entrada en el modal de modificación
             document.getElementById('<%= hdnIdUsuario.ClientID %>').value = id;
             document.getElementById('<%= txtNombreUsuarioMod.ClientID %>').value = nombreUsuario;
             document.getElementById('<%= txtContraseniaUsuarioMod.ClientID %>').value = contrasenia;
             document.getElementById('<%= ddlPermisoUsuarioMod.ClientID %>').value = idPermiso;
+
+            // Asignar valores a los nuevos campos adicionales
+            document.getElementById('<%= txtNombreMod.ClientID %>').value = nombre;
+            document.getElementById('<%= txtApellidoMod.ClientID %>').value = apellido;
+            document.getElementById('<%= txtCorreoElectronicoMod.ClientID %>').value = correoElectronico;
+            document.getElementById('<%= txtTelefonoMod.ClientID %>').value = telefono;
+            document.getElementById('<%= txtImagenURLMod.ClientID %>').value = imagenURL;
         }
 </script>
 </asp:Content>

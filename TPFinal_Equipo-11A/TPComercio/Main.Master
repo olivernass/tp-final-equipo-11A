@@ -32,7 +32,13 @@
                         </ul>
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
-                                <a class="nav-link btn btn btn-secondary" href="Login.aspx">Iniciar Sesión</a>
+                                <a id="btnLogin" class="nav-link btn btn-outline-success" href="Login.aspx" runat="server">Iniciar Sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="btnPerfil" class="nav-link btn btn-outline-info" href="MiPerfil.aspx" runat="server" visible="false">Mi perfil</a>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton ID="btnLogout" runat="server" CssClass="nav-link btn btn-outline-danger ms-2" OnClick="btnLogout_Click" Visible="false">Cerrar Sesión</asp:LinkButton>
                             </li>
                         </ul>
                     </div>

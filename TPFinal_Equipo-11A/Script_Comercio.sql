@@ -26,14 +26,30 @@ CREATE TABLE Categorias (
     PRIMARY KEY(ID)
 );
 GO
+
+CREATE TABLE Imagenes(
+	ID BIGINT NOT NULL IDENTITY(1,1),
+	ImagenURL VARCHAR(1000),
+	Activo BIT NOT NULL DEFAULT 1
+	PRIMARY KEY(ID)
+);
+GO
+
 CREATE TABLE Usuarios(
 	ID INT NOT NULL IDENTITY(1,1),
 	IDPermiso INT NOT NULL,
 	NombreUsuario VARCHAR(30) NOT NULL,
 	Contrasenia VARCHAR(30) NOT NULL,
+	Nombre VARCHAR(30) NULL,
+    Apellido VARCHAR(30) NULL,
+    CorreoElectronico VARCHAR(50) NULL,
+    Telefono VARCHAR(15) NULL,
+	IDImagen BIGINT NULL,
+    FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 	Activo BIT NOT NULL default 1,
 	PRIMARY KEY(ID),
-	FOREIGN KEY (IDPermiso) REFERENCES Permisos(ID)
+	FOREIGN KEY (IDPermiso) REFERENCES Permisos(ID),
+	FOREIGN KEY (IDImagen) REFERENCES Imagenes(ID)
 );
 
 -- ?Queremos generar un perfil de los usuarios para que se uno mismo pueda modificar algunos campos? y el administrador tiene mas alcance
@@ -65,12 +81,7 @@ CREATE TABLE Proveedores(
 	PRIMARY KEY(ID),
 );
 GO
-CREATE TABLE Imagenes(
-	ID BIGINT NOT NULL IDENTITY(1,1),
-	ImagenURL VARCHAR(1000),
-	Activo BIT NOT NULL DEFAULT 1
-	PRIMARY KEY(ID)
-);
+
 GO
 CREATE TABLE Productos(
 	ID BIGINT NOT NULL IDENTITY(1,10),
@@ -172,9 +183,22 @@ SELECT * FROM Clientes
 GO
 
 CREATE VIEW VW_ListaUsuarios AS
-SELECT U.ID, U.IDPermiso, P.NombrePermiso, U.NombreUsuario, U.Contrasenia, U.Activo 
+SELECT U.ID,
+    U.IDPermiso,
+    P.NombrePermiso,
+    U.NombreUsuario,
+    U.Contrasenia,
+    U.Activo,
+    U.Nombre,
+    U.Apellido,
+    U.CorreoElectronico,
+    U.Telefono,
+    U.FechaCreacion,
+    U.IDImagen,
+    I.ImagenURL
 FROM Usuarios AS U
 INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
+LEFT JOIN Imagenes AS I ON I.ID = U.IDImagen;
 GO
 
 CREATE VIEW VW_ListaProductos AS
@@ -254,17 +278,6 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE SP_Alta_Usuario(
-	@IDPermiso INT,
-	@NombreUsuario VARCHAR(30),
-	@Contrasenia VARCHAR(30)
-)
-AS
-BEGIN
-    INSERT INTO Usuarios(IDPermiso,NombreUsuario,Contrasenia) VALUES (@IDPermiso,@NombreUsuario,@Contrasenia)
-END
-GO
-
 CREATE PROCEDURE SP_Nueva_Imagen(
     @imagenURL VARCHAR(1000),
     @UltimoID BIGINT OUTPUT
@@ -291,6 +304,48 @@ BEGIN
         THROW;
     END CATCH
 END
+GO
+
+CREATE PROCEDURE SP_Alta_Usuario
+(
+    @IDPermiso INT,
+    @NombreUsuario VARCHAR(30),
+    @Contrasenia VARCHAR(30),
+    @Nombre VARCHAR(30) = NULL,
+    @Apellido VARCHAR(30) = NULL,
+    @CorreoElectronico VARCHAR(50) = NULL,
+    @Telefono VARCHAR(15) = NULL,
+    @ImagenURL VARCHAR(1000) = NULL
+)
+AS
+BEGIN
+    DECLARE @IDImagen BIGINT;
+
+    -- Insertar la imagen y obtener el ID
+    EXEC SP_Nueva_Imagen @ImagenURL, @IDImagen OUTPUT;
+
+    -- Insertar el usuario con el ID de la imagen
+    INSERT INTO Usuarios (
+        IDPermiso,
+        NombreUsuario,
+        Contrasenia,
+        Nombre,
+        Apellido,
+        CorreoElectronico,
+        Telefono,
+        IDImagen
+    ) 
+    VALUES (
+        @IDPermiso,
+        @NombreUsuario,
+        @Contrasenia,
+        @Nombre,
+        @Apellido,
+        @CorreoElectronico,
+        @Telefono,
+        @IDImagen
+    );
+END;
 GO
 
 CREATE PROCEDURE SP_PRODUCT_X_PROV(
@@ -612,19 +667,39 @@ GO
 
 -- CONSULTAR SI MANDAMOS ACTIVO EN LOS MODIFICAR
 
-CREATE PROCEDURE SP_ModificarUsuario(
-	@ID INT,
-	@IDPermiso INT,
-	@NombreUsuario VARCHAR(30),
-	@Contrasenia VARCHAR(30),
-	@Activo BIT
-
+CREATE PROCEDURE SP_ModificarUsuario
+(
+    @ID INT,
+    @IDPermiso INT,
+    @NombreUsuario VARCHAR(30),
+    @Contrasenia VARCHAR(30),
+    @Nombre VARCHAR(30) = NULL,
+    @Apellido VARCHAR(30) = NULL,
+    @CorreoElectronico VARCHAR(50) = NULL,
+    @Telefono VARCHAR(15) = NULL,
+    @ImagenURL VARCHAR(1000) = NULL,
+    @Activo BIT
 )
 AS
-BEGIN 
-UPDATE Usuarios SET IDPermiso = @IDPermiso, NombreUsuario = @NombreUsuario, Contrasenia = @Contrasenia, Activo = @Activo 
-WHERE ID = @ID
-END
+BEGIN
+    DECLARE @IDImagen BIGINT;
+
+    -- Insertar o actualizar la imagen
+    EXEC SP_Nueva_Imagen @ImagenURL, @IDImagen OUTPUT;
+
+    -- Actualizar el usuario con el ID de la nueva imagen
+    UPDATE Usuarios SET 
+        IDPermiso = @IDPermiso,
+        NombreUsuario = @NombreUsuario,
+        Contrasenia = @Contrasenia,
+        Nombre = @Nombre,
+        Apellido = @Apellido,
+        CorreoElectronico = @CorreoElectronico,
+        Telefono = @Telefono,
+        IDImagen = @IDImagen,
+        Activo = @Activo
+    WHERE ID = @ID;
+END;
 GO
 
 CREATE OR ALTER PROCEDURE SP_MODIFICAR_PRODUCTO(
