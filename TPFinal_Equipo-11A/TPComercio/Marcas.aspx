@@ -110,7 +110,7 @@
                             <td>
                                 <!-- Botón Modificar -->
                                 <button type="button" class="btn btn-primary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
-                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreMarca") %>')">
+                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreMarca") %>', '<%# Eval("Activo") %>')">
                                     Modificar
                                 </button>
 
@@ -188,6 +188,8 @@
             </div>
             <div class="modal-body">
                 <asp:HiddenField ID="hdnIdMarca" runat="server" />
+                <asp:HiddenField ID="hdnEstadoMarca" runat="server" />
+
                 <span class="error-message" id="errorNombreMarcaMod"></span>
                 <asp:TextBox ID="txtNombreMarcaMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre de la Marca"></asp:TextBox>
                 <!-- Botones Activar e Inactivar dentro del Modal -->
@@ -210,12 +212,64 @@
 </div>
 
 
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         function cargarDatosModal(id, nombre) {
             document.getElementById('<%= hdnIdMarca.ClientID %>').value = id;
             document.getElementById('<%= txtNombreMarcaMod.ClientID %>').value = nombre;
         }
+    </script>--%>
+
+    <%--<script type="text/javascript">
+        function cargarDatosModal(id, nombre, estado) {
+            // Establecer el ID y el nombre en los elementos ocultos y en el campo de texto
+            document.getElementById('<%= hdnIdMarca.ClientID %>').value = id;
+        document.getElementById('<%= txtNombreMarcaMod.ClientID %>').value = nombre;
+        
+        // Configurar la visibilidad de los botones según el estado
+        const btnInactivar = document.getElementById('<%= btnInactivarModal.ClientID %>');
+        const btnActivar = document.getElementById('<%= btnActivarModal.ClientID %>');
+
+            if (estado == "Activo") {
+                btnInactivar.style.display = 'none';
+                btnActivar.style.display = 'block';
+                
+            } else if (estado == "Inactivo"){
+                btnInactivar.style.display = 'block';
+                btnActivar.style.display = 'none';
+            }
+        }
+    </script>--%>
+
+
+    <script type="text/javascript">
+        function cargarDatosModal(id, nombre, estado) {
+            document.getElementById('<%= hdnIdMarca.ClientID %>').value = id;
+            document.getElementById('<%= txtNombreMarcaMod.ClientID %>').value = nombre;
+            document.getElementById('<%= hdnEstadoMarca.ClientID %>').value = estado;
+
+        // Obtener referencias a los botones
+        const btnInactivar = document.getElementById('<%= btnInactivarModal.ClientID %>');
+        const btnActivar = document.getElementById('<%= btnActivarModal.ClientID %>');
+
+            // Log para verificar el estado que llega a la función
+            console.log("Estado de la marca:", estado);
+            console.log("id de la marca:", id);
+            console.log("nombre de la marca:", nombre);
+
+            // Mostrar/ocultar botones según el estado
+            if (estado === "True") {
+                btnInactivar.style.display = 'block';
+                btnActivar.style.display = 'none';
+            } else if (estado === "False") {
+                btnInactivar.style.display = 'none';
+                btnActivar.style.display = 'block';
+            } else {
+                console.warn("Estado desconocido:", estado);
+            }
+        }
     </script>
+
+
 
     <%--<script type="text/javascript">
         function toggleFiltro(filtro) {

@@ -131,6 +131,7 @@ namespace TPComercio
             {
                 string nombreMarca = txtNombreMarcaMod.Text;
                 int idMarca = int.Parse(hdnIdMarca.Value); // Obtener el ID de la marca desde el HiddenField
+                bool estado = bool.Parse(hdnEstadoMarca.Value);
 
                 MarcaNegocio negocio = new MarcaNegocio();
 
@@ -250,6 +251,19 @@ namespace TPComercio
             Marca marcaEliminar = new Marca { Id = idMarca };
             negocio.eliminarL(marcaEliminar);
             cargarMarcas(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroMarcas.Text = string.Empty;
+            ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroMarcas.Enabled = false;
+            ddlEstadoMarcas.Enabled = false;
+            btnBuscar.Enabled = false;
         }
 
         protected void btnActivarModal_Click(object sender, EventArgs e)
@@ -260,6 +274,19 @@ namespace TPComercio
             Marca marcaActivar = new Marca { Id = idMarca };
             negocio.activar(marcaActivar);
             cargarMarcas(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroMarcas.Text = string.Empty;
+            ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroMarcas.Enabled = false;
+            ddlEstadoMarcas.Enabled = false;
+            btnBuscar.Enabled = false;
         }
 
 
@@ -389,7 +416,7 @@ namespace TPComercio
                                         $"<td>{(marca.Activo ? "Sí" : "No")}</td>" +
                                         $"<td>" +
                                             $"<button type='button' class='btn btn-primary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarMarca' " +
-                                            $"onclick='cargarDatosModal({marca.Id}, \"{marca.NombreMarca}\")'>" +
+                                            $"onclick='cargarDatosModal({marca.Id}, \"{marca.NombreMarca}\", \"{marca.Activo}\")'>" +
                                                 $"Modificar" +
                                             $"</button>" +
                                             $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar esta marca?\");' />" +
