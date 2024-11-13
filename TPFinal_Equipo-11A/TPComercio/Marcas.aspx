@@ -69,7 +69,7 @@
                 <asp:Label Text="Filtrar por nombre:" runat="server" />
                 <asp:CheckBox ID="chkFiltroNombre" runat="server" AutoPostBack="false" OnClick="toggleFiltro('nombre')" />
                 <div class="d-flex">
-                    <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" Enabled="false" oninput="filtrarMarcas()"/>
+                    <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="false" OnTextChanged="txtFiltroMarcas_TextChanged" Enabled="false" oninput="filtrarMarcas()"/>
                     <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
                 </div>
             </div>
@@ -109,12 +109,12 @@
                             <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
                             <td>
                                 <!-- Botón Modificar -->
-                                <button type="button" class="btn btn-secondary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
+                                <button type="button" class="btn btn-primary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarMarca"
                                     onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreMarca") %>')">
-                                    <img src="Content/Iconos/settings.png" alt="Detalle">
+                                    Modificar
                                 </button>
 
-                                <!-- Botón Inactivar -->
+                                <%--<!-- Botón Inactivar -->
                                 <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
                                     OnClientClick="return confirm('¿Estás seguro de que deseas eliminar esta marca?');"
                                     CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
@@ -124,7 +124,7 @@
                                 <!-- Botón Activar -->
                                 <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
                                     OnClientClick="return confirm('¿Estás seguro de que deseas activar este marca?');"
-                                    CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />
+                                    CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />--%>
 
                             </td>
                         </tr>
@@ -155,7 +155,7 @@
         </div>
     </div>
 
-    <!-- Modal Modificar Marca -->
+    <%--<!-- Modal Modificar Marca -->
     <div class="modal fade" id="modalModificarMarca" tabindex="-1" aria-labelledby="modalModificarMarcaLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -175,7 +175,37 @@
                 </div>
             </div>
         </div>
+    </div>--%>
+
+
+    <!-- Modal Modificar Marca -->
+<div class="modal fade" id="modalModificarMarca" tabindex="-1" aria-labelledby="modalModificarMarcaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalModificarMarcaLabel">Modificar Marca</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <asp:HiddenField ID="hdnIdMarca" runat="server" />
+                <span class="error-message" id="errorNombreMarcaMod"></span>
+                <asp:TextBox ID="txtNombreMarcaMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre de la Marca"></asp:TextBox>
+            </div>
+            <div class="modal-footer">
+                <!-- Botones Activar e Inactivar dentro del Modal -->
+                <asp:Button ID="btnInactivarModal" runat="server" CssClass="btn btn-danger" Text="Inactivar"
+                            OnClientClick="return confirm('¿Estás seguro de que deseas inactivar esta marca?');" OnClick="btnInactivarModal_Click" />
+                <asp:Button ID="btnActivarModal" runat="server" CssClass="btn btn-success" Text="Activar"
+                            OnClientClick="return confirm('¿Estás seguro de que deseas activar esta marca?');" OnClick="btnActivarModal_Click" />
+                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarMarca');">Cerrar</button>
+                <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios"
+                    OnClientClick="return validarModificarMarca();" OnClick="btnGuardarCambios_Click" />
+            </div>
+        </div>
     </div>
+</div>
+
 
     <script type="text/javascript">
         function cargarDatosModal(id, nombre) {

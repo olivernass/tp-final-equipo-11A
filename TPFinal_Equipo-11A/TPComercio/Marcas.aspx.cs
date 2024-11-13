@@ -217,6 +217,37 @@ namespace TPComercio
         }
 
 
+
+
+        protected void btnInactivarModal_Click(object sender, EventArgs e)
+        {
+            int idMarca = Convert.ToInt32(hdnIdMarca.Value);
+            MarcaNegocio negocio = new MarcaNegocio();
+
+            // Verificar si la marca tiene productos activos asociados antes de inactivarla
+            if (negocio.tieneProductosActivos(idMarca))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('No se puede inactivar esta marca porque tiene productos activos asociados.');", true);
+                return;
+            }
+
+            Marca marcaEliminar = new Marca { Id = idMarca };
+            negocio.eliminarL(marcaEliminar);
+            cargarMarcas(); // Actualizar la lista de marcas
+        }
+
+        protected void btnActivarModal_Click(object sender, EventArgs e)
+        {
+            int idMarca = Convert.ToInt32(hdnIdMarca.Value);
+            MarcaNegocio negocio = new MarcaNegocio();
+
+            Marca marcaActivar = new Marca { Id = idMarca };
+            negocio.activar(marcaActivar);
+            cargarMarcas(); // Actualizar la lista de marcas
+        }
+
+
+
         protected void txtFiltroMarcas_TextChanged(object sender, EventArgs e)
         {
             List<Marca> lista = (List<Marca>)Session["listaMarcas"];
@@ -328,9 +359,9 @@ namespace TPComercio
                                         $"<td>{marca.NombreMarca}</td>" +
                                         $"<td>{(marca.Activo ? "Sí" : "No")}</td>" +
                                         $"<td>" +
-                                            $"<button type='button' class='btn btn-secondary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarMarca' " +
+                                            $"<button type='button' class='btn btn-primary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarMarca' " +
                                             $"onclick='cargarDatosModal({marca.Id}, \"{marca.NombreMarca}\")'>" +
-                                                $"<img src='Content/Iconos/settings.png' alt='Detalle'>" +
+                                                $"Modificar" +
                                             $"</button>" +
                                             $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar esta marca?\");' />" +
                                             $"<asp:Button ID='btnActivar' runat='server' CssClass='btn btn-success btn-acciones btn-sm' Text='Activar' OnClientClick='return confirm(\"¿Estás seguro de que deseas activar esta marca?\");' />" +
