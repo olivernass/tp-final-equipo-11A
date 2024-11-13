@@ -190,13 +190,16 @@
                 <asp:HiddenField ID="hdnIdMarca" runat="server" />
                 <span class="error-message" id="errorNombreMarcaMod"></span>
                 <asp:TextBox ID="txtNombreMarcaMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre de la Marca"></asp:TextBox>
-            </div>
-            <div class="modal-footer">
                 <!-- Botones Activar e Inactivar dentro del Modal -->
+                
                 <asp:Button ID="btnInactivarModal" runat="server" CssClass="btn btn-danger" Text="Inactivar"
                             OnClientClick="return confirm('¿Estás seguro de que deseas inactivar esta marca?');" OnClick="btnInactivarModal_Click" />
                 <asp:Button ID="btnActivarModal" runat="server" CssClass="btn btn-success" Text="Activar"
                             OnClientClick="return confirm('¿Estás seguro de que deseas activar esta marca?');" OnClick="btnActivarModal_Click" />
+                    
+            </div>
+            <div class="modal-footer">
+                
                 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarMarca');">Cerrar</button>
                 <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios"

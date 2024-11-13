@@ -158,6 +158,22 @@ namespace TPComercio
 
                 // Cerrar el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarMarca').modal('hide');", true);
+
+                // Cargar todas las marcas
+                cargarMarcas();
+
+                // Limpiar los controles de filtro
+                txtFiltroMarcas.Text = string.Empty;
+                ddlEstadoMarcas.SelectedValue = "Todos";
+
+                // Restablecer los estados de los filtros
+                chkFiltroNombre.Checked = false;
+                chkFiltroEstado.Checked = false;
+
+                // Desactivar los controles de filtro
+                txtFiltroMarcas.Enabled = false;
+                ddlEstadoMarcas.Enabled = false;
+                btnBuscar.Enabled = false;
             }
         }
 
@@ -303,6 +319,19 @@ namespace TPComercio
                 MarcaNegocio negocio = new MarcaNegocio();
                 rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.SelectedItem.ToString());
                 rptMarcas.DataBind();
+
+                // Limpiar los controles de filtro
+                txtFiltroMarcas.Text = string.Empty;
+                ddlEstadoMarcas.SelectedValue = "Todos";
+
+                // Restablecer los estados de los filtros
+                chkFiltroNombre.Checked = false;
+                chkFiltroEstado.Checked = false;
+
+                // Desactivar los controles de filtro
+                txtFiltroMarcas.Enabled = false;
+                ddlEstadoMarcas.Enabled = false;
+                btnBuscar.Enabled = false;
             }
             catch (Exception ex)
             {
