@@ -295,5 +295,60 @@ namespace TPComercio
         //        throw;
         //    }
         //}
+
+
+        [System.Web.Services.WebMethod]
+        public static string FiltrarMarcas(string filtro)
+        {
+            try
+            {
+                // Crear la instancia de MarcaNegocio
+                MarcaNegocio negocio = new MarcaNegocio();
+
+                List<Marca> listaFiltrada;
+
+                if (string.IsNullOrEmpty(filtro)) // Si el filtro está vacío, devolver toda la lista
+                {
+                    listaFiltrada = negocio.listar();
+                }
+                else
+                {
+                    // Filtrar la lista de marcas basándonos en el texto ingresado
+                    listaFiltrada = negocio.listar()
+                        .Where(x => x.NombreMarca.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre
+                        .ToList();
+                }
+
+                // Generar el HTML para la tabla
+                string resultadoHtml = "";
+                foreach (var marca in listaFiltrada)
+                {
+                    resultadoHtml += $"<tr>" +
+                                        $"<th scope='row'>{marca.Id}</th>" +
+                                        $"<td>{marca.NombreMarca}</td>" +
+                                        $"<td>{(marca.Activo ? "Sí" : "No")}</td>" +
+                                        $"<td>" +
+                                            $"<button type='button' class='btn btn-secondary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarMarca' " +
+                                            $"onclick='cargarDatosModal({marca.Id}, \"{marca.NombreMarca}\")'>" +
+                                                $"<img src='Content/Iconos/settings.png' alt='Detalle'>" +
+                                            $"</button>" +
+                                            $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar esta marca?\");' />" +
+                                            $"<asp:Button ID='btnActivar' runat='server' CssClass='btn btn-success btn-acciones btn-sm' Text='Activar' OnClientClick='return confirm(\"¿Estás seguro de que deseas activar esta marca?\");' />" +
+                                        $"</td>" +
+                                     $"</tr>";
+                }
+
+                return resultadoHtml; // Devolver el HTML generado
+            }
+            catch (Exception ex)
+            {
+                return "Error al filtrar las marcas: " + ex.Message;
+            }
+        }
+
+
+
+
+
     }
 }

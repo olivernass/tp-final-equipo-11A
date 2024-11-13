@@ -69,7 +69,7 @@
                 <asp:Label Text="Filtrar por nombre:" runat="server" />
                 <asp:CheckBox ID="chkFiltroNombre" runat="server" AutoPostBack="false" OnClick="toggleFiltro('nombre')" />
                 <div class="d-flex">
-                    <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" Enabled="false" />
+                    <asp:TextBox runat="server" ID="txtFiltroMarcas" CssClass="form-control me-2" AutoPostBack="true" OnTextChanged="txtFiltroMarcas_TextChanged" Enabled="false" oninput="filtrarMarcas()"/>
                     <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click"/>
                 </div>
             </div>
@@ -237,6 +237,28 @@
                 }
             }
         }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#<%= txtFiltroMarcas.ClientID %>').on('keyup', function () {
+            var filtro = $(this).val(); // Obtener el texto que el usuario escribió en el campo de búsqueda
+
+            $.ajax({
+                type: "POST",
+                url: "Marcas.aspx/FiltrarMarcas", // Asegúrate de poner la URL correcta
+                data: JSON.stringify({ filtro: filtro }), // Enviar el filtro al servidor
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // Actualizar el contenido del cuerpo de la tabla con los resultados filtrados
+                    $('tbody', '.tableMarcas').html(response.d); // response.d contiene el nuevo HTML generado
+                },
+                error: function (error) {
+                    console.log("Error al filtrar las marcas:", error);
+                }
+            });
+        });
+    });
     </script>
 
 

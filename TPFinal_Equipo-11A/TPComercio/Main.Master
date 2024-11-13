@@ -8,6 +8,7 @@
     <title>TP Comercio</title>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <link href="Content/estilos.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 
