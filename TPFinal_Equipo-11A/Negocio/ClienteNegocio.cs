@@ -340,6 +340,49 @@ namespace Negocio
             }
         }
 
+        public List<Cliente> filtrarEstado(string estado)
+        {
+            List<Cliente> lista = new List<Cliente>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "select ID, Nombre, Activo FROM Clientes ";
+
+                if (estado == "Activo")
+                    consulta += " WHERE Activo = 1 ";
+                else if (estado == "Inactivo")
+                    consulta += " WHERE Activo = 0";
+                else if (estado == "Todos")
+                    consulta = " select * FROM Marcas";
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Cliente aux = new Cliente();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.Correo = (string)datos.Lector["Correo"];
+                    aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public bool existeDNICliente(int dni)
         {
             AccesoDatos datos = new AccesoDatos();

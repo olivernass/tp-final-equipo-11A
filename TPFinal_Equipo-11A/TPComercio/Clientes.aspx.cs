@@ -410,6 +410,54 @@ namespace TPComercio
             }
         }
 
+        protected void btnInactivarModal_Click(object sender, EventArgs e)
+        {
+            int idCliente = Convert.ToInt32(hdnIdCliente.Value);
+            ClienteNegocio negocio = new ClienteNegocio();
+
+            
+
+            Cliente clienteEliminar = new Cliente { Id = idCliente };
+            negocio.eliminarL(clienteEliminar);
+            cargarClientes(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroClientes.Text = string.Empty;
+            ddlEstadoClientes.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroClientes.Enabled = false;
+            ddlEstadoClientes.Enabled = false;
+            btnBuscar.Enabled = false;
+        }
+
+        protected void btnActivarModal_Click(object sender, EventArgs e)
+        {
+            int idCliente = Convert.ToInt32(hdnIdCliente.Value);
+            ClienteNegocio negocio = new ClienteNegocio();
+
+            Cliente clienteActivar = new Cliente { Id = idCliente };
+            negocio.activar(clienteActivar);
+            cargarClientes(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroClientes.Text = string.Empty;
+            ddlEstadoClientes.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroClientes.Enabled = false;
+            ddlEstadoClientes.Enabled = false;
+            btnBuscar.Enabled = false;
+        }
+
         protected void txtFiltroClientes_TextChanged(object sender, EventArgs e)
         {
             List<Cliente> lista = (List<Cliente>)Session["listaClientes"];
@@ -418,10 +466,36 @@ namespace TPComercio
             rptClientes.DataBind();
         }
 
+        protected void btnBorrar_Click(object sender, EventArgs e)
+        {
+
+            //cargarMarcas();
+            //txtFiltroMarcas.Text = string.Empty;
+            //ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Cargar todas las marcas
+            cargarClientes();
+
+            // Limpiar los controles de filtro
+            txtFiltroClientes.Text = string.Empty;
+            ddlEstadoClientes.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroClientes.Enabled = false;
+            ddlEstadoClientes.Enabled = false;
+            btnBuscar.Enabled = false;
+
+        }
+
         protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
         {
             FiltroAvanzado = chkAvanzado.Checked;
             txtFiltroClientes.Enabled = !FiltroAvanzado;
+            ddlEstadoClientes.Enabled = !FiltroAvanzado;
 
             if (FiltroAvanzado)
             {
@@ -466,7 +540,7 @@ namespace TPComercio
                 string campo = ddlCampo.SelectedItem.ToString();
                 string criterio = ddlCriterio.SelectedItem != null ? ddlCriterio.SelectedItem.ToString() : string.Empty;
                 string filtroAvanzado = !string.IsNullOrEmpty(txtFiltroAvanzado.Text) ? txtFiltroAvanzado.Text : string.Empty;
-                string estado = ddlEstado.SelectedItem.ToString();
+                string estado = ddlEstadoClientes.SelectedItem.ToString();
 
                 // Llamar al método filtrar con los parámetros adecuados
                 rptClientes.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado, estado);
@@ -504,6 +578,34 @@ namespace TPComercio
             }
         }
 
+        protected void btnBuscarEstado_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ClienteNegocio negocio = new ClienteNegocio();
+                rptClientes.DataSource = negocio.filtrarEstado(ddlEstadoClientes.SelectedItem.ToString());
+                rptClientes.DataBind();
+
+                // Limpiar los controles de filtro
+                txtFiltroClientes.Text = string.Empty;
+                ddlEstadoClientes.SelectedValue = "Todos";
+
+                // Restablecer los estados de los filtros
+                chkFiltroNombre.Checked = false;
+                chkFiltroEstado.Checked = false;
+
+                // Desactivar los controles de filtro
+                txtFiltroClientes.Enabled = false;
+                ddlEstadoClientes.Enabled = false;
+                btnBuscar.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex);
+                throw;
+            }
+        }
+
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
             cargarClientes();
@@ -525,7 +627,63 @@ namespace TPComercio
             ddlCriterio.SelectedValue = "Igual a";
 
             // Establecer el estado predeterminado en ddlEstado
-            ddlEstado.SelectedValue = "Todos";
+            ddlEstadoClientes.SelectedValue = "Todos";
+        }
+
+        [System.Web.Services.WebMethod]
+        public static string FiltrarClientes(string filtro)
+        {
+            try
+            {
+                // Crear la instancia de MarcaNegocio
+                ClienteNegocio negocio = new ClienteNegocio();
+
+                List<Cliente> listaFiltrada;
+
+                if (string.IsNullOrEmpty(filtro)) // Si el filtro está vacío, devolver toda la lista
+                {
+                    listaFiltrada = negocio.listar();
+                }
+                else
+                {
+                    // Filtrar la lista de marcas basándonos en el texto ingresado
+                    listaFiltrada = negocio.listar()
+                        .Where(x => x.Nombre.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre
+                        .ToList();
+                }
+
+                // Generar el HTML para la tabla
+                string resultadoHtml = "";
+                foreach (var cliente in listaFiltrada)
+                {
+                    resultadoHtml += $"<tr>" +
+                                        $"<th scope='row'>{cliente.Id}</th>" +
+                                        $"<td>{cliente.DNI}</td>" +
+                                        $"<td>{cliente.Nombre}</td>" +
+                                        $"<td>{cliente.Apellido}</td>" +
+                                        $"<td>{cliente.Direccion}</td>" +
+                                        $"<td>{cliente.Telefono}</td>" +
+                                        $"<td>{cliente.Correo}</td>" +
+                                        $"<td>{cliente.Fecha_Alta.ToString("dd/MM/yyyy HH:mm")}</td>" +
+                                        $"<td>{(cliente.Activo ? "Sí" : "No")}</td>" +
+                                        $"<td>" +
+                                            $"<button type='button' class='btn btn-primary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarCliente' " +
+                                            $"onclick='cargarDatosModal({cliente.Id}, \"{cliente.DNI}\", \"{cliente.Nombre}\", \"{cliente.Apellido}\", \"{cliente.Direccion}\", \"{cliente.Telefono}\", \"{cliente.Correo}\", \"{cliente.Activo}\")'>"
+ +
+                                                $"Modificar" +
+                                            $"</button>" +
+                                            $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar este cliente?\");' />" +
+                                            $"<asp:Button ID='btnActivar' runat='server' CssClass='btn btn-success btn-acciones btn-sm' Text='Activar' OnClientClick='return confirm(\"¿Estás seguro de que deseas activar este cliente?\");' />" +
+                                        $"</td>" +
+                                     $"</tr>";
+                }
+
+                return resultadoHtml; // Devolver el HTML generado
+            }
+            catch (Exception ex)
+            {
+                return "Error al filtrar los clientes: " + ex.Message;
+            }
         }
     }
 }
