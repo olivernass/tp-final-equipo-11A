@@ -248,7 +248,7 @@ namespace Negocio
         //    }
         //}
 
-        public List<Cliente> filtrar(string campo, string criterio, string filtro, string estado)
+        public List<Cliente> filtrar(string campo, string criterio, string filtro)
         {
             List<Cliente> lista = new List<Cliente>();
             AccesoDatos datos = new AccesoDatos();
@@ -256,7 +256,7 @@ namespace Negocio
             try
             {
                 // Iniciar la consulta
-                string consulta = "select DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo FROM Clientes WHERE 1=1";
+                string consulta = "select ID, DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo FROM Clientes WHERE 1=1";
 
                 // Agregar condición del campo y criterio solo si ambos están presentes
                 if (!string.IsNullOrEmpty(campo) && !string.IsNullOrEmpty(criterio) && !string.IsNullOrEmpty(filtro))
@@ -308,11 +308,7 @@ namespace Negocio
                     }
                 }
 
-                // Agregar condición de estado, sin importar si los otros filtros están vacíos
-                if (estado == "Activo")
-                    consulta += " AND Activo = 1";
-                else if (estado == "Inactivo")
-                    consulta += " AND Activo = 0";
+                
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -320,6 +316,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Cliente aux = new Cliente();
+                    aux.Id = (long)datos.Lector["Id"];
                     aux.DNI = (int)datos.Lector["DNI"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
@@ -347,14 +344,14 @@ namespace Negocio
 
             try
             {
-                string consulta = "select ID, Nombre, Activo FROM Clientes ";
+                string consulta = "select ID, DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo FROM Clientes";
 
                 if (estado == "Activo")
                     consulta += " WHERE Activo = 1 ";
                 else if (estado == "Inactivo")
                     consulta += " WHERE Activo = 0";
                 else if (estado == "Todos")
-                    consulta = " select * FROM Marcas";
+                    consulta += " select * FROM Marcas";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -362,14 +359,16 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Cliente aux = new Cliente();
-                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Id = (long)datos.Lector["Id"];
+                    aux.DNI = (int)datos.Lector["DNI"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Direccion = (string)datos.Lector["Direccion"];
                     aux.Telefono = (string)datos.Lector["Telefono"];
                     aux.Correo = (string)datos.Lector["Correo"];
                     aux.Fecha_Alta = (DateTime)datos.Lector["Fecha_reg"];
-                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+                    //aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }

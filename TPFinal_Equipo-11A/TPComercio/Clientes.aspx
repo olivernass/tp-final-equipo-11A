@@ -293,7 +293,7 @@
     </script>--%>
 
 
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         function toggleFiltro(filtro) {
             var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
         var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
@@ -333,7 +333,271 @@
                 }
             }
         }
+    </script>--%>
+
+    <%--ANDA BIEN PERO HAY QUE CORREGIR--%>
+    <%--<script type="text/javascript">
+        function toggleFiltro(filtro) {
+            // Obtener referencias a los elementos de filtro y sus checkboxes
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
+        var btnBuscar = document.getElementById('<%= Button1.ClientID %>'); // Botón de búsqueda por estado
+            var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
+            
+
+            // Desactivar todos los filtros inicialmente
+            txtFiltroClientes.disabled = true;
+            ddlEstadoClientes.disabled = true;
+            btnBuscar.disabled = true;
+
+            // Activar solo el filtro seleccionado
+            if (filtro === 'nombre' && chkFiltroNombre.checked) {
+                txtFiltroClientes.disabled = false;
+                chkFiltroEstado.checked = false;
+                chkAvanzado.checked = false;
+            } else if (filtro === 'estado' && chkFiltroEstado.checked) {
+                ddlEstadoClientes.disabled = false;
+                btnBuscar.disabled = false;
+                chkFiltroNombre.checked = false;
+                chkAvanzado.checked = false;
+            } else if (filtro === 'avanzado' && chkAvanzado.checked) {
+                chkFiltroNombre.checked = false;
+                chkFiltroEstado.checked = false;
+                
+            }
+        }
+    </script>--%>
+
+    <%--ANDA BIEN 2 HAY QUE CORREGIR
+    <script type="text/javascript">
+        // Función para inicializar el estado de los filtros
+        function inicializarFiltros() {
+            // Obtener referencias a los elementos de filtro y sus checkboxes
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
+        var btnBuscar = document.getElementById('<%= Button1.ClientID %>'); // Botón de búsqueda por estado
+        var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
+
+        // Desactivar todos los checkboxes
+        chkFiltroNombre.checked = false;
+        chkFiltroEstado.checked = false;
+        chkAvanzado.checked = false;
+
+        // Desactivar todos los campos de filtro
+        txtFiltroClientes.disabled = true;
+        ddlEstadoClientes.disabled = true;
+        btnBuscar.disabled = true;
+    }
+
+    // Función para alternar la activación de los filtros
+    function toggleFiltro(filtro) {
+        // Obtener referencias a los elementos de filtro y sus checkboxes
+        var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
+        var btnBuscar = document.getElementById('<%= Button1.ClientID %>'); // Botón de búsqueda por estado
+        var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
+
+            // Desactivar todos los campos de filtro al cambiar de filtro
+            txtFiltroClientes.disabled = true;
+            ddlEstadoClientes.disabled = true;
+            btnBuscar.disabled = true;
+
+            // Activar solo el filtro seleccionado
+            if (filtro === 'nombre' && chkFiltroNombre.checked) {
+                txtFiltroClientes.disabled = false;
+                chkFiltroEstado.checked = false;
+                chkAvanzado.checked = false;
+            } else if (filtro === 'estado' && chkFiltroEstado.checked) {
+                ddlEstadoClientes.disabled = false;
+                btnBuscar.disabled = false;
+                chkFiltroNombre.checked = false;
+                chkAvanzado.checked = false;
+            } else if (filtro === 'avanzado' && chkAvanzado.checked) {
+                chkFiltroNombre.checked = false;
+                chkFiltroEstado.checked = false;
+            }
+        }
+
+        // Llama a la función inicializarFiltros cuando se cargue la página
+        window.onload = inicializarFiltros;
+    </script>--%>
+
+
+    <%--PARECE QUE FUNCIONA BIEN, SOLO HAY QUE ARREGLAR EL POR QUE DESAPARECE DEL DESPLEGABLE EL APELLIDO Y EL CORREO--%>
+    <%--<script type="text/javascript">
+        // Función para inicializar el estado de los filtros al cargar la página
+        function inicializarFiltros() {
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
+        var btnBuscar = document.getElementById('<%= Button1.ClientID %>');
+        var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
+        var btnBorrar = document.getElementById('<%= btnBorrar.ClientID %>');
+
+        // Desactivar todos los checkboxes y campos de filtro
+        chkFiltroNombre.checked = false;
+        chkFiltroEstado.checked = false;
+        chkAvanzado.checked = false;
+        txtFiltroClientes.disabled = true;
+        ddlEstadoClientes.disabled = true;
+        btnBuscar.disabled = true;
+        btnBorrar.disabled = true;
+    }
+
+    // Función para alternar la activación de los filtros
+    function toggleFiltro(filtro) {
+        var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
+        var btnBuscar = document.getElementById('<%= Button1.ClientID %>');
+        var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
+        var btnBorrar = document.getElementById('<%= btnBorrar.ClientID %>');
+
+            // Restablecer los estados de los campos y botones
+            txtFiltroClientes.disabled = true;
+            ddlEstadoClientes.disabled = true;
+            btnBuscar.disabled = true;
+            btnBorrar.disabled = true;
+
+            if (filtro === 'nombre' && chkFiltroNombre.checked) {
+                txtFiltroClientes.disabled = false;
+                btnBorrar.disabled = false;
+                chkFiltroEstado.checked = false;
+                chkAvanzado.checked = false;
+                ddlEstadoClientes.selectedIndex = 0; // Restablecer el filtro de estado a "Todos"
+            } else if (filtro === 'estado' && chkFiltroEstado.checked) {
+                ddlEstadoClientes.disabled = false;
+                btnBuscar.disabled = false;
+                chkFiltroNombre.checked = false;
+                chkAvanzado.checked = false;
+                txtFiltroClientes.value = ''; // Limpiar el filtro por nombre
+                btnBorrar.disabled = false;
+            } else if (filtro === 'avanzado' && chkAvanzado.checked) {
+                chkFiltroNombre.checked = false;
+                chkFiltroEstado.checked = false;
+                txtFiltroClientes.value = ''; // Limpiar el filtro por nombre
+                ddlEstadoClientes.selectedIndex = 0; // Restablecer el filtro de estado
+            }
+        }
+
+        // Llama a la función inicializarFiltros cuando se cargue la página
+        window.onload = inicializarFiltros;
+    </script>--%>
+
+    <%--ANDA BIEN SOLO NO FUNCIONA EL BOTON DE BUSCAR CUANDO TOCO EL BOTON DE BORRAR--%>
+    <%--<script type="text/javascript">
+        function toggleFiltro(filtro) {
+            // Obtener referencias a los elementos de filtro y sus checkboxes
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
+        var btnBuscar = document.getElementById('<%= Button1.ClientID %>'); // Botón de búsqueda por estado
+        var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
+
+            // Desactivar todos los filtros inicialmente
+            txtFiltroClientes.disabled = true;
+            ddlEstadoClientes.disabled = true;
+            btnBuscar.disabled = true;
+
+            // Activar solo el filtro seleccionado
+            if (filtro === 'nombre') {
+                // Activar el filtro por nombre y desactivar los otros
+                txtFiltroClientes.disabled = !chkFiltroNombre.checked;
+                ddlEstadoClientes.disabled = chkFiltroNombre.checked;
+                btnBuscar.disabled = chkFiltroNombre.checked;
+
+                // Si el filtro por nombre está activado, desmarcar otros filtros
+                if (chkFiltroNombre.checked) {
+                    ddlEstadoClientes.selectedIndex = 0; // Restablecer el filtro de estado a "Todos"
+                    chkFiltroEstado.checked = false; // Desmarcar la casilla de estado
+                    chkAvanzado.checked = false; // Desmarcar filtro avanzado
+                }
+            } else if (filtro === 'estado') {
+                // Activar el filtro por estado y desactivar los otros
+                ddlEstadoClientes.disabled = !chkFiltroEstado.checked;
+                txtFiltroClientes.disabled = chkFiltroEstado.checked;
+                btnBuscar.disabled = !chkFiltroEstado.checked;
+
+                // Si el filtro por estado está activado, desmarcar el filtro por nombre
+                if (chkFiltroEstado.checked) {
+                    txtFiltroClientes.value = ''; // Limpiar el campo de texto de filtro de nombre
+                    chkFiltroNombre.checked = false; // Desmarcar el filtro por nombre
+                    chkAvanzado.checked = false; // Desmarcar filtro avanzado
+                }
+            } else if (filtro === 'avanzado') {
+                // Activar el filtro avanzado y desactivar los otros
+                if (chkAvanzado.checked) {
+                    chkFiltroNombre.checked = false; // Desmarcar filtro por nombre
+                    chkFiltroEstado.checked = false; // Desmarcar filtro por estado
+                }
+            }
+        }
+    </script>--%>
+
+
+    <script type="text/javascript">
+        function toggleFiltro(filtro) {
+            // Obtener referencias a los elementos de filtro y sus checkboxes
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
+        var btnBuscar = document.getElementById('<%= Button1.ClientID %>'); // Botón de búsqueda por estado
+        var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
+
+            // Desactivar todos los filtros inicialmente
+            txtFiltroClientes.disabled = true;
+            ddlEstadoClientes.disabled = true;
+            btnBuscar.disabled = true;
+
+            // Activar solo el filtro seleccionado
+            if (filtro === 'nombre') {
+                // Activar el filtro por nombre y desactivar los otros
+                txtFiltroClientes.disabled = !chkFiltroNombre.checked;
+                ddlEstadoClientes.disabled = chkFiltroNombre.checked;
+                if (!chkAvanzado.checked) {
+                    btnBuscar.disabled = chkFiltroNombre.checked;  // Solo deshabilitar el botón si el filtro avanzado no está activado
+                }
+
+                // Si el filtro por nombre está activado, desmarcar otros filtros
+                if (chkFiltroNombre.checked) {
+                    ddlEstadoClientes.selectedIndex = 0; // Restablecer el filtro de estado a "Todos"
+                    chkFiltroEstado.checked = false; // Desmarcar la casilla de estado
+                    chkAvanzado.checked = false; // Desmarcar filtro avanzado
+                }
+            } else if (filtro === 'estado') {
+                // Activar el filtro por estado y desactivar los otros
+                ddlEstadoClientes.disabled = !chkFiltroEstado.checked;
+                txtFiltroClientes.disabled = chkFiltroEstado.checked;
+                btnBuscar.disabled = !chkFiltroEstado.checked;
+
+                // Si el filtro por estado está activado, desmarcar el filtro por nombre
+                if (chkFiltroEstado.checked) {
+                    txtFiltroClientes.value = ''; // Limpiar el campo de texto de filtro de nombre
+                    chkFiltroNombre.checked = false; // Desmarcar el filtro por nombre
+                    chkAvanzado.checked = false; // Desmarcar filtro avanzado
+                }
+            } else if (filtro === 'avanzado') {
+                // Activar el filtro avanzado y desactivar los otros
+                if (chkAvanzado.checked) {
+                    chkFiltroNombre.checked = false; // Desmarcar filtro por nombre
+                    chkFiltroEstado.checked = false; // Desmarcar filtro por estado
+                }
+                // El botón de búsqueda siempre permanece habilitado cuando el filtro avanzado está activado
+                btnBuscar.disabled = false;
+            }
+        }
     </script>
+
 
 
     <script type="text/javascript">

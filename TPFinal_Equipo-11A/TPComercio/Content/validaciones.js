@@ -1,4 +1,5 @@
 ﻿function validarAgregarCliente() {
+    var DNI = document.querySelector('.validar-DNI');
     var nombre = document.querySelector('.validar-nombre');
     var apellido = document.querySelector('.validar-apellido');
     var direccion = document.querySelector('.validar-direccion');

@@ -19,6 +19,7 @@ namespace TPComercio
 
             if (!IsPostBack)
             {
+                //FiltroAvanzado = chkAvanzado.Checked;
                 cargarClientes();
             }
         }
@@ -487,9 +488,30 @@ namespace TPComercio
             // Desactivar los controles de filtro
             txtFiltroClientes.Enabled = false;
             ddlEstadoClientes.Enabled = false;
-            btnBuscar.Enabled = false;
+            btnBuscar.Enabled = true;
 
         }
+
+        //protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    FiltroAvanzado = chkAvanzado.Checked;
+        //    txtFiltroClientes.Enabled = !FiltroAvanzado;
+        //    ddlEstadoClientes.Enabled = !FiltroAvanzado;
+
+        //    if (FiltroAvanzado)
+        //    {
+        //        // Establecer "DNI" como valor predeterminado en ddlCampo
+        //        ddlCampo.SelectedValue = "DNI";
+
+        //        // Llamar al método para actualizar los criterios según el campo seleccionado
+        //        ddlCampo_SelectedIndexChanged(sender, e);
+
+        //        // Establecer "Igual a" como valor predeterminado en ddlCriterio
+        //        ddlCriterio.SelectedValue = "Igual a";
+        //    }
+
+        //}
+
 
         protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
         {
@@ -499,8 +521,8 @@ namespace TPComercio
 
             if (FiltroAvanzado)
             {
-                // Establecer "DNI" como valor predeterminado en ddlCampo
-                ddlCampo.SelectedValue = "DNI";
+                // Quita esta línea si quieres que ddlCampo mantenga el valor que el usuario elija.
+                 ddlCampo.SelectedValue = "DNI"; 
 
                 // Llamar al método para actualizar los criterios según el campo seleccionado
                 ddlCampo_SelectedIndexChanged(sender, e);
@@ -508,8 +530,9 @@ namespace TPComercio
                 // Establecer "Igual a" como valor predeterminado en ddlCriterio
                 ddlCriterio.SelectedValue = "Igual a";
             }
-
+            
         }
+
 
         protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -527,7 +550,12 @@ namespace TPComercio
                 ddlCriterio.Items.Add("Comienza con");
                 ddlCriterio.Items.Add("Termina con");
             }
+
+            
         }
+
+       
+
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -540,15 +568,15 @@ namespace TPComercio
                 string campo = ddlCampo.SelectedItem.ToString();
                 string criterio = ddlCriterio.SelectedItem != null ? ddlCriterio.SelectedItem.ToString() : string.Empty;
                 string filtroAvanzado = !string.IsNullOrEmpty(txtFiltroAvanzado.Text) ? txtFiltroAvanzado.Text : string.Empty;
-                string estado = ddlEstadoClientes.SelectedItem.ToString();
+                
 
                 // Llamar al método filtrar con los parámetros adecuados
-                rptClientes.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado, estado);
+                rptClientes.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado);
                 rptClientes.DataBind();
 
                 //// Limpiar los criterios y el filtro avanzado
-                //ddlCriterio.Items.Clear();
-                //txtFiltroAvanzado.Text = string.Empty;
+                ddlCriterio.Items.Clear();
+                txtFiltroAvanzado.Text = string.Empty;
 
 
                 // Limpiar el filtro avanzado
@@ -565,7 +593,7 @@ namespace TPComercio
 
 
                 //ClienteNegocio negocio = new ClienteNegocio();
-                //rptClientes.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),ddlCriterio.SelectedItem.ToString(),txtFiltroAvanzado.Text,ddlEstado.SelectedItem.ToString());
+                //rptClientes.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),ddlCriterio.SelectedItem.ToString(),txtFiltroAvanzado.Text);
                 //rptClientes.DataBind();
 
                 //ddlCriterio.Items.Clear();
