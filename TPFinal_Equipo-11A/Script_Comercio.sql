@@ -116,12 +116,11 @@ CREATE TABLE Ventas(
 	IDCliente BIGINT NOT NULL,
 	Total MONEY NOT NULL,
 	Fecha DATETIME DEFAULT GETDATE(),
-	Nro_Factura BIGINT NOT NULL UNIQUE,
+	Nro_Factura BIGINT NOT NULL IDENTITY(1,1),
 	PRIMARY KEY(ID),
 	FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
 );
 GO
--- Nro_Factura deberia de tener un identity(1,1)
 
 CREATE TABLE Productos_x_venta(
 	ID BIGINT NOT NULL IDENTITY(1,1),
@@ -137,7 +136,7 @@ CREATE TABLE Productos_x_venta(
 GO
 CREATE TABLE Compras(
 	ID BIGINT NOT NULL IDENTITY(1,1),
-	Nro_Recibo BIGINT NOT NULL UNIQUE,
+	Nro_Recibo BIGINT NOT NULL IDENTITY(1,1),
 	IDProveedor INT NOT NULL,
 	Fecha DATETIME DEFAULT GETDATE(),
 	Total MONEY NOT NULL,
@@ -145,7 +144,6 @@ CREATE TABLE Compras(
 	FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
 );
 GO
--- Nro_Recibo deberia de tener un identity(1,1)
 
 CREATE TABLE Productos_x_compra(
 	ID BIGINT NOT NULL IDENTITY(1,1),
