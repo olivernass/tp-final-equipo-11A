@@ -752,21 +752,44 @@ END
 GO
 
 -- VERIFICAR DUPLICIDAD AL CARGAR
+
+--CREATE PROCEDURE SP_ExisteMarca(
+--	@NombreMarca NVARCHAR(50)
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteMarca(
-	@NombreMarca NVARCHAR(50)
+    @NombreMarca NVARCHAR(50)
 )
 AS
 BEGIN
-    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+    SELECT COUNT(*)
+    FROM Marcas
+    WHERE NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI
 END
 GO
 
+--CREATE PROCEDURE SP_ExisteCategoria(
+--	@NombreCategoria NVARCHAR(50)
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteCategoria(
-	@NombreCategoria NVARCHAR(50)
+    @NombreCategoria NVARCHAR(50)
 )
 AS
 BEGIN
-    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+    SELECT COUNT(*)
+    FROM Categorias
+    WHERE NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI
 END
 GO
 
@@ -789,27 +812,54 @@ END
 GO
 
 --VERIFICAR DUPLICIDAD AL MODIFICAR
+
+--CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
+--	@NombreMarca VARCHAR(50),
+--	@IDMarca INT
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) 
+--    FROM Marcas 
+--    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
-	@NombreMarca VARCHAR(50),
-	@IDMarca INT
+    @NombreMarca NVARCHAR(50),
+    @IDMarca INT
 )
 AS
 BEGIN
     SELECT COUNT(*) 
     FROM Marcas 
-    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+    WHERE NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI 
+    AND Id <> @IDMarca
 END
 GO
 
+--CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
+--	@NombreCategoria VARCHAR(50),
+--	@IDCategoria INT
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) 
+--    FROM Categorias 
+--    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
-	@NombreCategoria VARCHAR(50),
-	@IDCategoria INT
+    @NombreCategoria NVARCHAR(50),
+    @IDCategoria INT
 )
 AS
 BEGIN
     SELECT COUNT(*) 
     FROM Categorias 
-    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+    WHERE NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI 
+    AND Id <> @IDCategoria
 END
 GO
 
@@ -861,18 +911,75 @@ END
 GO
 
 --CONTADOR DE PRODUCTOS X MARCA Y CATEGORIA
-CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
+--CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
+--AS
+--BEGIN
+--    SELECT TOP 1 M.Id, M.NombreMarca, COUNT(P.Id) AS CantidadProductos
+--    FROM Marcas M
+--    JOIN Productos P ON p.IdMarca = M.ID
+--    WHERE P.Activo = 1
+--    GROUP BY M.ID, M.NombreMarca
+--    ORDER BY CantidadProductos DESC;
+--END
+--GO
+
+CREATE PROCEDURE SP_ObtenerMarcasConMasProductos
 AS
 BEGIN
-    SELECT TOP 1 M.Id, M.NombreMarca, COUNT(P.Id) AS CantidadProductos
-    FROM Marcas M
-    JOIN Productos P ON p.IdMarca = M.ID
-    WHERE P.Activo = 1
-    GROUP BY M.ID, M.NombreMarca
-    ORDER BY CantidadProductos DESC;
+    -- Obtener la cantidad máxima de productos asociados a una marca
+    WITH CTE_CantidadProductos AS (
+        SELECT 
+            M.Id,
+            M.NombreMarca,
+            COUNT(P.Id) AS CantidadProductos
+        FROM Marcas M
+        JOIN Productos P ON P.IdMarca = M.Id
+        WHERE P.Activo = 1
+        GROUP BY M.Id, M.NombreMarca
+    )
+    SELECT 
+        Id,
+        NombreMarca,
+        CantidadProductos
+    FROM CTE_CantidadProductos
+    WHERE CantidadProductos = (SELECT MAX(CantidadProductos) FROM CTE_CantidadProductos);
 END
 GO
 
+CREATE PROCEDURE SP_ObtenerCategoriasConMasProductos
+AS
+BEGIN
+    -- Obtener la cantidad máxima de productos asociados a una categoría
+    WITH CTE_CantidadProductos AS (
+        SELECT 
+            C.Id,
+            C.NombreCategoria,
+            COUNT(P.Id) AS CantidadProductos
+        FROM Categorias C
+        JOIN Productos P ON P.IdCategoria = C.Id
+        WHERE P.Activo = 1
+        GROUP BY C.Id, C.NombreCategoria
+    )
+    SELECT 
+        Id,
+        NombreCategoria,
+        CantidadProductos
+    FROM CTE_CantidadProductos
+    WHERE CantidadProductos = (SELECT MAX(CantidadProductos) FROM CTE_CantidadProductos);
+END
+GO
+
+--OBTENER EL PRIMER Y ULTIMO CLIENTE DADOS DE ALTA
+CREATE PROCEDURE SP_PrimerClienteDadoDeAlta
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT TOP 1 *
+    FROM Clientes
+    ORDER BY ID ASC;
+END
+GO
 
 --INSERTS
 

@@ -15,6 +15,15 @@ namespace TPComercio
     {
 
         /// <summary>
+        /// Control chkFiltroNombre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFiltroNombre;
+
+        /// <summary>
         /// Control txtFiltroCategoria.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,15 @@ namespace TPComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBorrar;
+
+        /// <summary>
+        /// Control chkFiltroEstado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFiltroEstado;
 
         /// <summary>
         /// Control ddlEstadoCategorias.
@@ -87,6 +105,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.HiddenField hdnIdCategoria;
 
         /// <summary>
+        /// Control hdnEstadoCategoria.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnEstadoCategoria;
+
+        /// <summary>
         /// Control txtNombreCategoriaMod.
         /// </summary>
         /// <remarks>
@@ -94,6 +121,24 @@ namespace TPComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNombreCategoriaMod;
+
+        /// <summary>
+        /// Control btnInactivarModal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnInactivarModal;
+
+        /// <summary>
+        /// Control btnActivarModal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActivarModal;
 
         /// <summary>
         /// Control btnGuardarCambios.

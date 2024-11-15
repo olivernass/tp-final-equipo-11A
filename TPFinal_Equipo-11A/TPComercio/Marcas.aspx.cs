@@ -131,6 +131,7 @@ namespace TPComercio
             {
                 string nombreMarca = txtNombreMarcaMod.Text;
                 int idMarca = int.Parse(hdnIdMarca.Value); // Obtener el ID de la marca desde el HiddenField
+                bool estado = bool.Parse(hdnEstadoMarca.Value);
 
                 MarcaNegocio negocio = new MarcaNegocio();
 
@@ -158,6 +159,22 @@ namespace TPComercio
 
                 // Cerrar el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarMarca').modal('hide');", true);
+
+                // Cargar todas las marcas
+                cargarMarcas();
+
+                // Limpiar los controles de filtro
+                txtFiltroMarcas.Text = string.Empty;
+                ddlEstadoMarcas.SelectedValue = "Todos";
+
+                // Restablecer los estados de los filtros
+                chkFiltroNombre.Checked = false;
+                chkFiltroEstado.Checked = false;
+
+                // Desactivar los controles de filtro
+                txtFiltroMarcas.Enabled = false;
+                ddlEstadoMarcas.Enabled = false;
+                btnBuscar.Enabled = false;
             }
         }
 
@@ -217,6 +234,63 @@ namespace TPComercio
         }
 
 
+
+
+        protected void btnInactivarModal_Click(object sender, EventArgs e)
+        {
+            int idMarca = Convert.ToInt32(hdnIdMarca.Value);
+            MarcaNegocio negocio = new MarcaNegocio();
+
+            // Verificar si la marca tiene productos activos asociados antes de inactivarla
+            if (negocio.tieneProductosActivos(idMarca))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('No se puede inactivar esta marca porque tiene productos activos asociados.');", true);
+                return;
+            }
+
+            Marca marcaEliminar = new Marca { Id = idMarca };
+            negocio.eliminarL(marcaEliminar);
+            cargarMarcas(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroMarcas.Text = string.Empty;
+            ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroMarcas.Enabled = false;
+            ddlEstadoMarcas.Enabled = false;
+            btnBuscar.Enabled = false;
+        }
+
+        protected void btnActivarModal_Click(object sender, EventArgs e)
+        {
+            int idMarca = Convert.ToInt32(hdnIdMarca.Value);
+            MarcaNegocio negocio = new MarcaNegocio();
+
+            Marca marcaActivar = new Marca { Id = idMarca };
+            negocio.activar(marcaActivar);
+            cargarMarcas(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroMarcas.Text = string.Empty;
+            ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroMarcas.Enabled = false;
+            ddlEstadoMarcas.Enabled = false;
+            btnBuscar.Enabled = false;
+        }
+
+
+
         protected void txtFiltroMarcas_TextChanged(object sender, EventArgs e)
         {
             List<Marca> lista = (List<Marca>)Session["listaMarcas"];
@@ -228,9 +302,25 @@ namespace TPComercio
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
 
+            //cargarMarcas();
+            //txtFiltroMarcas.Text = string.Empty;
+            //ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Cargar todas las marcas
             cargarMarcas();
+
+            // Limpiar los controles de filtro
             txtFiltroMarcas.Text = string.Empty;
             ddlEstadoMarcas.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroMarcas.Enabled = false;
+            ddlEstadoMarcas.Enabled = false;
+            btnBuscar.Enabled = false;
 
         }
 
@@ -256,6 +346,19 @@ namespace TPComercio
                 MarcaNegocio negocio = new MarcaNegocio();
                 rptMarcas.DataSource = negocio.filtrar(ddlEstadoMarcas.SelectedItem.ToString());
                 rptMarcas.DataBind();
+
+                // Limpiar los controles de filtro
+                txtFiltroMarcas.Text = string.Empty;
+                ddlEstadoMarcas.SelectedValue = "Todos";
+
+                // Restablecer los estados de los filtros
+                chkFiltroNombre.Checked = false;
+                chkFiltroEstado.Checked = false;
+
+                // Desactivar los controles de filtro
+                txtFiltroMarcas.Enabled = false;
+                ddlEstadoMarcas.Enabled = false;
+                btnBuscar.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -279,5 +382,60 @@ namespace TPComercio
         //        throw;
         //    }
         //}
+
+
+        [System.Web.Services.WebMethod]
+        public static string FiltrarMarcas(string filtro)
+        {
+            try
+            {
+                // Crear la instancia de MarcaNegocio
+                MarcaNegocio negocio = new MarcaNegocio();
+
+                List<Marca> listaFiltrada;
+
+                if (string.IsNullOrEmpty(filtro)) // Si el filtro está vacío, devolver toda la lista
+                {
+                    listaFiltrada = negocio.listar();
+                }
+                else
+                {
+                    // Filtrar la lista de marcas basándonos en el texto ingresado
+                    listaFiltrada = negocio.listar()
+                        .Where(x => x.NombreMarca.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre
+                        .ToList();
+                }
+
+                // Generar el HTML para la tabla
+                string resultadoHtml = "";
+                foreach (var marca in listaFiltrada)
+                {
+                    resultadoHtml += $"<tr>" +
+                                        $"<th scope='row'>{marca.Id}</th>" +
+                                        $"<td>{marca.NombreMarca}</td>" +
+                                        $"<td>{(marca.Activo ? "Sí" : "No")}</td>" +
+                                        $"<td>" +
+                                            $"<button type='button' class='btn btn-primary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarMarca' " +
+                                            $"onclick='cargarDatosModal({marca.Id}, \"{marca.NombreMarca}\", \"{marca.Activo}\")'>" +
+                                                $"Modificar" +
+                                            $"</button>" +
+                                            $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar esta marca?\");' />" +
+                                            $"<asp:Button ID='btnActivar' runat='server' CssClass='btn btn-success btn-acciones btn-sm' Text='Activar' OnClientClick='return confirm(\"¿Estás seguro de que deseas activar esta marca?\");' />" +
+                                        $"</td>" +
+                                     $"</tr>";
+                }
+
+                return resultadoHtml; // Devolver el HTML generado
+            }
+            catch (Exception ex)
+            {
+                return "Error al filtrar las marcas: " + ex.Message;
+            }
+        }
+
+
+
+
+
     }
 }
