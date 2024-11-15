@@ -26,14 +26,30 @@ CREATE TABLE Categorias (
     PRIMARY KEY(ID)
 );
 GO
+
+CREATE TABLE Imagenes(
+	ID BIGINT NOT NULL IDENTITY(1,1),
+	ImagenURL VARCHAR(1000),
+	Activo BIT NOT NULL DEFAULT 1
+	PRIMARY KEY(ID)
+);
+GO
+
 CREATE TABLE Usuarios(
 	ID INT NOT NULL IDENTITY(1,1),
 	IDPermiso INT NOT NULL,
 	NombreUsuario VARCHAR(30) NOT NULL,
 	Contrasenia VARCHAR(30) NOT NULL,
+	Nombre VARCHAR(30) NULL,
+    Apellido VARCHAR(30) NULL,
+    CorreoElectronico VARCHAR(50) NULL,
+    Telefono VARCHAR(15) NULL,
+	IDImagen BIGINT NULL,
+    FechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 	Activo BIT NOT NULL default 1,
 	PRIMARY KEY(ID),
-	FOREIGN KEY (IDPermiso) REFERENCES Permisos(ID)
+	FOREIGN KEY (IDPermiso) REFERENCES Permisos(ID),
+	FOREIGN KEY (IDImagen) REFERENCES Imagenes(ID)
 );
 
 -- ?Queremos generar un perfil de los usuarios para que se uno mismo pueda modificar algunos campos? y el administrador tiene mas alcance
@@ -65,12 +81,7 @@ CREATE TABLE Proveedores(
 	PRIMARY KEY(ID),
 );
 GO
-CREATE TABLE Imagenes(
-	ID BIGINT NOT NULL IDENTITY(1,1),
-	ImagenURL VARCHAR(1000),
-	Activo BIT NOT NULL DEFAULT 1
-	PRIMARY KEY(ID)
-);
+
 GO
 CREATE TABLE Productos(
 	ID BIGINT NOT NULL IDENTITY(1,10),
@@ -105,12 +116,11 @@ CREATE TABLE Ventas(
 	IDCliente BIGINT NOT NULL,
 	Total MONEY NOT NULL,
 	Fecha DATETIME DEFAULT GETDATE(),
-	Nro_Factura BIGINT NOT NULL UNIQUE,
+	Nro_Factura BIGINT NOT NULL IDENTITY(1,1),
 	PRIMARY KEY(ID),
 	FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
 );
 GO
--- Nro_Factura deberia de tener un identity(1,1)
 
 CREATE TABLE Productos_x_venta(
 	ID BIGINT NOT NULL IDENTITY(1,1),
@@ -126,7 +136,7 @@ CREATE TABLE Productos_x_venta(
 GO
 CREATE TABLE Compras(
 	ID BIGINT NOT NULL IDENTITY(1,1),
-	Nro_Recibo BIGINT NOT NULL UNIQUE,
+	Nro_Recibo BIGINT NOT NULL IDENTITY(1,1),
 	IDProveedor INT NOT NULL,
 	Fecha DATETIME DEFAULT GETDATE(),
 	Total MONEY NOT NULL,
@@ -134,7 +144,6 @@ CREATE TABLE Compras(
 	FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
 );
 GO
--- Nro_Recibo deberia de tener un identity(1,1)
 
 CREATE TABLE Productos_x_compra(
 	ID BIGINT NOT NULL IDENTITY(1,1),
@@ -172,9 +181,22 @@ SELECT * FROM Clientes
 GO
 
 CREATE VIEW VW_ListaUsuarios AS
-SELECT U.ID, U.IDPermiso, P.NombrePermiso, U.NombreUsuario, U.Contrasenia, U.Activo 
+SELECT U.ID,
+    U.IDPermiso,
+    P.NombrePermiso,
+    U.NombreUsuario,
+    U.Contrasenia,
+    U.Activo,
+    U.Nombre,
+    U.Apellido,
+    U.CorreoElectronico,
+    U.Telefono,
+    U.FechaCreacion,
+    U.IDImagen,
+    I.ImagenURL
 FROM Usuarios AS U
 INNER JOIN Permisos AS P ON P.ID = U.IDPermiso
+LEFT JOIN Imagenes AS I ON I.ID = U.IDImagen;
 GO
 
 CREATE VIEW VW_ListaProductos AS
@@ -254,17 +276,6 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE SP_Alta_Usuario(
-	@IDPermiso INT,
-	@NombreUsuario VARCHAR(30),
-	@Contrasenia VARCHAR(30)
-)
-AS
-BEGIN
-    INSERT INTO Usuarios(IDPermiso,NombreUsuario,Contrasenia) VALUES (@IDPermiso,@NombreUsuario,@Contrasenia)
-END
-GO
-
 CREATE PROCEDURE SP_Nueva_Imagen(
     @imagenURL VARCHAR(1000),
     @UltimoID BIGINT OUTPUT
@@ -291,6 +302,48 @@ BEGIN
         THROW;
     END CATCH
 END
+GO
+
+CREATE PROCEDURE SP_Alta_Usuario
+(
+    @IDPermiso INT,
+    @NombreUsuario VARCHAR(30),
+    @Contrasenia VARCHAR(30),
+    @Nombre VARCHAR(30) = NULL,
+    @Apellido VARCHAR(30) = NULL,
+    @CorreoElectronico VARCHAR(50) = NULL,
+    @Telefono VARCHAR(15) = NULL,
+    @ImagenURL VARCHAR(1000) = NULL
+)
+AS
+BEGIN
+    DECLARE @IDImagen BIGINT;
+
+    -- Insertar la imagen y obtener el ID
+    EXEC SP_Nueva_Imagen @ImagenURL, @IDImagen OUTPUT;
+
+    -- Insertar el usuario con el ID de la imagen
+    INSERT INTO Usuarios (
+        IDPermiso,
+        NombreUsuario,
+        Contrasenia,
+        Nombre,
+        Apellido,
+        CorreoElectronico,
+        Telefono,
+        IDImagen
+    ) 
+    VALUES (
+        @IDPermiso,
+        @NombreUsuario,
+        @Contrasenia,
+        @Nombre,
+        @Apellido,
+        @CorreoElectronico,
+        @Telefono,
+        @IDImagen
+    );
+END;
 GO
 
 CREATE PROCEDURE SP_PRODUCT_X_PROV(
@@ -612,19 +665,39 @@ GO
 
 -- CONSULTAR SI MANDAMOS ACTIVO EN LOS MODIFICAR
 
-CREATE PROCEDURE SP_ModificarUsuario(
-	@ID INT,
-	@IDPermiso INT,
-	@NombreUsuario VARCHAR(30),
-	@Contrasenia VARCHAR(30),
-	@Activo BIT
-
+CREATE PROCEDURE SP_ModificarUsuario
+(
+    @ID INT,
+    @IDPermiso INT,
+    @NombreUsuario VARCHAR(30),
+    @Contrasenia VARCHAR(30),
+    @Nombre VARCHAR(30) = NULL,
+    @Apellido VARCHAR(30) = NULL,
+    @CorreoElectronico VARCHAR(50) = NULL,
+    @Telefono VARCHAR(15) = NULL,
+    @ImagenURL VARCHAR(1000) = NULL,
+    @Activo BIT
 )
 AS
-BEGIN 
-UPDATE Usuarios SET IDPermiso = @IDPermiso, NombreUsuario = @NombreUsuario, Contrasenia = @Contrasenia, Activo = @Activo 
-WHERE ID = @ID
-END
+BEGIN
+    DECLARE @IDImagen BIGINT;
+
+    -- Insertar o actualizar la imagen
+    EXEC SP_Nueva_Imagen @ImagenURL, @IDImagen OUTPUT;
+
+    -- Actualizar el usuario con el ID de la nueva imagen
+    UPDATE Usuarios SET 
+        IDPermiso = @IDPermiso,
+        NombreUsuario = @NombreUsuario,
+        Contrasenia = @Contrasenia,
+        Nombre = @Nombre,
+        Apellido = @Apellido,
+        CorreoElectronico = @CorreoElectronico,
+        Telefono = @Telefono,
+        IDImagen = @IDImagen,
+        Activo = @Activo
+    WHERE ID = @ID;
+END;
 GO
 
 CREATE OR ALTER PROCEDURE SP_MODIFICAR_PRODUCTO(
@@ -679,21 +752,44 @@ END
 GO
 
 -- VERIFICAR DUPLICIDAD AL CARGAR
+
+--CREATE PROCEDURE SP_ExisteMarca(
+--	@NombreMarca NVARCHAR(50)
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteMarca(
-	@NombreMarca NVARCHAR(50)
+    @NombreMarca NVARCHAR(50)
 )
 AS
 BEGIN
-    SELECT COUNT(*) FROM Marcas WHERE NombreMarca = @NombreMarca
+    SELECT COUNT(*)
+    FROM Marcas
+    WHERE NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI
 END
 GO
 
+--CREATE PROCEDURE SP_ExisteCategoria(
+--	@NombreCategoria NVARCHAR(50)
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteCategoria(
-	@NombreCategoria NVARCHAR(50)
+    @NombreCategoria NVARCHAR(50)
 )
 AS
 BEGIN
-    SELECT COUNT(*) FROM Categorias WHERE NombreCategoria = @NombreCategoria
+    SELECT COUNT(*)
+    FROM Categorias
+    WHERE NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI
 END
 GO
 
@@ -716,27 +812,54 @@ END
 GO
 
 --VERIFICAR DUPLICIDAD AL MODIFICAR
+
+--CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
+--	@NombreMarca VARCHAR(50),
+--	@IDMarca INT
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) 
+--    FROM Marcas 
+--    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteNombreMarcaModificado(
-	@NombreMarca VARCHAR(50),
-	@IDMarca INT
+    @NombreMarca NVARCHAR(50),
+    @IDMarca INT
 )
 AS
 BEGIN
     SELECT COUNT(*) 
     FROM Marcas 
-    WHERE NombreMarca = @NombreMarca AND Id <> @IDMarca
+    WHERE NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreMarca COLLATE SQL_Latin1_General_CP1_CI_AI 
+    AND Id <> @IDMarca
 END
 GO
 
+--CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
+--	@NombreCategoria VARCHAR(50),
+--	@IDCategoria INT
+--)
+--AS
+--BEGIN
+--    SELECT COUNT(*) 
+--    FROM Categorias 
+--    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+--END
+--GO
+
 CREATE PROCEDURE SP_ExisteNombreCategoriaModificado(
-	@NombreCategoria VARCHAR(50),
-	@IDCategoria INT
+    @NombreCategoria NVARCHAR(50),
+    @IDCategoria INT
 )
 AS
 BEGIN
     SELECT COUNT(*) 
     FROM Categorias 
-    WHERE NombreCategoria = @NombreCategoria AND Id <> @IDCategoria
+    WHERE NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI = @NombreCategoria COLLATE SQL_Latin1_General_CP1_CI_AI 
+    AND Id <> @IDCategoria
 END
 GO
 
@@ -788,18 +911,75 @@ END
 GO
 
 --CONTADOR DE PRODUCTOS X MARCA Y CATEGORIA
-CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
+--CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
+--AS
+--BEGIN
+--    SELECT TOP 1 M.Id, M.NombreMarca, COUNT(P.Id) AS CantidadProductos
+--    FROM Marcas M
+--    JOIN Productos P ON p.IdMarca = M.ID
+--    WHERE P.Activo = 1
+--    GROUP BY M.ID, M.NombreMarca
+--    ORDER BY CantidadProductos DESC;
+--END
+--GO
+
+CREATE PROCEDURE SP_ObtenerMarcasConMasProductos
 AS
 BEGIN
-    SELECT TOP 1 M.Id, M.NombreMarca, COUNT(P.Id) AS CantidadProductos
-    FROM Marcas M
-    JOIN Productos P ON p.IdMarca = M.ID
-    WHERE P.Activo = 1
-    GROUP BY M.ID, M.NombreMarca
-    ORDER BY CantidadProductos DESC;
+    -- Obtener la cantidad máxima de productos asociados a una marca
+    WITH CTE_CantidadProductos AS (
+        SELECT 
+            M.Id,
+            M.NombreMarca,
+            COUNT(P.Id) AS CantidadProductos
+        FROM Marcas M
+        JOIN Productos P ON P.IdMarca = M.Id
+        WHERE P.Activo = 1
+        GROUP BY M.Id, M.NombreMarca
+    )
+    SELECT 
+        Id,
+        NombreMarca,
+        CantidadProductos
+    FROM CTE_CantidadProductos
+    WHERE CantidadProductos = (SELECT MAX(CantidadProductos) FROM CTE_CantidadProductos);
 END
 GO
 
+CREATE PROCEDURE SP_ObtenerCategoriasConMasProductos
+AS
+BEGIN
+    -- Obtener la cantidad máxima de productos asociados a una categoría
+    WITH CTE_CantidadProductos AS (
+        SELECT 
+            C.Id,
+            C.NombreCategoria,
+            COUNT(P.Id) AS CantidadProductos
+        FROM Categorias C
+        JOIN Productos P ON P.IdCategoria = C.Id
+        WHERE P.Activo = 1
+        GROUP BY C.Id, C.NombreCategoria
+    )
+    SELECT 
+        Id,
+        NombreCategoria,
+        CantidadProductos
+    FROM CTE_CantidadProductos
+    WHERE CantidadProductos = (SELECT MAX(CantidadProductos) FROM CTE_CantidadProductos);
+END
+GO
+
+--OBTENER EL PRIMER Y ULTIMO CLIENTE DADOS DE ALTA
+CREATE PROCEDURE SP_PrimerClienteDadoDeAlta
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT TOP 1 *
+    FROM Clientes
+    ORDER BY ID ASC;
+END
+GO
 
 --INSERTS
 

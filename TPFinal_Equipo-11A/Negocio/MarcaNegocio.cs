@@ -247,26 +247,58 @@ namespace Negocio
             }
         }
 
-        public Marca ObtenerMarcaConMasProductos()
+        //public Marca ObtenerMarcaConMasProductos()
+        //{
+        //    AccesoDatos datos = new AccesoDatos();
+
+        //    try
+        //    {
+        //        datos.setearProcedimiento("SP_ObtenerMarcasConMasProductos");
+        //        datos.ejecutarLectura();
+
+        //        if (datos.Lector.Read())
+        //        {
+        //            Marca marca = new Marca
+        //            {
+        //                Id = datos.Lector.GetInt32(0),
+        //                NombreMarca = datos.Lector.GetString(1)
+        //            };
+        //            return marca;
+        //        }
+
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
+
+        public List<Marca> ObtenerMarcasConMasProductos()
         {
+            List<Marca> marcas = new List<Marca>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearProcedimiento("SP_ObtenerMarcaConMasProductos");
+                datos.setearProcedimiento("SP_ObtenerMarcasConMasProductos");
                 datos.ejecutarLectura();
 
-                if (datos.Lector.Read())
+                while (datos.Lector.Read())
                 {
                     Marca marca = new Marca
                     {
                         Id = datos.Lector.GetInt32(0),
                         NombreMarca = datos.Lector.GetString(1)
                     };
-                    return marca;
+                    marcas.Add(marca);
                 }
 
-                return null;
+                return marcas;
             }
             catch (Exception ex)
             {
@@ -277,5 +309,8 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+
+
     }
 }

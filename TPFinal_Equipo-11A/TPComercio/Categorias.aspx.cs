@@ -130,6 +130,7 @@ namespace TPComercio
             {
                 string nombreCategoria = txtNombreCategoriaMod.Text;
                 int idCategoria = int.Parse(hdnIdCategoria.Value); // Obtener el ID de la categoría desde el HiddenField
+                bool estado = bool.Parse(hdnEstadoCategoria.Value);
 
                 CategoriaNegocio negocio = new CategoriaNegocio();
 
@@ -157,6 +158,22 @@ namespace TPComercio
 
                 // Cerrar el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarCategoria').modal('hide');", true);
+
+                // Cargar todas las categorías
+                cargarCategorias();
+
+                // Limpiar los controles de filtro
+                txtFiltroCategoria.Text = string.Empty;
+                ddlEstadoCategorias.SelectedValue = "Todos";
+
+                // Restablecer los estados de los filtros
+                chkFiltroNombre.Checked = false;
+                chkFiltroEstado.Checked = false;
+
+                // Desactivar los controles de filtro
+                txtFiltroCategoria.Enabled = false;
+                ddlEstadoCategorias.Enabled = false;
+                btnBuscar.Enabled = false;
             }
         }
 
@@ -215,7 +232,58 @@ namespace TPComercio
             }
         }
 
+        protected void btnInactivarModal_Click(object sender, EventArgs e)
+        {
+            int idCategoria = Convert.ToInt32(hdnIdCategoria.Value);
+            CategoriaNegocio negocio = new CategoriaNegocio();
 
+            // Verificar si la marca tiene productos activos asociados antes de inactivarla
+            if (negocio.tieneProductosActivos(idCategoria))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('No se puede inactivar esta categoria porque tiene productos activos asociados.');", true);
+                return;
+            }
+
+            Categoria categoriaEliminar = new Categoria { Id = idCategoria };
+            negocio.eliminarL(categoriaEliminar);
+            cargarCategorias(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroCategoria.Text = string.Empty;
+            ddlEstadoCategorias.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroCategoria.Enabled = false;
+            ddlEstadoCategorias.Enabled = false;
+            btnBuscar.Enabled = false;
+        }
+
+        protected void btnActivarModal_Click(object sender, EventArgs e)
+        {
+            int idCategoria = Convert.ToInt32(hdnIdCategoria.Value);
+            CategoriaNegocio negocio = new CategoriaNegocio();
+
+            Categoria CategoriaActivar = new Categoria { Id = idCategoria };
+            negocio.activar(CategoriaActivar);
+            cargarCategorias(); // Actualizar la lista de marcas
+
+            // Limpiar los controles de filtro
+            txtFiltroCategoria.Text = string.Empty;
+            ddlEstadoCategorias.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroCategoria.Enabled = false;
+            ddlEstadoCategorias.Enabled = false;
+            btnBuscar.Enabled = false;
+        }
         protected void txtFiltroCategoria_TextChanged(object sender, EventArgs e)
         {
             List<Categoria> lista = (List<Categoria>)Session["listaCategorias"];
@@ -226,9 +294,25 @@ namespace TPComercio
 
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
-            txtFiltroCategoria.Text = string.Empty;
+            //txtFiltroCategoria.Text = string.Empty;
+            //cargarCategorias();
+            //ddlEstadoCategorias.SelectedValue = "Todos";
+
+            // Cargar todas las marcas
             cargarCategorias();
+
+            // Limpiar los controles de filtro
+            txtFiltroCategoria.Text = string.Empty;
             ddlEstadoCategorias.SelectedValue = "Todos";
+
+            // Restablecer los estados de los filtros
+            chkFiltroNombre.Checked = false;
+            chkFiltroEstado.Checked = false;
+
+            // Desactivar los controles de filtro
+            txtFiltroCategoria.Enabled = false;
+            ddlEstadoCategorias.Enabled = false;
+            btnBuscar.Enabled = false;
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
@@ -238,11 +322,73 @@ namespace TPComercio
                 CategoriaNegocio negocio = new CategoriaNegocio();
                 rptCategorias.DataSource = negocio.filtrar(ddlEstadoCategorias.SelectedItem.ToString());
                 rptCategorias.DataBind();
+
+                // Limpiar los controles de filtro
+                txtFiltroCategoria.Text = string.Empty;
+                ddlEstadoCategorias.SelectedValue = "Todos";
+
+                // Restablecer los estados de los filtros
+                chkFiltroNombre.Checked = false;
+                chkFiltroEstado.Checked = false;
+
+                // Desactivar los controles de filtro
+                txtFiltroCategoria.Enabled = false;
+                ddlEstadoCategorias.Enabled = false;
+                btnBuscar.Enabled = false;
             }
             catch (Exception ex)
             {
                 Session.Add("error", ex);
                 throw;
+            }
+        }
+
+        [System.Web.Services.WebMethod]
+        public static string FiltrarCategorias(string filtro)
+        {
+            try
+            {
+                // Crear la instancia de MarcaNegocio
+                CategoriaNegocio negocio = new CategoriaNegocio();
+
+                List<Categoria> listaFiltrada;
+
+                if (string.IsNullOrEmpty(filtro)) // Si el filtro está vacío, devolver toda la lista
+                {
+                    listaFiltrada = negocio.listar();
+                }
+                else
+                {
+                    // Filtrar la lista de marcas basándonos en el texto ingresado
+                    listaFiltrada = negocio.listar()
+                        .Where(x => x.NombreCategoria.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre
+                        .ToList();
+                }
+
+                // Generar el HTML para la tabla
+                string resultadoHtml = "";
+                foreach (var categoria in listaFiltrada)
+                {
+                    resultadoHtml += $"<tr>" +
+                                        $"<th scope='row'>{categoria.Id}</th>" +
+                                        $"<td>{categoria.NombreCategoria}</td>" +
+                                        $"<td>{(categoria.Activo ? "Sí" : "No")}</td>" +
+                                        $"<td>" +
+                                            $"<button type='button' class='btn btn-primary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarCategoria' " +
+                                            $"onclick='cargarDatosModal({categoria.Id}, \"{categoria.NombreCategoria}\", \"{categoria.Activo}\")'>" +
+                                                $"Modificar" +
+                                            $"</button>" +
+                                            $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar esta categoria?\");' />" +
+                                            $"<asp:Button ID='btnActivar' runat='server' CssClass='btn btn-success btn-acciones btn-sm' Text='Activar' OnClientClick='return confirm(\"¿Estás seguro de que deseas activar esta categoria?\");' />" +
+                                        $"</td>" +
+                                     $"</tr>";
+                }
+
+                return resultadoHtml; // Devolver el HTML generado
+            }
+            catch (Exception ex)
+            {
+                return "Error al filtrar las marcas: " + ex.Message;
             }
         }
     }

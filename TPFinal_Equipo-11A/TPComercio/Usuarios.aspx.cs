@@ -2,6 +2,7 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -21,8 +22,8 @@ namespace TPComercio
             if (!IsPostBack)
             {
                 cargarUsuarios();
-                cargarPermisos(ddlPermisoUsuario);      
-                cargarPermisos(ddlPermisoUsuarioMod);    
+                cargarPermisos(ddlPermisoUsuario);
+                cargarPermisos(ddlPermisoUsuarioMod);
             }
         }
 
@@ -30,8 +31,8 @@ namespace TPComercio
         private void cargarUsuarios()
         {
             UsuarioNegocio negocio = new UsuarioNegocio();
-            List<Usuario> listaUsuarios = negocio.listarConPermisos(); 
-            Session.Add("listaUsuarios", listaUsuarios);
+            List<Usuario> listaUsuarios = negocio.listarConPermisos();
+            Session["listaUsuarios"] = listaUsuarios;
             rptUsuarios.DataSource = listaUsuarios;
             rptUsuarios.DataBind();
         }
@@ -39,15 +40,15 @@ namespace TPComercio
         // Limpiar campos del modal
         private void limpiarCampos()
         {
-            txtNombreUsuario.Text = string.Empty;
-            txtContraseniaUsuario.Text = string.Empty;
-            ddlPermisoUsuario.SelectedIndex = 0; // Restablece el DropDownList al primer elemento
+            txtNombre.Text = txtApellido.Text = txtCorreoElectronico.Text = txtTelefono.Text = txtImagenURL.Text = string.Empty;
+            txtNombreUsuario.Text = txtContraseniaUsuario.Text = string.Empty;
+            ddlPermisoUsuario.SelectedIndex = 0;
         }
 
         private void limpiarCamposModificacion()
         {
-            txtNombreUsuarioMod.Text = string.Empty;
-            txtContraseniaUsuarioMod.Text = string.Empty;
+            txtNombreMod.Text = txtApellidoMod.Text = txtCorreoElectronicoMod.Text = txtTelefonoMod.Text = txtImagenURLMod.Text = string.Empty;
+            txtNombreUsuarioMod.Text = txtContraseniaUsuarioMod.Text = string.Empty;
             ddlPermisoUsuarioMod.SelectedIndex = 0;
             hdnIdUsuario.Value = string.Empty;
         }
@@ -55,10 +56,9 @@ namespace TPComercio
         // Agregar un nuevo Usuario
         protected void btnGuardarUsuario_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNombreUsuario.Text) ||
-                string.IsNullOrEmpty(txtContraseniaUsuario.Text))
+            if (!validarImagen(txtImagenURL.Text))
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('La URL de la imagen debe tener una extensión válida.');", true);
                 return;
             }
 
@@ -66,8 +66,13 @@ namespace TPComercio
             {
                 NombreUsuario = txtNombreUsuario.Text,
                 Contrasenia = txtContraseniaUsuario.Text,
+                Nombre = txtNombre.Text,
+                Apellido = txtApellido.Text,
+                CorreoElectronico = txtCorreoElectronico.Text,
+                Telefono = txtTelefono.Text,
+                Imagen = new Imagen { ImagenUrl = txtImagenURL.Text },
                 Permiso = new Permiso { Id = int.Parse(ddlPermisoUsuario.SelectedValue) },
-                Activo = true 
+                Activo = true
             };
 
             UsuarioNegocio negocio = new UsuarioNegocio();
@@ -79,21 +84,24 @@ namespace TPComercio
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNombreUsuarioMod.Text) ||
-                string.IsNullOrEmpty(txtContraseniaUsuarioMod.Text))
+            if (!validarImagen(txtImagenURLMod.Text))
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('La URL de la imagen debe tener una extensión válida.');", true);
                 return;
             }
 
-            int idUsuario = Convert.ToInt32(hdnIdUsuario.Value);
-
             Usuario usuarioModificado = new Usuario
             {
-                Id = idUsuario,
+                Id = Convert.ToInt32(hdnIdUsuario.Value),
                 NombreUsuario = txtNombreUsuarioMod.Text,
                 Contrasenia = txtContraseniaUsuarioMod.Text,
-                Permiso = new Permiso { Id = int.Parse(ddlPermisoUsuarioMod.SelectedValue) }
+                Nombre = txtNombreMod.Text,
+                Apellido = txtApellidoMod.Text,
+                CorreoElectronico = txtCorreoElectronicoMod.Text,
+                Telefono = txtTelefonoMod.Text,
+                Imagen = new Imagen { ImagenUrl = txtImagenURLMod.Text },
+                Permiso = new Permiso { Id = int.Parse(ddlPermisoUsuarioMod.SelectedValue) },
+                Activo = true
             };
 
             UsuarioNegocio negocio = new UsuarioNegocio();
@@ -103,16 +111,23 @@ namespace TPComercio
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarUsuario').modal('hide');", true);
         }
 
+        private bool validarImagen(string imagenUrl)
+        {
+            if (string.IsNullOrWhiteSpace(imagenUrl))
+                return false;
+
+            string[] imagenExtensionesValidas = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
+            string extensionImagen = Path.GetExtension(imagenUrl).ToLower();
+            return imagenExtensionesValidas.Contains(extensionImagen);
+        }
+
         // Eliminar un Usuario
         protected void rptUsuarios_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "Eliminar")
             {
                 int idUsuario = Convert.ToInt32(e.CommandArgument);
-                Usuario usuarioAEliminar = new Usuario
-                {
-                    Id = idUsuario
-                };
+                Usuario usuarioAEliminar = new Usuario { Id = idUsuario };
                 UsuarioNegocio negocio = new UsuarioNegocio();
                 negocio.eliminarL(usuarioAEliminar);
                 cargarUsuarios();
@@ -169,7 +184,7 @@ namespace TPComercio
         private void cargarPermisos(DropDownList ddl)
         {
             PermisoNegocio permisoNegocio = new PermisoNegocio();
-            List<Permiso> permisos = permisoNegocio.listar(); // Método que devuelve la lista de permisos
+            List<Permiso> permisos = permisoNegocio.listar();
             ddl.DataSource = permisos;
             ddl.DataTextField = "NombrePermiso";
             ddl.DataValueField = "Id";

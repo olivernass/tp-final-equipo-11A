@@ -9,7 +9,7 @@
         </div>
         <div style="flex: 1; text-align: left;">
             <p style="font-size: 20px; margin: 5px 0;"><strong>Codigo:</strong>
-            <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" ReadOnly="true" Enabled="False"></asp:TextBox>
             </p>
 
             <p style="font-size: 18px; margin: 5px 0;"><strong>Título del Artículo:</strong>
@@ -17,7 +17,7 @@
             </p>
 
             <p style="font-size: 16px; margin: 5px 0;"><strong>Descripción:</strong>
-                <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
             </p>
             <p style="font-size: 16px; margin: 5px 0;"><strong>Marca:</strong>
             <asp:DropDownList ID="ddlMarca" runat="server"></asp:DropDownList>
@@ -33,16 +33,19 @@
             </p>
 
             <p style="font-size: 16px; margin: 5px 0;"><strong>Precio compra:</strong>
-                <asp:TextBox ID="txtPrecioCompra" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)"></asp:TextBox>
-            </p>
-
-            <p style="font-size: 16px; margin: 5px 0;"><strong>Precio venta:</strong>
-                <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)"></asp:TextBox>
+                <asp:TextBox ID="txtPrecioCompra" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)" OnTextChanged="txtPrecioCompra_TextChanged" AutoPostBack="True"></asp:TextBox>
             </p>
 
             <p style="font-size: 16px; margin: 5px 0;"><strong>Porcentaje ganancia:</strong>
-                <asp:TextBox ID="txtPorcentajeGanancia" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)"></asp:TextBox>
+                <asp:TextBox ID="txtPorcentajeGanancia" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)" OnTextChanged="txtPorcentajeGanancia_TextChanged" AutoPostBack="True"></asp:TextBox>
             </p>
+
+            <p style="font-size: 16px; margin: 5px 0;"><strong>Precio venta:</strong>
+                <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control" OnKeyPress="return isNumberKey(event)" Enabled="False"></asp:TextBox>
+            </p>
+            <div class="alert alert-primary" role="alert">
+                <asp:Label ID="lblActivo" CssClass="" runat="server" Text="" Visible="True"></asp:Label>
+            </div>
             <h5>Proveedores:</h5>
             <asp:DropDownList ID="ddlProveedorProducto" runat="server" CssClass="form-control mb-2">
             </asp:DropDownList>
@@ -51,6 +54,7 @@
                 Agregar Proveedor
             </button>
             <asp:Button ID="btnModificar" class="btn btn-primary" runat="server" Text="Modificar producto" Onclick="btnModificar_Click" />
+            <asp:Button ID="btnInactivarActivar" class="btn btn-primary" runat="server" Text="Inactivar" OnClick="btnInactivarActivar_Click" />
         </div>
     </div>
 

@@ -46,7 +46,7 @@
                     <asp:TextBox ID="txtNombreProducto" runat="server" CssClass="form-control mb-2" placeholder="Nombre del Producto"></asp:TextBox>
 
                     <span class="error-message" id="errorDescripcionProducto"></span>
-                    <asp:TextBox ID="txtDescripcionProducto" runat="server" CssClass="form-control mb-2" placeholder="Descripción del Producto"></asp:TextBox>
+                    <asp:TextBox ID="txtDescripcionProducto" runat="server" CssClass="form-control mb-2" placeholder="Descripción del Producto" TextMode="MultiLine"></asp:TextBox>
 
                     <span class="error-message" id="errorMarcaProducto"></span>
                     <asp:DropDownList ID="ddlMarcaProducto" runat="server" CssClass="form-control mb-2">
@@ -65,11 +65,11 @@
                     <span class="error-message" id="errorPrecioCompra"></span>
                     <asp:TextBox ID="txtPrecioCompra" runat="server" CssClass="form-control mb-2" placeholder="Precio de Compra"></asp:TextBox>
 
-                    <span class="error-message" id="errorPrecioVenta"></span>
-                    <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control mb-2" placeholder="Precio de Venta"></asp:TextBox>
-
                     <span class="error-message" id="errorPorcentajeGanancia"></span>
-                    <asp:TextBox ID="txtPorcentajeGanancia" runat="server" CssClass="form-control mb-2" placeholder="Porcentaje de Ganancia" TextMode="Number"></asp:TextBox>
+                    <asp:TextBox ID="txtPorcentajeGanancia" runat="server" CssClass="form-control mb-2" placeholder="Porcentaje de Ganancia" TextMode="Number" OnTextChanged="txtPorcentajeGanancia_TextChanged" AutoPostBack="False"></asp:TextBox>
+
+                    <span class="error-message" id="errorPrecioVenta" hidden="hidden"></span>
+                    <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control mb-2" placeholder="Precio de Venta" Visible="False"></asp:TextBox>
 
                     <span class="error-message" id="errorImagenProducto"></span>
                     <asp:TextBox ID="txtImagenProducto" runat="server" CssClass="form-control mb-2" placeholder="Ingrese el nombre o ruta de la imagen" />

@@ -37,5 +37,16 @@ namespace TPComercio.Utils
         {
             ValidarAcceso(new List<int> { permisoRequerido }, response, session);
         }
+
+        public static bool EstaLogueado(HttpSessionState session)
+        {
+            return session["usuario"] != null;
+        }
+
+        public static void CerrarSesion(HttpSessionState session)
+        {
+            session.Remove("usuario");
+            session.Abandon(); // Finaliza la sesión
+        }
     }
 }
