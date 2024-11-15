@@ -3,6 +3,7 @@ using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,19 +18,19 @@ namespace TPComercio
         public List<Proveedor> listaproveedoressinproducto{ get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            ProductoNegocio negocioProducto = new ProductoNegocio();
+            codigo = Request.QueryString["Id"].ToString();
+            long numeroProducto = long.Parse(codigo);
+            producto = negocioProducto.verDetalle(numeroProducto);
             if (!IsPostBack)
             {
                 if (Request.QueryString["Id"] != null)
                 {
-                    ProductoNegocio negocioProducto = new ProductoNegocio();
                     ProveedorNegocio negocioProveedor = new ProveedorNegocio();
                     MarcaNegocio negocioMarca = new MarcaNegocio();
                     List<Marca> listaMarca = negocioMarca.listar();
                     CategoriaNegocio negocioCategoria = new CategoriaNegocio();
                     List<Categoria> listaCategoria = negocioCategoria.listar();
-                    codigo = Request.QueryString["Id"].ToString();
-                    long numeroProducto = long.Parse(codigo);
-                    producto = negocioProducto.verDetalle(numeroProducto);
                     ddlMarca.DataSource = listaMarca;
                     ddlMarca.DataTextField = "NombreMarca";
                     ddlMarca.DataValueField = "Id";
@@ -47,7 +48,8 @@ namespace TPComercio
                     txtStockMinimo.Text = producto.StockMinimo.ToString();
                     txtPrecioCompra.Text = producto.Precio_Compra.ToString("F2");
                     txtPrecioVenta.Text = producto.Precio_Venta.ToString("F2");
-                    txtPorcentajeGanancia.Text = producto.Porcentaje_Ganancia.ToString("F2");
+                    txtPorcentajeGanancia.Text = producto.Porcentaje_Ganancia.ToString("F0");
+                    lblActivo.Text = producto.Activo.ToString();
                     listaproveedores = negocioProveedor.listarxid(numeroProducto);
                     listaproveedoressinproducto = negocioProveedor.listarProvSinProductoAsociado(numeroProducto);
                     ddlProveedorProducto.DataSource = listaproveedores;
@@ -58,6 +60,14 @@ namespace TPComercio
                     ddlProveedorNuevo.DataTextField = "Siglas";
                     ddlProveedorNuevo.DataValueField = "Id";
                     ddlProveedorNuevo.DataBind();
+                    if (producto.Activo)
+                    {
+                        btnInactivarActivar.Text = "Desactivar";
+                    }
+                    else
+                    {
+                        btnInactivarActivar.Text = "Activar";
+                    }
                 }
             }
         }
@@ -69,8 +79,7 @@ namespace TPComercio
             // Lógica para agregar el producto al proveedor
             ProveedorNegocio negocio = new ProveedorNegocio();
             negocio.agregarProducto(idProducto, idproveedor);
-            // Redirigir después de guardar
-            Response.Redirect("Inventario.aspx");
+            Response.Redirect("ConfigProducto.aspx?id=" + producto.Id);
         }
 
         protected void btnModificar_Click(object sender, EventArgs e)
@@ -87,10 +96,45 @@ namespace TPComercio
             producto.StockActual = int.Parse(txtStockActual.Text);
             producto.StockMinimo = int.Parse(txtStockMinimo.Text);
             producto.Precio_Compra = decimal.Parse(txtPrecioCompra.Text);
-            producto.Precio_Venta = decimal.Parse(txtPrecioVenta.Text);
+            decimal precioc, porcentaje;
+            precioc = decimal.Parse(txtPrecioCompra.Text);
+            porcentaje = decimal.Parse(txtPorcentajeGanancia.Text);
+            producto.Precio_Venta = precioc * (1 + porcentaje / 100);
             producto.Porcentaje_Ganancia = decimal.Parse(txtPorcentajeGanancia.Text);
             negocio.modificar(producto);
-            Response.Redirect("Inventario.aspx");
+            Response.Redirect("ConfigProducto.aspx?id=" + producto.Id);
+        }
+
+        protected void btnInactivarActivar_Click(object sender, EventArgs e)
+        {
+            ProductoNegocio negocio = new ProductoNegocio();
+            Producto producto = new Producto();
+            producto.Activo = bool.Parse(lblActivo.Text.ToString());
+            if (producto.Activo)
+            {
+                producto.Id = long.Parse(txtCodigo.Text);
+                negocio.eliminarL(producto);
+                Response.Redirect("ConfigProducto.aspx?id=" + producto.Id);
+            }
+            else
+            {
+                producto.Id = long.Parse(txtCodigo.Text);
+                negocio.activar(producto);
+                Response.Redirect("ConfigProducto.aspx?id=" + producto.Id);
+            }
+        }
+        protected void txtPorcentajeGanancia_TextChanged(object sender, EventArgs e)
+        {
+            decimal precioCompra = decimal.Parse(txtPrecioCompra.Text);
+            decimal porcentajeGanancia = decimal.Parse(txtPorcentajeGanancia.Text);
+            txtPrecioVenta.Text = Convert.ToString(precioCompra * (1 + porcentajeGanancia / 100));
+        }
+
+        protected void txtPrecioCompra_TextChanged(object sender, EventArgs e)
+        {
+            decimal precioCompra = decimal.Parse(txtPrecioCompra.Text);
+            decimal porcentajeGanancia = decimal.Parse(txtPorcentajeGanancia.Text);
+            txtPrecioVenta.Text = Convert.ToString(precioCompra * (1 + porcentajeGanancia / 100));
         }
     }
 }

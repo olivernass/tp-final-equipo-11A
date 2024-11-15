@@ -87,6 +87,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.TextBox txtPrecioCompra;
 
         /// <summary>
+        /// Control txtPorcentajeGanancia.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPorcentajeGanancia;
+
+        /// <summary>
         /// Control txtPrecioVenta.
         /// </summary>
         /// <remarks>
@@ -96,13 +105,13 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.TextBox txtPrecioVenta;
 
         /// <summary>
-        /// Control txtPorcentajeGanancia.
+        /// Control lblActivo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPorcentajeGanancia;
+        protected global::System.Web.UI.WebControls.Label lblActivo;
 
         /// <summary>
         /// Control ddlProveedorProducto.
@@ -121,6 +130,15 @@ namespace TPComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnModificar;
+
+        /// <summary>
+        /// Control btnInactivarActivar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnInactivarActivar;
 
         /// <summary>
         /// Control ddlProveedorNuevo.

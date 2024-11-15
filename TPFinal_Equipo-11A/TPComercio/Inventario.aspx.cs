@@ -100,11 +100,11 @@ namespace TPComercio
                 return;
             }
 
-            if (!decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta) || precioVenta <= 0)
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El precio de venta debe ser un número positivo.');", true);
-                return;
-            }
+            //if (!decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta) || precioVenta <= 0)
+            //{
+            //    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El precio de venta debe ser un número positivo.');", true);
+            //    return;
+            //}
 
             if (!decimal.TryParse(txtPorcentajeGanancia.Text, out decimal porcentajeGanancia) || porcentajeGanancia < 0)
             {
@@ -139,6 +139,7 @@ namespace TPComercio
                 return;
             }
 
+            
 
             Producto nuevoProducto = new Producto
             {
@@ -149,7 +150,7 @@ namespace TPComercio
                 StockActual = stockActual,
                 StockMinimo = stockMinimo,
                 Precio_Compra = precioCompra,
-                Precio_Venta = precioVenta,
+                Precio_Venta = precioCompra * (1 + porcentajeGanancia / 100),
                 Porcentaje_Ganancia = porcentajeGanancia,
                 Imagen = new Imagen { ImagenUrl = txtImagenProducto.Text },
                 Proveedores = ddlProveedorProducto.Items.Cast<ListItem>()
@@ -164,6 +165,13 @@ namespace TPComercio
             limpiarCampos();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProducto').modal('hide');", true);
 
+        }
+
+        protected void txtPorcentajeGanancia_TextChanged(object sender, EventArgs e)
+        {
+            decimal precioCompra = decimal.Parse(txtPrecioCompra.Text);
+            decimal porcentajeGanancia = decimal.Parse(txtPorcentajeGanancia.Text);
+            txtPrecioVenta.Text = Convert.ToString(precioCompra * (1 + porcentajeGanancia / 100));
         }
     }
 }
