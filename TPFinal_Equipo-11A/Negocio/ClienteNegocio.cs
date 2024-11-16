@@ -351,7 +351,7 @@ namespace Negocio
                 else if (estado == "Inactivo")
                     consulta += " WHERE Activo = 0";
                 else if (estado == "Todos")
-                    consulta += " select * FROM Marcas";
+                    consulta += " select * FROM Clientes";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -478,6 +478,42 @@ namespace Negocio
             }
         }
 
+        public Cliente ObtenerUltimoCliente()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_UltimoClienteDadoDeAlta");
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Cliente cliente = new Cliente
+                    {
+                        Id = datos.Lector.GetInt64(0),
+                        DNI = datos.Lector.GetInt32(1),
+                        Nombre = datos.Lector.GetString(2),
+                        Apellido = datos.Lector.GetString(3),
+                        Direccion = datos.Lector.GetString(4),
+                        Telefono = datos.Lector.GetString(5),
+                        Correo = datos.Lector.GetString(6),
+                        Fecha_Alta = datos.Lector.GetDateTime(7),
+                        Activo = datos.Lector.GetBoolean(8)
+                    };
+                    return cliente;
+                }
+
+                return null; // Si no hay clientes
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el último cliente dado de alta", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

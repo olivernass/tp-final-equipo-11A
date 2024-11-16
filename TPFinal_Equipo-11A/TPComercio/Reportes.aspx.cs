@@ -19,34 +19,22 @@ namespace TPComercio
             {
                 MostrarMarcasConMasProductos();
 
+                MostrarMarcasConProductoMasCostoso();
+
                 MostrarCategoriasConMasProductos();
 
+                MostrarCategoriasConProductoMasCostoso();
+
                 MostrarPrimerCliente();
+
+                MostrarUltimoCliente();
             }
         }
 
-        //private void MostrarMarcaConMasProductos()
-        //{
-        //    MarcaNegocio marcaNegocio = new MarcaNegocio();
-        //    Marca marcaConMasProductos = marcaNegocio.ObtenerMarcaConMasProductos();
-
-        //    if (marcaConMasProductos != null)
-        //    {
-        //        // Muestra los datos en la página, por ejemplo en etiquetas Label
-        //        lblMarcaNombre.Text = "Marca con más productos: " + marcaConMasProductos.NombreMarca;
-        //        lblMarcaID.Text = "ID de la marca: " + marcaConMasProductos.Id;
-        //    }
-        //    else
-        //    {
-        //        lblMarcaNombre.Text = "No se encontró ninguna marca con productos.";
-        //        lblMarcaID.Text = string.Empty;
-        //    }
-        //}
-
         private void MostrarMarcasConMasProductos()
         {
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-            List<Marca> marcasConMasProductos = marcaNegocio.ObtenerMarcasConMasProductos();
+            MarcaReportesNegocio marcaRepoNegocio = new MarcaReportesNegocio();
+            List<MarcaReportes> marcasConMasProductos = marcaRepoNegocio.ObtenerMarcasConMasProductos();
 
             if (marcasConMasProductos != null && marcasConMasProductos.Count > 0)
             {
@@ -54,7 +42,7 @@ namespace TPComercio
                 string marcasTexto = "Marcas con más productos: <br />";
                 foreach (var marca in marcasConMasProductos)
                 {
-                    marcasTexto += $"ID: {marca.Id}, Nombre: {marca.NombreMarca}<br />";
+                    marcasTexto += $"ID: {marca.Id}, Nombre: {marca.NombreMarca}, Cantidad de productos: {marca.CantidadProductos}<br />";
                 }
 
                 // Mostrar el texto en una etiqueta o control en la página
@@ -68,10 +56,34 @@ namespace TPComercio
             }
         }
 
+        private void MostrarMarcasConProductoMasCostoso()
+        {
+            var negocio = new MarcaReportesNegocio();
+            var marcasConProductoMasCostoso = negocio.ObtenerMarcasConProductoMasCostoso();
+
+            if (marcasConProductoMasCostoso != null && marcasConProductoMasCostoso.Count > 0)
+            {
+                string texto = "Marcas con el/los producto(s) más costoso(s):<br />";
+                foreach (var item in marcasConProductoMasCostoso)
+                {
+                    texto += $"Marca: {item.NombreMarca} (ID: {item.Id})<br />";
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Precio: {item.PrecioVenta:C}<br />";
+                    texto += $"Cantidad de productos en la marca: {item.CantidadProductos}<br /><br />";
+                }
+
+                lblReporteMarcas.Text = texto;
+            }
+            else
+            {
+                lblReporteMarcas.Text = "No se encontraron marcas con productos activos.";
+            }
+        }
+
+
         private void MostrarCategoriasConMasProductos()
         {
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-            List<Categoria> categoriasConMasProductos = categoriaNegocio.ObtenerCategoriasConMasProductos();
+            CategoriaReportesNegocio categoriaRepoNegocio = new CategoriaReportesNegocio();
+            List<CategoriaReportes> categoriasConMasProductos = categoriaRepoNegocio.ObtenerCategoriasConMasProductos();
 
             if (categoriasConMasProductos != null && categoriasConMasProductos.Count > 0)
             {
@@ -79,7 +91,7 @@ namespace TPComercio
                 string categoriasTexto = "Categorías con más productos: <br />";
                 foreach (var categoria in categoriasConMasProductos)
                 {
-                    categoriasTexto += $"ID: {categoria.Id}, Nombre: {categoria.NombreCategoria}<br />";
+                    categoriasTexto += $"ID: {categoria.Id}, Nombre: {categoria.NombreCategoria}, Cantidad de productos: {categoria.CantidadProductos}<br />";
                 }
 
                 // Mostrar el texto en las etiquetas correspondientes
@@ -93,6 +105,30 @@ namespace TPComercio
             }
         }
 
+        private void MostrarCategoriasConProductoMasCostoso()
+        {
+            var negocio = new CategoriaReportesNegocio();
+            var categoriasConProductoMasCostoso = negocio.ObtenerCategoriasConProductoMasCostoso();
+
+            if (categoriasConProductoMasCostoso != null && categoriasConProductoMasCostoso.Count > 0)
+            {
+                string texto = "Categorias con el/los producto(s) más costoso(s):<br />";
+                foreach (var item in categoriasConProductoMasCostoso)
+                {
+                    texto += $"Categoría: {item.NombreCategoria} (ID: {item.Id})<br />"; // Usando propiedades heredadas
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Precio: {item.PrecioVenta:C}<br />";
+                    texto += $"Cantidad de productos en la categoría: {item.CantidadProductos}<br /><br />";
+                }
+
+                lblReporteCategorias.Text = texto;
+            }
+            else
+            {
+                lblReporteCategorias.Text = "No se encontraron categorías con productos activos.";
+            }
+        }
+
+
         private void MostrarPrimerCliente()
         {
             ClienteNegocio clienteNegocio = new ClienteNegocio();
@@ -102,14 +138,34 @@ namespace TPComercio
             {
                 // Construir un texto para mostrar los detalles del primer cliente
                 string clienteTexto = "Primer cliente dado de alta: <br />";
-                clienteTexto += $"ID: {primerCliente.Id}, Nombre: {primerCliente.Nombre} {primerCliente.Apellido}, DNI: {primerCliente.DNI}, Dirección: {primerCliente.Direccion}, Teléfono: {primerCliente.Telefono}, Correo: {primerCliente.Correo}, Fecha de alta: {primerCliente.Fecha_Alta.ToString("dd/MM/yyyy")}<br />";
+                clienteTexto += $"ID: {primerCliente.Id}, Nombre: {primerCliente.Nombre} {primerCliente.Apellido}, DNI: {primerCliente.DNI}, Dirección: {primerCliente.Direccion}, Teléfono: {primerCliente.Telefono}, Correo: {primerCliente.Correo}, Fecha de alta: {primerCliente.Fecha_Alta.ToString("dd/MM/yyyy HH:mm:ss")}<br />";
 
                 // Mostrar el texto en las etiquetas correspondientes
-                lblClienteNombre.Text = clienteTexto;
+                lblClientePrimero.Text = clienteTexto;
             }
             else
             {
-                lblClienteNombre.Text = "No se encontró ningún cliente registrado.";
+                lblClientePrimero.Text = "No se encontró ningún cliente registrado.";
+            }
+        }
+
+        private void MostrarUltimoCliente()
+        {
+            ClienteNegocio clienteNegocio = new ClienteNegocio();
+            Cliente ultimoCliente = clienteNegocio.ObtenerUltimoCliente(); // Llama al método que obtiene el último cliente
+
+            if (ultimoCliente != null)
+            {
+                // Construir un texto para mostrar los detalles del último cliente
+                string clienteTexto = "Último cliente dado de alta: <br />";
+                clienteTexto += $"ID: {ultimoCliente.Id}, Nombre: {ultimoCliente.Nombre} {ultimoCliente.Apellido}, DNI: {ultimoCliente.DNI}, Dirección: {ultimoCliente.Direccion}, Teléfono: {ultimoCliente.Telefono}, Correo: {ultimoCliente.Correo}, Fecha de alta: {ultimoCliente.Fecha_Alta.ToString("dd/MM/yyyy HH:mm:ss")}<br />";
+
+                // Mostrar el texto en las etiquetas correspondientes
+                lblClienteUltimo.Text = clienteTexto;
+            }
+            else
+            {
+                lblClienteUltimo.Text = "No se encontró ningún cliente registrado.";
             }
         }
 

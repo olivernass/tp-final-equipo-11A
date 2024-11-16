@@ -42,12 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoriaNegocio.cs" />
+    <Compile Include="CategoriaReportesNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />
     <Compile Include="CompraNegocio.cs" />
     <Compile Include="Detalle_Compra_Negocio.cs" />
     <Compile Include="Detalle_Venta_Negocio.cs" />
     <Compile Include="FacturaNegocio.cs" />
     <Compile Include="MarcaNegocio.cs" />
+    <Compile Include="MarcaReportesNegocio.cs" />
     <Compile Include="PermisoNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
