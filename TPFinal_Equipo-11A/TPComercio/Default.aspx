@@ -7,7 +7,7 @@
     <div class="container">
 
         <div class="coldf">
-            <button type="button" class="btn btn-light btn-default">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Compras.aspx';">
                 <img src="Content/Iconos/barcode.png" alt="Compras">
                 <div>Compras</div>
             </button>

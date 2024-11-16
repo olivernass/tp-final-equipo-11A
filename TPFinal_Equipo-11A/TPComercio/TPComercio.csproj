@@ -67,6 +67,7 @@
     <Content Include="Admin.aspx" />
     <Content Include="Categorias.aspx" />
     <Content Include="Clientes.aspx" />
+    <Content Include="Compras.aspx" />
     <Content Include="ConfigProducto.aspx" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\estilos.css" />
@@ -88,6 +89,7 @@
     <Content Include="Content\validaciones.js" />
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
+    <Content Include="FormularioCompra.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Inventario.aspx" />
     <Content Include="Login.aspx" />
@@ -120,6 +122,13 @@
     <Compile Include="Clientes.aspx.designer.cs">
       <DependentUpon>Clientes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Compras.aspx.cs">
+      <DependentUpon>Compras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Compras.aspx.designer.cs">
+      <DependentUpon>Compras.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ConfigProducto.aspx.cs">
       <DependentUpon>ConfigProducto.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -140,6 +149,13 @@
     </Compile>
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioCompra.aspx.cs">
+      <DependentUpon>FormularioCompra.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioCompra.aspx.designer.cs">
+      <DependentUpon>FormularioCompra.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -230,6 +246,9 @@
       <Project>{563695f6-5881-4245-aac8-8401a8d0ef95}</Project>
       <Name>Negocio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

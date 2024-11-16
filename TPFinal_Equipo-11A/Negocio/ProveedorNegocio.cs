@@ -218,6 +218,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         //public List<Proveedor> filtrar(string campo, string criterio, string filtro, string estado)
         //{
         //    List<Proveedor> lista = new List<Proveedor>();
