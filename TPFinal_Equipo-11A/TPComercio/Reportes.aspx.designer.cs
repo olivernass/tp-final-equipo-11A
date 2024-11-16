@@ -51,6 +51,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.Label lblMarcasSinProductos;
 
         /// <summary>
+        /// Control lblMarcasProductosBajoStock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMarcasProductosBajoStock;
+
+        /// <summary>
         /// Control lblCategoriaNombre.
         /// </summary>
         /// <remarks>
@@ -85,6 +94,15 @@ namespace TPComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCategoriasSinProductos;
+
+        /// <summary>
+        /// Control lblCategoriasProductosBajoStock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCategoriasProductosBajoStock;
 
         /// <summary>
         /// Control lblClientePrimero.

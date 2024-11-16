@@ -113,5 +113,41 @@ namespace Negocio
             }
         }
 
+        public List<CategoriaReportes> ObtenerCategoriasConProductosBajoStock()
+        {
+            List<CategoriaReportes> categoriasConBajoStock = new List<CategoriaReportes>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_CategoriasConProductosBajoStock");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    CategoriaReportes categoria = new CategoriaReportes
+                    {
+                        Id = datos.Lector.GetInt32(0),               // ID de la categoría
+                        NombreCategoria = datos.Lector.GetString(1), // Nombre de la categoría
+                        ProductoID = datos.Lector.GetInt64(2),       // ID del producto
+                        NombreProducto = datos.Lector.GetString(3),  // Nombre del producto
+                        StockActual = datos.Lector.GetInt32(4),      // Stock actual
+                        StockMinimo = datos.Lector.GetInt32(5)       // Stock mínimo
+                    };
+                    categoriasConBajoStock.Add(categoria);
+                }
+
+                return categoriasConBajoStock;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

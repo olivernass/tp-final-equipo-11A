@@ -111,5 +111,41 @@ namespace Negocio
             }
         }
 
+        public List<MarcaReportes> ObtenerMarcasConProductosBajoStock()
+        {
+            List<MarcaReportes> marcasConBajoStock = new List<MarcaReportes>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_MarcasConProductosBajoStock");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    MarcaReportes marca = new MarcaReportes
+                    {
+                        Id = datos.Lector.GetInt32(0),
+                        NombreMarca = datos.Lector.GetString(1),
+                        ProductoID = datos.Lector.GetInt64(2),
+                        NombreProducto = datos.Lector.GetString(3),
+                        StockActual = datos.Lector.GetInt32(4),
+                        StockMinimo = datos.Lector.GetInt32(5)
+                    };
+                    marcasConBajoStock.Add(marca);
+                }
+
+                return marcasConBajoStock;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

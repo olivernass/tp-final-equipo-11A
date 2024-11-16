@@ -1056,7 +1056,19 @@ BEGIN
 END
 GO
 
---CATEGORIAS Y MARCAS SIN PRODUCTOS ASOCIADOS
+--MARCAS Y CATEGORIAS SIN PRODUCTOS ASOCIADOS
+CREATE PROCEDURE SP_MarcasSinProductos
+AS
+BEGIN
+    SELECT 
+        M.Id,
+        M.NombreMarca
+    FROM Marcas M
+    LEFT JOIN Productos P ON P.IDMarca = M.Id
+    WHERE P.ID IS NULL;
+END
+GO
+
 CREATE PROCEDURE SP_CategoriasSinProductos
 AS
 BEGIN
@@ -1068,6 +1080,42 @@ BEGIN
     WHERE P.Id IS NULL;
 END
 GO
+
+--MARCAS Y CATEGORIAS CON PRODUCTOS BAJOS DE STOCK
+CREATE PROCEDURE SP_MarcasConProductosBajoStock
+AS
+BEGIN
+    SELECT 
+        M.ID AS MarcaID,
+        M.NombreMarca,
+        P.ID AS ProductoID,
+        P.Nombre AS NombreProducto,
+        P.Stock_Actual,
+        P.Stock_Minimo
+    FROM Marcas M
+    JOIN Productos P ON M.ID = P.IDMarca
+    WHERE P.Stock_Actual < P.Stock_Minimo
+    ORDER BY M.NombreMarca, P.Nombre; -- Ordenado por marca y producto
+END
+GO
+
+CREATE PROCEDURE SP_CategoriasConProductosBajoStock
+AS
+BEGIN
+    SELECT 
+        C.ID AS CategoriaID,
+        C.NombreCategoria,
+        P.ID AS ProductoID,
+        P.Nombre AS NombreProducto,
+        P.Stock_Actual,
+        P.Stock_Minimo
+    FROM Categorias C
+    JOIN Productos P ON C.ID = P.IDCategoria
+    WHERE P.Stock_Actual < P.Stock_Minimo
+    ORDER BY C.NombreCategoria, P.Nombre; -- Ordenado por categoría y producto
+END
+GO
+
 
 --OBTENER EL PRIMER Y ULTIMO CLIENTE DADOS DE ALTA
 CREATE PROCEDURE SP_PrimerClienteDadoDeAlta

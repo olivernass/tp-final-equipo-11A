@@ -23,11 +23,15 @@ namespace TPComercio
 
                 MostrarMarcasSinProductos();
 
+                MostrarMarcasConProductosBajoStock();
+
                 MostrarCategoriasConMasProductos();
 
                 MostrarCategoriasConProductoMasCostoso();
 
                 MostrarCategoriasSinProductos();
+
+                MostrarCategoriasConProductosBajoStock();
 
                 MostrarPrimerCliente();
 
@@ -104,6 +108,27 @@ namespace TPComercio
             }
         }
 
+        private void MostrarMarcasConProductosBajoStock()
+        {
+            var negocio = new MarcaReportesNegocio();
+            var marcasConBajoStock = negocio.ObtenerMarcasConProductosBajoStock();
+
+            if (marcasConBajoStock != null && marcasConBajoStock.Count > 0)
+            {
+                string texto = "Marcas con productos bajo stock:<br />";
+                foreach (var item in marcasConBajoStock)
+                {
+                    texto += $"Marca: {item.NombreMarca} (ID: {item.Id})<br />";
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Stock Actual: {item.StockActual}, Stock Mínimo: {item.StockMinimo}<br /><br />";
+                }
+
+                lblMarcasProductosBajoStock.Text = texto;
+            }
+            else
+            {
+                lblMarcasProductosBajoStock.Text = "No se encontraron marcas con productos bajo stock.";
+            }
+        }
 
 
         private void MostrarCategoriasConMasProductos()
@@ -172,6 +197,28 @@ namespace TPComercio
             else
             {
                 lblCategoriasSinProductos.Text = "No se encontraron categorías sin productos.";
+            }
+        }
+
+        private void MostrarCategoriasConProductosBajoStock()
+        {
+            var negocio = new CategoriaReportesNegocio();
+            var categoriasConBajoStock = negocio.ObtenerCategoriasConProductosBajoStock();
+
+            if (categoriasConBajoStock != null && categoriasConBajoStock.Count > 0)
+            {
+                string texto = "Categorías con productos bajo stock:<br />";
+                foreach (var item in categoriasConBajoStock)
+                {
+                    texto += $"Categoría: {item.NombreCategoria} (ID: {item.Id})<br />";
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Stock Actual: {item.StockActual}, Stock Mínimo: {item.StockMinimo}<br /><br />";
+                }
+
+                lblCategoriasProductosBajoStock.Text = texto;
+            }
+            else
+            {
+                lblCategoriasProductosBajoStock.Text = "No se encontraron categorías con productos bajo stock.";
             }
         }
 
