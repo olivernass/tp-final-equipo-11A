@@ -315,20 +315,30 @@ function validarModificarProveedor() {
 
 function validarAgregarMarca() {
     var nombreMarca = document.querySelector('.validar-nombre');
-
     let valid = true;
 
-    document.querySelectorAll('.input-error').forEach(function (el) {
-        el.classList.remove('input-error');
-    });
-    document.querySelectorAll('.error-message').forEach(function (el) {
-        el.textContent = '';
-    });
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid) {
+        const container = field.closest('.mb-3');
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            valid = false;
+        }
+    }
 
+    // Validación de Nombre de Marca
     if (!nombreMarca.value) {
-        document.getElementById('errorNombreMarca').textContent = "El nombre de la marca es obligatorio.";
-        nombreMarca.classList.add('input-error');
-        valid = false;
+        setValidationClasses(nombreMarca, false);
+    } else {
+        setValidationClasses(nombreMarca, true);
     }
 
     return valid;
@@ -336,20 +346,30 @@ function validarAgregarMarca() {
 
 function validarModificarMarca() {
     var nombreMarcaMod = document.querySelector('.validar-nombre-mod');
-
     let valid = true;
 
-    document.querySelectorAll('.input-error').forEach(function (el) {
-        el.classList.remove('input-error');
-    });
-    document.querySelectorAll('.error-message').forEach(function (el) {
-        el.textContent = '';
-    });
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid) {
+        const container = field.closest('.mb-3');
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            valid = false;
+        }
+    }
 
+    // Validación de Nombre de Marca Modificada
     if (!nombreMarcaMod.value) {
-        document.getElementById('errorNombreMarcaMod').textContent = "El nombre de la marca es obligatorio.";
-        nombreMarcaMod.classList.add('input-error');
-        valid = false;
+        setValidationClasses(nombreMarcaMod, false);
+    } else {
+        setValidationClasses(nombreMarcaMod, true);
     }
 
     return valid;
@@ -357,20 +377,30 @@ function validarModificarMarca() {
 
 function validarAgregarCategoria() {
     var nombreCategoria = document.querySelector('.validar-nombre');
-
     let valid = true;
 
-    document.querySelectorAll('.input-error').forEach(function (el) {
-        el.classList.remove('input-error');
-    });
-    document.querySelectorAll('.error-message').forEach(function (el) {
-        el.textContent = '';
-    });
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid) {
+        const container = field.closest('.mb-3');
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            valid = false;
+        }
+    }
 
+    // Validación de Nombre de Categoría
     if (!nombreCategoria.value) {
-        document.getElementById('errorNombreCategoria').textContent = "El nombre de la categoría es obligatorio.";
-        nombreCategoria.classList.add('input-error');
-        valid = false;
+        setValidationClasses(nombreCategoria, false);
+    } else {
+        setValidationClasses(nombreCategoria, true);
     }
 
     return valid;
@@ -378,25 +408,35 @@ function validarAgregarCategoria() {
 
 function validarModificarCategoria() {
     var nombreCategoriaMod = document.querySelector('.validar-nombre-mod');
-
     let valid = true;
 
-    document.querySelectorAll('.input-error').forEach(function (el) {
-        el.classList.remove('input-error');
-    });
-    document.querySelectorAll('.error-message').forEach(function (el) {
-        el.textContent = '';
-    });
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid) {
+        const container = field.closest('.mb-3');
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            valid = false;
+        }
+    }
 
-
+    // Validación de Nombre de Categoría Modificada
     if (!nombreCategoriaMod.value) {
-        document.getElementById('errorNombreCategoriaMod').textContent = "El nombre de la categoría es obligatorio.";
-        nombreCategoriaMod.classList.add('input-error');
-        valid = false;
+        setValidationClasses(nombreCategoriaMod, false);
+    } else {
+        setValidationClasses(nombreCategoriaMod, true);
     }
 
     return valid;
 }
+
 
 
 function limpiarModal(modalId) {
