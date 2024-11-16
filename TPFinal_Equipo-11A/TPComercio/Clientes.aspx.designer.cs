@@ -96,6 +96,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.DropDownList ddlCampo;
 
         /// <summary>
+        /// lblCriterio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCriterio;
+
+        /// <summary>
         /// ddlCriterio control.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace TPComercio
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCriterio;
+
+        /// <summary>
+        /// lblFiltro control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFiltro;
 
         /// <summary>
         /// txtFiltroAvanzado control.

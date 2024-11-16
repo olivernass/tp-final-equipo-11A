@@ -1026,7 +1026,7 @@ GO
 --    WHERE P.Rnk = 1; -- Solo tomamos el producto más costoso por categoría
 --END
 --GO
-use comercio_final
+
 CREATE PROCEDURE SP_CategoriasConProductoMasCostoso
 AS
 BEGIN

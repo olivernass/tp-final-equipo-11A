@@ -55,36 +55,33 @@
 
             <% if (FiltroAvanzado)
                 { %>
-            <div class="col-6">
-                <div class="mb-3">
-                    <div class="d-flex">
-                        <asp:Label Text="Campo" ID="lCampo" runat="server" />
-                        <asp:DropDownList runat="server" AutoPostBack="true" CssClass="form-control" ID="ddlCampo" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
-                            <asp:ListItem Text="DNI" />
-                            <asp:ListItem Text="Apellido" />
-                            <asp:ListItem Text="Correo" />
-                        </asp:DropDownList>
-                    </div>
+            <div class="d-flex align-items-center gap-2 mt-3">
+                <!-- Campo -->
+                <div class="d-flex align-items-center">
+                    <asp:Label Text="Campo:" ID="lCampo" runat="server" class="me-1" />
+                    <asp:DropDownList runat="server" AutoPostBack="true" CssClass="form-control me-2" ID="ddlCampo" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
+                        <asp:ListItem Text="DNI" />
+                        <asp:ListItem Text="Apellido" />
+                        <asp:ListItem Text="Correo" />
+                    </asp:DropDownList>
                 </div>
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Label Text="Criterio" runat="server" />
-                        <asp:DropDownList runat="server" ID="ddlCriterio" CssClass="form-control"></asp:DropDownList>
-                    </div>
+
+                <!-- Criterio -->
+                <div class="d-flex align-items-center">
+                    <asp:Label Text="Criterio:" ID="lblCriterio" runat="server" class="me-1" />
+                    <asp:DropDownList runat="server" CssClass="form-control me-2" ID="ddlCriterio"></asp:DropDownList>
                 </div>
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Label Text="Filtro" runat="server" />
-                        <asp:TextBox runat="server" ID="txtFiltroAvanzado" CssClass="form-control" />
-                    </div>
+
+                <!-- Filtro -->
+                <div class="d-flex align-items-center">
+                    <asp:Label Text="Filtro:" ID="lblFiltro" runat="server" class="me-1" />
+                    <asp:TextBox runat="server" ID="txtFiltroAvanzado" CssClass="form-control me-2" />
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" />
-                        <asp:Button Text="Limpiar" runat="server" CssClass="btn btn-primary" ID="btnLimpiar" OnClick="btnLimpiar_Click" />
-                    </div>
+
+                <!-- Botones -->
+                <div class="d-flex align-items-center">
+                    <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary me-1" ID="btnBuscar" OnClick="btnBuscar_Click" />
+                    <asp:Button Text="Limpiar" runat="server" CssClass="btn btn-secondary" ID="btnLimpiar" OnClick="btnLimpiar_Click" />
                 </div>
             </div>
             <% } %>
@@ -96,51 +93,53 @@
 
 
         <!-- Tabla de Clientes -->
-        <table class="table tableClientes table-hover mt-3">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">DNI</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">Direccion</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col">Correo</th>
-                    <th scope="col">Fecha de Registro</th>
-                    <th scope="col">Activo</th>
-                    <th scope="col" class="acciones">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <asp:Repeater ID="rptClientes" runat="server" OnItemCommand="rptClientes_ItemCommand">
-                    <ItemTemplate>
-                        <tr>
-                            <th scope="row"><%# Eval("Id") %></th>
-                            <td><%# Eval("DNI") %></td>
-                            <td><%# Eval("Nombre") %></td>
-                            <td><%# Eval("Apellido") %></td>
-                            <td><%# Eval("Direccion") %></td>
-                            <td><%# Eval("Telefono") %></td>
-                            <td><%# Eval("Correo") %></td>
-                            <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
-                            <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
-                            <td>
-                                <!-- Botón Modificar -->
-                                <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
-                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("DNI") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("Direccion") %>', '<%# Eval("Telefono") %>', '<%# Eval("Correo") %>', '<%# Eval("Activo") %>')">
-                                    Modificar                           
-                                </button>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table tableClientes table-hover mt-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">DNI</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col">Direccion</th>
+                                <th scope="col">Telefono</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Fecha de Registro</th>
+                                <th scope="col">Activo</th>
+                                <th scope="col" class="acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <asp:Repeater ID="rptClientes" runat="server" OnItemCommand="rptClientes_ItemCommand">
+                                <ItemTemplate>
+                                    <tr>
+                                        <th scope="row"><%# Eval("Id") %></th>
+                                        <td><%# Eval("DNI") %></td>
+                                        <td><%# Eval("Nombre") %></td>
+                                        <td><%# Eval("Apellido") %></td>
+                                        <td><%# Eval("Direccion") %></td>
+                                        <td><%# Eval("Telefono") %></td>
+                                        <td><%# Eval("Correo") %></td>
+                                        <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
+                                        <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
+                                        <td>
+                                            <!-- Botón Modificar -->
+                                            <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
+                                                onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("DNI") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("Direccion") %>', '<%# Eval("Telefono") %>', '<%# Eval("Correo") %>', '<%# Eval("Activo") %>')">
+                                                Modificar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-                                <%-- <!-- Botón Eliminar -->
-                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
-                                OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');"
-                                CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />--%>
-                            </td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tbody>
-        </table>
 
         <!-- Modal Agregar Cliente -->
         <div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">
@@ -198,66 +197,66 @@
         </div>
 
         <!-- Modal Modificar Cliente -->
-<div class="modal fade" id="modalModificarCliente" tabindex="-1" aria-labelledby="modalModificarClienteLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalModificarClienteLabel">Modificar Cliente</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <asp:HiddenField ID="hdnIdCliente" runat="server" />
-                <asp:HiddenField ID="hdnEstadoCliente" runat="server" />
+        <div class="modal fade" id="modalModificarCliente" tabindex="-1" aria-labelledby="modalModificarClienteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalModificarClienteLabel">Modificar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <asp:HiddenField ID="hdnIdCliente" runat="server" />
+                        <asp:HiddenField ID="hdnEstadoCliente" runat="server" />
 
-                <div class="mb-3 has-danger has-success">
-                    <asp:TextBox ID="txtDNIClienteMod" runat="server" CssClass="form-control validar-DNI-mod" placeholder="DNI"></asp:TextBox>
-                    <div class="invalid-feedback">El DNI es obligatorio y solo debe contener números.</div>
-                    <div class="valid-feedback">DNI válido.</div>
+                        <div class="mb-3 has-danger has-success">
+                            <asp:TextBox ID="txtDNIClienteMod" runat="server" CssClass="form-control validar-DNI-mod" placeholder="DNI"></asp:TextBox>
+                            <div class="invalid-feedback">El DNI es obligatorio y solo debe contener números.</div>
+                            <div class="valid-feedback">DNI válido.</div>
+                        </div>
+
+                        <div class="mb-3 has-danger has-success">
+                            <asp:TextBox ID="txtNombreClienteMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre del Cliente"></asp:TextBox>
+                            <div class="invalid-feedback">El nombre es obligatorio.</div>
+                            <div class="valid-feedback">Nombre válido.</div>
+                        </div>
+
+                        <div class="mb-3 has-danger has-success">
+                            <asp:TextBox ID="txtApellidoClienteMod" runat="server" CssClass="form-control validar-apellido-mod" placeholder="Apellido del Cliente"></asp:TextBox>
+                            <div class="invalid-feedback">El apellido es obligatorio.</div>
+                            <div class="valid-feedback">Apellido válido.</div>
+                        </div>
+
+                        <div class="mb-3 has-danger has-success">
+                            <asp:TextBox ID="txtDireccionClienteMod" runat="server" CssClass="form-control validar-direccion-mod" placeholder="Dirección del Cliente"></asp:TextBox>
+                            <div class="invalid-feedback">La dirección es obligatoria.</div>
+                            <div class="valid-feedback">Dirección válida.</div>
+                        </div>
+
+                        <div class="mb-3 has-danger has-success">
+                            <asp:TextBox ID="txtTelefonoClienteMod" runat="server" CssClass="form-control validar-telefono-mod" placeholder="Teléfono del Cliente"></asp:TextBox>
+                            <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
+                            <div class="valid-feedback">Teléfono válido.</div>
+                        </div>
+
+                        <div class="mb-3 has-danger has-success">
+                            <asp:TextBox ID="txtCorreoClienteMod" runat="server" CssClass="form-control validar-correo-mod" placeholder="Correo del Cliente"></asp:TextBox>
+                            <div class="invalid-feedback">Ingresa un correo válido.</div>
+                            <div class="valid-feedback">Correo válido.</div>
+                        </div>
+
+                        <!-- Botones Activar e Inactivar dentro del Modal -->
+                        <asp:Button ID="btnInactivarModal" runat="server" CssClass="btn btn-danger" Text="Inactivar"
+                            OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este cliente?');" OnClick="btnInactivarModal_Click" />
+                        <asp:Button ID="btnActivarModal" runat="server" CssClass="btn btn-success" Text="Activar"
+                            OnClientClick="return confirm('¿Estás seguro de que deseas activar este cliente?');" OnClick="btnActivarModal_Click" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarCliente');">Cerrar</button>
+                        <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClientClick="return validarModificarCliente();" OnClick="btnGuardarCambios_Click" />
+                    </div>
                 </div>
-
-                <div class="mb-3 has-danger has-success">
-                    <asp:TextBox ID="txtNombreClienteMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre del Cliente"></asp:TextBox>
-                    <div class="invalid-feedback">El nombre es obligatorio.</div>
-                    <div class="valid-feedback">Nombre válido.</div>
-                </div>
-
-                <div class="mb-3 has-danger has-success">
-                    <asp:TextBox ID="txtApellidoClienteMod" runat="server" CssClass="form-control validar-apellido-mod" placeholder="Apellido del Cliente"></asp:TextBox>
-                    <div class="invalid-feedback">El apellido es obligatorio.</div>
-                    <div class="valid-feedback">Apellido válido.</div>
-                </div>
-
-                <div class="mb-3 has-danger has-success">
-                    <asp:TextBox ID="txtDireccionClienteMod" runat="server" CssClass="form-control validar-direccion-mod" placeholder="Dirección del Cliente"></asp:TextBox>
-                    <div class="invalid-feedback">La dirección es obligatoria.</div>
-                    <div class="valid-feedback">Dirección válida.</div>
-                </div>
-
-                <div class="mb-3 has-danger has-success">
-                    <asp:TextBox ID="txtTelefonoClienteMod" runat="server" CssClass="form-control validar-telefono-mod" placeholder="Teléfono del Cliente"></asp:TextBox>
-                    <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
-                    <div class="valid-feedback">Teléfono válido.</div>
-                </div>
-
-                <div class="mb-3 has-danger has-success">
-                    <asp:TextBox ID="txtCorreoClienteMod" runat="server" CssClass="form-control validar-correo-mod" placeholder="Correo del Cliente"></asp:TextBox>
-                    <div class="invalid-feedback">Ingresa un correo válido.</div>
-                    <div class="valid-feedback">Correo válido.</div>
-                </div>
-
-                <!-- Botones Activar e Inactivar dentro del Modal -->
-                <asp:Button ID="btnInactivarModal" runat="server" CssClass="btn btn-danger" Text="Inactivar"
-                    OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este cliente?');" OnClick="btnInactivarModal_Click" />
-                <asp:Button ID="btnActivarModal" runat="server" CssClass="btn btn-success" Text="Activar"
-                    OnClientClick="return confirm('¿Estás seguro de que deseas activar este cliente?');" OnClick="btnActivarModal_Click" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarCliente');">Cerrar</button>
-                <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClientClick="return validarModificarCliente();" OnClick="btnGuardarCambios_Click" />
             </div>
         </div>
-    </div>
-</div>
 
 
 
