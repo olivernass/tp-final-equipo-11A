@@ -263,8 +263,9 @@ namespace Negocio
                     Categoria categoria = new Categoria
                     {
                         Id = datos.Lector.GetInt32(0),
-                        NombreCategoria = datos.Lector.GetString(1)
-                        
+                        NombreCategoria = datos.Lector.GetString(1),
+                        CantidadProductos = datos.Lector.GetInt32(2)
+
                     };
                     categorias.Add(categoria);
                 }

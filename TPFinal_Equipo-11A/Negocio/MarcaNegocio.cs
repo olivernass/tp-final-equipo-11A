@@ -293,7 +293,8 @@ namespace Negocio
                     Marca marca = new Marca
                     {
                         Id = datos.Lector.GetInt32(0),
-                        NombreMarca = datos.Lector.GetString(1)
+                        NombreMarca = datos.Lector.GetString(1),
+                        CantidadProductos = datos.Lector.GetInt32(2)
                     };
                     marcas.Add(marca);
                 }

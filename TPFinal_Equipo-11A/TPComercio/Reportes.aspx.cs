@@ -56,7 +56,7 @@ namespace TPComercio
                 string marcasTexto = "Marcas con más productos: <br />";
                 foreach (var marca in marcasConMasProductos)
                 {
-                    marcasTexto += $"ID: {marca.Id}, Nombre: {marca.NombreMarca}<br />";
+                    marcasTexto += $"ID: {marca.Id}, Nombre: {marca.NombreMarca}, Cantidad de productos: {marca.CantidadProductos}<br />";
                 }
 
                 // Mostrar el texto en una etiqueta o control en la página
@@ -81,7 +81,7 @@ namespace TPComercio
                 string categoriasTexto = "Categorías con más productos: <br />";
                 foreach (var categoria in categoriasConMasProductos)
                 {
-                    categoriasTexto += $"ID: {categoria.Id}, Nombre: {categoria.NombreCategoria}<br />";
+                    categoriasTexto += $"ID: {categoria.Id}, Nombre: {categoria.NombreCategoria}, Cantidad de productos: {categoria.CantidadProductos}<br />";
                 }
 
                 // Mostrar el texto en las etiquetas correspondientes
