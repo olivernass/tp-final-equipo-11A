@@ -22,6 +22,8 @@ namespace TPComercio
                 MostrarCategoriasConMasProductos();
 
                 MostrarPrimerCliente();
+
+                MostrarUltimoCliente();
             }
         }
 
@@ -102,14 +104,34 @@ namespace TPComercio
             {
                 // Construir un texto para mostrar los detalles del primer cliente
                 string clienteTexto = "Primer cliente dado de alta: <br />";
-                clienteTexto += $"ID: {primerCliente.Id}, Nombre: {primerCliente.Nombre} {primerCliente.Apellido}, DNI: {primerCliente.DNI}, Dirección: {primerCliente.Direccion}, Teléfono: {primerCliente.Telefono}, Correo: {primerCliente.Correo}, Fecha de alta: {primerCliente.Fecha_Alta.ToString("dd/MM/yyyy")}<br />";
+                clienteTexto += $"ID: {primerCliente.Id}, Nombre: {primerCliente.Nombre} {primerCliente.Apellido}, DNI: {primerCliente.DNI}, Dirección: {primerCliente.Direccion}, Teléfono: {primerCliente.Telefono}, Correo: {primerCliente.Correo}, Fecha de alta: {primerCliente.Fecha_Alta.ToString("dd/MM/yyyy HH:mm:ss")}<br />";
 
                 // Mostrar el texto en las etiquetas correspondientes
-                lblClienteNombre.Text = clienteTexto;
+                lblClientePrimero.Text = clienteTexto;
             }
             else
             {
-                lblClienteNombre.Text = "No se encontró ningún cliente registrado.";
+                lblClientePrimero.Text = "No se encontró ningún cliente registrado.";
+            }
+        }
+
+        private void MostrarUltimoCliente()
+        {
+            ClienteNegocio clienteNegocio = new ClienteNegocio();
+            Cliente ultimoCliente = clienteNegocio.ObtenerUltimoCliente(); // Llama al método que obtiene el último cliente
+
+            if (ultimoCliente != null)
+            {
+                // Construir un texto para mostrar los detalles del último cliente
+                string clienteTexto = "Último cliente dado de alta: <br />";
+                clienteTexto += $"ID: {ultimoCliente.Id}, Nombre: {ultimoCliente.Nombre} {ultimoCliente.Apellido}, DNI: {ultimoCliente.DNI}, Dirección: {ultimoCliente.Direccion}, Teléfono: {ultimoCliente.Telefono}, Correo: {ultimoCliente.Correo}, Fecha de alta: {ultimoCliente.Fecha_Alta.ToString("dd/MM/yyyy HH:mm:ss")}<br />";
+
+                // Mostrar el texto en las etiquetas correspondientes
+                lblClienteUltimo.Text = clienteTexto;
+            }
+            else
+            {
+                lblClienteUltimo.Text = "No se encontró ningún cliente registrado.";
             }
         }
 

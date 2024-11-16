@@ -51,12 +51,21 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.Label lblCategoriaID;
 
         /// <summary>
-        /// Control lblClienteNombre.
+        /// Control lblClientePrimero.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblClienteNombre;
+        protected global::System.Web.UI.WebControls.Label lblClientePrimero;
+
+        /// <summary>
+        /// Control lblClienteUltimo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClienteUltimo;
     }
 }

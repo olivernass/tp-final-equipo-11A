@@ -20,7 +20,11 @@
 </div>
 
     <div class="containerClientes">
-    <asp:Label runat="server" ID="lblClienteNombre"></asp:Label>
+    <asp:Label runat="server" ID="lblClientePrimero"></asp:Label>
+</div>
+
+        <div class="containerClientes">
+    <asp:Label runat="server" ID="lblClienteUltimo"></asp:Label>
 </div>
 
 

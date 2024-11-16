@@ -111,14 +111,19 @@ CREATE TABLE Productos_x_Proveedores(
 );
 GO
 
+CREATE SEQUENCE NroFacturaSeq
+    START WITH 1
+    INCREMENT BY 1;
+GO
+
 CREATE TABLE Ventas(
-	ID BIGINT NOT NULL IDENTITY(1,1),
-	IDCliente BIGINT NOT NULL,
-	Total MONEY NOT NULL,
-	Fecha DATETIME DEFAULT GETDATE(),
-	Nro_Factura BIGINT NOT NULL IDENTITY(1,1),
-	PRIMARY KEY(ID),
-	FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
+    ID BIGINT NOT NULL IDENTITY(1,1),
+    IDCliente BIGINT NOT NULL,
+    Total MONEY NOT NULL,
+    Fecha DATETIME DEFAULT GETDATE(),
+    Nro_Factura BIGINT NOT NULL DEFAULT NEXT VALUE FOR NroFacturaSeq,
+    PRIMARY KEY(ID),
+    FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
 );
 GO
 
@@ -134,14 +139,20 @@ CREATE TABLE Productos_x_venta(
 	FOREIGN KEY (IDVenta) REFERENCES Ventas(ID)
 );
 GO
+
+CREATE SEQUENCE NroReciboSeq
+    START WITH 1
+    INCREMENT BY 1;
+GO
+
 CREATE TABLE Compras(
-	ID BIGINT NOT NULL IDENTITY(1,1),
-	Nro_Recibo BIGINT NOT NULL IDENTITY(1,1),
-	IDProveedor INT NOT NULL,
-	Fecha DATETIME DEFAULT GETDATE(),
-	Total MONEY NOT NULL,
-	PRIMARY KEY(ID),
-	FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
+    ID BIGINT NOT NULL IDENTITY(1,1),
+    Nro_Recibo BIGINT NOT NULL DEFAULT NEXT VALUE FOR NroReciboSeq,
+    IDProveedor INT NOT NULL,
+    Fecha DATETIME DEFAULT GETDATE(),
+    Total MONEY NOT NULL,
+    PRIMARY KEY(ID),
+    FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
 );
 GO
 
@@ -981,6 +992,17 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_UltimoClienteDadoDeAlta
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT TOP 1 *
+    FROM Clientes
+    ORDER BY ID DESC; -- Ordenar por ID en orden descendente para obtener el último
+END
+GO
+
 --INSERTS
 
 INSERT INTO Marcas (NombreMarca, Activo) VALUES
@@ -1103,11 +1125,11 @@ GO
 
 -- Inserciones en la tabla Clientes
 INSERT INTO Clientes (DNI, Nombre, Apellido, Direccion, Telefono, Correo, Fecha_reg, Activo) VALUES 
-(12345678, 'Juan', 'P�rez', 'Calle Falsa 123', '1234567890', 'juan.perez@mail.com', '2024-10-01', 1),
-(87654321, 'Ana', 'G�mez', 'Av. Siempre Viva 456', '0987654321', 'ana.gomez@mail.com', '2024-10-02', 1),
-(23456789, 'Pedro', 'Mart�nez', 'Calle Luna 789', '1112223333', 'pedro.martinez@mail.com', '2024-10-03', 0),
-(34567890, 'Luc�a', 'Fern�ndez', 'Av. Sol 987', '4445556666', 'lucia.fernandez@mail.com', '2024-10-04', 1),
-(45678901, 'Carlos', 'S�nchez', 'Calle Estrella 321', '7778889990', 'carlos.sanchez@mail.com', '2024-10-05', 0);
+(12345678, 'Juan', 'P rez', 'Calle Falsa 123', '1234567890', 'juan.perez@mail.com', '2024-10-01', 1),
+(87654321, 'Ana', 'G mez', 'Av. Siempre Viva 456', '0987654321', 'ana.gomez@mail.com', '2024-10-02', 1),
+(23456789, 'Pedro', 'Mart nez', 'Calle Luna 789', '1112223333', 'pedro.martinez@mail.com', '2024-10-03', 0),
+(34567890, 'Luc a', 'Fern ndez', 'Av. Sol 987', '4445556666', 'lucia.fernandez@mail.com', '2024-10-04', 1),
+(45678901, 'Carlos', 'S nchez', 'Calle Estrella 321', '7778889990', 'carlos.sanchez@mail.com', '2024-10-05', 0);
 
 
 -- Inserciones en la tabla Proveedores
