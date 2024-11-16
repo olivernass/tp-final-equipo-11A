@@ -351,7 +351,7 @@ namespace Negocio
                 else if (estado == "Inactivo")
                     consulta += " WHERE Activo = 0";
                 else if (estado == "Todos")
-                    consulta += " select * FROM Marcas";
+                    consulta += " select * FROM Clientes";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();

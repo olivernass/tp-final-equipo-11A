@@ -47,6 +47,44 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Proveedor> listar2()
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT * FROM Proveedores");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.Id = (int)datos.Lector["ID"];
+                    aux.CUIT = (long)datos.Lector["CUIT"];
+                    aux.Siglas = (string)datos.Lector["Siglas"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Correo = (string)datos.Lector["Correo"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public void agregar(Proveedor nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -71,6 +109,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public void eliminarL(Proveedor proveedor)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -304,7 +343,98 @@ namespace Negocio
         //    }
         //}
 
-        public List<Proveedor> filtrar(string campo, string criterio, string filtro, string estado)
+        //public List<Proveedor> filtrar(string campo, string criterio, string filtro, string estado)
+        //{
+        //    List<Proveedor> lista = new List<Proveedor>();
+        //    AccesoDatos datos = new AccesoDatos();
+
+        //    try
+        //    {
+        //        // Iniciar la consulta
+        //        string consulta = "select CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores WHERE 1=1";
+
+        //        // Agregar condición del campo y criterio solo si ambos están presentes
+        //        if (!string.IsNullOrEmpty(campo) && !string.IsNullOrEmpty(criterio) && !string.IsNullOrEmpty(filtro))
+        //        {
+        //            if (campo == "CUIT")
+        //            {
+        //                switch (criterio)
+        //                {
+        //                    case "Mayor a":
+        //                        consulta += " AND CUIT > " + filtro;
+        //                        break;
+        //                    case "Menor a":
+        //                        consulta += " AND CUIT < " + filtro;
+        //                        break;
+        //                    default:
+        //                        consulta += " AND CUIT = " + filtro;
+        //                        break;
+        //                }
+        //            }
+        //            else if (campo == "Siglas")
+        //            {
+        //                switch (criterio)
+        //                {
+        //                    case "Comienza con":
+        //                        consulta += " AND Siglas LIKE '" + filtro + "%'";
+        //                        break;
+        //                    case "Termina con":
+        //                        consulta += " AND Siglas LIKE '%" + filtro + "'";
+        //                        break;
+        //                    default:
+        //                        consulta += " AND Siglas LIKE '%" + filtro + "%'";
+        //                        break;
+        //                }
+        //            }
+        //            else if (campo == "Correo")
+        //            {
+        //                switch (criterio)
+        //                {
+        //                    case "Comienza con":
+        //                        consulta += " AND Correo LIKE '" + filtro + "%'";
+        //                        break;
+        //                    case "Termina con":
+        //                        consulta += " AND Correo LIKE '%" + filtro + "'";
+        //                        break;
+        //                    default:
+        //                        consulta += " AND Correo LIKE '%" + filtro + "%'";
+        //                        break;
+        //                }
+        //            }
+        //        }
+
+        //        // Agregar condición de estado, sin importar si los otros filtros están vacíos
+        //        if (estado == "Activo")
+        //            consulta += " AND Activo = 1";
+        //        else if (estado == "Inactivo")
+        //            consulta += " AND Activo = 0";
+
+        //        datos.setearConsulta(consulta);
+        //        datos.ejecutarLectura();
+
+        //        while (datos.Lector.Read())
+        //        {
+        //            Proveedor aux = new Proveedor();
+        //            aux.CUIT = (long)datos.Lector["CUIT"];
+        //            aux.Siglas = (string)datos.Lector["Siglas"];
+        //            aux.Nombre = (string)datos.Lector["Nombre"];
+        //            aux.Direccion = (string)datos.Lector["Direccion"];
+        //            aux.Correo = (string)datos.Lector["Correo"];
+        //            aux.Telefono = (string)datos.Lector["Telefono"];
+        //            aux.Activo = (bool)datos.Lector["Activo"];
+
+        //            lista.Add(aux);
+        //        }
+
+        //        return lista;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        public List<Proveedor> filtrar(string campo, string criterio, string filtro)
         {
             List<Proveedor> lista = new List<Proveedor>();
             AccesoDatos datos = new AccesoDatos();
@@ -312,7 +442,7 @@ namespace Negocio
             try
             {
                 // Iniciar la consulta
-                string consulta = "select CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores WHERE 1=1";
+                string consulta = "select ID, CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores WHERE 1=1";
 
                 // Agregar condición del campo y criterio solo si ambos están presentes
                 if (!string.IsNullOrEmpty(campo) && !string.IsNullOrEmpty(criterio) && !string.IsNullOrEmpty(filtro))
@@ -364,11 +494,7 @@ namespace Negocio
                     }
                 }
 
-                // Agregar condición de estado, sin importar si los otros filtros están vacíos
-                if (estado == "Activo")
-                    consulta += " AND Activo = 1";
-                else if (estado == "Inactivo")
-                    consulta += " AND Activo = 0";
+
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -376,6 +502,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Proveedor aux = new Proveedor();
+                    aux.Id = (int)datos.Lector["Id"];
                     aux.CUIT = (long)datos.Lector["CUIT"];
                     aux.Siglas = (string)datos.Lector["Siglas"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
@@ -391,6 +518,50 @@ namespace Negocio
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        public List<Proveedor> filtrarEstado(string estado)
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "select ID, CUIT, Siglas, Nombre, Direccion, Correo, Telefono, Activo FROM Proveedores";
+
+                if (estado == "Activo")
+                    consulta += " WHERE Activo = 1 ";
+                else if (estado == "Inactivo")
+                    consulta += " WHERE Activo = 0";
+                else if (estado == "Todos")
+                    consulta += " select * FROM Proveedores";
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.CUIT = (long)datos.Lector["CUIT"];
+                    aux.Siglas = (string)datos.Lector["Siglas"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Correo = (string)datos.Lector["Correo"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    //aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+                    aux.Activo = (bool)datos.Lector["Activo"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
         }
