@@ -12,11 +12,19 @@
             </div>
         </div>
 
+            <div class="containerCategorias">
+    <asp:Label runat="server" ID="lblReporteMarcas"></asp:Label>
+</div>
+
     <div class="containerCategorias">
     <asp:Label runat="server" ID="lblCategoriaNombre"></asp:Label>
     <div>
         <asp:Label runat="server" ID="lblCategoriaID"></asp:Label>
     </div>
+</div>
+
+        <div class="containerCategorias">
+    <asp:Label runat="server" ID="lblReporteCategorias"></asp:Label>
 </div>
 
     <div class="containerClientes">
@@ -27,6 +35,7 @@
     <asp:Label runat="server" ID="lblClienteUltimo"></asp:Label>
 </div>
 
+    
 
 
 

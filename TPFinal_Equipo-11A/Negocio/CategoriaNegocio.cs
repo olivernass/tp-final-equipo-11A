@@ -248,41 +248,5 @@ namespace Negocio
             }
         }
 
-        public List<Categoria> ObtenerCategoriasConMasProductos()
-        {
-            List<Categoria> categorias = new List<Categoria>();
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearProcedimiento("SP_ObtenerCategoriasConMasProductos");
-                datos.ejecutarLectura();
-
-                while (datos.Lector.Read())
-                {
-                    Categoria categoria = new Categoria
-                    {
-                        Id = datos.Lector.GetInt32(0),
-                        NombreCategoria = datos.Lector.GetString(1),
-                        CantidadProductos = datos.Lector.GetInt32(2)
-
-                    };
-                    categorias.Add(categoria);
-                }
-
-                return categorias;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
-
-
     }
 }

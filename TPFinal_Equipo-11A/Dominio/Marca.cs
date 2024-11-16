@@ -11,8 +11,6 @@ namespace Dominio
         public int Id { get; set; }
         public string NombreMarca { get; set; }
         public bool Activo { get; set; }
-
-        public int CantidadProductos { get; set; }
     }
 }
 

@@ -19,7 +19,11 @@ namespace TPComercio
             {
                 MostrarMarcasConMasProductos();
 
+                MostrarMarcasConProductoMasCostoso();
+
                 MostrarCategoriasConMasProductos();
+
+                MostrarCategoriasConProductoMasCostoso();
 
                 MostrarPrimerCliente();
 
@@ -27,28 +31,10 @@ namespace TPComercio
             }
         }
 
-        //private void MostrarMarcaConMasProductos()
-        //{
-        //    MarcaNegocio marcaNegocio = new MarcaNegocio();
-        //    Marca marcaConMasProductos = marcaNegocio.ObtenerMarcaConMasProductos();
-
-        //    if (marcaConMasProductos != null)
-        //    {
-        //        // Muestra los datos en la página, por ejemplo en etiquetas Label
-        //        lblMarcaNombre.Text = "Marca con más productos: " + marcaConMasProductos.NombreMarca;
-        //        lblMarcaID.Text = "ID de la marca: " + marcaConMasProductos.Id;
-        //    }
-        //    else
-        //    {
-        //        lblMarcaNombre.Text = "No se encontró ninguna marca con productos.";
-        //        lblMarcaID.Text = string.Empty;
-        //    }
-        //}
-
         private void MostrarMarcasConMasProductos()
         {
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-            List<Marca> marcasConMasProductos = marcaNegocio.ObtenerMarcasConMasProductos();
+            MarcaReportesNegocio marcaRepoNegocio = new MarcaReportesNegocio();
+            List<MarcaReportes> marcasConMasProductos = marcaRepoNegocio.ObtenerMarcasConMasProductos();
 
             if (marcasConMasProductos != null && marcasConMasProductos.Count > 0)
             {
@@ -70,10 +56,34 @@ namespace TPComercio
             }
         }
 
+        private void MostrarMarcasConProductoMasCostoso()
+        {
+            var negocio = new MarcaReportesNegocio();
+            var marcasConProductoMasCostoso = negocio.ObtenerMarcasConProductoMasCostoso();
+
+            if (marcasConProductoMasCostoso != null && marcasConProductoMasCostoso.Count > 0)
+            {
+                string texto = "Marcas con el/los producto(s) más costoso(s):<br />";
+                foreach (var item in marcasConProductoMasCostoso)
+                {
+                    texto += $"Marca: {item.NombreMarca} (ID: {item.Id})<br />";
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Precio: {item.PrecioVenta:C}<br />";
+                    texto += $"Cantidad de productos en la marca: {item.CantidadProductos}<br /><br />";
+                }
+
+                lblReporteMarcas.Text = texto;
+            }
+            else
+            {
+                lblReporteMarcas.Text = "No se encontraron marcas con productos activos.";
+            }
+        }
+
+
         private void MostrarCategoriasConMasProductos()
         {
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-            List<Categoria> categoriasConMasProductos = categoriaNegocio.ObtenerCategoriasConMasProductos();
+            CategoriaReportesNegocio categoriaRepoNegocio = new CategoriaReportesNegocio();
+            List<CategoriaReportes> categoriasConMasProductos = categoriaRepoNegocio.ObtenerCategoriasConMasProductos();
 
             if (categoriasConMasProductos != null && categoriasConMasProductos.Count > 0)
             {
@@ -94,6 +104,30 @@ namespace TPComercio
                 lblCategoriaID.Text = string.Empty;
             }
         }
+
+        private void MostrarCategoriasConProductoMasCostoso()
+        {
+            var negocio = new CategoriaReportesNegocio();
+            var categoriasConProductoMasCostoso = negocio.ObtenerCategoriasConProductoMasCostoso();
+
+            if (categoriasConProductoMasCostoso != null && categoriasConProductoMasCostoso.Count > 0)
+            {
+                string texto = "Categorias con el/los producto(s) más costoso(s):<br />";
+                foreach (var item in categoriasConProductoMasCostoso)
+                {
+                    texto += $"Categoría: {item.NombreCategoria} (ID: {item.Id})<br />"; // Usando propiedades heredadas
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Precio: {item.PrecioVenta:C}<br />";
+                    texto += $"Cantidad de productos en la categoría: {item.CantidadProductos}<br /><br />";
+                }
+
+                lblReporteCategorias.Text = texto;
+            }
+            else
+            {
+                lblReporteCategorias.Text = "No se encontraron categorías con productos activos.";
+            }
+        }
+
 
         private void MostrarPrimerCliente()
         {

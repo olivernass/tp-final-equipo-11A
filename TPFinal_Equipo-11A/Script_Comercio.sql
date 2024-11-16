@@ -922,17 +922,6 @@ END
 GO
 
 --CONTADOR DE PRODUCTOS X MARCA Y CATEGORIA
---CREATE PROCEDURE SP_ObtenerMarcaConMasProductos
---AS
---BEGIN
---    SELECT TOP 1 M.Id, M.NombreMarca, COUNT(P.Id) AS CantidadProductos
---    FROM Marcas M
---    JOIN Productos P ON p.IdMarca = M.ID
---    WHERE P.Activo = 1
---    GROUP BY M.ID, M.NombreMarca
---    ORDER BY CantidadProductos DESC;
---END
---GO
 
 CREATE PROCEDURE SP_ObtenerMarcasConMasProductos
 AS
@@ -979,6 +968,94 @@ BEGIN
     WHERE CantidadProductos = (SELECT MAX(CantidadProductos) FROM CTE_CantidadProductos);
 END
 GO
+
+--PRODUCTO MAS COSTOSO
+CREATE PROCEDURE SP_MarcasConProductoMasCostoso
+AS
+BEGIN
+    -- CTE para obtener el producto más costoso por marca
+    ;WITH CTE_ProductoMasCostoso AS (
+        SELECT 
+            P.ID AS ProductoID,
+            P.Nombre AS NombreProducto,
+            P.Precio_Venta,
+            P.IDMarca,
+            DENSE_RANK() OVER (PARTITION BY P.IDMarca ORDER BY P.Precio_Venta DESC) AS Rnk
+        FROM Productos P
+        WHERE P.Activo = 1
+    )
+    SELECT 
+        M.ID AS MarcaID,
+        M.NombreMarca,
+        P.ProductoID,
+        P.NombreProducto,
+        P.Precio_Venta,
+        (SELECT COUNT(*) 
+         FROM Productos P2 
+         WHERE P2.IDMarca = M.ID AND P2.Activo = 1) AS CantidadProductos
+    FROM Marcas M
+    JOIN CTE_ProductoMasCostoso P ON M.ID = P.IDMarca
+    WHERE P.Rnk = 1; -- Incluye todos los productos con el precio más alto por marca
+END
+GO
+
+--CREATE PROCEDURE SP_CategoriasConProductoMasCostoso
+--AS
+--BEGIN
+--    ;WITH CTE_ProductoMasCostoso AS (
+--        SELECT 
+--            P.ID AS ProductoID,
+--            P.Nombre AS NombreProducto,
+--            P.Precio_Venta,
+--            P.IDCategoria,
+--            ROW_NUMBER() OVER (PARTITION BY P.IDCategoria ORDER BY P.Precio_Venta DESC) AS Rnk
+--        FROM Productos P
+--        WHERE P.Activo = 1
+--    )
+--    SELECT 
+--        C.ID AS CategoriaID,
+--        C.NombreCategoria,
+--        P.ProductoID,
+--        P.NombreProducto,
+--        P.Precio_Venta,
+--        (SELECT COUNT(*) 
+--         FROM Productos P2 
+--         WHERE P2.IDCategoria = C.ID AND P2.Activo = 1) AS CantidadProductos
+--    FROM Categorias C
+--    JOIN CTE_ProductoMasCostoso P ON C.ID = P.IDCategoria
+--    WHERE P.Rnk = 1; -- Solo tomamos el producto más costoso por categoría
+--END
+--GO
+use comercio_final
+CREATE PROCEDURE SP_CategoriasConProductoMasCostoso
+AS
+BEGIN
+    -- CTE para obtener el producto más costoso por categoría
+    ;WITH CTE_ProductoMasCostoso AS (
+        SELECT 
+            P.ID AS ProductoID,
+            P.Nombre AS NombreProducto,
+            P.Precio_Venta,
+            P.IDCategoria,
+            DENSE_RANK() OVER (PARTITION BY P.IDCategoria ORDER BY P.Precio_Venta DESC) AS Rnk
+        FROM Productos P
+        WHERE P.Activo = 1
+    )
+    SELECT 
+        C.ID AS CategoriaID,
+        C.NombreCategoria,
+        P.ProductoID,
+        P.NombreProducto,
+        P.Precio_Venta,
+        (SELECT COUNT(*) 
+         FROM Productos P2 
+         WHERE P2.IDCategoria = C.ID AND P2.Activo = 1) AS CantidadProductos
+    FROM Categorias C
+    JOIN CTE_ProductoMasCostoso P ON C.ID = P.IDCategoria
+    WHERE P.Rnk = 1; -- Incluye todos los productos con el precio más alto por categoría
+END
+GO
+
 
 --OBTENER EL PRIMER Y ULTIMO CLIENTE DADOS DE ALTA
 CREATE PROCEDURE SP_PrimerClienteDadoDeAlta
