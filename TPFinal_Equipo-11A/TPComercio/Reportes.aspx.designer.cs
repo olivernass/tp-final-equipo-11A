@@ -42,6 +42,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.Label lblReporteMarcas;
 
         /// <summary>
+        /// Control lblMarcasSinProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMarcasSinProductos;
+
+        /// <summary>
         /// Control lblCategoriaNombre.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace TPComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblReporteCategorias;
+
+        /// <summary>
+        /// Control lblCategoriasSinProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCategoriasSinProductos;
 
         /// <summary>
         /// Control lblClientePrimero.

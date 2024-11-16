@@ -81,6 +81,37 @@ namespace Negocio
             }
         }
 
+        public List<CategoriaReportes> ObtenerCategoriasSinProductos()
+        {
+            List<CategoriaReportes> categorias = new List<CategoriaReportes>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_CategoriasSinProductos");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    CategoriaReportes categoria = new CategoriaReportes
+                    {
+                        Id = datos.Lector.GetInt32(0),                // ID de la categoría
+                        NombreCategoria = datos.Lector.GetString(1)   // Nombre de la categoría
+                    };
+                    categorias.Add(categoria);
+                }
+
+                return categorias;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

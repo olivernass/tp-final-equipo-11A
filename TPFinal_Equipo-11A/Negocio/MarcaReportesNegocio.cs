@@ -79,5 +79,37 @@ namespace Negocio
             }
         }
 
+        public List<MarcaReportes> ObtenerMarcasSinProductos()
+        {
+            List<MarcaReportes> marcas = new List<MarcaReportes>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_MarcasSinProductos");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    MarcaReportes marca = new MarcaReportes
+                    {
+                        Id = datos.Lector.GetInt32(0),             // ID de la marca
+                        NombreMarca = datos.Lector.GetString(1)    // Nombre de la marca
+                    };
+                    marcas.Add(marca);
+                }
+
+                return marcas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

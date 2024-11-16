@@ -21,9 +21,13 @@ namespace TPComercio
 
                 MostrarMarcasConProductoMasCostoso();
 
+                MostrarMarcasSinProductos();
+
                 MostrarCategoriasConMasProductos();
 
                 MostrarCategoriasConProductoMasCostoso();
+
+                MostrarCategoriasSinProductos();
 
                 MostrarPrimerCliente();
 
@@ -79,6 +83,28 @@ namespace TPComercio
             }
         }
 
+        private void MostrarMarcasSinProductos()
+        {
+            var negocio = new MarcaReportesNegocio(); // Asegúrate de tener la capa de negocio correcta.
+            var marcasSinProductos = negocio.ObtenerMarcasSinProductos();
+
+            if (marcasSinProductos != null && marcasSinProductos.Count > 0)
+            {
+                string texto = "Marcas sin productos asociados:<br />";
+                foreach (var item in marcasSinProductos)
+                {
+                    texto += $"Marca: {item.NombreMarca} (ID: {item.Id})<br />";
+                }
+
+                lblMarcasSinProductos.Text = texto;
+            }
+            else
+            {
+                lblMarcasSinProductos.Text = "No se encontraron marcas sin productos.";
+            }
+        }
+
+
 
         private void MostrarCategoriasConMasProductos()
         {
@@ -125,6 +151,27 @@ namespace TPComercio
             else
             {
                 lblReporteCategorias.Text = "No se encontraron categorías con productos activos.";
+            }
+        }
+
+        private void MostrarCategoriasSinProductos()
+        {
+            var negocio = new CategoriaReportesNegocio(); // Asegúrate de usar la capa de negocio adecuada.
+            var categoriasSinProductos = negocio.ObtenerCategoriasSinProductos();
+
+            if (categoriasSinProductos != null && categoriasSinProductos.Count > 0)
+            {
+                string texto = "Categorías sin productos asociados:<br />";
+                foreach (var item in categoriasSinProductos)
+                {
+                    texto += $"Categoría: {item.NombreCategoria} (ID: {item.Id})<br />";
+                }
+
+                lblCategoriasSinProductos.Text = texto;
+            }
+            else
+            {
+                lblCategoriasSinProductos.Text = "No se encontraron categorías sin productos.";
             }
         }
 

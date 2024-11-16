@@ -1056,6 +1056,18 @@ BEGIN
 END
 GO
 
+--CATEGORIAS Y MARCAS SIN PRODUCTOS ASOCIADOS
+CREATE PROCEDURE SP_CategoriasSinProductos
+AS
+BEGIN
+    SELECT 
+        C.Id,
+        C.NombreCategoria
+    FROM Categorias C
+    LEFT JOIN Productos P ON P.IdCategoria = C.Id
+    WHERE P.Id IS NULL;
+END
+GO
 
 --OBTENER EL PRIMER Y ULTIMO CLIENTE DADOS DE ALTA
 CREATE PROCEDURE SP_PrimerClienteDadoDeAlta
