@@ -33,8 +33,7 @@
     flex-wrap: wrap;
     align-items: center;
     padding-top: 100px;
-    margin: 0 auto;
-    width: 65%;
+    padding-left: 25px;
 }
 
 .containerProductos {
@@ -59,6 +58,14 @@
     padding-top: 100px;
     margin: 0 auto;
     width: 35%;
+}
+
+.containerFiltroAv {
+    padding-left: 25px;
+}
+
+.espacioFiltro {
+    gap: 20px;
 }
 
 .coldf {

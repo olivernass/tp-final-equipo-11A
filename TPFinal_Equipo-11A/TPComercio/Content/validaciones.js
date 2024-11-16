@@ -7,52 +7,76 @@
     var correo = document.querySelector('.validar-correo');
 
     let valid = true;
-    if (!DNI.value) {
-        document.getElementById('errorDNI').textContent = "El DNI es obligatorio.";
-        DNI.classList.add('input-error');
-        valid = false;
-    } else if (!/^[0-9]+$/.test(DNI.value)) {
-        document.getElementById('errorDNI').textContent = "El DNI solo debe contener números.";
-        DNI.classList.add('input-error');
-        valid = false;
+
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid) {
+        const container = field.closest('.mb-3');
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            valid = false;
+        }
     }
 
+    // Validación de DNI
+    if (!DNI.value) {
+        setValidationClasses(DNI, false);
+    } else if (!/^[0-9]+$/.test(DNI.value)) {
+        setValidationClasses(DNI, false);
+    } else {
+        setValidationClasses(DNI, true);
+    }
+
+    // Validación de Nombre
     if (!nombre.value) {
-        document.getElementById('errorNombre').textContent = "El nombre es obligatorio.";
-        nombre.classList.add('input-error');
-        valid = false;
+        setValidationClasses(nombre, false);
+    } else {
+        setValidationClasses(nombre, true);
     }
+
+    // Validación de Apellido
     if (!apellido.value) {
-        document.getElementById('errorApellido').textContent = "El apellido es obligatorio.";
-        apellido.classList.add('input-error');
-        valid = false;
+        setValidationClasses(apellido, false);
+    } else {
+        setValidationClasses(apellido, true);
     }
+
+    // Validación de Dirección
     if (!direccion.value) {
-        document.getElementById('errorDireccion').textContent = "La dirección es obligatoria.";
-        direccion.classList.add('input-error');
-        valid = false;
+        setValidationClasses(direccion, false);
+    } else {
+        setValidationClasses(direccion, true);
     }
+
+    // Validación de Teléfono
     if (!telefono.value) {
-        document.getElementById('errorTelefono').textContent = "El teléfono es obligatorio.";
-        telefono.classList.add('input-error');
-        valid = false;
+        setValidationClasses(telefono, false);
     } else if (!/^[0-9]+$/.test(telefono.value)) {
-        document.getElementById('errorTelefono').textContent = "El teléfono solo debe contener números.";
-        telefono.classList.add('input-error');
-        valid = false;
+        setValidationClasses(telefono, false);
+    } else {
+        setValidationClasses(telefono, true);
     }
+
+    // Validación de Correo
     if (!correo.value) {
-        document.getElementById('errorCorreo').textContent = "El correo es obligatorio.";
-        correo.classList.add('input-error');
-        valid = false;
+        setValidationClasses(correo, false);
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value)) {
-        document.getElementById('errorCorreo').textContent = "Ingresa un correo válido.";
-        correo.classList.add('input-error');
-        valid = false;
+        setValidationClasses(correo, false);
+    } else {
+        setValidationClasses(correo, true);
     }
 
     return valid;
 }
+
+
 
 function validarModificarCliente() {
     var dni = document.querySelector('.validar-DNI-mod');
@@ -111,66 +135,84 @@ function validarModificarCliente() {
     return valid;
 }
 
-function validarAgregarProveedor() {
-    var cuit = document.querySelector('.validar-CUIT');
-    var siglas = document.querySelector('.validar-siglas');
-    var nombre = document.querySelector('.validar-nombre');
-    var direccion = document.querySelector('.validar-direccion');
-    var correo = document.querySelector('.validar-correo');
-    var telefono = document.querySelector('.validar-telefono');
+function validarModificarCliente() {
+    var dni = document.querySelector('.validar-DNI-mod');
+    var nombre = document.querySelector('.validar-nombre-mod');
+    var apellido = document.querySelector('.validar-apellido-mod');
+    var direccion = document.querySelector('.validar-direccion-mod');
+    var telefono = document.querySelector('.validar-telefono-mod');
+    var correo = document.querySelector('.validar-correo-mod');
 
     let valid = true;
 
-    if (!cuit.value) {
-        document.getElementById('errorCUIT').textContent = "El CUIT es obligatorio.";
-        cuit.classList.add('input-error');
-        valid = false;
-    } else if (!/^[0-9]+$/.test(cuit.value)) {
-        document.getElementById('errorCUIT').textContent = "El CUIT solo debe contener números.";
-        cuit.classList.add('input-error');
-        valid = false;
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid) {
+        const container = field.closest('.mb-3');
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            valid = false;
+        }
     }
 
-    if (!siglas.value) {
-        document.getElementById('errorSiglas').textContent = "Las siglas son obligatorias.";
-        siglas.classList.add('input-error');
-        valid = false;
+    // Validación de DNI
+    if (!dni.value) {
+        setValidationClasses(dni, false);
+    } else if (!/^[0-9]+$/.test(dni.value)) {
+        setValidationClasses(dni, false);
+    } else {
+        setValidationClasses(dni, true);
     }
 
+    // Validación de Nombre
     if (!nombre.value) {
-        document.getElementById('errorNombre').textContent = "El nombre es obligatorio.";
-        nombre.classList.add('input-error');
-        valid = false;
+        setValidationClasses(nombre, false);
+    } else {
+        setValidationClasses(nombre, true);
     }
 
+    // Validación de Apellido
+    if (!apellido.value) {
+        setValidationClasses(apellido, false);
+    } else {
+        setValidationClasses(apellido, true);
+    }
+
+    // Validación de Dirección
     if (!direccion.value) {
-        document.getElementById('errorDireccion').textContent = "La dirección es obligatoria.";
-        direccion.classList.add('input-error');
-        valid = false;
+        setValidationClasses(direccion, false);
+    } else {
+        setValidationClasses(direccion, true);
     }
 
+    // Validación de Teléfono
     if (!telefono.value) {
-        document.getElementById('errorTelefono').textContent = "El teléfono es obligatorio.";
-        telefono.classList.add('input-error');
-        valid = false;
+        setValidationClasses(telefono, false);
     } else if (!/^[0-9]+$/.test(telefono.value)) {
-        document.getElementById('errorTelefono').textContent = "El teléfono solo debe contener números.";
-        telefono.classList.add('input-error');
-        valid = false;
+        setValidationClasses(telefono, false);
+    } else {
+        setValidationClasses(telefono, true);
     }
 
+    // Validación de Correo
     if (!correo.value) {
-        document.getElementById('errorCorreo').textContent = "El correo es obligatorio.";
-        correo.classList.add('input-error');
-        valid = false;
+        setValidationClasses(correo, false);
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value)) {
-        document.getElementById('errorCorreo').textContent = "Ingresa un correo válido.";
-        correo.classList.add('input-error');
-        valid = false;
+        setValidationClasses(correo, false);
+    } else {
+        setValidationClasses(correo, true);
     }
 
     return valid;
 }
+
 
 function validarModificarProveedor() {
     var cuit = document.querySelector('.validar-CUIT-mod');
