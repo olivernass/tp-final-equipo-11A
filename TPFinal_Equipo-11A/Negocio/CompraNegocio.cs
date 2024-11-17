@@ -38,11 +38,17 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("SELECT * FROM VW_TraerUltimo");
-                datos.ejecutarAccion();
+                datos.ejecutarLectura();
 
-                long idcompra = datos.Lector.GetInt64(0);
+                long idcompra;
 
-                return idcompra;
+                if (datos.Lector.Read())
+                {
+                    idcompra = datos.Lector.GetInt64(0);  
+                    return idcompra;
+                }
+
+                return 0;
             }
 
             catch (Exception ex)

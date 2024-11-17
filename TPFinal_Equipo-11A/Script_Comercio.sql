@@ -111,14 +111,19 @@ CREATE TABLE Productos_x_Proveedores(
 );
 GO
 
+CREATE SEQUENCE NroFacturaSeq
+    START WITH 1
+    INCREMENT BY 1;
+GO
+
 CREATE TABLE Ventas(
-	ID BIGINT NOT NULL IDENTITY(1,1),
-	IDCliente BIGINT NOT NULL,
-	Total MONEY NOT NULL,
-	Fecha DATETIME DEFAULT GETDATE(),
-	Nro_Factura BIGINT NOT NULL IDENTITY(1,1),
-	PRIMARY KEY(ID),
-	FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
+    ID BIGINT NOT NULL IDENTITY(1,1),
+    IDCliente BIGINT NOT NULL,
+    Total MONEY NOT NULL,
+    Fecha DATETIME DEFAULT GETDATE(),
+    Nro_Factura BIGINT NOT NULL DEFAULT NEXT VALUE FOR NroFacturaSeq,
+    PRIMARY KEY(ID),
+    FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
 );
 GO
 
@@ -134,14 +139,20 @@ CREATE TABLE Productos_x_venta(
 	FOREIGN KEY (IDVenta) REFERENCES Ventas(ID)
 );
 GO
+
+CREATE SEQUENCE NroReciboSeq
+    START WITH 1
+    INCREMENT BY 1;
+GO
+
 CREATE TABLE Compras(
-	ID BIGINT NOT NULL IDENTITY(1,1),
-	Nro_Recibo BIGINT NOT NULL IDENTITY(1,1),
-	IDProveedor INT NOT NULL,
-	Fecha DATETIME DEFAULT GETDATE(),
-	Total MONEY NOT NULL,
-	PRIMARY KEY(ID),
-	FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
+    ID BIGINT NOT NULL IDENTITY(1,1),
+    Nro_Recibo BIGINT NOT NULL DEFAULT NEXT VALUE FOR NroReciboSeq,
+    IDProveedor INT NOT NULL,
+    Fecha DATETIME DEFAULT GETDATE(),
+    Total MONEY NOT NULL,
+    PRIMARY KEY(ID),
+    FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
 );
 GO
 
@@ -202,6 +213,11 @@ GO
 CREATE VIEW VW_ListaProductos AS
 SELECT P.ID, P.Nombre, P.Descripcion, P.Activo
 FROM Productos AS P
+GO
+
+CREATE VIEW VW_TraerUltimo
+AS
+SELECT TOP 1 ID FROM Compras ORDER BY Fecha DESC
 GO
 
 --CREATE VIEW VW_ListaProductos AS
@@ -405,7 +421,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE SP_ALTA_PRODUCTO(
+CREATE PROCEDURE SP_ALTA_PRODUCTO(
     @NOMBRE VARCHAR(30),
     @DESCRIPCION VARCHAR(100),
     @IDMARCA INT,
@@ -485,12 +501,70 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE SP_Producto_con_proveedor(
+CREATE PROCEDURE SP_Producto_con_proveedor(
 	@IDPRODUCTO BIGINT
 )
 AS
 BEGIN
 	SELECT ID,Siglas FROM Proveedores WHERE ID IN (SELECT IDProveedor FROM Productos_x_Proveedores WHERE IDProducto = @IDPRODUCTO)
+END
+GO
+
+CREATE TYPE ProductoCompraType AS TABLE
+(
+    IDProducto INT,
+    Cantidad INT,
+    Precio_UnitarioC MONEY,
+    Subtotal MONEY
+);
+GO
+
+
+CREATE PROCEDURE RegistrarCompra
+    @IDProveedor INT,
+    @Productos ProductoCompraType READONLY, -- Tipo de tabla para los productos
+    @Total MONEY
+AS
+BEGIN
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+        -- Insertar la compra
+        DECLARE @IDCompra BIGINT;
+        INSERT INTO Compras (IDProveedor, Fecha, Total)
+        VALUES (@IDProveedor, GETDATE(), @Total);
+
+        SET @IDCompra = SCOPE_IDENTITY();
+
+        -- Insertar productos en Productos_x_Compra
+		DECLARE @Subtotal MONEY
+		SELECT @Subtotal = Cantidad * Precio_UnitarioC FROM @Productos 
+        INSERT INTO Productos_x_Compra (IDCompra, IDProducto, Cantidad, Precio_UnitarioC, Subtotal)
+        SELECT @IDCompra, IDProducto, Cantidad, Precio_UnitarioC, @Subtotal
+        FROM @Productos;
+
+        -- (Opcional) Actualizar el stock actual de los productos
+        UPDATE p
+        SET p.Stock_Actual = p.Stock_Actual + t.Cantidad
+        FROM Productos p
+        INNER JOIN @Productos t ON p.ID = t.IDProducto;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH;
+END;
+GO
+
+CREATE PROCEDURE SP_Alta_Compra(
+	@idproveedor int,
+	@total money
+)
+AS
+BEGIN
+	INSERT INTO Compras(IDProveedor,Fecha,Total) VALUES (@idproveedor,GETDATE(),@total)
 END
 GO
 

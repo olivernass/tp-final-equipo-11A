@@ -11,14 +11,17 @@ namespace TPComercio
 {
     public partial class FormularioCompra : System.Web.UI.Page
     {
+        public List<Detalle_Compra> listaDetalle { get; set; }
         public string codigo { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            Detalle_Compra_Negocio negocio = new Detalle_Compra_Negocio();
             codigo = Request.QueryString["id"].ToString();
-            long numeroCompra = long.Parse(codigo);
-            CompraNegocio negocioC = new CompraNegocio();
-            
-            
+            int codigoprov = int.Parse(codigo);
+            listaDetalle = negocio.listarProductos(codigoprov);
+            rptDetalleCompra.DataSource = listaDetalle;
+            rptDetalleCompra.DataBind();
+
         }
     }
 }

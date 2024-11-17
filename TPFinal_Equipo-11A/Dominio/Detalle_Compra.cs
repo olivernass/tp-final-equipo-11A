@@ -8,7 +8,7 @@ namespace Dominio
 {
     public class Detalle_Compra
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public Compra Compra { get; set; }
 
