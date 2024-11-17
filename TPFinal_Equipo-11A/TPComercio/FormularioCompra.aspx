@@ -22,18 +22,17 @@
         </HeaderTemplate>
 
         <ItemTemplate>
-            <tr>
-                <td><%# Eval("Producto.Id") %></td>
-                <td><%# Eval("Producto.Nombre") %></td>
-                <td><%# Eval("Producto.Precio_Compra", "{0:C}") %></td>
-                <td><%# Eval("Producto.StockActual") %></td>
-                <td><%# Eval("Producto.StockMinimo") %></td>
-                <td>
-                    <asp:TextBox ID="txtCantidad" runat="server" AutoPostBack="false"/>
-                </td>
-                <td><%# Eval("Subtotal", "{0:C}") %></td>
+            <tr> 
+                <td><asp:Label ID="lblProductoId" runat="server" Text='<%# Eval("Producto.Id") %>'></asp:Label></td>
+                <td><asp:Label ID="lblProductoNombre" runat="server" Text='<%# Eval("Producto.Nombre") %>'></asp:Label></td>
+                <td><asp:Label ID="lblProductoPrecioCompra" runat="server" Text='<%# Eval("Producto.Precio_Compra", "{0:C}") %>'></asp:Label></td>
+                <td><asp:Label ID="lblProductoStockActual" runat="server" Text='<%# Eval("Producto.StockActual") %>'></asp:Label></td>
+                <td><asp:Label ID="lblProductoStockMinimo" runat="server" Text='<%# Eval("Producto.StockMinimo") %>'></asp:Label></td>
+                <td><asp:TextBox ID="txtCantidad" runat="server" AutoPostBack="false" Text='<%# Eval("Cantidad") %>' /></td>
+                <td><asp:Label ID="lblSubtotal" runat="server" Text='<%# Eval("Subtotal", "{0:C}") %>'></asp:Label></td>
             </tr>
         </ItemTemplate>
+
 
         <FooterTemplate>
                 </tbody>
