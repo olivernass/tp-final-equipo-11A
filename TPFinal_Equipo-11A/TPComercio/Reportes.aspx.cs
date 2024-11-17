@@ -36,6 +36,10 @@ namespace TPComercio
                 MostrarPrimerCliente();
 
                 MostrarUltimoCliente();
+
+                MostrarReporteClientesPorEstado();
+
+                MostrarPromedioAntiguedadClientes();
             }
         }
 
@@ -225,8 +229,8 @@ namespace TPComercio
 
         private void MostrarPrimerCliente()
         {
-            ClienteNegocio clienteNegocio = new ClienteNegocio();
-            Cliente primerCliente = clienteNegocio.ObtenerPrimerCliente(); // Llama al método que obtiene el primer cliente
+            ClienteReportesNegocio clienteNegocio = new ClienteReportesNegocio();
+            ClienteReportes primerCliente = clienteNegocio.ObtenerPrimerCliente(); // Llama al método que obtiene el primer cliente
 
             if (primerCliente != null)
             {
@@ -245,8 +249,8 @@ namespace TPComercio
 
         private void MostrarUltimoCliente()
         {
-            ClienteNegocio clienteNegocio = new ClienteNegocio();
-            Cliente ultimoCliente = clienteNegocio.ObtenerUltimoCliente(); // Llama al método que obtiene el último cliente
+            ClienteReportesNegocio clienteNegocio = new ClienteReportesNegocio();
+            ClienteReportes ultimoCliente = clienteNegocio.ObtenerUltimoCliente(); // Llama al método que obtiene el último cliente
 
             if (ultimoCliente != null)
             {
@@ -260,6 +264,36 @@ namespace TPComercio
             else
             {
                 lblClienteUltimo.Text = "No se encontró ningún cliente registrado.";
+            }
+        }
+
+        private void MostrarReporteClientesPorEstado()
+        {
+            ClienteReportesNegocio clienteNegocio = new ClienteReportesNegocio();
+            ClienteReportes reporte = clienteNegocio.ObtenerReporteClientesPorEstado();
+
+            if (reporte != null)
+            {
+                lblClienteActivosInactivos.Text = $"Clientes Activos: {reporte.TotalActivos}<br />Clientes Inactivos: {reporte.TotalInactivos}";
+            }
+            else
+            {
+                lblClienteActivosInactivos.Text = "No se pudo generar el reporte.";
+            }
+        }
+
+        private void MostrarPromedioAntiguedadClientes()
+        {
+            ClienteReportesNegocio clienteNegocio = new ClienteReportesNegocio();
+            ClienteReportes reporte = clienteNegocio.ObtenerPromedioAntiguedadClientes();
+
+            if (reporte != null)
+            {
+                lblClientePromedioAntiguedad.Text = $"Promedio de antigüedad de los clientes: {reporte.PromedioAntiguedadDias:N2} días.";
+            }
+            else
+            {
+                lblClientePromedioAntiguedad.Text = "No se pudo calcular el promedio de antigüedad.";
             }
         }
 

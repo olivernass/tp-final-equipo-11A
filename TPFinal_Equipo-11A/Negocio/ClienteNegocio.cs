@@ -441,79 +441,79 @@ namespace Negocio
             }
         }
 
-        public Cliente ObtenerPrimerCliente()
-        {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.setearProcedimiento("SP_PrimerClienteDadoDeAlta");
-                datos.ejecutarLectura();
+        //public Cliente ObtenerPrimerCliente()
+        //{
+        //    AccesoDatos datos = new AccesoDatos();
+        //    try
+        //    {
+        //        datos.setearProcedimiento("SP_PrimerClienteDadoDeAlta");
+        //        datos.ejecutarLectura();
 
-                if (datos.Lector.Read())
-                {
-                    Cliente cliente = new Cliente
-                    {
-                        Id = datos.Lector.GetInt64(0), // Asumiendo que la primera columna es ID
-                        DNI = datos.Lector.GetInt32(1),
-                        Nombre = datos.Lector.GetString(2),
-                        Apellido = datos.Lector.GetString(3),
-                        Direccion = datos.Lector.GetString(4),
-                        Telefono = datos.Lector.GetString(5),
-                        Correo = datos.Lector.GetString(6),
-                        Fecha_Alta = datos.Lector.GetDateTime(7),
-                        Activo = datos.Lector.GetBoolean(8)
-                    };
-                    return cliente;
-                }
+        //        if (datos.Lector.Read())
+        //        {
+        //            Cliente cliente = new Cliente
+        //            {
+        //                Id = datos.Lector.GetInt64(0), // Asumiendo que la primera columna es ID
+        //                DNI = datos.Lector.GetInt32(1),
+        //                Nombre = datos.Lector.GetString(2),
+        //                Apellido = datos.Lector.GetString(3),
+        //                Direccion = datos.Lector.GetString(4),
+        //                Telefono = datos.Lector.GetString(5),
+        //                Correo = datos.Lector.GetString(6),
+        //                Fecha_Alta = datos.Lector.GetDateTime(7),
+        //                Activo = datos.Lector.GetBoolean(8)
+        //            };
+        //            return cliente;
+        //        }
 
-                return null; // Si no hay clientes
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener el primer cliente dado de alta", ex);
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
+        //        return null; // Si no hay clientes
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error al obtener el primer cliente dado de alta", ex);
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
 
-        public Cliente ObtenerUltimoCliente()
-        {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.setearProcedimiento("SP_UltimoClienteDadoDeAlta");
-                datos.ejecutarLectura();
+        //public Cliente ObtenerUltimoCliente()
+        //{
+        //    AccesoDatos datos = new AccesoDatos();
+        //    try
+        //    {
+        //        datos.setearProcedimiento("SP_UltimoClienteDadoDeAlta");
+        //        datos.ejecutarLectura();
 
-                if (datos.Lector.Read())
-                {
-                    Cliente cliente = new Cliente
-                    {
-                        Id = datos.Lector.GetInt64(0),
-                        DNI = datos.Lector.GetInt32(1),
-                        Nombre = datos.Lector.GetString(2),
-                        Apellido = datos.Lector.GetString(3),
-                        Direccion = datos.Lector.GetString(4),
-                        Telefono = datos.Lector.GetString(5),
-                        Correo = datos.Lector.GetString(6),
-                        Fecha_Alta = datos.Lector.GetDateTime(7),
-                        Activo = datos.Lector.GetBoolean(8)
-                    };
-                    return cliente;
-                }
+        //        if (datos.Lector.Read())
+        //        {
+        //            Cliente cliente = new Cliente
+        //            {
+        //                Id = datos.Lector.GetInt64(0),
+        //                DNI = datos.Lector.GetInt32(1),
+        //                Nombre = datos.Lector.GetString(2),
+        //                Apellido = datos.Lector.GetString(3),
+        //                Direccion = datos.Lector.GetString(4),
+        //                Telefono = datos.Lector.GetString(5),
+        //                Correo = datos.Lector.GetString(6),
+        //                Fecha_Alta = datos.Lector.GetDateTime(7),
+        //                Activo = datos.Lector.GetBoolean(8)
+        //            };
+        //            return cliente;
+        //        }
 
-                return null; // Si no hay clientes
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener el último cliente dado de alta", ex);
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
+        //        return null; // Si no hay clientes
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error al obtener el último cliente dado de alta", ex);
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
 
     }
 }

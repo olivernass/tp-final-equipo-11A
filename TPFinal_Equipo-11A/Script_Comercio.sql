@@ -1140,6 +1140,32 @@ BEGIN
 END
 GO
 
+--TOTAL CLIENTES ACTIVOS E INACTIVOS
+CREATE PROCEDURE SP_ConteoClientesPorEstado
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Activo,
+        COUNT(*) AS Total
+    FROM Clientes
+    GROUP BY Activo;
+END
+GO
+
+--PROMEDIO ANTIGUEDAD DE LOS CLIENTES
+CREATE PROCEDURE SP_PromedioAntiguedadClientes
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT AVG(DATEDIFF(DAY, Fecha_reg, GETDATE())) AS PromedioDias
+    FROM Clientes
+    WHERE Activo = 1; -- Solo incluir clientes activos, si es requerido
+END
+GO
+
 --INSERTS
 
 INSERT INTO Marcas (NombreMarca, Activo) VALUES

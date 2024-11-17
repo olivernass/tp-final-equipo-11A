@@ -51,8 +51,13 @@
     <asp:Label runat="server" ID="lblClienteUltimo"></asp:Label>
 </div>
 
+            <div class="containerClientes">
+    <asp:Label runat="server" ID="lblClienteActivosInactivos"></asp:Label>
+</div>
+
     
-
-
+            <div class="containerClientes">
+    <asp:Label runat="server" ID="lblClientePromedioAntiguedad"></asp:Label>
+</div>
 
 </asp:Content>
