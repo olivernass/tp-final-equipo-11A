@@ -66,7 +66,7 @@
                                     <td><%# (bool)Eval("Activo") ? "Sí" : "No" %></td>
                                     <td>
                                         <!-- Botón Modificar -->
-                                        <button type="button" class="btn btn-primary btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCategoria"
+                                        <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCategoria"
                                             onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreCategoria") %>', '<%# Eval("Activo") %>')">
                                             Modificar
                                         </button>

@@ -86,183 +86,184 @@
             </div>
             <% } %>
         </div>
+    </div>
 
 
 
 
 
 
-        <!-- Tabla de Clientes -->
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table tableClientes table-hover mt-3">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">DNI</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellido</th>
-                                <th scope="col">Direccion</th>
-                                <th scope="col">Telefono</th>
-                                <th scope="col">Correo</th>
-                                <th scope="col">Fecha de Registro</th>
-                                <th scope="col">Activo</th>
-                                <th scope="col" class="acciones">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <asp:Repeater ID="rptClientes" runat="server" OnItemCommand="rptClientes_ItemCommand">
-                                <ItemTemplate>
-                                    <tr>
-                                        <th scope="row"><%# Eval("Id") %></th>
-                                        <td><%# Eval("DNI") %></td>
-                                        <td><%# Eval("Nombre") %></td>
-                                        <td><%# Eval("Apellido") %></td>
-                                        <td><%# Eval("Direccion") %></td>
-                                        <td><%# Eval("Telefono") %></td>
-                                        <td><%# Eval("Correo") %></td>
-                                        <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
-                                        <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
-                                        <td>
-                                            <!-- Botón Modificar -->
-                                            <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
-                                                onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("DNI") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("Direccion") %>', '<%# Eval("Telefono") %>', '<%# Eval("Correo") %>', '<%# Eval("Activo") %>')">
-                                                Modificar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </tbody>
-                    </table>
+    <!-- Tabla de Clientes -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table tableClientes table-hover mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Direccion</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Fecha de Registro</th>
+                            <th scope="col">Activo</th>
+                            <th scope="col" class="acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <asp:Repeater ID="rptClientes" runat="server" OnItemCommand="rptClientes_ItemCommand">
+                            <ItemTemplate>
+                                <tr>
+                                    <th scope="row"><%# Eval("Id") %></th>
+                                    <td><%# Eval("DNI") %></td>
+                                    <td><%# Eval("Nombre") %></td>
+                                    <td><%# Eval("Apellido") %></td>
+                                    <td><%# Eval("Direccion") %></td>
+                                    <td><%# Eval("Telefono") %></td>
+                                    <td><%# Eval("Correo") %></td>
+                                    <td><%# Eval("Fecha_Alta", "{0:dd/MM/yyyy HH:mm}") %></td>
+                                    <td><%# (bool)Eval("Activo") ? "Sí" : "No"%></td>
+                                    <td>
+                                        <!-- Botón Modificar -->
+                                        <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarCliente"
+                                            onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("DNI") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("Direccion") %>', '<%# Eval("Telefono") %>', '<%# Eval("Correo") %>', '<%# Eval("Activo") %>')">
+                                            Modificar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Agregar Cliente -->
+    <div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarClienteLabel">Agregar Nuevo Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtDNICliente" runat="server" CssClass="form-control validar-DNI" placeholder="DNI"></asp:TextBox>
+                        <div class="invalid-feedback">El DNI es obligatorio y solo debe contener números.</div>
+                        <div class="valid-feedback">DNI válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtNombreCliente" runat="server" CssClass="form-control validar-nombre" placeholder="Nombre"></asp:TextBox>
+                        <div class="invalid-feedback">El nombre es obligatorio.</div>
+                        <div class="valid-feedback">Nombre válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtApellidoCliente" runat="server" CssClass="form-control validar-apellido" placeholder="Apellido"></asp:TextBox>
+                        <div class="invalid-feedback">El apellido es obligatorio.</div>
+                        <div class="valid-feedback">Apellido válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtDireccionCliente" runat="server" CssClass="form-control validar-direccion" placeholder="Dirección"></asp:TextBox>
+                        <div class="invalid-feedback">La dirección es obligatoria.</div>
+                        <div class="valid-feedback">Dirección válida.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtTelefonoCliente" runat="server" CssClass="form-control validar-telefono" placeholder="Teléfono"></asp:TextBox>
+                        <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
+                        <div class="valid-feedback">Teléfono válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtCorreoCliente" runat="server" CssClass="form-control validar-correo" placeholder="Correo"></asp:TextBox>
+                        <div class="invalid-feedback">Ingresa un correo válido.</div>
+                        <div class="valid-feedback">Correo válido.</div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarCliente');">Cerrar</button>
+                    <asp:Button ID="btnGuardarCliente" runat="server" CssClass="btn btn-primary" Text="Guardar Cliente" OnClientClick="return validarAgregarCliente();" OnClick="btnGuardarCliente_Click" />
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Modal Modificar Cliente -->
+    <div class="modal fade" id="modalModificarCliente" tabindex="-1" aria-labelledby="modalModificarClienteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalModificarClienteLabel">Modificar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <asp:HiddenField ID="hdnIdCliente" runat="server" />
+                    <asp:HiddenField ID="hdnEstadoCliente" runat="server" />
 
-        <!-- Modal Agregar Cliente -->
-        <div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalAgregarClienteLabel">Agregar Nuevo Cliente</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtDNIClienteMod" runat="server" CssClass="form-control validar-DNI-mod" placeholder="DNI"></asp:TextBox>
+                        <div class="invalid-feedback">El DNI es obligatorio y solo debe contener números.</div>
+                        <div class="valid-feedback">DNI válido.</div>
                     </div>
-                    <div class="modal-body">
 
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtDNICliente" runat="server" CssClass="form-control validar-DNI" placeholder="DNI"></asp:TextBox>
-                            <div class="invalid-feedback">El DNI es obligatorio y solo debe contener números.</div>
-                            <div class="valid-feedback">DNI válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtNombreCliente" runat="server" CssClass="form-control validar-nombre" placeholder="Nombre"></asp:TextBox>
-                            <div class="invalid-feedback">El nombre es obligatorio.</div>
-                            <div class="valid-feedback">Nombre válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtApellidoCliente" runat="server" CssClass="form-control validar-apellido" placeholder="Apellido"></asp:TextBox>
-                            <div class="invalid-feedback">El apellido es obligatorio.</div>
-                            <div class="valid-feedback">Apellido válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtDireccionCliente" runat="server" CssClass="form-control validar-direccion" placeholder="Dirección"></asp:TextBox>
-                            <div class="invalid-feedback">La dirección es obligatoria.</div>
-                            <div class="valid-feedback">Dirección válida.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtTelefonoCliente" runat="server" CssClass="form-control validar-telefono" placeholder="Teléfono"></asp:TextBox>
-                            <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
-                            <div class="valid-feedback">Teléfono válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtCorreoCliente" runat="server" CssClass="form-control validar-correo" placeholder="Correo"></asp:TextBox>
-                            <div class="invalid-feedback">Ingresa un correo válido.</div>
-                            <div class="valid-feedback">Correo válido.</div>
-                        </div>
-
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtNombreClienteMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre del Cliente"></asp:TextBox>
+                        <div class="invalid-feedback">El nombre es obligatorio.</div>
+                        <div class="valid-feedback">Nombre válido.</div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarCliente');">Cerrar</button>
-                        <asp:Button ID="btnGuardarCliente" runat="server" CssClass="btn btn-primary" Text="Guardar Cliente" OnClientClick="return validarAgregarCliente();" OnClick="btnGuardarCliente_Click" />
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtApellidoClienteMod" runat="server" CssClass="form-control validar-apellido-mod" placeholder="Apellido del Cliente"></asp:TextBox>
+                        <div class="invalid-feedback">El apellido es obligatorio.</div>
+                        <div class="valid-feedback">Apellido válido.</div>
                     </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtDireccionClienteMod" runat="server" CssClass="form-control validar-direccion-mod" placeholder="Dirección del Cliente"></asp:TextBox>
+                        <div class="invalid-feedback">La dirección es obligatoria.</div>
+                        <div class="valid-feedback">Dirección válida.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtTelefonoClienteMod" runat="server" CssClass="form-control validar-telefono-mod" placeholder="Teléfono del Cliente"></asp:TextBox>
+                        <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
+                        <div class="valid-feedback">Teléfono válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtCorreoClienteMod" runat="server" CssClass="form-control validar-correo-mod" placeholder="Correo del Cliente"></asp:TextBox>
+                        <div class="invalid-feedback">Ingresa un correo válido.</div>
+                        <div class="valid-feedback">Correo válido.</div>
+                    </div>
+
+                    <!-- Botones Activar e Inactivar dentro del Modal -->
+                    <asp:Button ID="btnInactivarModal" runat="server" CssClass="btn btn-danger" Text="Inactivar"
+                        OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este cliente?');" OnClick="btnInactivarModal_Click" />
+                    <asp:Button ID="btnActivarModal" runat="server" CssClass="btn btn-success" Text="Activar"
+                        OnClientClick="return confirm('¿Estás seguro de que deseas activar este cliente?');" OnClick="btnActivarModal_Click" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarCliente');">Cerrar</button>
+                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClientClick="return validarModificarCliente();" OnClick="btnGuardarCambios_Click" />
                 </div>
             </div>
         </div>
-
-        <!-- Modal Modificar Cliente -->
-        <div class="modal fade" id="modalModificarCliente" tabindex="-1" aria-labelledby="modalModificarClienteLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalModificarClienteLabel">Modificar Cliente</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <asp:HiddenField ID="hdnIdCliente" runat="server" />
-                        <asp:HiddenField ID="hdnEstadoCliente" runat="server" />
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtDNIClienteMod" runat="server" CssClass="form-control validar-DNI-mod" placeholder="DNI"></asp:TextBox>
-                            <div class="invalid-feedback">El DNI es obligatorio y solo debe contener números.</div>
-                            <div class="valid-feedback">DNI válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtNombreClienteMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre del Cliente"></asp:TextBox>
-                            <div class="invalid-feedback">El nombre es obligatorio.</div>
-                            <div class="valid-feedback">Nombre válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtApellidoClienteMod" runat="server" CssClass="form-control validar-apellido-mod" placeholder="Apellido del Cliente"></asp:TextBox>
-                            <div class="invalid-feedback">El apellido es obligatorio.</div>
-                            <div class="valid-feedback">Apellido válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtDireccionClienteMod" runat="server" CssClass="form-control validar-direccion-mod" placeholder="Dirección del Cliente"></asp:TextBox>
-                            <div class="invalid-feedback">La dirección es obligatoria.</div>
-                            <div class="valid-feedback">Dirección válida.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtTelefonoClienteMod" runat="server" CssClass="form-control validar-telefono-mod" placeholder="Teléfono del Cliente"></asp:TextBox>
-                            <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
-                            <div class="valid-feedback">Teléfono válido.</div>
-                        </div>
-
-                        <div class="mb-3 has-danger has-success">
-                            <asp:TextBox ID="txtCorreoClienteMod" runat="server" CssClass="form-control validar-correo-mod" placeholder="Correo del Cliente"></asp:TextBox>
-                            <div class="invalid-feedback">Ingresa un correo válido.</div>
-                            <div class="valid-feedback">Correo válido.</div>
-                        </div>
-
-                        <!-- Botones Activar e Inactivar dentro del Modal -->
-                        <asp:Button ID="btnInactivarModal" runat="server" CssClass="btn btn-danger" Text="Inactivar"
-                            OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este cliente?');" OnClick="btnInactivarModal_Click" />
-                        <asp:Button ID="btnActivarModal" runat="server" CssClass="btn btn-success" Text="Activar"
-                            OnClientClick="return confirm('¿Estás seguro de que deseas activar este cliente?');" OnClick="btnActivarModal_Click" />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarCliente');">Cerrar</button>
-                        <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClientClick="return validarModificarCliente();" OnClick="btnGuardarCambios_Click" />
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
 
 
 
-        <script type="text/javascript">
-            function cargarDatosModal(id, DNI, nombre, apellido, direccion, telefono, correo, estado) {
-                document.getElementById('<%= hdnIdCliente.ClientID %>').value = id;
+    <script type="text/javascript">
+        function cargarDatosModal(id, DNI, nombre, apellido, direccion, telefono, correo, estado) {
+            document.getElementById('<%= hdnIdCliente.ClientID %>').value = id;
                 document.getElementById('<%= txtDNIClienteMod.ClientID %>').value = DNI;
                 document.getElementById('<%= txtNombreClienteMod.ClientID %>').value = nombre;
                 document.getElementById('<%= txtApellidoClienteMod.ClientID %>').value = apellido;
@@ -275,25 +276,25 @@
                 const btnInactivar = document.getElementById('<%= btnInactivarModal.ClientID %>');
                 const btnActivar = document.getElementById('<%= btnActivarModal.ClientID %>');
 
-                // Log para verificar el estado que llega a la función
-                console.log("Estado del cliente:", estado);
-                console.log("id del cliente:", id);
-                console.log("nombre del cliente:", nombre);
+            // Log para verificar el estado que llega a la función
+            console.log("Estado del cliente:", estado);
+            console.log("id del cliente:", id);
+            console.log("nombre del cliente:", nombre);
 
-                // Mostrar/ocultar botones según el estado
-                if (estado === "True") {
-                    btnInactivar.style.display = 'block';
-                    btnActivar.style.display = 'none';
-                } else if (estado === "False") {
-                    btnInactivar.style.display = 'none';
-                    btnActivar.style.display = 'block';
-                } else {
-                    console.warn("Estado desconocido:", estado);
-                }
+            // Mostrar/ocultar botones según el estado
+            if (estado === "True") {
+                btnInactivar.style.display = 'block';
+                btnActivar.style.display = 'none';
+            } else if (estado === "False") {
+                btnInactivar.style.display = 'none';
+                btnActivar.style.display = 'block';
+            } else {
+                console.warn("Estado desconocido:", estado);
             }
-        </script>
+        }
+    </script>
 
-        <%--<script type="text/javascript">
+    <%--<script type="text/javascript">
         function toggleFiltro(filtro) {
             var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
         var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
@@ -326,7 +327,7 @@
     </script>--%>
 
 
-        <%--<script type="text/javascript">
+    <%--<script type="text/javascript">
         function toggleFiltro(filtro) {
             var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
         var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
@@ -368,8 +369,8 @@
         }
     </script>--%>
 
-        <%--ANDA BIEN PERO HAY QUE CORREGIR--%>
-        <%--<script type="text/javascript">
+    <%--ANDA BIEN PERO HAY QUE CORREGIR--%>
+    <%--<script type="text/javascript">
         function toggleFiltro(filtro) {
             // Obtener referencias a los elementos de filtro y sus checkboxes
             var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
@@ -403,7 +404,7 @@
         }
     </script>--%>
 
-        <%--ANDA BIEN 2 HAY QUE CORREGIR
+    <%--ANDA BIEN 2 HAY QUE CORREGIR
     <script type="text/javascript">
         // Función para inicializar el estado de los filtros
         function inicializarFiltros() {
@@ -462,8 +463,8 @@
     </script>--%>
 
 
-        <%--PARECE QUE FUNCIONA BIEN, SOLO HAY QUE ARREGLAR EL POR QUE DESAPARECE DEL DESPLEGABLE EL APELLIDO Y EL CORREO--%>
-        <%--<script type="text/javascript">
+    <%--PARECE QUE FUNCIONA BIEN, SOLO HAY QUE ARREGLAR EL POR QUE DESAPARECE DEL DESPLEGABLE EL APELLIDO Y EL CORREO--%>
+    <%--<script type="text/javascript">
         // Función para inicializar el estado de los filtros al cargar la página
         function inicializarFiltros() {
             var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
@@ -525,8 +526,8 @@
         window.onload = inicializarFiltros;
     </script>--%>
 
-        <%--ANDA BIEN SOLO NO FUNCIONA EL BOTON DE BUSCAR CUANDO TOCO EL BOTON DE BORRAR--%>
-        <%--<script type="text/javascript">
+    <%--ANDA BIEN SOLO NO FUNCIONA EL BOTON DE BUSCAR CUANDO TOCO EL BOTON DE BORRAR--%>
+    <%--<script type="text/javascript">
         function toggleFiltro(filtro) {
             // Obtener referencias a los elementos de filtro y sus checkboxes
             var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
@@ -577,65 +578,65 @@
     </script>--%>
 
 
-        <script type="text/javascript">
-            function toggleFiltro(filtro) {
-                // Obtener referencias a los elementos de filtro y sus checkboxes
-                var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+    <script type="text/javascript">
+        function toggleFiltro(filtro) {
+            // Obtener referencias a los elementos de filtro y sus checkboxes
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
                 var txtFiltroClientes = document.getElementById('<%= txtFiltroClientes.ClientID %>');
                 var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
                 var ddlEstadoClientes = document.getElementById('<%= ddlEstadoClientes.ClientID %>');
                 var btnBuscar = document.getElementById('<%= Button1.ClientID %>'); // Botón de búsqueda por estado
                 var chkAvanzado = document.getElementById('<%= chkAvanzado.ClientID %>');
 
-                // Desactivar todos los filtros inicialmente
-                txtFiltroClientes.disabled = true;
-                ddlEstadoClientes.disabled = true;
-                btnBuscar.disabled = true;
+            // Desactivar todos los filtros inicialmente
+            txtFiltroClientes.disabled = true;
+            ddlEstadoClientes.disabled = true;
+            btnBuscar.disabled = true;
 
-                // Activar solo el filtro seleccionado
-                if (filtro === 'nombre') {
-                    // Activar el filtro por nombre y desactivar los otros
-                    txtFiltroClientes.disabled = !chkFiltroNombre.checked;
-                    ddlEstadoClientes.disabled = chkFiltroNombre.checked;
-                    if (!chkAvanzado.checked) {
-                        btnBuscar.disabled = chkFiltroNombre.checked;  // Solo deshabilitar el botón si el filtro avanzado no está activado
-                    }
-
-                    // Si el filtro por nombre está activado, desmarcar otros filtros
-                    if (chkFiltroNombre.checked) {
-                        ddlEstadoClientes.selectedIndex = 0; // Restablecer el filtro de estado a "Todos"
-                        chkFiltroEstado.checked = false; // Desmarcar la casilla de estado
-                        chkAvanzado.checked = false; // Desmarcar filtro avanzado
-                    }
-                } else if (filtro === 'estado') {
-                    // Activar el filtro por estado y desactivar los otros
-                    ddlEstadoClientes.disabled = !chkFiltroEstado.checked;
-                    txtFiltroClientes.disabled = chkFiltroEstado.checked;
-                    btnBuscar.disabled = !chkFiltroEstado.checked;
-
-                    // Si el filtro por estado está activado, desmarcar el filtro por nombre
-                    if (chkFiltroEstado.checked) {
-                        txtFiltroClientes.value = ''; // Limpiar el campo de texto de filtro de nombre
-                        chkFiltroNombre.checked = false; // Desmarcar el filtro por nombre
-                        chkAvanzado.checked = false; // Desmarcar filtro avanzado
-                    }
-                } else if (filtro === 'avanzado') {
-                    // Activar el filtro avanzado y desactivar los otros
-                    if (chkAvanzado.checked) {
-                        chkFiltroNombre.checked = false; // Desmarcar filtro por nombre
-                        chkFiltroEstado.checked = false; // Desmarcar filtro por estado
-                    }
-                    // El botón de búsqueda siempre permanece habilitado cuando el filtro avanzado está activado
-                    btnBuscar.disabled = false;
+            // Activar solo el filtro seleccionado
+            if (filtro === 'nombre') {
+                // Activar el filtro por nombre y desactivar los otros
+                txtFiltroClientes.disabled = !chkFiltroNombre.checked;
+                ddlEstadoClientes.disabled = chkFiltroNombre.checked;
+                if (!chkAvanzado.checked) {
+                    btnBuscar.disabled = chkFiltroNombre.checked;  // Solo deshabilitar el botón si el filtro avanzado no está activado
                 }
+
+                // Si el filtro por nombre está activado, desmarcar otros filtros
+                if (chkFiltroNombre.checked) {
+                    ddlEstadoClientes.selectedIndex = 0; // Restablecer el filtro de estado a "Todos"
+                    chkFiltroEstado.checked = false; // Desmarcar la casilla de estado
+                    chkAvanzado.checked = false; // Desmarcar filtro avanzado
+                }
+            } else if (filtro === 'estado') {
+                // Activar el filtro por estado y desactivar los otros
+                ddlEstadoClientes.disabled = !chkFiltroEstado.checked;
+                txtFiltroClientes.disabled = chkFiltroEstado.checked;
+                btnBuscar.disabled = !chkFiltroEstado.checked;
+
+                // Si el filtro por estado está activado, desmarcar el filtro por nombre
+                if (chkFiltroEstado.checked) {
+                    txtFiltroClientes.value = ''; // Limpiar el campo de texto de filtro de nombre
+                    chkFiltroNombre.checked = false; // Desmarcar el filtro por nombre
+                    chkAvanzado.checked = false; // Desmarcar filtro avanzado
+                }
+            } else if (filtro === 'avanzado') {
+                // Activar el filtro avanzado y desactivar los otros
+                if (chkAvanzado.checked) {
+                    chkFiltroNombre.checked = false; // Desmarcar filtro por nombre
+                    chkFiltroEstado.checked = false; // Desmarcar filtro por estado
+                }
+                // El botón de búsqueda siempre permanece habilitado cuando el filtro avanzado está activado
+                btnBuscar.disabled = false;
             }
-        </script>
+        }
+    </script>
 
 
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#<%= txtFiltroClientes.ClientID %>').on('keyup', function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#<%= txtFiltroClientes.ClientID %>').on('keyup', function () {
                     var filtro = $(this).val(); // Obtener el texto que el usuario escribió en el campo de búsqueda
 
                     $.ajax({
@@ -654,5 +655,5 @@
                     });
                 });
             });
-        </script>
+    </script>
 </asp:Content>

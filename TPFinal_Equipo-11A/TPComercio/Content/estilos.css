@@ -231,9 +231,56 @@ tr:hover .btn-acciones {
 }*/
 
 .btn .btn-icon {
-    width: 16px; /* Ajusta el tamaño de la imagen */
-    height: 16px; /* Ajusta el tamaño de la imagen */
-    vertical-align: middle; /* Alinea la imagen verticalmente con el texto */
-    margin-right: 5px; /* Añade espacio entre la imagen y el texto */
+    width: 16px; 
+    height: 16px;
+    vertical-align: middle; 
+    margin-right: 5px; 
 }
+
+.user-card {
+    max-width: 250px; /* Tamaño fijo */
+    min-height: 320px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-img {
+    height: 150px;
+    object-fit: cover;
+}
+
+.card-body {
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+.tags {
+    margin-top: 10px;
+}
+
+.badge {
+    font-size: 0.75rem;
+    margin-right: 5px;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+}
+
+.containerUsuariosCard {
+    padding: 15px 25px;
+}
+
+.containerTarjetas {
+    flex: 0 0 15%;
+    max-width: 15%; 
+    padding: 0; 
+    margin: 0; 
+    box-sizing: border-box; 
+}
+
+
 

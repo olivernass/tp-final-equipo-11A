@@ -437,6 +437,107 @@ function validarModificarCategoria() {
     return valid;
 }
 
+function validarAgregarUsuario() {
+    var nombre = document.querySelector('.validar-nombre');
+    var apellido = document.querySelector('.validar-apellido');
+    var correo = document.querySelector('.validar-correo');
+    var telefono = document.querySelector('.validar-telefono');
+    var imagen = document.querySelector('.validar-imagen');
+    var username = document.querySelector('.validar-username');
+    var password = document.querySelector('.validar-password');
+    var permisos = document.querySelector('.validar-permisos');
+
+    let valid = true;
+
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid, errorMessage) {
+        const container = field.closest('.mb-3');
+        const invalidFeedback = container.querySelector('.invalid-feedback');
+
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+            if (invalidFeedback) invalidFeedback.textContent = "";
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            if (invalidFeedback) invalidFeedback.textContent = errorMessage;
+            valid = false;
+        }
+    }
+
+    // Validación de cada campo
+    setValidationClasses(nombre, nombre.value !== "", "El nombre es obligatorio.");
+    setValidationClasses(apellido, apellido.value !== "", "El apellido es obligatorio.");
+    setValidationClasses(correo, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value), "Ingresa un correo electrónico válido.");
+    setValidationClasses(telefono, /^[0-9]+$/.test(telefono.value), "El teléfono debe contener solo números.");
+    setValidationClasses(username, username.value !== "", "El nombre de usuario es obligatorio.");
+    setValidationClasses(password, password.value.length >= 3, "La contraseña debe tener al menos 3 caracteres.");
+    setValidationClasses(permisos, permisos.value !== "", "Selecciona un permiso válido.");
+
+    // Validación de URL de la imagen
+    const validImageExtensions = /\.(jpg|jpeg|png|gif|bmp|tiff)$/i; // Extensiones válidas
+    setValidationClasses(imagen, validImageExtensions.test(imagen.value), "Ingresa una URL válida para la imagen.");
+
+    return valid;
+}
+
+
+function validarModificarUsuario() {
+    var nombre = document.querySelector('.validar-nombre-mod');
+    var apellido = document.querySelector('.validar-apellido-mod');
+    var correo = document.querySelector('.validar-correo-mod');
+    var telefono = document.querySelector('.validar-telefono-mod');
+    var imagen = document.querySelector('.validar-imagen-mod');
+    var username = document.querySelector('.validar-username-mod');
+    var password = document.querySelector('.validar-password-mod');
+    var permisos = document.querySelector('.validar-permisos-mod');
+
+    let valid = true;
+
+    // Helper function to apply classes
+    function setValidationClasses(field, isValid, errorMessage) {
+        const container = field.closest('.mb-3');
+        const invalidFeedback = container.querySelector('.invalid-feedback');
+
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            container.classList.add('has-success');
+            container.classList.remove('has-danger');
+            if (invalidFeedback) invalidFeedback.textContent = "";
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            container.classList.add('has-danger');
+            container.classList.remove('has-success');
+            if (invalidFeedback) invalidFeedback.textContent = errorMessage;
+            valid = false;
+        }
+    }
+
+    // Validación de cada campo
+    setValidationClasses(nombre, nombre.value !== "", "El nombre es obligatorio.");
+    setValidationClasses(apellido, apellido.value !== "", "El apellido es obligatorio.");
+    setValidationClasses(correo, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value), "Ingresa un correo electrónico válido.");
+    setValidationClasses(telefono, /^[0-9]+$/.test(telefono.value), "El teléfono debe contener solo números.");
+    setValidationClasses(username, username.value !== "", "El nombre de usuario es obligatorio.");
+    setValidationClasses(password, password.value.length >= 3, "La contraseña debe tener al menos 3 caracteres.");
+    setValidationClasses(permisos, permisos.value !== "", "Selecciona un permiso válido.");
+
+    // Validación de URL de la imagen
+    const validImageExtensions = /\.(jpg|jpeg|png|gif|bmp|tiff)$/i; // Extensiones válidas
+    setValidationClasses(imagen, validImageExtensions.test(imagen.value), "Ingresa una URL válida para la imagen.");
+
+    return valid;
+}
+
+
+
 
 
 function limpiarModal(modalId) {
