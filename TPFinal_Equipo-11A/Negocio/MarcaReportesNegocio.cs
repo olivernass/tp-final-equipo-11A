@@ -147,5 +147,38 @@ namespace Negocio
             }
         }
 
+        public MarcaReportes ObtenerReporteMarcasPorEstado()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            MarcaReportes reporte = new MarcaReportes();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ConteoMarcasPorEstado");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    bool activo = datos.Lector.GetBoolean(0); // Estado activo/inactivo
+                    int total = datos.Lector.GetInt32(1);     // Total de marcas en ese estado
+
+                    if (activo)
+                        reporte.TotalActivos = total;
+                    else
+                        reporte.TotalInactivos = total;
+                }
+
+                return reporte;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al generar el reporte de marcas por estado", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

@@ -60,6 +60,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.Label lblMarcasProductosBajoStock;
 
         /// <summary>
+        /// Control lblMarcasActivasInactivas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMarcasActivasInactivas;
+
+        /// <summary>
         /// Control lblCategoriaNombre.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,69 @@ namespace TPComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCategoriasProductosBajoStock;
+
+        /// <summary>
+        /// Control lblCategoriasActivasInactivas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCategoriasActivasInactivas;
+
+        /// <summary>
+        /// Control lblProveedorConMasProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProveedorConMasProductos;
+
+        /// <summary>
+        /// Control lblProveedorConMasProductosID.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProveedorConMasProductosID;
+
+        /// <summary>
+        /// Control lblReporteProveedores.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblReporteProveedores;
+
+        /// <summary>
+        /// Control lblProveedoresSinProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProveedoresSinProductos;
+
+        /// <summary>
+        /// Control lblProveedoresProductosBajoStock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProveedoresProductosBajoStock;
+
+        /// <summary>
+        /// Control lblProveedoresActivosInactivos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProveedoresActivosInactivos;
 
         /// <summary>
         /// Control lblClientePrimero.

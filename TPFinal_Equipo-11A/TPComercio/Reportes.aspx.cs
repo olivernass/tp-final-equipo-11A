@@ -17,6 +17,7 @@ namespace TPComercio
         {
             if (!IsPostBack)
             {
+                //MARCAS
                 MostrarMarcasConMasProductos();
 
                 MostrarMarcasConProductoMasCostoso();
@@ -25,6 +26,9 @@ namespace TPComercio
 
                 MostrarMarcasConProductosBajoStock();
 
+                MostrarReporteMarcasPorEstado();
+
+                //CATEGORIAS
                 MostrarCategoriasConMasProductos();
 
                 MostrarCategoriasConProductoMasCostoso();
@@ -33,6 +37,20 @@ namespace TPComercio
 
                 MostrarCategoriasConProductosBajoStock();
 
+                MostrarReporteCategoriasPorEstado();
+
+                //PROVEEDORES
+                MostrarProveedoresConMasProductos();
+
+                MostrarProveedoresConProductoMasCostoso();
+
+                MostrarProveedoresSinProductos();
+
+                MostrarProveedoresConProductosBajoStock();
+
+                MostrarReporteProveedoresPorEstado();
+
+                //CLIENTES
                 MostrarPrimerCliente();
 
                 MostrarUltimoCliente();
@@ -43,6 +61,7 @@ namespace TPComercio
             }
         }
 
+        //-------------------------------------------MARCAS------------------------------------
         private void MostrarMarcasConMasProductos()
         {
             MarcaReportesNegocio marcaRepoNegocio = new MarcaReportesNegocio();
@@ -133,8 +152,23 @@ namespace TPComercio
                 lblMarcasProductosBajoStock.Text = "No se encontraron marcas con productos bajo stock.";
             }
         }
+        private void MostrarReporteMarcasPorEstado()
+        {
+            MarcaReportesNegocio marcaNegocio = new MarcaReportesNegocio();
+            MarcaReportes reporte = marcaNegocio.ObtenerReporteMarcasPorEstado();
+
+            if (reporte != null)
+            {
+                lblMarcasActivasInactivas.Text = $"Marcas Activas: {reporte.TotalActivos}<br />Marcas Inactivas: {reporte.TotalInactivos}";
+            }
+            else
+            {
+                lblMarcasActivasInactivas.Text = "No se pudo generar el reporte.";
+            }
+        }
 
 
+        //-------------------------------CATEGORIAS-----------------------------------------------------
         private void MostrarCategoriasConMasProductos()
         {
             CategoriaReportesNegocio categoriaRepoNegocio = new CategoriaReportesNegocio();
@@ -226,7 +260,130 @@ namespace TPComercio
             }
         }
 
+        private void MostrarReporteCategoriasPorEstado()
+        {
+            CategoriaReportesNegocio categoriaNegocio = new CategoriaReportesNegocio();
+            CategoriaReportes reporte = categoriaNegocio.ObtenerReporteCategoriasPorEstado();
 
+            if (reporte != null)
+            {
+                lblCategoriasActivasInactivas.Text = $"Categorías Activas: {reporte.TotalActivos}<br />Categorías Inactivas: {reporte.TotalInactivos}";
+            }
+            else
+            {
+                lblCategoriasActivasInactivas.Text = "No se pudo generar el reporte.";
+            }
+        }
+
+
+        //----------------------------------PROVEEDORES----------------------------------------------------------
+        private void MostrarProveedoresConMasProductos()
+        {
+            ProveedorReportesNegocio proveedorRepoNegocio = new ProveedorReportesNegocio();
+            List<ProveedorReportes> proveedoresConMasProductos = proveedorRepoNegocio.ObtenerProveedoresConMasProductos();
+
+            if (proveedoresConMasProductos != null && proveedoresConMasProductos.Count > 0)
+            {
+                // Construir un texto para mostrar todos los proveedores con la mayor cantidad de productos
+                string proveedoresTexto = "Proveedores con más productos: <br />";
+                foreach (var proveedor in proveedoresConMasProductos)
+                {
+                    proveedoresTexto += $"ID: {proveedor.Id}, Nombre: {proveedor.Nombre}, Cantidad de productos: {proveedor.CantidadProductos}<br />";
+                }
+
+                // Mostrar el texto en una etiqueta o control en la página
+                lblProveedorConMasProductos.Text = proveedoresTexto;
+                lblProveedorConMasProductosID.Text = string.Empty; // Opcional, no necesario en este caso
+            }
+            else
+            {
+                lblProveedorConMasProductos.Text = "No se encontró ningún proveedor con productos.";
+                lblProveedorConMasProductosID.Text = string.Empty;
+            }
+        }
+
+        private void MostrarProveedoresConProductoMasCostoso()
+        {
+            var negocio = new ProveedorReportesNegocio();
+            var proveedoresConProductoMasCostoso = negocio.ObtenerProveedoresConProductoMasCostoso();
+
+            if (proveedoresConProductoMasCostoso != null && proveedoresConProductoMasCostoso.Count > 0)
+            {
+                string texto = "Proveedores con el/los producto(s) más costoso(s):<br />";
+                foreach (var item in proveedoresConProductoMasCostoso)
+                {
+                    texto += $"Proveedor: {item.Nombre} (ID: {item.Id})<br />";
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Precio: {item.PrecioVenta:C}<br />";
+                    texto += $"Cantidad de productos del proveedor: {item.CantidadProductos}<br /><br />";
+                }
+
+                lblReporteProveedores.Text = texto;
+            }
+            else
+            {
+                lblReporteProveedores.Text = "No se encontraron proveedores con productos activos.";
+            }
+        }
+
+        private void MostrarProveedoresSinProductos()
+        {
+            var negocio = new ProveedorReportesNegocio();
+            var proveedoresSinProductos = negocio.ObtenerProveedoresSinProductos();
+
+            if (proveedoresSinProductos != null && proveedoresSinProductos.Count > 0)
+            {
+                string texto = "Proveedores sin productos asociados:<br />";
+                foreach (var item in proveedoresSinProductos)
+                {
+                    texto += $"Proveedor: {item.Nombre} (ID: {item.Id})<br />";
+                }
+
+                lblProveedoresSinProductos.Text = texto;
+            }
+            else
+            {
+                lblProveedoresSinProductos.Text = "No se encontraron proveedores sin productos.";
+            }
+        }
+        private void MostrarProveedoresConProductosBajoStock()
+        {
+            var negocio = new ProveedorReportesNegocio();
+            var proveedoresConBajoStock = negocio.ObtenerProveedoresConProductosBajoStock();
+
+            if (proveedoresConBajoStock != null && proveedoresConBajoStock.Count > 0)
+            {
+                string texto = "Proveedores con productos bajo stock:<br />";
+                foreach (var item in proveedoresConBajoStock)
+                {
+                    texto += $"Proveedor: {item.Nombre} (ID: {item.Id})<br />";
+                    texto += $"Producto: {item.NombreProducto} (ID: {item.ProductoID}) - Stock Actual: {item.StockActual}, Stock Mínimo: {item.StockMinimo}<br /><br />";
+                }
+
+                lblProveedoresProductosBajoStock.Text = texto;
+            }
+            else
+            {
+                lblProveedoresProductosBajoStock.Text = "No se encontraron proveedores con productos bajo stock.";
+            }
+        }
+
+        private void MostrarReporteProveedoresPorEstado()
+        {
+            ProveedorReportesNegocio proveedorNegocio = new ProveedorReportesNegocio();
+            ProveedorReportes reporte = proveedorNegocio.ObtenerReporteProveedoresPorEstado();
+
+            if (reporte != null)
+            {
+                lblProveedoresActivosInactivos.Text = $"Proveedores Activos: {reporte.TotalActivos}<br />Proveedores Inactivos: {reporte.TotalInactivos}";
+            }
+            else
+            {
+                lblProveedoresActivosInactivos.Text = "No se pudo generar el reporte.";
+            }
+        }
+
+
+        //-------------------------------------CLIENTES--------------------------------------------------------
         private void MostrarPrimerCliente()
         {
             ClienteReportesNegocio clienteNegocio = new ClienteReportesNegocio();

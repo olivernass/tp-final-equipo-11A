@@ -14,5 +14,7 @@ namespace Dominio
         public decimal PrecioVenta { get; set; }   // Precio de venta del producto más costoso
         public int StockActual { get; set; }
         public int StockMinimo { get; set; }
+        public int TotalActivos { get; set; }
+        public int TotalInactivos { get; set; }
     }
 }

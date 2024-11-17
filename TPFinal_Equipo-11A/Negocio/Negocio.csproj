@@ -55,6 +55,7 @@
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorNegocio.cs" />
+    <Compile Include="ProveedorReportesNegocio.cs" />
     <Compile Include="Proveedor_X_Articulo_Negocio.cs" />
     <Compile Include="UsuarioNegocio.cs" />
     <Compile Include="VentaNegocio.cs" />

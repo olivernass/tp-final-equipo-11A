@@ -149,5 +149,38 @@ namespace Negocio
             }
         }
 
+        public CategoriaReportes ObtenerReporteCategoriasPorEstado()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            CategoriaReportes reporte = new CategoriaReportes();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ConteoCategoriasPorEstado");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    bool activo = datos.Lector.GetBoolean(0); // Estado activo/inactivo
+                    int total = datos.Lector.GetInt32(1);     // Total de categorías en ese estado
+
+                    if (activo)
+                        reporte.TotalActivos = total;
+                    else
+                        reporte.TotalInactivos = total;
+                }
+
+                return reporte;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al generar el reporte de categorías por estado", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

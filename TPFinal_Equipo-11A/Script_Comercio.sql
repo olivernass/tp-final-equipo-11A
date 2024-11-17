@@ -969,6 +969,31 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_ObtenerProveedoresConMasProductos
+AS
+BEGIN
+    -- Obtener la cantidad máxima de productos asociados a un proveedor
+    WITH CTE_CantidadProductos AS (
+        SELECT 
+            P.ID AS IdProveedor,
+            P.Nombre,
+            COUNT(PxP.IDProducto) AS CantidadProductos
+        FROM Proveedores P
+        JOIN Productos_x_Proveedores PxP ON PxP.IDProveedor = P.ID
+        JOIN Productos Prod ON Prod.ID = PxP.IDProducto
+        WHERE P.Activo = 1 AND Prod.Activo = 1
+        GROUP BY P.ID, P.Nombre
+    )
+    SELECT 
+        IdProveedor,
+        Nombre,
+        CantidadProductos
+    FROM CTE_CantidadProductos
+    WHERE CantidadProductos = (SELECT MAX(CantidadProductos) FROM CTE_CantidadProductos);
+END
+GO
+
+
 --PRODUCTO MAS COSTOSO
 CREATE PROCEDURE SP_MarcasConProductoMasCostoso
 AS
@@ -1026,7 +1051,7 @@ GO
 --    WHERE P.Rnk = 1; -- Solo tomamos el producto más costoso por categoría
 --END
 --GO
-use comercio_final
+
 CREATE PROCEDURE SP_CategoriasConProductoMasCostoso
 AS
 BEGIN
@@ -1056,6 +1081,37 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_ProveedoresConProductoMasCostoso
+AS
+BEGIN
+    -- CTE para obtener el producto más costoso por proveedor
+    ;WITH CTE_ProductoMasCostoso AS (
+        SELECT 
+            P.ID AS ProductoID,
+            P.Nombre AS NombreProducto,
+            P.Precio_Venta,
+            PxP.IDProveedor,
+            DENSE_RANK() OVER (PARTITION BY PxP.IDProveedor ORDER BY P.Precio_Venta DESC) AS Rnk
+        FROM Productos P
+        JOIN Productos_x_Proveedores PxP ON PxP.IDProducto = P.ID
+        WHERE P.Activo = 1
+    )
+    SELECT 
+        Pr.ID AS ProveedorID,
+        Pr.Nombre,
+        P.ProductoID,
+        P.NombreProducto,
+        P.Precio_Venta,
+        (SELECT COUNT(*)
+         FROM Productos_x_Proveedores PxP2
+         JOIN Productos P2 ON PxP2.IDProducto = P2.ID
+         WHERE PxP2.IDProveedor = Pr.ID AND P2.Activo = 1) AS CantidadProductos
+    FROM Proveedores Pr
+    JOIN CTE_ProductoMasCostoso P ON Pr.ID = P.IDProveedor
+    WHERE P.Rnk = 1; -- Incluye todos los productos con el precio más alto por proveedor
+END
+GO
+
 --MARCAS Y CATEGORIAS SIN PRODUCTOS ASOCIADOS
 CREATE PROCEDURE SP_MarcasSinProductos
 AS
@@ -1078,6 +1134,18 @@ BEGIN
     FROM Categorias C
     LEFT JOIN Productos P ON P.IdCategoria = C.Id
     WHERE P.Id IS NULL;
+END
+GO
+
+CREATE PROCEDURE SP_ProveedoresSinProductos
+AS
+BEGIN
+    SELECT 
+        P.Id,
+        P.Nombre
+    FROM Proveedores P
+    LEFT JOIN Productos_x_Proveedores PxP ON PxP.IDProveedor = P.Id
+    WHERE PxP.IDProducto IS NULL;
 END
 GO
 
@@ -1116,6 +1184,24 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_ProveedoresConProductosBajoStock
+AS
+BEGIN
+    SELECT 
+        P.ID AS ProveedorID,
+        P.Nombre AS NombreProveedor,
+        PR.ID AS ProductoID,
+        PR.Nombre AS NombreProducto,
+        PR.Stock_Actual,
+        PR.Stock_Minimo
+    FROM Proveedores P
+    JOIN Productos_x_Proveedores PxP ON P.ID = PxP.IDProveedor
+    JOIN Productos PR ON PxP.IDProducto = PR.ID
+    WHERE PR.Stock_Actual < PR.Stock_Minimo
+    ORDER BY P.Nombre, PR.Nombre; -- Ordenado por proveedor y producto
+END
+GO
+
 
 --OBTENER EL PRIMER Y ULTIMO CLIENTE DADOS DE ALTA
 CREATE PROCEDURE SP_PrimerClienteDadoDeAlta
@@ -1140,7 +1226,46 @@ BEGIN
 END
 GO
 
---TOTAL CLIENTES ACTIVOS E INACTIVOS
+--TOTAL ACTIVOS E INACTIVOS
+CREATE PROCEDURE SP_ConteoMarcasPorEstado
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Activo,
+        COUNT(*) AS Total
+    FROM Marcas
+    GROUP BY Activo;
+END
+GO
+
+CREATE PROCEDURE SP_ConteoCategoriasPorEstado
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Activo,
+        COUNT(*) AS Total
+    FROM Categorias
+    GROUP BY Activo;
+END
+GO
+
+CREATE PROCEDURE SP_ConteoProveedoresPorEstado
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Activo,
+        COUNT(*) AS Total
+    FROM Proveedores
+    GROUP BY Activo;
+END
+GO
+
 CREATE PROCEDURE SP_ConteoClientesPorEstado
 AS
 BEGIN
