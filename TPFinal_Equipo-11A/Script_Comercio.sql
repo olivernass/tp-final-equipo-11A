@@ -220,6 +220,13 @@ AS
 SELECT TOP 1 ID FROM Compras ORDER BY Fecha DESC
 GO
 
+-------- NO VA
+--SELECT PXC.IDProducto, PXC.Precio_UnitarioC, PXC.Cantidad, PXC.Subtotal FROM Productos_x_compra AS PXC
+--INNER JOIN Compras AS C ON C.ID = PXC.ID
+--INNER JOIN Productos_x_Proveedores AS PXP ON PXP.IDProducto = PXC.IDProducto
+--INNER JOIN Proveedores AS PROV ON PROV.ID = PXP.IDProveedor
+--WHERE PXC.IDCompra = 2 AND PROV.ID = C.IDProveedor
+
 --CREATE VIEW VW_ListaProductos AS
 --SELECT P.ID, P.Nombre, P.Descripcion, I.ImagenURL, P.Activo
 --FROM Productos AS P
@@ -1202,3 +1209,23 @@ INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria, Stock_Actual, 
 ('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
 GO
 */
+
+CREATE PROCEDURE SP_AgregarProductoCompra(
+	@idcompra bigint,
+	@idproducto bigint,
+	@cantidad int,
+	@preciounitario money,
+	@subtotal money
+)
+AS
+BEGIN
+	INSERT INTO Productos_x_compra(IDCompra,IDProducto,Cantidad,Precio_UnitarioC,Subtotal)
+	VALUES (@idcompra,@idproducto,@cantidad,@preciounitario,@subtotal)
+END
+GO
+
+SELECT * FROM COMPRAS
+SELECT * FROM Productos_x_compra
+SELECT * FROM Proveedores
+SELECT * FROM Productos
+SELECT * FROM Productos_x_Proveedores

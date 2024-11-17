@@ -53,17 +53,6 @@ namespace TPComercio
         protected void btnGenerarCompra_Click(object sender, EventArgs e)
         {
             int proveedorId = Convert.ToInt32(ddlProveedor.SelectedValue);
-            //Compra compra = new Compra();
-            //compra.Proveedor = new Proveedor();
-            //compra.Proveedor.Id = proveedorId;
-            //compra.PrecioTotal = 0;
-            //CompraNegocio neg = new CompraNegocio();
-            //neg.agregarCompra(compra);
-            //long ultimacompra = neg.TraerUltimo();
-            //if(ultimacompra == 0 )
-            //{
-            //    return;
-            //}
             Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
         }
 

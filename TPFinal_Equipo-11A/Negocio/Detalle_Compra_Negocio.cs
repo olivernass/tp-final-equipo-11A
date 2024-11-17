@@ -48,7 +48,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public List<Detalle_Compra> listarProductos(int idproveedor)
         {
             List<Detalle_Compra> lista = new List<Detalle_Compra>();
@@ -66,7 +65,7 @@ namespace Negocio
                     aux.Producto = new Producto();
                     aux.Producto.Id = (long)datos.Lector["ID"];
                     aux.Producto.Nombre = datos.Lector["Nombre"].ToString();
-                    aux.Precio_Compra_Unitario = (decimal)datos.Lector["Precio_Compra"];
+                    aux.Producto.Precio_Compra = (decimal)datos.Lector["Precio_Compra"];
                     aux.Producto.StockActual = (int)datos.Lector["Stock_Actual"];
                     aux.Producto.StockMinimo = (int)datos.Lector["Stock_Minimo"];
 
@@ -80,6 +79,39 @@ namespace Negocio
                 throw ex;
             }
 
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void agregarProductos(List<Detalle_Compra> listaArtOC)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Detalle_Compra_Negocio negocio = new Detalle_Compra_Negocio();
+
+            foreach (var productodeOC in listaArtOC)
+            {
+                negocio.agregarProducto(productodeOC);
+            }
+        }
+        public void agregarProducto(Detalle_Compra productocompra)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_AgregarProductoCompra");
+                datos.setearParametro("@idcompra", productocompra.Compra.Id);
+                datos.setearParametro("@idproducto", productocompra.Producto.Id);
+                datos.setearParametro("@cantidad", productocompra.Cantidad);
+                datos.setearParametro("@preciounitario", productocompra.Producto.Precio_Compra);
+                datos.setearParametro("@subtotal", productocompra.Subtotal);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             finally
             {
                 datos.cerrarConexion();

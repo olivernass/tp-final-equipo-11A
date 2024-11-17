@@ -2,7 +2,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:Repeater ID="rptDetalleCompra" runat="server">
+
+  
+    <asp:Repeater ID="rptDetalleCompra" runat="server" >
         <HeaderTemplate>
             <table class="table">
                 <thead>
@@ -23,11 +25,11 @@
             <tr>
                 <td><%# Eval("Producto.Id") %></td>
                 <td><%# Eval("Producto.Nombre") %></td>
-                <td><%# Eval("Precio_Compra_Unitario", "{0:C}") %></td>
+                <td><%# Eval("Producto.Precio_Compra", "{0:C}") %></td>
                 <td><%# Eval("Producto.StockActual") %></td>
                 <td><%# Eval("Producto.StockMinimo") %></td>
                 <td>
-                    <asp:TextBox ID="txtCantidad" runat="server" />
+                    <asp:TextBox ID="txtCantidad" runat="server" AutoPostBack="false"/>
                 </td>
                 <td><%# Eval("Subtotal", "{0:C}") %></td>
             </tr>
@@ -38,4 +40,7 @@
             </table>
         </FooterTemplate>
     </asp:Repeater>
+        <asp:Button ID="btnActualizar" runat="server" Text="Actualizar cantidades" OnClick="btnActualizar_Click" />
+        <asp:Button ID="btnNuevaOC" runat="server" Text="Nueva OC" OnClick="btnNuevaOC_Click" Visible="false"/>
+
 </asp:Content>
