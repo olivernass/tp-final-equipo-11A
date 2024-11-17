@@ -91,4 +91,16 @@
     <asp:Label runat="server" ID="lblClientePromedioAntiguedad"></asp:Label>
 </div>
 
+                    <div class="containerProductos">
+    <asp:Label runat="server" ID="lblProductosMasCaros"></asp:Label>
+</div>
+
+                            <div class="containerProductos">
+    <asp:Label runat="server" ID="lblProductosConProveedores"></asp:Label>
+</div>
+
+                                <div class="containerProductos">
+    <asp:Label runat="server" ID="lblProductosBajoStock"></asp:Label>
+</div>
+
 </asp:Content>

@@ -995,6 +995,28 @@ GO
 
 
 --PRODUCTO MAS COSTOSO
+CREATE PROCEDURE SP_ProductoMasCaro
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Obtener el precio máximo entre los productos activos
+    DECLARE @PrecioMaximo MONEY;
+    SELECT @PrecioMaximo = MAX(Precio_Venta)
+    FROM Productos
+    WHERE Activo = 1;
+
+    -- Seleccionar todos los productos que tienen el precio máximo
+    SELECT 
+        ID AS ProductoID,
+        Nombre AS NombreProducto,
+        Descripcion,
+        Precio_Venta
+    FROM Productos
+    WHERE Precio_Venta = @PrecioMaximo AND Activo = 1;
+END
+GO
+
 CREATE PROCEDURE SP_MarcasConProductoMasCostoso
 AS
 BEGIN
@@ -1023,34 +1045,6 @@ BEGIN
     WHERE P.Rnk = 1; -- Incluye todos los productos con el precio más alto por marca
 END
 GO
-
---CREATE PROCEDURE SP_CategoriasConProductoMasCostoso
---AS
---BEGIN
---    ;WITH CTE_ProductoMasCostoso AS (
---        SELECT 
---            P.ID AS ProductoID,
---            P.Nombre AS NombreProducto,
---            P.Precio_Venta,
---            P.IDCategoria,
---            ROW_NUMBER() OVER (PARTITION BY P.IDCategoria ORDER BY P.Precio_Venta DESC) AS Rnk
---        FROM Productos P
---        WHERE P.Activo = 1
---    )
---    SELECT 
---        C.ID AS CategoriaID,
---        C.NombreCategoria,
---        P.ProductoID,
---        P.NombreProducto,
---        P.Precio_Venta,
---        (SELECT COUNT(*) 
---         FROM Productos P2 
---         WHERE P2.IDCategoria = C.ID AND P2.Activo = 1) AS CantidadProductos
---    FROM Categorias C
---    JOIN CTE_ProductoMasCostoso P ON C.ID = P.IDCategoria
---    WHERE P.Rnk = 1; -- Solo tomamos el producto más costoso por categoría
---END
---GO
 
 CREATE PROCEDURE SP_CategoriasConProductoMasCostoso
 AS
@@ -1288,6 +1282,78 @@ BEGIN
     SELECT AVG(DATEDIFF(DAY, Fecha_reg, GETDATE())) AS PromedioDias
     FROM Clientes
     WHERE Activo = 1; -- Solo incluir clientes activos, si es requerido
+END
+GO
+
+--PRODUCTO CON EL MAYOR NUMERO DE PROVEEDORES
+CREATE PROCEDURE SP_ProductoConMasProveedoresYDetalles
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- CTE para contar proveedores por producto
+    ;WITH CTE_ConteoProveedores AS (
+        SELECT 
+            PxP.IDProducto,
+            COUNT(PxP.IDProveedor) AS CantidadProveedores
+        FROM Productos_x_Proveedores PxP
+        JOIN Productos P ON PxP.IDProducto = P.ID
+        WHERE P.Activo = 1
+        GROUP BY PxP.IDProducto
+    ),
+    -- CTE para obtener el máximo número de proveedores asociados
+    CTE_ProductosConMaximo AS (
+        SELECT 
+            C.IDProducto,
+            C.CantidadProveedores
+        FROM CTE_ConteoProveedores C
+        WHERE C.CantidadProveedores = (SELECT MAX(CantidadProveedores) FROM CTE_ConteoProveedores)
+    )
+    -- Obtener productos con el máximo número de proveedores y sus detalles
+    SELECT 
+        P.ID AS ProductoID,
+        P.Nombre AS NombreProducto,
+        P.Descripcion,
+        C.CantidadProveedores,
+        Pr.ID AS ProveedorID,
+        Pr.Nombre AS NombreProveedor,
+        Pr.CUIT,
+        Pr.Telefono,
+        Pr.Correo
+    FROM CTE_ProductosConMaximo C
+    JOIN Productos P ON P.ID = C.IDProducto
+    JOIN Productos_x_Proveedores PxP ON P.ID = PxP.IDProducto
+    JOIN Proveedores Pr ON PxP.IDProveedor = Pr.ID
+    ORDER BY P.ID, Pr.Nombre; -- Ordenar por producto y proveedor
+END
+GO
+
+--PRODUCTOS CON BAJO STOCK POR DEBAJO DEL STOCK MINIMO
+CREATE PROCEDURE SP_ProductosConBajoStock
+AS
+BEGIN
+    SELECT 
+        P.ID AS ProductoID,
+        P.Nombre AS NombreProducto,
+        P.Stock_Actual,
+        P.Stock_Minimo,
+        P.Precio_Venta,
+        P.Precio_Compra,
+        M.NombreMarca,
+        C.NombreCategoria,
+        -- Agregar Proveedores asociados al producto
+        STUFF((
+            SELECT ', ' + PR.Nombre
+            FROM Proveedores PR
+            JOIN Productos_x_Proveedores PP ON PR.ID = PP.IDProveedor
+            WHERE PP.IDProducto = P.ID
+            FOR XML PATH('')
+        ), 1, 2, '') AS Proveedores
+    FROM Productos P
+    JOIN Marcas M ON P.IDMarca = M.ID
+    JOIN Categorias C ON P.IDCategoria = C.ID
+    WHERE P.Stock_Actual < P.Stock_Minimo
+    ORDER BY P.Nombre;  -- Opcional, puedes ordenar por nombre o cualquier otro criterio
 END
 GO
 

@@ -58,6 +58,13 @@ namespace TPComercio
                 MostrarReporteClientesPorEstado();
 
                 MostrarPromedioAntiguedadClientes();
+
+                //PRODUCTOS
+                MostrarProductosMasCaros();
+
+                MostrarProductosConMasProveedoresYDetalles();
+
+                MostrarProductosConBajoStock();
             }
         }
 
@@ -451,6 +458,86 @@ namespace TPComercio
             else
             {
                 lblClientePromedioAntiguedad.Text = "No se pudo calcular el promedio de antigüedad.";
+            }
+        }
+
+        //--------------------------------------PRODUCTOS------------------------------
+        private void MostrarProductosMasCaros()
+        {
+            ProductoReportesNegocio productoNegocio = new ProductoReportesNegocio();
+            List<ProductoReportes> productosMasCaros = productoNegocio.ObtenerProductosMasCaros();
+
+            if (productosMasCaros != null && productosMasCaros.Count > 0)
+            {
+                string texto = "Productos más caros:<br />";
+                foreach (var producto in productosMasCaros)
+                {
+                    texto += $"Producto: {producto.Nombre} (ID: {producto.Id})<br />";
+                    texto += $"Descripción: {producto.Descripcion ?? "Sin descripción"}<br />";
+                    texto += $"Precio: {producto.Precio_Venta:C}<br /><br />";
+                }
+
+                lblProductosMasCaros.Text = texto;
+            }
+            else
+            {
+                lblProductosMasCaros.Text = "No se encontraron productos activos.";
+            }
+        }
+        private void MostrarProductosConMasProveedoresYDetalles()
+        {
+            ProductoReportesNegocio productoNegocio = new ProductoReportesNegocio();
+            List<ProductoReportes> productosConProveedores = productoNegocio.ObtenerProductosConMasProveedoresYDetalles();
+
+            if (productosConProveedores != null && productosConProveedores.Count > 0)
+            {
+                string texto = "Productos con mayor cantidad de proveedores asociados:<br />";
+                foreach (var producto in productosConProveedores)
+                {
+                    texto += $"<strong>Producto:</strong> {producto.Nombre} (ID: {producto.Id})<br />";
+                    texto += $"<strong>Descripción:</strong> {producto.Descripcion ?? "Sin descripción"}<br />";
+                    texto += $"<strong>Cantidad de Proveedores:</strong> {producto.CantidadProveedores}<br />";
+                    texto += $"<strong>Proveedores:</strong><br />";
+
+                    foreach (var proveedor in producto.ProveedoresAsociados)
+                    {
+                        texto += $"- {proveedor.Nombre} (ID: {proveedor.Id})<br />";
+                        texto += $"  CUIT: {proveedor.CUIT}, Teléfono: {proveedor.Telefono}, Correo: {proveedor.Correo}<br />";
+                    }
+
+                    texto += "<br />";
+                }
+
+                lblProductosConProveedores.Text = texto;
+            }
+            else
+            {
+                lblProductosConProveedores.Text = "No se encontraron productos con proveedores asociados.";
+            }
+        }
+        private void MostrarProductosConBajoStock()
+        {
+            ProductoReportesNegocio productoNegocio = new ProductoReportesNegocio();
+            List<ProductoReportes> productosBajoStock = productoNegocio.ObtenerProductosConBajoStock();
+
+            if (productosBajoStock != null && productosBajoStock.Count > 0)
+            {
+                string texto = "Productos con bajo stock:<br />";
+                foreach (var item in productosBajoStock)
+                {
+                    texto += $"Producto: {item.Nombre} (ID: {item.Id})<br />";
+                    texto += $"Marca: {item.NombreMarca}<br />";
+                    texto += $"Categoría: {item.NombreCategoria}<br />";
+                    texto += $"Stock Actual: {item.StockActual} - Stock Mínimo: {item.StockMinimo}<br />";
+                    texto += $"Precio Venta: {item.Precio_Venta:C} - Precio Compra: {item.Precio_Compra:C}<br />";
+                    texto += $"Proveedores Asociados: {item.Proveedores2}<br /><br />";
+                }
+
+                lblProductosBajoStock.Text = texto;
+            }
+            else
+            {
+                lblProductosBajoStock.Text = "No se encontraron productos con bajo stock.";
             }
         }
 
