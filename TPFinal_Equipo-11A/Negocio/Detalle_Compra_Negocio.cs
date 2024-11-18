@@ -88,11 +88,16 @@ namespace Negocio
         {
             AccesoDatos datos = new AccesoDatos();
             Detalle_Compra_Negocio negocio = new Detalle_Compra_Negocio();
-
+            decimal total = 0; 
+            long idcompra = 0; 
             foreach (var productodeOC in listaArtOC)
             {
+                
+                total += productodeOC.Subtotal;
+                idcompra = productodeOC.Compra.Id;
                 negocio.agregarProducto(productodeOC);
             }
+            negocio.actualizarMontoTotal(idcompra, total);
         }
         public void agregarProducto(Detalle_Compra productocompra)
         {
@@ -106,6 +111,26 @@ namespace Negocio
                 datos.setearParametro("@cantidad", productocompra.Cantidad);
                 datos.setearParametro("@preciounitario", productocompra.Producto.Precio_Compra);
                 datos.setearParametro("@subtotal", productocompra.Subtotal);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void actualizarMontoTotal(long idcompra, decimal total)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ActualizarMontoEnCompra");
+                datos.setearParametro("@idcompra", idcompra);
+                datos.setearParametro("@total", total);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

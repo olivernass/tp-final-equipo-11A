@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -54,6 +55,7 @@ namespace TPComercio
         {
             int proveedorId = Convert.ToInt32(ddlProveedor.SelectedValue);
             Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
+            
         }
 
         protected void lnkSeleccionar_Command(object sender, CommandEventArgs e)

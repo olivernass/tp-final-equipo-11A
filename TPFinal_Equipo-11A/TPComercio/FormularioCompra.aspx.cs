@@ -21,14 +21,49 @@ namespace TPComercio
             int codigoprov = int.Parse(codigo);
             if (!IsPostBack)
             {
-                Detalle_Compra_Negocio negoc1o = new Detalle_Compra_Negocio();
-                listaDetalle = negoc1o.listarProductos(codigoprov);
+                Detalle_Compra_Negocio negocio = new Detalle_Compra_Negocio();
+                listaDetalle = negocio.listarProductos(codigoprov);
                 rptDetalleCompra.DataSource = listaDetalle;
                 rptDetalleCompra.DataBind();
+                
             }
+            VerificarCantidades();
         }
+
+        private void VerificarCantidades()
+        {
+            bool cantidadesValidas = true;
+
+            foreach (RepeaterItem item in rptDetalleCompra.Items)
+            {
+                TextBox txtCantidad = (TextBox)item.FindControl("txtCantidad");
+
+                if (txtCantidad != null)
+                {
+                    int cantidad = 0;
+                    if (!int.TryParse(txtCantidad.Text, out cantidad) || cantidad < 0)
+                    {
+                        cantidadesValidas = false;
+                        break;
+                    }
+                }
+            }
+            btnActualizar.Enabled = cantidadesValidas;
+        }
+
         protected void btnNuevaOC_Click(object sender, EventArgs e)
         {
+            List<Detalle_Compra> listaDetalleCompra = Session["ListaDetalleCompra"] as List<Detalle_Compra>;
+            Detalle_Compra_Negocio negocioDetail = new Detalle_Compra_Negocio();
+            if (listaDetalleCompra != null)
+            {
+                negocioDetail.agregarProductos(listaDetalleCompra);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "mostrarModal", "mostrarModal();", true);
+            }
+        }
+        protected void btnActualizar_Click(object sender, EventArgs e)
+        {
+            int codigoprov = int.Parse(codigo);
             Compra compra = new Compra
             {
                 Proveedor = new Proveedor { Id = int.Parse(codigo) },
@@ -41,36 +76,6 @@ namespace TPComercio
             {
                 return;
             }
-            List<Detalle_Compra> listaDetallesCompra = new List<Detalle_Compra>();
-            foreach (RepeaterItem item in rptDetalleCompra.Items)
-            {
-                TextBox txtCantidad = (TextBox)item.FindControl("txtCantidad");
-                if (txtCantidad != null && !string.IsNullOrEmpty(txtCantidad.Text))
-                {
-                    int cantidad = 0;
-                    if (int.TryParse(txtCantidad.Text, out cantidad))
-                    {
-                        long productoId = Convert.ToInt64(DataBinder.Eval(item.DataItem, "Producto.Id"));
-                        decimal precioCompra = Convert.ToDecimal(DataBinder.Eval(item.DataItem, "Producto.Precio_Compra"));
-                        decimal subtotal = precioCompra * cantidad;
-                        Detalle_Compra detalleCompra = new Detalle_Compra
-                        {
-                            Compra = new Compra { Id = ultimacompra },
-                            Producto = new Producto { Id = productoId },
-                            Cantidad = cantidad,
-                            Precio_Compra_Unitario = precioCompra,
-                            Subtotal = subtotal
-                        };
-                        listaDetallesCompra.Add(detalleCompra);
-                    }
-                }
-            }
-            Detalle_Compra_Negocio detalleCompraNegocio = new Detalle_Compra_Negocio();
-            detalleCompraNegocio.agregarProductos(listaDetallesCompra);
-            Response.Redirect("Compras.aspx");
-        }
-        protected void btnActualizar_Click(object sender, EventArgs e)
-        {
             foreach (RepeaterItem item in rptDetalleCompra.Items)
             {
                 TextBox txtCantidad = (TextBox)item.FindControl("txtCantidad");
@@ -89,7 +94,6 @@ namespace TPComercio
                         if (int.TryParse(txtCantidad.Text, out cantidad))
                         {
                             decimal subtotal = Math.Round(precioCompra * cantidad, 2);
-                            int codigoprov = int.Parse(codigo);
                             if (listaDetalle == null)
                             {
                                 Detalle_Compra_Negocio detailneg = new Detalle_Compra_Negocio();
@@ -105,6 +109,7 @@ namespace TPComercio
                                 detalleCompra.Compra = new Compra();
                                 detalleCompra.Compra.Proveedor = new Proveedor();
                                 detalleCompra.Compra.Proveedor.Id = codigoprov;
+                                detalleCompra.Compra.Id = ultimacompra;
                             }
                             else
                             {
@@ -114,17 +119,19 @@ namespace TPComercio
                                     Precio_Compra_Unitario = precioCompra,
                                     Cantidad = cantidad,
                                     Subtotal = subtotal,
-                                    Compra = new Compra { Proveedor = new Proveedor { Id = codigoprov } }
+                                    Compra = new Compra { Id = ultimacompra, Proveedor = new Proveedor { Id = codigoprov } }
                                 };
                                 listaDetalle.Add(detalleCompra);
-                            }
+                            }   
                         }     
                     }
                 }
             }
+            Session["ListaDetalleCompra"] = listaDetalle;
             rptDetalleCompra.DataSource = listaDetalle;
             rptDetalleCompra.DataBind();
             btnNuevaOC.Visible = true;
+
         }
     }
 }

@@ -1224,8 +1224,15 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_ActualizarMontoEnCompra(
+	@idcompra bigint,
+	@total money
+)
+as
+begin
+	UPDATE Compras SET Total = @total WHERE ID = @idcompra
+end
+go
+
 SELECT * FROM COMPRAS
 SELECT * FROM Productos_x_compra
-SELECT * FROM Proveedores
-SELECT * FROM Productos
-SELECT * FROM Productos_x_Proveedores
