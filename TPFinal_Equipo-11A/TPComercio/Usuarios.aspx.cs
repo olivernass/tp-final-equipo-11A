@@ -33,7 +33,7 @@ namespace TPComercio
             UsuarioNegocio negocio = new UsuarioNegocio();
             List<Usuario> listaUsuarios = negocio.listarConPermisos();
             Session["listaUsuarios"] = listaUsuarios;
-            //rptUsuarios.DataSource = listaUsuarios;
+            rptUsuarios.DataSource = listaUsuarios;
             rptUsuarios.DataBind();
         }
 
@@ -314,12 +314,62 @@ namespace TPComercio
             }
         }
 
+        //       [System.Web.Services.WebMethod]
+        //       public static string FiltrarUsuarios(string filtro)
+        //       {
+        //           try
+        //           {
+        //               // Crear la instancia de MarcaNegocio
+        //               UsuarioNegocio negocio = new UsuarioNegocio();
+
+        //               List<Usuario> listaFiltrada;
+
+        //               if (string.IsNullOrEmpty(filtro)) // Si el filtro está vacío, devolver toda la lista
+        //               {
+        //                   listaFiltrada = negocio.listarConPermisos();
+        //               }
+        //               else
+        //               {
+        //                   // Filtrar la lista de marcas basándonos en el texto ingresado
+        //                   listaFiltrada = negocio.listarConPermisos()
+        //                       .Where(x => x.NombreUsuario.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre
+        //                       .ToList();
+        //               }
+
+        //               // Generar el HTML para la tabla
+        //               string resultadoHtml = "";
+        //               foreach (var usuario in listaFiltrada)
+        //               {
+        //                   resultadoHtml += $"<tr>" +
+        //                                       $"<th scope='row'>{usuario.Id}</th>" +
+        //                                       $"<td>{usuario.NombreUsuario}</td>" +
+        //                                       $"<td>{(usuario.Activo ? "Sí" : "No")}</td>" +
+        //                                       $"<td>" +
+        //                                           $"<button type='button' class='btn btn-primary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarUsuario' " +
+        //                                           $"onclick='cargarDatosModal({usuario.Id}, \"{usuario.Permiso.Id}\", \"{usuario.NombreUsuario}\", \"{usuario.Contrasenia}\", \"{usuario.Nombre}\", \"{usuario.Apellido}\", \"{usuario.CorreoElectronico}\", \"{usuario.Telefono}\", \"{usuario.Imagen.ID}\", \"{usuario.FechaCreacion:yyyy-MM-dd}\", \"{usuario.Activo}\")'>"
+        //+
+        //                                               $"Modificar" +
+        //                                           $"</button>" +
+        //                                           $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar este usuario?\");' />" +
+        //                                           $"<asp:Button ID='btnActivar' runat='server' CssClass='btn btn-success btn-acciones btn-sm' Text='Activar' OnClientClick='return confirm(\"¿Estás seguro de que deseas activar este usuario?\");' />" +
+        //                                       $"</td>" +
+        //                                    $"</tr>";
+        //               }
+
+        //               return resultadoHtml; // Devolver el HTML generado
+        //           }
+        //           catch (Exception ex)
+        //           {
+        //               return "Error al filtrar los usuarios: " + ex.Message;
+        //           }
+        //       }
+
         [System.Web.Services.WebMethod]
         public static string FiltrarUsuarios(string filtro)
         {
             try
             {
-                // Crear la instancia de MarcaNegocio
+                // Crear la instancia de UsuarioNegocio
                 UsuarioNegocio negocio = new UsuarioNegocio();
 
                 List<Usuario> listaFiltrada;
@@ -330,31 +380,53 @@ namespace TPComercio
                 }
                 else
                 {
-                    // Filtrar la lista de marcas basándonos en el texto ingresado
+                    // Filtrar la lista de usuarios basándonos en el texto ingresado
                     listaFiltrada = negocio.listarConPermisos()
-                        .Where(x => x.NombreUsuario.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre
+                        .Where(x => x.NombreUsuario.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre de usuario
                         .ToList();
                 }
 
-                // Generar el HTML para la tabla
-                string resultadoHtml = "";
+                // Generar el HTML para las tarjetas de usuario
+                string resultadoHtml = "<div class='containerUsuariosCard'><div class='row g-0'>";
+
                 foreach (var usuario in listaFiltrada)
                 {
-                    resultadoHtml += $"<tr>" +
-                                        $"<th scope='row'>{usuario.Id}</th>" +
-                                        $"<td>{usuario.NombreUsuario}</td>" +
-                                        $"<td>{(usuario.Activo ? "Sí" : "No")}</td>" +
-                                        $"<td>" +
-                                            $"<button type='button' class='btn btn-primary btn-acciones btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarUsuario' " +
-                                            $"onclick='cargarDatosModal({usuario.Id}, \"{usuario.Permiso.Id}\", \"{usuario.NombreUsuario}\", \"{usuario.Contrasenia}\", \"{usuario.Nombre}\", \"{usuario.Apellido}\", \"{usuario.CorreoElectronico}\", \"{usuario.Telefono}\", \"{usuario.Imagen.ID}\", \"{usuario.FechaCreacion:yyyy-MM-dd}\", \"{usuario.Activo}\")'>"
- +
-                                                $"Modificar" +
-                                            $"</button>" +
-                                            $"<asp:Button ID='btnEliminar' runat='server' CssClass='btn btn-danger btn-acciones btn-sm' Text='Inactivar' OnClientClick='return confirm(\"¿Estás seguro de que deseas eliminar este usuario?\");' />" +
-                                            $"<asp:Button ID='btnActivar' runat='server' CssClass='btn btn-success btn-acciones btn-sm' Text='Activar' OnClientClick='return confirm(\"¿Estás seguro de que deseas activar este usuario?\");' />" +
-                                        $"</td>" +
-                                     $"</tr>";
+                    resultadoHtml += $"<div class='containerTarjetas'>" +
+                                        $"< div id = 'contenedorUsuarios'>" +
+                                        $"<div class='card user-card'>" +
+                                            $"<!-- Imagen del usuario -->" +
+                                            $"<div class='card-header p-0'>" +
+                                                $"<img src='{usuario.Imagen.ImagenUrl}' class='card-img-top user-img' alt='Imagen Usuario'>" +
+                                            $"</div>" +
+                                            $"<!-- Información del usuario -->" +
+                                            $"<div class='card-body'>" +
+                                                $"<h5 class='card-title mb-1'>{usuario.Nombre} {usuario.Apellido}</h5>" +
+                                                $"<p class='card-subtitle text-muted mb-2'>{usuario.NombreUsuario}</p>" +
+                                                $"<p class='card-text mb-1'>" +
+                                                    $"<i class='bi bi-envelope'></i>{usuario.CorreoElectronico}<br>" +
+                                                    $"<i class='bi bi-telephone'></i>{usuario.Telefono}" +
+                                                $"</p>" +
+                                                $"<!-- Etiquetas (roles o estados) -->" +
+                                                $"<div class='tags'>" +
+                                                    $"<span class='{(usuario.Activo ? "badge bg-success" : "badge bg-danger")}'>" +
+                                                        $"{(usuario.Activo ? "Activo" : "Inactivo")}" +
+                                                    $"</span>" +
+                                                    $"<span class='badge bg-secondary'>{usuario.Permiso.NombrePermiso}</span>" +
+                                                $"</div>" +
+                                            $"</div>" +
+                                            $"<!-- Acciones -->" +
+                                            $"<div class='card-footer d-flex justify-content-between'>" +
+                                                $"<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarUsuario'" +
+                                                $"onclick='cargarDatosModal({usuario.Id}, \"{usuario.Permiso.Id}\", \"{usuario.NombreUsuario}\", \"{usuario.Contrasenia}\", \"{usuario.Nombre}\", \"{usuario.Apellido}\", \"{usuario.CorreoElectronico}\", \"{usuario.Telefono}\", \"{usuario.Imagen.ImagenUrl}\", \"{usuario.Activo}\")'>" +
+                                                    $"Modificar" +
+                                                $"</button>" +
+                                            $"</div>" +
+                                        $"</div>" +
+                                        $"</div>" +
+                                    $"</div>";
                 }
+
+                resultadoHtml += "</div></div>"; // Cerrar contenedores de la tarjeta y fila
 
                 return resultadoHtml; // Devolver el HTML generado
             }
@@ -363,6 +435,7 @@ namespace TPComercio
                 return "Error al filtrar los usuarios: " + ex.Message;
             }
         }
+
 
         private void cargarPermisos(DropDownList ddl)
         {

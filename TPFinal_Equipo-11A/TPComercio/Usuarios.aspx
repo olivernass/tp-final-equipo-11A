@@ -45,6 +45,7 @@
 </div>
 
     <div class="containerUsuariosCard">
+        <div id="contenedorUsuarios">
         <div class="row g-0">
             <asp:Repeater ID="rptUsuarios" runat="server" OnItemCommand="rptUsuarios_ItemCommand">
                 <ItemTemplate>
@@ -74,7 +75,7 @@
                             <!-- Acciones -->
                             <div class="card-footer d-flex justify-content-between">
                                 <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarUsuario"
-                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreUsuario") %>', '<%# Eval("Contrasenia") %>', '<%# Eval("Permiso.Id") %>', '<%# Eval("Activo") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("CorreoElectronico") %>', '<%# Eval("Telefono") %>', '<%# Eval("Imagen.ImagenUrl") %>')">
+                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreUsuario") %>', '<%# Eval("Contrasenia") %>', '<%# Eval("Permiso.Id") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("CorreoElectronico") %>', '<%# Eval("Telefono") %>', '<%# Eval("Imagen.ImagenUrl") %>', '<%# Eval("Activo") %>')">
                                     Modificar
                                 </button>
                                 
@@ -84,6 +85,7 @@
                 </ItemTemplate>
             </asp:Repeater>
         </div>
+            </div>
     </div>
 
     <!-- Modal Agregar Usuario -->
@@ -317,7 +319,7 @@
         }
     </script>
 
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         $(document).ready(function () {
             $('#<%= txtFiltroUsuarios.ClientID %>').on('keyup', function () {
             var filtro = $(this).val(); // Obtener el texto que el usuario escribió en el campo de búsqueda
@@ -338,6 +340,30 @@
             });
         });
     });
+    </script>--%>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#<%= txtFiltroUsuarios.ClientID %>').on('keyup', function () {
+            var filtro = $(this).val(); // Obtener el texto que el usuario escribió en el campo de búsqueda
+
+            $.ajax({
+                type: "POST",
+                url: "Usuarios.aspx/FiltrarUsuarios", // Asegúrate de poner la URL correcta
+                data: JSON.stringify({ filtro: filtro }), // Enviar el filtro al servidor
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // Actualizar el contenedor de tarjetas con los resultados filtrados
+                    $('#contenedorUsuarios').html(response.d); // Actualiza el contenedor donde se muestran las tarjetas
+                },
+                error: function (error) {
+                    console.log("Error al filtrar los usuarios:", error);
+                }
+            });
+        });
+    });
     </script>
+
 
 </asp:Content>

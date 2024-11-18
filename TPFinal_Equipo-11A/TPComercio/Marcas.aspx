@@ -46,7 +46,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <table class="table tableCategorias table-hover mt-3">
+                <table class="table tableMarcas table-hover mt-3">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

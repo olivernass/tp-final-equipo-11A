@@ -287,7 +287,7 @@ namespace Negocio
 
             try
             {
-                string consulta = "select ID, IDPermiso, NombreUsuario, Contrasenia, Nombre, Apellido, CorreoElectronico, Telefono, IDImagen, FechaCreacion, Activo FROM Usuarios WHERE 1=1";
+                string consulta = "select ID, NombreUsuario, Contrasenia, Nombre, Apellido, CorreoElectronico, Telefono, FechaCreacion, Activo FROM Usuarios";
 
                 if (estado == "Activo")
                     consulta += " WHERE Activo = 1 ";
@@ -303,14 +303,14 @@ namespace Negocio
                 {
                     Usuario aux = new Usuario();
                     aux.Id = (int)datos.Lector["Id"];
-                    aux.Permiso.Id = (int)datos.Lector["IdPermiso"];
+                    //aux.Permiso.Id = (int)datos.Lector["IdPermiso"];
                     aux.NombreUsuario = (string)datos.Lector["NombreUsuario"];
                     aux.Contrasenia = (string)datos.Lector["Contrasenia"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.CorreoElectronico = (string)datos.Lector["CorreoElectronico"];
                     aux.Telefono = (string)datos.Lector["Telefono"];
-                    aux.Imagen.ID = (int)datos.Lector["IDImagen"];
+                    //aux.Imagen.ID = (int)datos.Lector["IDImagen"];
                     aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
                     aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
 
