@@ -60,7 +60,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public List<Compra> listarCompras(int idproveedor)
         {
             List<Compra> lista = new List<Compra>();
@@ -68,7 +67,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT * FROM Compras WHERE IDProveedor = " + idproveedor);
+                datos.setearConsulta("SELECT * FROM Compras WHERE IDProveedor = " + idproveedor + " AND FechaCreacion >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0) AND FechaCreacion < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) +1, 0);");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -78,8 +77,10 @@ namespace Negocio
                     aux.Id = (long)datos.Lector["ID"];
                     aux.Recibo = (long)datos.Lector["Nro_Recibo"];
                     aux.Proveedor.Id = (int)datos.Lector["IDProveedor"];
-                    aux.FechaCompra = (DateTime)datos.Lector["Fecha"];
+                    aux.FechaCompra = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.FechaEntrega = (DateTime)datos.Lector["FechaEntrega"];
                     aux.PrecioTotal = (decimal)datos.Lector["Total"];
+                    aux.Estado = (bool)datos.Lector["Estado"];
 
                     lista.Add(aux);
                 }
@@ -91,6 +92,24 @@ namespace Negocio
                 throw ex;
             }
 
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void confirmarCompra(long idcompra)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_ConfirmarCompra");
+                datos.setearParametro("@idcompra", idcompra);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             finally
             {
                 datos.cerrarConexion();

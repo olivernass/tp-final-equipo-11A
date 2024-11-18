@@ -60,13 +60,20 @@ namespace TPComercio
 
         protected void lnkSeleccionar_Command(object sender, CommandEventArgs e)
         {
-            if (e.CommandName == "Ver detalle")
+            long compraId = Convert.ToInt64(e.CommandArgument);
+            int proveedorId = Convert.ToInt32(ddlProveedor.SelectedValue);
+            LinkButton lnkButton = (LinkButton)sender;
+            RepeaterItem item = (RepeaterItem)lnkButton.NamingContainer;
+            HiddenField hfEstado = (HiddenField)item.FindControl("hfEstado");
+            string estado = hfEstado.Value;
+            if (estado == "False")
             {
-                // Obtener el ID de la fila seleccionada desde el CommandArgument
-                string id = e.CommandArgument.ToString();
-
-                // Redirigir a la página de detalles pasando el ID como parámetro en la URL
-                Response.Redirect("FormularioCompra.aspx?id=" + id);
+                Session["idCompra"] = compraId;
+                Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
+            }
+            else 
+            {
+                Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
             }
         }
     }

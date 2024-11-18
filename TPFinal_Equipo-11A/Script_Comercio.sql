@@ -120,7 +120,7 @@ CREATE TABLE Ventas(
     ID BIGINT NOT NULL IDENTITY(1,1),
     IDCliente BIGINT NOT NULL,
     Total MONEY NOT NULL,
-    Fecha DATETIME DEFAULT GETDATE(),
+    FechaCreacion DATETIME DEFAULT GETDATE(),
     Nro_Factura BIGINT NOT NULL DEFAULT NEXT VALUE FOR NroFacturaSeq,
     PRIMARY KEY(ID),
     FOREIGN KEY (IDCliente) REFERENCES Clientes(ID)
@@ -149,8 +149,10 @@ CREATE TABLE Compras(
     ID BIGINT NOT NULL IDENTITY(1,1),
     Nro_Recibo BIGINT NOT NULL DEFAULT NEXT VALUE FOR NroReciboSeq,
     IDProveedor INT NOT NULL,
-    Fecha DATETIME DEFAULT GETDATE(),
+    FechaCreacion DATETIME DEFAULT GETDATE(),
+	FechaEntrega DATETIME NULL,
     Total MONEY NOT NULL,
+	Estado bit default 0,
     PRIMARY KEY(ID),
     FOREIGN KEY (IDProveedor) REFERENCES Proveedores(ID)
 );
@@ -217,7 +219,7 @@ GO
 
 CREATE VIEW VW_TraerUltimo
 AS
-SELECT TOP 1 ID FROM Compras ORDER BY Fecha DESC
+SELECT TOP 1 ID FROM Compras ORDER BY FechaCreacion DESC
 GO
 
 -------- NO VA
@@ -538,7 +540,7 @@ BEGIN
     BEGIN TRY
         -- Insertar la compra
         DECLARE @IDCompra BIGINT;
-        INSERT INTO Compras (IDProveedor, Fecha, Total)
+        INSERT INTO Compras (IDProveedor, FechaCreacion, Total)
         VALUES (@IDProveedor, GETDATE(), @Total);
 
         SET @IDCompra = SCOPE_IDENTITY();
@@ -571,7 +573,7 @@ CREATE PROCEDURE SP_Alta_Compra(
 )
 AS
 BEGIN
-	INSERT INTO Compras(IDProveedor,Fecha,Total) VALUES (@idproveedor,GETDATE(),@total)
+	INSERT INTO Compras(IDProveedor,FechaCreacion,FechaEntrega,Total) VALUES (@idproveedor,GETDATE(),DATEADD(DAY, 5, GETDATE()),@total)
 END
 GO
 
@@ -1161,6 +1163,18 @@ INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock
 ('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
 GO
 
+-- Insertar relaciones en Productos_x_Proveedores
+INSERT INTO Productos_x_Proveedores (IDProducto, IDProveedor)
+VALUES
+(11, 1),
+(21, 2),
+(31, 3),
+(41, 4),
+(11, 2),
+(21, 3),
+(31, 4)
+GO
+
 /* INSERTS */
 /*VIEJOS INSERTS
 
@@ -1234,7 +1248,7 @@ begin
 end
 go
 
-CREATE PROCEDURE SP_ActualizarStock(
+CREATE OR ALTER PROCEDURE SP_ActualizarStock(
 	@idproducto bigint,
 	@stock int
 )
@@ -1243,6 +1257,31 @@ begin
 	UPDATE Productos SET Stock_Actual = @stock WHERE ID = @idproducto
 end
 go
+
+CREATE PROCEDURE SP_ConfirmarCompra(
+	@idcompra BIGINT
+)
+AS 
+BEGIN
+	UPDATE Compras SET FechaEntrega = GETDATE(), Estado = 1 WHERE ID = @idcompra
+END
+GO
+
+
+
 SELECT * FROM COMPRAS
 SELECT * FROM Productos_x_compra
 SELECT * FROM Productos
+GO
+
+--SELECT * 
+--FROM Compras 
+--WHERE IDProveedor = 1
+--  AND FechaCreacion >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
+--  AND FechaCreacion < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0);
+
+--SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP 
+--INNER JOIN Productos as P ON P.ID = PXP.IDProducto
+--WHERE IDCompra = 1
+
+

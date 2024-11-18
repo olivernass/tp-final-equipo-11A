@@ -21,11 +21,27 @@ namespace TPComercio
             int codigoprov = int.Parse(codigo);
             if (!IsPostBack)
             {
-                Detalle_Compra_Negocio negocio = new Detalle_Compra_Negocio();
-                listaDetalle = negocio.listarProductos(codigoprov);
-                rptDetalleCompra.DataSource = listaDetalle;
-                rptDetalleCompra.DataBind();
-                
+                if (Session["idCompra"] != null)
+                {
+                    long compraId = Convert.ToInt64(Session["idCompra"]);
+                    Detalle_Compra_Negocio negoc1o = new Detalle_Compra_Negocio();
+                    listaDetalle = negoc1o.listar(compraId);
+                    rptDetalleCompra.DataSource = listaDetalle;
+                    rptDetalleCompra.DataBind();
+                    Session["ListaDetalleCompra"] = listaDetalle;
+                    btnActualizar.Visible = false;
+                    btnNuevaOC.Visible = false;
+                    btnConfirmarDescarga.Visible = true;
+                }
+                else
+                {
+                    Detalle_Compra_Negocio negocio = new Detalle_Compra_Negocio();
+                    listaDetalle = negocio.listarProductos(codigoprov);
+                    rptDetalleCompra.DataSource = listaDetalle;
+                    rptDetalleCompra.DataBind();
+                    btnNuevaOC.Visible = false;
+                    btnConfirmarDescarga.Visible = false;
+                }
             }
             VerificarCantidades();
         }
@@ -60,6 +76,7 @@ namespace TPComercio
                 negocioDetail.agregarProductos(listaDetalleCompra);
             }
             Response.Redirect("Compras.aspx");
+            Session.Remove("ListaDetalleCompra");
         }
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
@@ -134,6 +151,38 @@ namespace TPComercio
             btnNuevaOC.Visible = true;
             btnActualizar.Visible = false;
 
+        }
+
+        protected void rptDetalleCompra_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                TextBox txtCantidad = (TextBox)e.Item.FindControl("txtCantidad");
+                if (Session["idCompra"] != null)
+                {
+                    txtCantidad.Enabled = false;
+                    
+                }
+            }
+        }
+
+        protected void btnConfirmarDescarga_Click(object sender, EventArgs e)
+        {
+            List<Detalle_Compra> listaDetalleCompra = Session["ListaDetalleCompra"] as List<Detalle_Compra>;
+            Detalle_Compra_Negocio negocioDetail = new Detalle_Compra_Negocio();
+            CompraNegocio compraNegocio = new CompraNegocio();
+            long codigoCompra = 0;
+            if (listaDetalleCompra != null)
+            {
+                foreach (Detalle_Compra detalle in listaDetalleCompra)
+                {
+                    negocioDetail.actualizarStock(detalle);
+                    codigoCompra = detalle.Compra.Id;
+                }
+            }
+            compraNegocio.confirmarCompra(codigoCompra);
+            Response.Redirect("Compras.aspx");
+            Session.Remove("ListaDetalleCompra");
         }
     }
 }

@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
   <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <asp:Repeater ID="rptDetalleCompra" runat="server" >
+    <asp:Repeater ID="rptDetalleCompra" runat="server" OnItemDataBound="rptDetalleCompra_ItemDataBound" >
         <HeaderTemplate>
             <table class="table">
                 <thead>
@@ -40,6 +40,7 @@
         </FooterTemplate>
     </asp:Repeater>
         <asp:Button ID="btnActualizar" runat="server" Text="Actualizar cantidades" OnClick="btnActualizar_Click" />
-        <asp:Button ID="btnNuevaOC" runat="server" Text="Nueva OC" OnClick="btnNuevaOC_Click" Visible="false"/>
+        <asp:Button ID="btnNuevaOC" runat="server" Text="Nueva OC" OnClick="btnNuevaOC_Click" />
+        <asp:Button ID="btnConfirmarDescarga" runat="server" Text="Confirmar descarga" OnClick="btnConfirmarDescarga_Click" />
 
 </asp:Content>

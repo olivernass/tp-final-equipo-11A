@@ -14,8 +14,10 @@
                         <thead>
                             <tr>
                                 <th>Recibo</th>
-                                <th>Fecha</th>
+                                <th>Fecha creacion</th>
+                                <th>Fecha estimada de entrega</th>
                                 <th>Total</th>
+                                <th>Estado</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
@@ -26,7 +28,10 @@
                     <tr>
                         <td><%# Eval("Recibo") %></td>
                         <td><%# Eval("FechaCompra", "{0:dd/MM/yyyy}") %></td>
+                        <td><%# Eval("FechaEntrega", "{0:dd/MM/yyyy}") %></td>
                         <td><%# Eval("PrecioTotal", "{0:C}") %></td>
+                        <td><%# (bool)Eval("Estado") ? "Recibida" : "Pendiente" %></td>
+                        <asp:HiddenField ID="hfEstado" runat="server" Value='<%# Eval("Estado") %>' />
                         <td><asp:LinkButton ID="lnkSeleccionar" runat="server" Text="Ver detalle" CommandArgument='<%# Eval("Id") %>' OnCommand="lnkSeleccionar_Command"></asp:LinkButton></td>
                     </tr>
                 </ItemTemplate>
