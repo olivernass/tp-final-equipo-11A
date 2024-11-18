@@ -190,5 +190,7 @@ namespace TPComercio
             ddl.DataValueField = "Id";
             ddl.DataBind();
         }
+
+
     }
 }

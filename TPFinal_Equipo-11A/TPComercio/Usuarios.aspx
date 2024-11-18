@@ -5,10 +5,16 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="containerUsuarios">
+    <div class="containerClientes">
         <h2 class="h2listado">Listado de Usuarios</h2>
+        <!-- Botón Agregar Usuario -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
+            Agregar Usuario      
+        </button>
+    </div>
 
-        <!-- Sección de Filtro -->
+    <!-- Sección de Filtro -->
+    <div class="containerFiltroAv">
         <div class="row">
             <!-- Inserta el código del filtro aquí -->
             <div class="col-6">
@@ -70,65 +76,51 @@
             </div>
             <% } %>
         </div>
-
-
-        <!-- Botón Agregar Usuario -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
-            Agregar Usuario      
-        </button>
     </div>
 
-    <!-- Tabla de Usuarios -->
-    <table class="table tableUsuarios table-hover mt-3">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre Usuario</th>
-                <th scope="col">Contraseña</th>
-                <th scope="col">Tipo de permisos</th>
-                <th scope="col">Activo</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Correo Electrónico</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col">Imagen</th>
-                <th scope="col" class="acciones">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="containerUsuariosCard">
+        <div class="row g-0">
             <asp:Repeater ID="rptUsuarios" runat="server" OnItemCommand="rptUsuarios_ItemCommand">
                 <ItemTemplate>
-                    <tr>
-                        <th scope="row"><%# Eval("Id") %></th>
-                        <td><%# Eval("NombreUsuario") %></td>
-                        <td><%# Eval("Contrasenia") %></td>
-                        <td><%# Eval("Permiso.NombrePermiso") %></td>
-                        <td><%# Eval("Activo") %></td>
-                        <td><%# Eval("Nombre") %></td>
-                        <td><%# Eval("Apellido") %></td>
-                        <td><%# Eval("CorreoElectronico") %></td>
-                        <td><%# Eval("Telefono") %></td>
-                        <td>
-                            <img src='<%# Eval("Imagen.ImagenUrl") %>' alt="Imagen Usuario" style="width: 50px; height: auto;" />
-                        </td>
-                        <td>
-                            <!-- Botón Modificar -->
-                            <button type="button" class="btn btn-info btn-acciones btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarUsuario"
-                                onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreUsuario") %>', '<%# Eval("Contrasenia") %>', '<%# Eval("Permiso.Id") %>', '<%# Eval("Activo") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("CorreoElectronico") %>', '<%# Eval("Telefono") %>', '<%# Eval("Imagen.ImagenUrl") %>')">
-                                Modificar                           
-                            </button>
+                    <div class="containerTarjetas">
+                        <div class="card user-card">
+                            <!-- Imagen del usuario -->
+                            <div class="card-header p-0">
+                                <img src='<%# Eval("Imagen.ImagenUrl") %>' class="card-img-top user-img" alt="Imagen Usuario">
+                            </div>
+                            <!-- Información del usuario -->
+                            <div class="card-body">
+                                <h5 class="card-title mb-1"><%# Eval("Nombre") %> <%# Eval("Apellido") %></h5>
+                                <p class="card-subtitle text-muted mb-2"><%# Eval("NombreUsuario") %></p>
+                                <p class="card-text mb-1">
+                                    <i class="bi bi-envelope"></i><%# Eval("CorreoElectronico") %><br>
+                                    <i class="bi bi-telephone"></i><%# Eval("Telefono") %>
+                                </p>
+                                <!-- Etiquetas (roles o estados) -->
+                                <div class="tags">
+                                    <span class='<%# Convert.ToBoolean(Eval("Activo")) ? "badge bg-success" : "badge bg-danger" %>'>
+                                        <%# Convert.ToBoolean(Eval("Activo")) ? "Activo" : "Inactivo" %>
+                                    </span>
+                                    <span class="badge bg-secondary"><%# Eval("Permiso.NombrePermiso") %></span>
+                                </div>
 
-                            <!-- Botón Eliminar -->
-                            <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Eliminar"
-                                OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');"
-                                CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
-                        </td>
-                    </tr>
+                            </div>
+                            <!-- Acciones -->
+                            <div class="card-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalModificarUsuario"
+                                    onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreUsuario") %>', '<%# Eval("Contrasenia") %>', '<%# Eval("Permiso.Id") %>', '<%# Eval("Activo") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("CorreoElectronico") %>', '<%# Eval("Telefono") %>', '<%# Eval("Imagen.ImagenUrl") %>')">
+                                    Modificar
+                                </button>
+                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-sm" Text="Eliminar"
+                                    OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');"
+                                    CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
+                            </div>
+                        </div>
+                    </div>
                 </ItemTemplate>
             </asp:Repeater>
-        </tbody>
-    </table>
-
+        </div>
+    </div>
 
     <!-- Modal Agregar Usuario -->
     <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
@@ -139,25 +131,62 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
-                    <asp:TextBox ID="txtApellido" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>
-                    <asp:TextBox ID="txtCorreoElectronico" runat="server" CssClass="form-control mb-2" placeholder="Correo Electrónico"></asp:TextBox>
-                    <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control validar-nombre" placeholder="Nombre"></asp:TextBox>
+                        <div class="invalid-feedback">El nombre es obligatorio.</div>
+                        <div class="valid-feedback">Nombre válido.</div>
+                    </div>
 
-                    <!-- TextBox para ingresar la URL de la imagen -->
-                    <asp:TextBox ID="txtImagenURL" runat="server" CssClass="form-control mb-2" placeholder="URL de la Imagen"></asp:TextBox>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtApellido" runat="server" CssClass="form-control validar-apellido" placeholder="Apellido"></asp:TextBox>
+                        <div class="invalid-feedback">El apellido es obligatorio.</div>
+                        <div class="valid-feedback">Apellido válido.</div>
+                    </div>
 
-                    <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control mb-2" placeholder="Nombre de Usuario"></asp:TextBox>
-                    <asp:TextBox ID="txtContraseniaUsuario" runat="server" CssClass="form-control mb-2" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
-                    <asp:DropDownList ID="ddlPermisoUsuario" runat="server" CssClass="form-control mb-2"></asp:DropDownList>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtCorreoElectronico" runat="server" CssClass="form-control validar-correo" placeholder="Correo Electrónico"></asp:TextBox>
+                        <div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
+                        <div class="valid-feedback">Correo válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control validar-telefono" placeholder="Teléfono"></asp:TextBox>
+                        <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
+                        <div class="valid-feedback">Teléfono válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtImagenURL" runat="server" CssClass="form-control validar-imagen" placeholder="URL de la Imagen"></asp:TextBox>
+                        <div class="invalid-feedback">Ingresa una URL válida para la imagen.</div>
+                        <div class="valid-feedback">URL válida.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control validar-username" placeholder="Nombre de Usuario"></asp:TextBox>
+                        <div class="invalid-feedback">El nombre de usuario es obligatorio.</div>
+                        <div class="valid-feedback">Nombre de usuario válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtContraseniaUsuario" runat="server" CssClass="form-control validar-password" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
+                        <div class="invalid-feedback">La contraseña es obligatoria y debe tener al menos 8 caracteres.</div>
+                        <div class="valid-feedback">Contraseña válida.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <asp:DropDownList ID="ddlPermisoUsuario" runat="server" CssClass="form-control validar-permisos"></asp:DropDownList>
+                        <div class="invalid-feedback">Selecciona un permiso válido.</div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalAgregarUsuario');">Cerrar</button>
-                    <asp:Button ID="btnGuardarUsuario" runat="server" CssClass="btn btn-primary" Text="Guardar Usuario" OnClick="btnGuardarUsuario_Click" />
+                    <asp:Button ID="btnGuardarUsuario" runat="server" CssClass="btn btn-primary" Text="Guardar Usuario" OnClientClick="return validarAgregarUsuario();" OnClick="btnGuardarUsuario_Click" />
                 </div>
             </div>
         </div>
     </div>
+
+
 
 
     <!-- Modal Modificar Usuario -->
@@ -171,26 +200,63 @@
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdUsuario" runat="server" />
 
-                    <asp:TextBox ID="txtNombreUsuarioMod" runat="server" CssClass="form-control mb-2" placeholder="Nombre de Usuario"></asp:TextBox>
-                    <asp:TextBox ID="txtContraseniaUsuarioMod" runat="server" CssClass="form-control mb-2" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtNombreUsuarioMod" runat="server" CssClass="form-control validar-username-mod" placeholder="Nombre de Usuario"></asp:TextBox>
+                        <div class="invalid-feedback">El nombre de usuario es obligatorio.</div>
+                        <div class="valid-feedback">Nombre de usuario válido.</div>
+                    </div>
 
-                    <asp:TextBox ID="txtNombreMod" runat="server" CssClass="form-control mb-2" placeholder="Nombre"></asp:TextBox>
-                    <asp:TextBox ID="txtApellidoMod" runat="server" CssClass="form-control mb-2" placeholder="Apellido"></asp:TextBox>
-                    <asp:TextBox ID="txtCorreoElectronicoMod" runat="server" CssClass="form-control mb-2" placeholder="Correo Electrónico"></asp:TextBox>
-                    <asp:TextBox ID="txtTelefonoMod" runat="server" CssClass="form-control mb-2" placeholder="Teléfono"></asp:TextBox>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtContraseniaUsuarioMod" runat="server" CssClass="form-control validar-password-mod" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
+                        <div class="invalid-feedback">La contraseña es obligatoria y debe tener al menos 8 caracteres.</div>
+                        <div class="valid-feedback">Contraseña válida.</div>
+                    </div>
 
-                    <!-- TextBox para ingresar la URL de la imagen -->
-                    <asp:TextBox ID="txtImagenURLMod" runat="server" CssClass="form-control mb-2" placeholder="URL de la Imagen"></asp:TextBox>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtNombreMod" runat="server" CssClass="form-control validar-nombre-mod" placeholder="Nombre"></asp:TextBox>
+                        <div class="invalid-feedback">El nombre es obligatorio.</div>
+                        <div class="valid-feedback">Nombre válido.</div>
+                    </div>
 
-                    <asp:DropDownList ID="ddlPermisoUsuarioMod" runat="server" CssClass="form-control mb-2"></asp:DropDownList>
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtApellidoMod" runat="server" CssClass="form-control validar-apellido-mod" placeholder="Apellido"></asp:TextBox>
+                        <div class="invalid-feedback">El apellido es obligatorio.</div>
+                        <div class="valid-feedback">Apellido válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtCorreoElectronicoMod" runat="server" CssClass="form-control validar-correo-mod" placeholder="Correo Electrónico"></asp:TextBox>
+                        <div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
+                        <div class="valid-feedback">Correo válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtTelefonoMod" runat="server" CssClass="form-control validar-telefono-mod" placeholder="Teléfono"></asp:TextBox>
+                        <div class="invalid-feedback">El teléfono es obligatorio y solo debe contener números.</div>
+                        <div class="valid-feedback">Teléfono válido.</div>
+                    </div>
+
+                    <div class="mb-3 has-danger has-success">
+                        <asp:TextBox ID="txtImagenURLMod" runat="server" CssClass="form-control validar-imagen-mod" placeholder="URL de la Imagen"></asp:TextBox>
+                        <div class="invalid-feedback">Ingresa una URL válida para la imagen.</div>
+                        <div class="valid-feedback">URL válida.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <asp:DropDownList ID="ddlPermisoUsuarioMod" runat="server" CssClass="form-control validar-permisos-mod"></asp:DropDownList>
+                        <div class="invalid-feedback">Selecciona un permiso válido.</div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarUsuario');">Cerrar</button>
-                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios" OnClick="btnGuardarCambios_Click" />
+                    <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar Cambios"
+                        OnClientClick="return validarModificarUsuario();" OnClick="btnGuardarCambios_Click" />
                 </div>
             </div>
         </div>
     </div>
+
+
 
 
 
@@ -210,5 +276,5 @@
             document.getElementById('<%= txtTelefonoMod.ClientID %>').value = telefono;
             document.getElementById('<%= txtImagenURLMod.ClientID %>').value = imagenURL;
         }
-</script>
+    </script>
 </asp:Content>
