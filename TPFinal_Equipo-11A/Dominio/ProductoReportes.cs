@@ -13,5 +13,6 @@ namespace Dominio
         public string NombreMarca { get; set; }
         public string NombreCategoria { get; set; }
         public string Proveedores2 { get; set; } // Lista de proveedores, separados por comas
+        public Proveedor ProveedorExclusivo { get; set; } // Proveedor único del producto
     }
 }
