@@ -58,8 +58,8 @@ namespace TPComercio
             if (listaDetalleCompra != null)
             {
                 negocioDetail.agregarProductos(listaDetalleCompra);
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "mostrarModal", "mostrarModal();", true);
             }
+            Response.Redirect("Compras.aspx");
         }
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
@@ -103,6 +103,7 @@ namespace TPComercio
                             Detalle_Compra detalleCompra = listaDetalle.FirstOrDefault(d => d.Producto.Id == productoId);
                             if (detalleCompra != null)
                             {
+                                detalleCompra.Producto.Id = productoId;
                                 detalleCompra.Cantidad = cantidad;
                                 detalleCompra.Subtotal = subtotal;
                                 detalleCompra.Precio_Compra_Unitario = precioCompra;
@@ -131,6 +132,7 @@ namespace TPComercio
             rptDetalleCompra.DataSource = listaDetalle;
             rptDetalleCompra.DataBind();
             btnNuevaOC.Visible = true;
+            btnActualizar.Visible = false;
 
         }
     }

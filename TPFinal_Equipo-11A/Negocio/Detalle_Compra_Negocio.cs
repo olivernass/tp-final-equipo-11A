@@ -91,13 +91,34 @@ namespace Negocio
             decimal total = 0; 
             long idcompra = 0; 
             foreach (var productodeOC in listaArtOC)
-            {
-                
+            { 
                 total += productodeOC.Subtotal;
                 idcompra = productodeOC.Compra.Id;
                 negocio.agregarProducto(productodeOC);
+                productodeOC.Producto.StockActual += productodeOC.Cantidad;
+                negocio.actualizarStock(productodeOC);
             }
             negocio.actualizarMontoTotal(idcompra, total);
+        }
+
+        public void actualizarStock(Detalle_Compra producto)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_ActualizarStock");
+                datos.setearParametro("@idproducto", producto.Producto.Id);
+                datos.setearParametro("@stock", producto.Producto.StockActual);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
         public void agregarProducto(Detalle_Compra productocompra)
         {

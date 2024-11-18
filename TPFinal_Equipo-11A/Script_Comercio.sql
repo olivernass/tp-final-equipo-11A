@@ -1234,5 +1234,15 @@ begin
 end
 go
 
+CREATE PROCEDURE SP_ActualizarStock(
+	@idproducto bigint,
+	@stock int
+)
+as
+begin
+	UPDATE Productos SET Stock_Actual = @stock WHERE ID = @idproducto
+end
+go
 SELECT * FROM COMPRAS
 SELECT * FROM Productos_x_compra
+SELECT * FROM Productos

@@ -13,9 +13,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Recibo</th>
-                                <th>Proveedor</th>
                                 <th>Fecha</th>
                                 <th>Total</th>
                                 <th>Acción</th>
@@ -26,9 +24,7 @@
 
                 <ItemTemplate>
                     <tr>
-                        <td><%# Eval("Id") %></td>
                         <td><%# Eval("Recibo") %></td>
-                        <td><%# Eval("Proveedor.ID") %></td>
                         <td><%# Eval("FechaCompra", "{0:dd/MM/yyyy}") %></td>
                         <td><%# Eval("PrecioTotal", "{0:C}") %></td>
                         <td><asp:LinkButton ID="lnkSeleccionar" runat="server" Text="Ver detalle" CommandArgument='<%# Eval("Id") %>' OnCommand="lnkSeleccionar_Command"></asp:LinkButton></td>
