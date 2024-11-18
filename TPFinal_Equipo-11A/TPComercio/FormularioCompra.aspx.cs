@@ -35,6 +35,8 @@ namespace TPComercio
                        btnNuevaOC.Visible = false;
                        btnConfirmarDescarga.Visible = false;
                        Session.Remove("confirmada");
+                       Session.Remove("idCompra");
+                       //Session.Remove("ListaDetalleCompra");
                     }
                     else
                     {
@@ -114,9 +116,11 @@ namespace TPComercio
                 TextBox txtCantidad = (TextBox)item.FindControl("txtCantidad");
                 Label lblProductoId = (Label)item.FindControl("lblProductoId");
                 Label lblPrecioCompra = (Label)item.FindControl("lblProductoPrecioCompra");
+                Label lblProductoStockActual = (Label)item.FindControl("lblProductoStockActual");
                 if (txtCantidad != null && !string.IsNullOrEmpty(txtCantidad.Text))
                 {
                     long productoId = long.Parse(lblProductoId.Text);
+                    int cantidadvieja = int.Parse(lblProductoStockActual.Text);
                     string precioTexto = lblPrecioCompra.Text.Replace("$", "").Replace("€", "");
 
                     // Convertir a decimal de forma segura
@@ -138,6 +142,7 @@ namespace TPComercio
                             {
                                 detalleCompra.Producto.Id = productoId;
                                 detalleCompra.Cantidad = cantidad;
+                                detalleCompra.CantidadVieja = cantidadvieja;
                                 detalleCompra.Subtotal = subtotal;
                                 detalleCompra.Precio_Compra_Unitario = precioCompra;
                                 detalleCompra.Compra = new Compra();
@@ -199,6 +204,7 @@ namespace TPComercio
             compraNegocio.confirmarCompra(codigoCompra);
             Response.Redirect("Compras.aspx");
             Session.Remove("ListaDetalleCompra");
+            Session.Remove("idCompra");
         }
     }
 }

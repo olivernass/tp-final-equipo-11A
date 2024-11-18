@@ -15,7 +15,7 @@ namespace Dominio
         public Producto Producto { get; set; }
 
         public int Cantidad { get; set; }
-
+        public int CantidadVieja { get; set; }
         public decimal Precio_Compra_Unitario { get; set; }
 
         public decimal Subtotal { get; set; }

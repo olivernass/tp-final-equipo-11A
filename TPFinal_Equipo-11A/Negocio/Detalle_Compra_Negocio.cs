@@ -59,7 +59,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra =" + idcompra);
+                datos.setearConsulta("SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra =" + idcompra);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -71,6 +71,7 @@ namespace Negocio
                     aux.Compra.Id = (long)datos.Lector["IDCompra"];
                     aux.Producto.Id = (long)datos.Lector["IDProducto"];
                     aux.Cantidad = (int)datos.Lector["Cantidad"];
+                    aux.CantidadVieja = (int)datos.Lector["CantidadVieja"];
                     aux.Producto.Precio_Compra = (decimal)datos.Lector["Precio_UnitarioC"];
                     aux.Subtotal = (decimal)datos.Lector["Subtotal"];
                     aux.Producto.Nombre = datos.Lector["Nombre"].ToString();
@@ -173,6 +174,7 @@ namespace Negocio
                 datos.setearParametro("@idcompra", productocompra.Compra.Id);
                 datos.setearParametro("@idproducto", productocompra.Producto.Id);
                 datos.setearParametro("@cantidad", productocompra.Cantidad);
+                datos.setearParametro("@cantidadvieja", productocompra.CantidadVieja);
                 datos.setearParametro("@preciounitario", productocompra.Producto.Precio_Compra);
                 datos.setearParametro("@subtotal", productocompra.Subtotal);
                 datos.ejecutarAccion();

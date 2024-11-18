@@ -163,6 +163,7 @@ CREATE TABLE Productos_x_compra(
 	IDCompra BIGINT NOT NULL,
 	IDProducto BIGINT NOT NULL,
 	Cantidad INT NOT NULL,
+	CantidadVieja INT NOT NULL,
 	Precio_UnitarioC MONEY NOT NULL,
 	Subtotal MONEY NOT NULL,
 	PRIMARY KEY(ID,IDCompra,IDProducto),
@@ -1228,13 +1229,14 @@ CREATE PROCEDURE SP_AgregarProductoCompra(
 	@idcompra bigint,
 	@idproducto bigint,
 	@cantidad int,
+	@cantidadvieja int,
 	@preciounitario money,
 	@subtotal money
 )
 AS
 BEGIN
-	INSERT INTO Productos_x_compra(IDCompra,IDProducto,Cantidad,Precio_UnitarioC,Subtotal)
-	VALUES (@idcompra,@idproducto,@cantidad,@preciounitario,@subtotal)
+	INSERT INTO Productos_x_compra(IDCompra,IDProducto,Cantidad,CantidadVieja,Precio_UnitarioC,Subtotal)
+	VALUES (@idcompra,@idproducto,@cantidad,@cantidadvieja,@preciounitario,@subtotal)
 END
 GO
 
@@ -1283,5 +1285,4 @@ GO
 --SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP 
 --INNER JOIN Productos as P ON P.ID = PXP.IDProducto
 --WHERE IDCompra = 1
-
 
