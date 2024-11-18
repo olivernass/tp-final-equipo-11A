@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -13,11 +14,11 @@ namespace TPComercio
 {
     public partial class Usuarios : System.Web.UI.Page
     {
-       
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
 
             if (!IsPostBack)
             {
@@ -157,7 +158,7 @@ namespace TPComercio
 
             if (e.CommandName == "Inactivar")
             {
-                
+
 
                 // Proceder con la inactivación si no hay productos activos asociados
                 Usuario usuarioEliminar = new Usuario { Id = idUsuario };
@@ -177,7 +178,7 @@ namespace TPComercio
             int idUsuario = Convert.ToInt32(hdnIdUsuario.Value);
             UsuarioNegocio negocio = new UsuarioNegocio();
 
-            
+
 
             Usuario usuarioEliminar = new Usuario { Id = idUsuario };
             negocio.eliminarL(usuarioEliminar);
@@ -387,48 +388,48 @@ namespace TPComercio
                 }
 
                 // Generar el HTML para las tarjetas de usuario
-                string resultadoHtml = "<div class='containerUsuariosCard'><div class='row g-0'>";
+
+                string resultadoHtml = "<div>" +
+                               "<div id='contenedorUsuarios'>" +
+                               "<div class='row g-0'>";
 
                 foreach (var usuario in listaFiltrada)
                 {
                     resultadoHtml += $"<div class='containerTarjetas'>" +
-                                        $"< div id = 'contenedorUsuarios'>" +
-                                        $"<div class='card user-card'>" +
-                                            $"<!-- Imagen del usuario -->" +
-                                            $"<div class='card-header p-0'>" +
-                                                $"<img src='{usuario.Imagen.ImagenUrl}' class='card-img-top user-img' alt='Imagen Usuario'>" +
-                                            $"</div>" +
-                                            $"<!-- Información del usuario -->" +
-                                            $"<div class='card-body'>" +
-                                                $"<h5 class='card-title mb-1'>{usuario.Nombre} {usuario.Apellido}</h5>" +
-                                                $"<p class='card-subtitle text-muted mb-2'>{usuario.NombreUsuario}</p>" +
-                                                $"<p class='card-text mb-1'>" +
-                                                    $"<i class='bi bi-envelope'></i>{usuario.CorreoElectronico}<br>" +
-                                                    $"<i class='bi bi-telephone'></i>{usuario.Telefono}" +
-                                                $"</p>" +
-                                                $"<!-- Etiquetas (roles o estados) -->" +
-                                                $"<div class='tags'>" +
-                                                    $"<span class='{(usuario.Activo ? "badge bg-success" : "badge bg-danger")}'>" +
-                                                        $"{(usuario.Activo ? "Activo" : "Inactivo")}" +
-                                                    $"</span>" +
-                                                    $"<span class='badge bg-secondary'>{usuario.Permiso.NombrePermiso}</span>" +
-                                                $"</div>" +
-                                            $"</div>" +
-                                            $"<!-- Acciones -->" +
-                                            $"<div class='card-footer d-flex justify-content-between'>" +
-                                                $"<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarUsuario'" +
-                                                $"onclick='cargarDatosModal({usuario.Id}, \"{usuario.Permiso.Id}\", \"{usuario.NombreUsuario}\", \"{usuario.Contrasenia}\", \"{usuario.Nombre}\", \"{usuario.Apellido}\", \"{usuario.CorreoElectronico}\", \"{usuario.Telefono}\", \"{usuario.Imagen.ImagenUrl}\", \"{usuario.Activo}\")'>" +
-                                                    $"Modificar" +
-                                                $"</button>" +
-                                            $"</div>" +
-                                        $"</div>" +
-                                        $"</div>" +
-                                    $"</div>";
+                        $"<div class='card user-card'>" +
+                                $"<div class='card-header p-0'>" +
+                                    $"<img src='{usuario.Imagen.ImagenUrl}' class='card-img-top user-img' alt='Imagen Usuario'>" +
+                                $"</div>" +
+                                $"<div class='card-body'>" +
+                                    $"<h5 class='card-title mb-1'>{usuario.Nombre} {usuario.Apellido}</h5>" +
+                                    $"<p class='card-subtitle text-muted mb-2'>{usuario.NombreUsuario}</p>" +
+                                    $"<p class='card-text mb-1'>" +
+                                        $"<i class='bi bi-envelope'></i>{usuario.CorreoElectronico}<br>" +
+                                        $"<i class='bi bi-telephone'></i>{usuario.Telefono}" +
+                                    $"</p>" +
+                                    $"<div class='tags'>" +
+                                        $"<span class='{(usuario.Activo ? "badge bg-success" : "badge bg-danger")}'>" +
+                                            $"{(usuario.Activo ? "Activo" : "Inactivo")}" +
+                                        $"</span>" +
+                                        $"<span class='badge bg-secondary'>{usuario.Permiso.NombrePermiso}</span>" +
+                                    $"</div>" +
+                                $"</div>" +
+                                $"<div class='card-footer d-flex justify-content-between'>" +
+                                    $"<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#modalModificarUsuario'" +
+                                    $"onclick='cargarDatosModal({usuario.Id}, \"{usuario.Permiso.Id}\", \"{usuario.NombreUsuario}\", \"{usuario.Contrasenia}\", \"{usuario.Nombre}\", \"{usuario.Apellido}\", \"{usuario.CorreoElectronico}\", \"{usuario.Telefono}\", \"{usuario.Imagen.ImagenUrl}\", \"{usuario.Activo}\")'>" +
+                                        $"Modificar" +
+                                    $"</button>" +
+                                $"</div>" +
+                                $"</div>" +
+                              $"</div>";
+
                 }
 
-                resultadoHtml += "</div></div>"; // Cerrar contenedores de la tarjeta y fila
+                resultadoHtml += "</div>" +
+                          "</div>" + 
+                          "</div>";
 
-                return resultadoHtml; // Devolver el HTML generado
+                return resultadoHtml;
             }
             catch (Exception ex)
             {

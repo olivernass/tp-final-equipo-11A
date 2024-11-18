@@ -4,16 +4,16 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
     <div class="containerCategorias">
         <h2 class="h2listado">Listado de Marcas</h2>
-
         <!-- Botón Agregar Marca -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarMarca">
             Agregar Marca
         </button>
     </div>
 
-    <!-- Filtro -->
+    <!-- Sección de Filtro -->
     <div class="containerFiltroAv">
         <div class="row align-items-center">
             <!-- Filtro por nombre -->
