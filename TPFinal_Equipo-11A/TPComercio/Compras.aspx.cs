@@ -73,6 +73,8 @@ namespace TPComercio
             }
             else 
             {
+                Session["idCompra"] = compraId;
+                Session["confirmada"] = 1;
                 Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
             }
         }

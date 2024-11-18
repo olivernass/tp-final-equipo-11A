@@ -115,5 +115,33 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public bool estaConfirmada(long idcompra)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT 1 FROM Compras WHERE Estado = 1 AND ID =" + idcompra);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    bool confirmada = false;
+                    confirmada = datos.Lector.GetBoolean(0);
+                    return confirmada;
+                }
+
+                return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

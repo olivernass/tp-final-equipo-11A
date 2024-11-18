@@ -23,15 +23,31 @@ namespace TPComercio
             {
                 if (Session["idCompra"] != null)
                 {
-                    long compraId = Convert.ToInt64(Session["idCompra"]);
-                    Detalle_Compra_Negocio negoc1o = new Detalle_Compra_Negocio();
-                    listaDetalle = negoc1o.listar(compraId);
-                    rptDetalleCompra.DataSource = listaDetalle;
-                    rptDetalleCompra.DataBind();
-                    Session["ListaDetalleCompra"] = listaDetalle;
-                    btnActualizar.Visible = false;
-                    btnNuevaOC.Visible = false;
-                    btnConfirmarDescarga.Visible = true;
+                    int confirmada = Convert.ToInt32(Session["confirmada"]);
+                    if(confirmada==1)
+                    {
+                       long compraId = Convert.ToInt64(Session["idCompra"]);
+                       Detalle_Compra_Negocio negoc1o = new Detalle_Compra_Negocio();
+                       listaDetalle = negoc1o.listar2(compraId);
+                       rptDetalleCompra.DataSource = listaDetalle;
+                       rptDetalleCompra.DataBind();
+                       btnActualizar.Visible = false;
+                       btnNuevaOC.Visible = false;
+                       btnConfirmarDescarga.Visible = false;
+                       Session.Remove("confirmada");
+                    }
+                    else
+                    {
+                        long compraId = Convert.ToInt64(Session["idCompra"]);
+                        Detalle_Compra_Negocio negoc1o = new Detalle_Compra_Negocio();
+                        listaDetalle = negoc1o.listar(compraId);
+                        rptDetalleCompra.DataSource = listaDetalle;
+                        rptDetalleCompra.DataBind();
+                        Session["ListaDetalleCompra"] = listaDetalle;
+                        btnActualizar.Visible = false;
+                        btnNuevaOC.Visible = false;
+                        btnConfirmarDescarga.Visible = true;
+                    }
                 }
                 else
                 {

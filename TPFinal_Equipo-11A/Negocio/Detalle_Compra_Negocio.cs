@@ -51,6 +51,47 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Detalle_Compra> listar2(long idcompra)
+        {
+            List<Detalle_Compra> lista = new List<Detalle_Compra>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra =" + idcompra);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Detalle_Compra aux = new Detalle_Compra();
+                    aux.Compra = new Compra();
+                    aux.Producto = new Producto();
+                    aux.Id = (long)datos.Lector["ID"];
+                    aux.Compra.Id = (long)datos.Lector["IDCompra"];
+                    aux.Producto.Id = (long)datos.Lector["IDProducto"];
+                    aux.Cantidad = (int)datos.Lector["Cantidad"];
+                    aux.Producto.Precio_Compra = (decimal)datos.Lector["Precio_UnitarioC"];
+                    aux.Subtotal = (decimal)datos.Lector["Subtotal"];
+                    aux.Producto.Nombre = datos.Lector["Nombre"].ToString();
+                    aux.Producto.StockActual = (int)datos.Lector["Stock_Actual"];
+                    aux.Producto.StockMinimo = (int)datos.Lector["Stock_Minimo"];
+                    aux.Producto.StockActual = aux.Producto.StockActual - aux.Cantidad;
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public List<Detalle_Compra> listarProductos(int idproveedor)
         {
             List<Detalle_Compra> lista = new List<Detalle_Compra>();
