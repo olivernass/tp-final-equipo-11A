@@ -16,67 +16,33 @@
     <!-- Sección de Filtro -->
     <div class="containerFiltroAv">
         <div class="row">
-            <!-- Inserta el código del filtro aquí -->
+            <!-- Filtro por nombre -->
             <div class="col-6">
                 <div class="mb-3">
                     <asp:Label Text="Filtrar por nombre de usuario:" runat="server" />
-                    <asp:TextBox runat="server" ID="txtFiltroUsuarios" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroUsuarios_TextChanged" />
+                    <asp:CheckBox ID="chkFiltroNombre" runat="server" AutoPostBack="false" OnClick="toggleFiltro('nombre')" class="ms-2" />
                 </div>
             </div>
-            <div class="col-6" style="display: flex; flex-direction: column; justify-content: flex-end;">
-                <div class="mb-3">
-                    <asp:CheckBox Text="Filtro Avanzado" runat="server" CssClass="" ID="chkAvanzado" AutoPostBack="true" OnCheckedChanged="chkAvanzado_CheckedChanged" />
-                </div>
-            </div>
+            <div class="col-auto mb-3 d-flex align-items-center">
+            <asp:TextBox runat="server" ID="txtFiltroUsuarios" CssClass="form-control" AutoPostBack="false" OnTextChanged="txtFiltroUsuarios_TextChanged" Enabled="false" oninput="filtrarUsuarios()"/>
+            <asp:Button Text="Borrar" runat="server" CssClass="btn btn-primary" ID="btnBorrar" OnClick="btnBorrar_Click" />
+        </div>
 
-            <% if (FiltroAvanzado)
-                { %>
-            <div class="row">
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Label Text="Campo" ID="lCampo" runat="server" />
-                        <asp:DropDownList runat="server" AutoPostBack="true" CssClass="form-control" ID="ddlCampo" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
-                            <asp:ListItem Text="NombreUsuario" />
-                            <asp:ListItem Text="Contrasenia" />
-                            <asp:ListItem Text="IDPermiso" />
-                            <asp:ListItem Text="Activo" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Label Text="Criterio" runat="server" />
-                        <asp:DropDownList runat="server" ID="ddlCriterio" CssClass="form-control">
-                        </asp:DropDownList>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Label Text="Filtro" runat="server" />
-                        <asp:TextBox runat="server" ID="txtFiltroAvanzado" CssClass="form-control" />
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Label Text="Estado" runat="server" />
-                        <asp:DropDownList runat="server" ID="ddlEstado" CssClass="form-control">
-                            <asp:ListItem Text="Todos" Value="Todos" />
-                            <asp:ListItem Text="Activo" Value="true" />
-                            <asp:ListItem Text="Inactivo" Value="false" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <div class="mb-3">
-                        <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" />
-                    </div>
-                </div>
-            </div>
-            <% } %>
+                    <!-- Filtro por estado -->
+        <div class="col-auto mb-3">
+            <asp:Label Text="Filtrar por estado:" runat="server" />
+            <asp:CheckBox ID="chkFiltroEstado" runat="server" AutoPostBack="false" OnClick="toggleFiltro('estado')" class="ms-2" />
+        </div>
+        <div class="col-auto mb-3 d-flex align-items-center">
+            <asp:DropDownList runat="server" ID="ddlEstadoUsuarios" CssClass="form-control me-2" Enabled="false">
+                <asp:ListItem Text="Todos" />
+                <asp:ListItem Text="Activo" />
+                <asp:ListItem Text="Inactivo" />
+            </asp:DropDownList>
+            <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" ID="btnBuscar" OnClick="btnBuscar_Click" Enabled="false" />
         </div>
     </div>
+</div>
 
     <div class="containerUsuariosCard">
         <div class="row g-0">
@@ -111,9 +77,7 @@
                                     onclick="cargarDatosModal('<%# Eval("Id") %>', '<%# Eval("NombreUsuario") %>', '<%# Eval("Contrasenia") %>', '<%# Eval("Permiso.Id") %>', '<%# Eval("Activo") %>', '<%# Eval("Nombre") %>', '<%# Eval("Apellido") %>', '<%# Eval("CorreoElectronico") %>', '<%# Eval("Telefono") %>', '<%# Eval("Imagen.ImagenUrl") %>')">
                                     Modificar
                                 </button>
-                                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-sm" Text="Eliminar"
-                                    OnClientClick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');"
-                                    CommandName="Eliminar" CommandArgument='<%# Eval("Id") %>' />
+                                
                             </div>
                         </div>
                     </div>
@@ -199,6 +163,7 @@
                 </div>
                 <div class="modal-body">
                     <asp:HiddenField ID="hdnIdUsuario" runat="server" />
+                    <asp:HiddenField ID="hdnEstadoUsuario" runat="server" />
 
                     <div class="mb-3 has-danger has-success">
                         <asp:TextBox ID="txtNombreUsuarioMod" runat="server" CssClass="form-control validar-username-mod" placeholder="Nombre de Usuario"></asp:TextBox>
@@ -246,6 +211,12 @@
                         <asp:DropDownList ID="ddlPermisoUsuarioMod" runat="server" CssClass="form-control validar-permisos-mod"></asp:DropDownList>
                         <div class="invalid-feedback">Selecciona un permiso válido.</div>
                     </div>
+
+                    <!-- Botones Activar e Inactivar dentro del Modal -->
+                    <asp:Button ID="btnInactivarModal" runat="server" CssClass="btn btn-danger" Text="Inactivar"
+                        OnClientClick="return confirm('¿Estás seguro de que deseas inactivar este usuario?');" OnClick="btnInactivarModal_Click" />
+                    <asp:Button ID="btnActivarModal" runat="server" CssClass="btn btn-success" Text="Activar"
+                        OnClientClick="return confirm('¿Estás seguro de que deseas activar este usuario?');" OnClick="btnActivarModal_Click" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="limpiarModal('modalModificarUsuario');">Cerrar</button>
@@ -261,7 +232,7 @@
 
 
 
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         function cargarDatosModal(id, nombreUsuario, contrasenia, idPermiso, activo, nombre, apellido, correoElectronico, telefono, imagenURL) {
             // Asignar valores a los campos ocultos y de entrada en el modal de modificación
             document.getElementById('<%= hdnIdUsuario.ClientID %>').value = id;
@@ -276,5 +247,97 @@
             document.getElementById('<%= txtTelefonoMod.ClientID %>').value = telefono;
             document.getElementById('<%= txtImagenURLMod.ClientID %>').value = imagenURL;
         }
+    </script>--%>
+
+    <script type="text/javascript">
+        function cargarDatosModal(id, nombreUsuario, contrasenia, idPermiso, nombre, apellido, correoElectronico, telefono, imagenURL, estado) {
+            // Asignar valores a los campos ocultos y de entrada en el modal de modificación
+            document.getElementById('<%= hdnIdUsuario.ClientID %>').value = id;
+            document.getElementById('<%= txtNombreUsuarioMod.ClientID %>').value = nombreUsuario;
+            document.getElementById('<%= txtContraseniaUsuarioMod.ClientID %>').value = contrasenia;
+            document.getElementById('<%= ddlPermisoUsuarioMod.ClientID %>').value = idPermiso;
+            document.getElementById('<%= txtNombreMod.ClientID %>').value = nombre;
+            document.getElementById('<%= txtApellidoMod.ClientID %>').value = apellido;
+            document.getElementById('<%= txtCorreoElectronicoMod.ClientID %>').value = correoElectronico;
+            document.getElementById('<%= txtTelefonoMod.ClientID %>').value = telefono;
+            document.getElementById('<%= txtImagenURLMod.ClientID %>').value = imagenURL;
+            document.getElementById('<%= hdnEstadoUsuario.ClientID %>').value = estado;
+
+        // Obtener referencias a los botones
+        const btnInactivar = document.getElementById('<%= btnInactivarModal.ClientID %>');
+        const btnActivar = document.getElementById('<%= btnActivarModal.ClientID %>');
+
+            // Log para verificar el estado que llega a la función
+            console.log("Estado del usuario:", estado);
+            console.log("id del usuario:", id);
+            console.log("nombre del usuario:", nombre);
+
+            // Mostrar/ocultar botones según el estado
+            if (estado === "True") {
+                btnInactivar.style.display = 'block';
+                btnActivar.style.display = 'none';
+            } else if (estado === "False") {
+                btnInactivar.style.display = 'none';
+                btnActivar.style.display = 'block';
+            } else {
+                console.warn("Estado desconocido:", estado);
+            }
+        }
     </script>
+
+    <script type="text/javascript">
+        function toggleFiltro(filtro) {
+            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
+        var txtFiltroUsuarios = document.getElementById('<%= txtFiltroUsuarios.ClientID %>');
+        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
+        var ddlEstadoUsuarios = document.getElementById('<%= ddlEstadoUsuarios.ClientID %>');
+        var btnBuscar = document.getElementById('<%= btnBuscar.ClientID %>');
+
+            if (filtro === 'nombre') {
+                // Activar el filtro por nombre y desactivar el de estado
+                txtFiltroUsuarios.disabled = !chkFiltroNombre.checked;
+                ddlEstadoUsuarios.disabled = chkFiltroNombre.checked;
+                btnBuscar.disabled = chkFiltroNombre.checked;
+
+                if (chkFiltroNombre.checked) {
+                    ddlEstadoUsuarios.selectedIndex = 0; // Restablecer el filtro de estado a "Todos"
+                    chkFiltroEstado.checked = false; // Desmarcar la casilla de estado
+                }
+            } else if (filtro === 'estado') {
+                // Activar el filtro por estado y desactivar el de nombre
+                ddlEstadoUsuarios.disabled = !chkFiltroEstado.checked;
+                txtFiltroUsuarios.disabled = chkFiltroEstado.checked;
+                btnBuscar.disabled = !chkFiltroEstado.checked;
+
+                if (chkFiltroEstado.checked) {
+                    txtFiltroUsuarios.value = ''; // Limpiar el campo de texto de filtro de nombre
+                    chkFiltroNombre.checked = false; // Desmarcar la casilla de nombre
+                }
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#<%= txtFiltroUsuarios.ClientID %>').on('keyup', function () {
+            var filtro = $(this).val(); // Obtener el texto que el usuario escribió en el campo de búsqueda
+
+            $.ajax({
+                type: "POST",
+                url: "Usuarios.aspx/FiltrarUsuarios", // Asegúrate de poner la URL correcta
+                data: JSON.stringify({ filtro: filtro }), // Enviar el filtro al servidor
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // Actualizar el contenido del cuerpo de la tabla con los resultados filtrados
+                    $('tbody', '.tableUsuarios').html(response.d); // response.d contiene el nuevo HTML generado
+                },
+                error: function (error) {
+                    console.log("Error al filtrar los usuarios:", error);
+                }
+            });
+        });
+    });
+    </script>
+
 </asp:Content>
