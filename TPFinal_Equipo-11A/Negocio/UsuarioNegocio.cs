@@ -138,6 +138,26 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void activar(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ActivarUsuario");
+                datos.setearParametro("@ID", usuario.Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public void modificar(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -167,83 +187,132 @@ namespace Negocio
         }
 
 
-        public List<Usuario> filtrar(string campo, string criterio, string filtro, string estado)
+        //public List<Usuario> filtrar(string campo, string criterio, string filtro, string estado)
+        //{
+        //    List<Usuario> lista = new List<Usuario>();
+        //    AccesoDatos datos = new AccesoDatos();
+
+        //    try
+        //    {
+        //        string consulta = "SELECT NombreUsuario, Contrasenia, IDPermiso, Activo, Nombre, Apellido, CorreoElectronico, Telefono, ImagenURL FROM Usuarios WHERE";
+
+        //        if (campo == "IDPermiso")
+        //        {
+        //            switch (criterio)
+        //            {
+        //                case "Mayor a":
+        //                    consulta += " IDPermiso > " + filtro;
+        //                    break;
+        //                case "Menor a":
+        //                    consulta += " IDPermiso < " + filtro;
+        //                    break;
+        //                default:
+        //                    consulta += " IDPermiso = " + filtro;
+        //                    break;
+        //            }
+        //        }
+        //        else if (campo == "NombreUsuario")
+        //        {
+        //            switch (criterio)
+        //            {
+        //                case "Comienza con":
+        //                    consulta += " NombreUsuario LIKE '" + filtro + "%' ";
+        //                    break;
+        //                case "Termina con":
+        //                    consulta += " NombreUsuario LIKE '%" + filtro + "'";
+        //                    break;
+        //                default:
+        //                    consulta += " NombreUsuario LIKE '%" + filtro + "%'";
+        //                    break;
+        //            }
+        //        }
+        //        else if (campo == "Contrasenia")
+        //        {
+        //            switch (criterio)
+        //            {
+        //                case "Comienza con":
+        //                    consulta += " Contrasenia LIKE '" + filtro + "%' ";
+        //                    break;
+        //                case "Termina con":
+        //                    consulta += " Contrasenia LIKE '%" + filtro + "'";
+        //                    break;
+        //                default:
+        //                    consulta += " Contrasenia LIKE '%" + filtro + "%'";
+        //                    break;
+        //            }
+        //        }
+
+        //        if (estado == "Activo")
+        //            consulta += " AND Activo = 1 ";
+        //        else if (estado == "Inactivo")
+        //            consulta += " AND Activo = 0";
+
+        //        datos.setearConsulta(consulta);
+        //        datos.ejecutarLectura();
+
+        //        while (datos.Lector.Read())
+        //        {
+        //            Usuario aux = new Usuario
+        //            {
+        //                NombreUsuario = (string)datos.Lector["NombreUsuario"],
+        //                Contrasenia = (string)datos.Lector["Contrasenia"],
+        //                Activo = bool.Parse(datos.Lector["Activo"].ToString()),
+        //                Nombre = datos.Lector["Nombre"].ToString(),
+        //                Apellido = datos.Lector["Apellido"].ToString(),
+        //                CorreoElectronico = datos.Lector["CorreoElectronico"].ToString(),
+        //                Telefono = datos.Lector["Telefono"].ToString(),
+        //                Imagen = new Imagen { ImagenUrl = datos.Lector["ImagenURL"].ToString() },
+        //                Permiso = new Permiso { Id = (int)datos.Lector["IDPermiso"] }
+        //            };
+
+        //            lista.Add(aux);
+        //        }
+
+        //        return lista;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
+
+        public List<Usuario> filtrar(string estado)
         {
             List<Usuario> lista = new List<Usuario>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                string consulta = "SELECT NombreUsuario, Contrasenia, IDPermiso, Activo, Nombre, Apellido, CorreoElectronico, Telefono, ImagenURL FROM Usuarios WHERE";
-
-                if (campo == "IDPermiso")
-                {
-                    switch (criterio)
-                    {
-                        case "Mayor a":
-                            consulta += " IDPermiso > " + filtro;
-                            break;
-                        case "Menor a":
-                            consulta += " IDPermiso < " + filtro;
-                            break;
-                        default:
-                            consulta += " IDPermiso = " + filtro;
-                            break;
-                    }
-                }
-                else if (campo == "NombreUsuario")
-                {
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            consulta += " NombreUsuario LIKE '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += " NombreUsuario LIKE '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += " NombreUsuario LIKE '%" + filtro + "%'";
-                            break;
-                    }
-                }
-                else if (campo == "Contrasenia")
-                {
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            consulta += " Contrasenia LIKE '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += " Contrasenia LIKE '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += " Contrasenia LIKE '%" + filtro + "%'";
-                            break;
-                    }
-                }
+                string consulta = "select ID, NombreUsuario, Contrasenia, Nombre, Apellido, CorreoElectronico, Telefono, FechaCreacion, Activo FROM Usuarios";
 
                 if (estado == "Activo")
-                    consulta += " AND Activo = 1 ";
+                    consulta += " WHERE Activo = 1 ";
                 else if (estado == "Inactivo")
-                    consulta += " AND Activo = 0";
+                    consulta += " WHERE Activo = 0";
+                else if (estado == "Todos")
+                    consulta = " select * FROM Usuarios";
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Usuario aux = new Usuario
-                    {
-                        NombreUsuario = (string)datos.Lector["NombreUsuario"],
-                        Contrasenia = (string)datos.Lector["Contrasenia"],
-                        Activo = bool.Parse(datos.Lector["Activo"].ToString()),
-                        Nombre = datos.Lector["Nombre"].ToString(),
-                        Apellido = datos.Lector["Apellido"].ToString(),
-                        CorreoElectronico = datos.Lector["CorreoElectronico"].ToString(),
-                        Telefono = datos.Lector["Telefono"].ToString(),
-                        Imagen = new Imagen { ImagenUrl = datos.Lector["ImagenURL"].ToString() },
-                        Permiso = new Permiso { Id = (int)datos.Lector["IDPermiso"] }
-                    };
+                    Usuario aux = new Usuario();
+                    aux.Id = (int)datos.Lector["Id"];
+                    //aux.Permiso.Id = (int)datos.Lector["IdPermiso"];
+                    aux.NombreUsuario = (string)datos.Lector["NombreUsuario"];
+                    aux.Contrasenia = (string)datos.Lector["Contrasenia"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.CorreoElectronico = (string)datos.Lector["CorreoElectronico"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    //aux.Imagen.ID = (int)datos.Lector["IDImagen"];
+                    aux.FechaCreacion = (DateTime)datos.Lector["FechaCreacion"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
 
                     lista.Add(aux);
                 }
@@ -252,14 +321,10 @@ namespace Negocio
             }
             catch (Exception ex)
             {
+
                 throw ex;
             }
-            finally
-            {
-                datos.cerrarConexion();
-            }
         }
-
 
     }
 }

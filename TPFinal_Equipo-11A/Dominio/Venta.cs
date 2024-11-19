@@ -8,7 +8,7 @@ namespace Dominio
 {
     public class Venta
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Cliente Cliente { get; set; }
 
         //public List<Detalle_Venta> Productos { get; set; } -- Se podria hacer algo asi

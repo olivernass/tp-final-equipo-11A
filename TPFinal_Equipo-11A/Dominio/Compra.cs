@@ -8,11 +8,12 @@ namespace Dominio
 {
     public class Compra
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
+        public long Recibo { get; set; }
         public Proveedor Proveedor { get; set; }
-        //public List<Detalle_Compra> Productos { get; set; } -- Se podria hacer algo asi
         public DateTime FechaCompra { get; set; }
-
+        public DateTime FechaEntrega { get; set; }
         public decimal PrecioTotal { get; set; }
+        public bool Estado { get; set; }
     }
 }

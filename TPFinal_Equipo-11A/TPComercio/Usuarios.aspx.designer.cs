@@ -15,6 +15,15 @@ namespace TPComercio
     {
 
         /// <summary>
+        /// chkFiltroNombre control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFiltroNombre;
+
+        /// <summary>
         /// txtFiltroUsuarios control.
         /// </summary>
         /// <remarks>
@@ -24,58 +33,31 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.TextBox txtFiltroUsuarios;
 
         /// <summary>
-        /// chkAvanzado control.
+        /// btnBorrar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkAvanzado;
+        protected global::System.Web.UI.WebControls.Button btnBorrar;
 
         /// <summary>
-        /// lCampo control.
+        /// chkFiltroEstado control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lCampo;
+        protected global::System.Web.UI.WebControls.CheckBox chkFiltroEstado;
 
         /// <summary>
-        /// ddlCampo control.
+        /// ddlEstadoUsuarios control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCampo;
-
-        /// <summary>
-        /// ddlCriterio control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCriterio;
-
-        /// <summary>
-        /// txtFiltroAvanzado control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFiltroAvanzado;
-
-        /// <summary>
-        /// ddlEstado control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEstado;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEstadoUsuarios;
 
         /// <summary>
         /// btnBuscar control.
@@ -186,6 +168,15 @@ namespace TPComercio
         protected global::System.Web.UI.WebControls.HiddenField hdnIdUsuario;
 
         /// <summary>
+        /// hdnEstadoUsuario control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnEstadoUsuario;
+
+        /// <summary>
         /// txtNombreUsuarioMod control.
         /// </summary>
         /// <remarks>
@@ -256,6 +247,24 @@ namespace TPComercio
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlPermisoUsuarioMod;
+
+        /// <summary>
+        /// btnInactivarModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnInactivarModal;
+
+        /// <summary>
+        /// btnActivarModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActivarModal;
 
         /// <summary>
         /// btnGuardarCambios control.
