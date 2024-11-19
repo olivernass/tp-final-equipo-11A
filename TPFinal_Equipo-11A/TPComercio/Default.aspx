@@ -13,7 +13,7 @@
             </button>
         </div>
         <div class="coldf">
-            <button type="button" class="btn btn-light btn-default">
+            <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Ventas.aspx';">
                 <img src="Content/Iconos/ecommerce.png" alt="Ventas">
                 <div>Ventas</div>
             </button>

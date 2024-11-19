@@ -101,6 +101,7 @@
     <Content Include="RepMarcas.aspx" />
     <Content Include="Reportes.aspx" />
     <Content Include="Usuarios.aspx" />
+    <Content Include="Ventas.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +222,13 @@
       <DependentUpon>Usuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utils\AuthHelper.cs" />
+    <Compile Include="Ventas.aspx.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ventas.aspx.designer.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Main.Master" />
