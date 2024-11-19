@@ -193,5 +193,43 @@ namespace Negocio
             }
         }
 
+        public List<Producto> listarXProveedor(int idproveedor)
+        {
+            List<Producto> lista = new List<Producto>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT P.ID, P.Nombre, P.Stock_Actual, P.Stock_Minimo, P.Precio_Compra, P.Activo FROM Productos AS P INNER JOIN Productos_x_Proveedores AS PXP ON PXP.IDProducto = P.ID WHERE P.ID = PXP.IDProducto AND PXP.IDProveedor =" + idproveedor + "AND P.Activo = 1");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Producto aux = new Producto();
+                    aux.Marca = new Marca();
+                    aux.Categoria = new Categoria();
+                    aux.Imagen = new Imagen();
+                    aux.Id = (long)datos.Lector["ID"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.StockActual = (int)datos.Lector["Stock_Actual"];
+                    aux.StockMinimo = (int)datos.Lector["Stock_Minimo"];
+                    aux.Precio_Compra = (decimal)datos.Lector["Precio_Compra"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
