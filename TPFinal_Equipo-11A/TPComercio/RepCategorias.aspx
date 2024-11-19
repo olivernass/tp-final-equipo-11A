@@ -89,8 +89,7 @@
                         <!-- El contenido dinámico se llenará aquí -->
                     </tbody>
                 </table>
-                <asp:Label runat="server" ID="Label1"></asp:Label>
-                <%--<asp:Label runat="server" ID="lblCategoriasActivasInactivas" style="display: none;"></asp:Label>--%>
+                <asp:Label runat="server" ID="lblCategoriasSinProductos"></asp:Label>
             </div>
         </div>
     </div>
@@ -99,11 +98,11 @@
 
 
     <%--<asp:Label runat="server" ID="lblCategoriaNombre"></asp:Label>--%>
-    <%--<asp:Label runat="server" ID="lblCategoriaID"></asp:Label>
+    <asp:Label runat="server" ID="lblCategoriaID"></asp:Label>
     <asp:Label runat="server" ID="lblReporteCategorias"></asp:Label>
-    <asp:Label runat="server" ID="lblCategoriasSinProductos"></asp:Label>
+    
     <asp:Label runat="server" ID="lblCategoriasProductosBajoStock"></asp:Label>
-    <asp:Label runat="server" ID="lblCategoriasActivasInactivas"></asp:Label>--%>
+    <asp:Label runat="server" ID="lblCategoriasActivasInactivas"></asp:Label>
 
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

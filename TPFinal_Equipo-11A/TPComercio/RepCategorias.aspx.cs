@@ -157,10 +157,10 @@ namespace TPComercio
                 string texto = "Categorías sin productos asociados:<br />";
                 foreach (var item in categoriasSinProductos)
                 {
-                    texto += $"Categoría: {item.NombreCategoria} (ID: {item.Id})<br />";
+                    texto += $"{item.NombreCategoria} (ID: {item.Id})<br />";
                 }
 
-                //lblCategoriasSinProductos.Text = texto;
+                lblCategoriasSinProductos.Text = texto;
             }
             else
             {
