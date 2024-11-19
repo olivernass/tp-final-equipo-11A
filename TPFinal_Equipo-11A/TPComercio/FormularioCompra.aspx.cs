@@ -59,33 +59,43 @@ namespace TPComercio
                     listaDetalle = negocio.listarProductos(codigoprov);
                     rptDetalleCompra.DataSource = listaDetalle;
                     rptDetalleCompra.DataBind();
+                    //VerificarCantidades();
                     btnNuevaOC.Visible = false;
                     btnConfirmarDescarga.Visible = false;
                 }
             }
-            VerificarCantidades();
+            
         }
 
-        private void VerificarCantidades()
-        {
-            bool cantidadesValidas = true;
+        //private void VerificarCantidades()
+        //{
+        //    bool cantidadesValidas = true;
 
-            foreach (RepeaterItem item in rptDetalleCompra.Items)
-            {
-                TextBox txtCantidad = (TextBox)item.FindControl("txtCantidad");
+        //    foreach (RepeaterItem item in rptDetalleCompra.Items)
+        //    {
+        //        TextBox txtCantidad = (TextBox)item.FindControl("txtCantidad");
 
-                if (txtCantidad != null)
-                {
-                    int cantidad = 0;
-                    if (!int.TryParse(txtCantidad.Text, out cantidad) || cantidad < 0)
-                    {
-                        cantidadesValidas = false;
-                        break;
-                    }
-                }
-            }
-            btnActualizar.Enabled = cantidadesValidas;
-        }
+        //        if (txtCantidad != null)
+        //        {
+        //            if (int.TryParse(txtCantidad.Text, out int cantidad))
+        //            {
+        //                if (cantidad < 0) // Verifica si es negativo
+        //                {
+        //                    cantidadesValidas = false;
+        //                    btnActualizar.Enabled = cantidadesValidas;
+        //                    break;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                // Si no es un número válido
+        //                cantidadesValidas = false;
+        //                btnActualizar.Enabled = cantidadesValidas;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
         protected void btnNuevaOC_Click(object sender, EventArgs e)
         {
@@ -173,6 +183,7 @@ namespace TPComercio
             rptDetalleCompra.DataBind();
             btnNuevaOC.Visible = true;
             btnActualizar.Visible = false;
+            btnVolver.Visible = false;
 
         }
 
@@ -195,18 +206,18 @@ namespace TPComercio
             Detalle_Compra_Negocio negocioDetail = new Detalle_Compra_Negocio();
             CompraNegocio compraNegocio = new CompraNegocio();
             long codigoCompra = 0;
-            if (listaDetalleCompra != null)
+            if (listaDetalleCompra != null && listaDetalleCompra.Count > 0)
             {
                 foreach (Detalle_Compra detalle in listaDetalleCompra)
                 {
                     negocioDetail.actualizarStock(detalle);
                     codigoCompra = detalle.Compra.Id;
                 }
+                compraNegocio.confirmarCompra(codigoCompra);
+                Response.Redirect("Compras.aspx");
+                Session.Remove("ListaDetalleCompra");
+                Session.Remove("idCompra");
             }
-            compraNegocio.confirmarCompra(codigoCompra);
-            Response.Redirect("Compras.aspx");
-            Session.Remove("ListaDetalleCompra");
-            Session.Remove("idCompra");
         }
 
         protected void btnVolver_Click(object sender, EventArgs e)
@@ -215,6 +226,11 @@ namespace TPComercio
             Session.Remove("ListaDetalleCompra");
             Session.Remove("idCompra");
         }
+
+        //protected void txtCantidad_TextChanged(object sender, EventArgs e)
+        //{
+        //    //VerificarCantidades();
+        //}
     }
 }
 

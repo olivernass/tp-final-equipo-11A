@@ -33,6 +33,7 @@
                         <td><%# (bool)Eval("Estado") ? "Recibida" : "Pendiente" %></td>
                         <asp:HiddenField ID="hfEstado" runat="server" Value='<%# Eval("Estado") %>' />
                         <td><asp:LinkButton ID="lnkSeleccionar" runat="server" Text="Ver detalle" CommandArgument='<%# Eval("Id") %>' OnCommand="lnkSeleccionar_Command"></asp:LinkButton></td>
+                        
                     </tr>
                 </ItemTemplate>
 
@@ -44,5 +45,6 @@
 
             <br />
             <asp:Button ID="btnGenerarCompra" runat="server" Text="Generar nueva compra" OnClick="btnGenerarCompra_Click"/>
+            <asp:Button ID="btnVolver" runat="server" Text="Volver" OnClick="btnVolver_Click"/>
         
 </asp:Content>
