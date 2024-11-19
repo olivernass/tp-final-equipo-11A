@@ -282,5 +282,27 @@ tr:hover .btn-acciones {
     box-sizing: border-box; 
 }
 
+.containerRepMarcas {
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+    gap: 20px; 
+    margin: 20px auto; 
+    padding-left: 168px;
+}
+
+.containerRepMarcas1 {
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 20px auto;
+    padding-left: 310px;
+}
+
+
+
+
+
 
 

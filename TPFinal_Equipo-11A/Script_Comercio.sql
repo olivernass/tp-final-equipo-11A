@@ -926,23 +926,16 @@ GO
 CREATE PROCEDURE SP_ObtenerMarcasConMasProductos
 AS
 BEGIN
-    -- Obtener la cantidad máxima de productos asociados a una marca
-    WITH CTE_CantidadProductos AS (
-        SELECT 
-            M.Id,
-            M.NombreMarca,
-            COUNT(P.Id) AS CantidadProductos
-        FROM Marcas M
-        JOIN Productos P ON P.IdMarca = M.Id
-        WHERE P.Activo = 1
-        GROUP BY M.Id, M.NombreMarca
-    )
-    SELECT 
-        Id,
-        NombreMarca,
-        CantidadProductos
-    FROM CTE_CantidadProductos
-    WHERE CantidadProductos = (SELECT MAX(CantidadProductos) FROM CTE_CantidadProductos);
+    -- Obtener las 5 marcas con la mayor cantidad de productos activos
+    SELECT TOP 5
+        M.Id,
+        M.NombreMarca,
+        COUNT(P.Id) AS CantidadProductos
+    FROM Marcas M
+    JOIN Productos P ON P.IdMarca = M.Id
+    WHERE P.Activo = 1
+    GROUP BY M.Id, M.NombreMarca
+    ORDER BY CantidadProductos DESC;
 END
 GO
 

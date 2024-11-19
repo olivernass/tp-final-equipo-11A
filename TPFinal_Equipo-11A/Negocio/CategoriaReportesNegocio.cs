@@ -182,5 +182,40 @@ namespace Negocio
             }
         }
 
+        public CategoriaReportes ObtenerReporteCompletoDeCategorias()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            CategoriaReportes reporte = new CategoriaReportes();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ReporteCategorias");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    string descripcion = datos.Lector.GetString(0); // "Categorias Activas", "Categorias Inactivas", "Categorias Sin Productos"
+                    int total = datos.Lector.GetInt32(1);          // Total correspondiente
+
+                    if (descripcion == "Categorias Activas")
+                        reporte.TotalActivos = total;
+                    else if (descripcion == "Categorias Inactivas")
+                        reporte.TotalInactivos = total;
+                    else if (descripcion == "Categorias Sin Productos")
+                        reporte.TotalSinProductos = total;
+                }
+
+                return reporte;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el reporte completo de categorías", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
     }
 }

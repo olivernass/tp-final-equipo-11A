@@ -180,5 +180,40 @@ namespace Negocio
             }
         }
 
+        public MarcaReportes ObtenerReporteCompletoDeMarcas()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            MarcaReportes reporte = new MarcaReportes();
+
+            try
+            {
+                datos.setearProcedimiento("SP_ReporteMarcasEstadoYProductos");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    string descripcion = datos.Lector.GetString(0); // Descripción del dato (activos, inactivos, sin productos)
+                    int total = datos.Lector.GetInt32(1);          // Total correspondiente
+
+                    if (descripcion == "Cantidad de activos")
+                        reporte.TotalActivos = total;
+                    else if (descripcion == "Cantidad de inactivos")
+                        reporte.TotalInactivos = total;
+                    else if (descripcion == "Marcas sin productos")
+                        reporte.TotalSinProductos = total;
+                }
+
+                return reporte;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el reporte completo de marcas", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

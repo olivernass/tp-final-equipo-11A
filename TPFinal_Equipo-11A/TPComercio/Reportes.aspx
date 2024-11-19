@@ -4,6 +4,45 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar position-fixed">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepMarcas.aspx">Marcas
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepCategorias.aspx">Categorías
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepProveedores.aspx">Proveedores
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepClientes.aspx">Clientes
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepProductos.aspx">Productos
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepVentas.aspx">Ventas
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepCompras.aspx">Compras
+                </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
     <div class="containerMarcas">
 
         <asp:Label runat="server" ID="lblMarcaNombre"></asp:Label>
@@ -116,5 +155,6 @@
     <div class="containerProductos">
         <asp:Label runat="server" ID="lblProductosPrecioBajo"></asp:Label>
     </div>
+
 
 </asp:Content>

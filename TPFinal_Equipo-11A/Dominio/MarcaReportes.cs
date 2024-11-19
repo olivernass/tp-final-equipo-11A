@@ -16,5 +16,6 @@ namespace Dominio
         public int StockMinimo { get; set; }
         public int TotalActivos { get; set; }
         public int TotalInactivos { get; set; }
+        public int TotalSinProductos { get; set; }
     }
 }
