@@ -42,5 +42,5 @@
         <asp:Button ID="btnActualizar" runat="server" Text="Actualizar cantidades" OnClick="btnActualizar_Click" />
         <asp:Button ID="btnNuevaOC" runat="server" Text="Nueva OC" OnClick="btnNuevaOC_Click" />
         <asp:Button ID="btnConfirmarDescarga" runat="server" Text="Confirmar descarga" OnClick="btnConfirmarDescarga_Click" />
-
+        <asp:Button ID="btnVolver" runat="server" Text="Volver" OnClick="btnVolver_Click"/>
 </asp:Content>

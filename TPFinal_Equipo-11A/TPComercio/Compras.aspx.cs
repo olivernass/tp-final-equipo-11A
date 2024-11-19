@@ -53,9 +53,35 @@ namespace TPComercio
 
         protected void btnGenerarCompra_Click(object sender, EventArgs e)
         {
-            int proveedorId = Convert.ToInt32(ddlProveedor.SelectedValue);
-            Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
-            
+            if (ddlProveedor.SelectedValue == "")
+            {
+                lblMensajeProveedor.Visible = true;
+                lblMensajeProveedor.Text = "Por favor, selecciona un proveedor.";
+                rptCompras.Visible = false;
+            }
+            else
+            {
+                long compraId = Convert.ToInt64(Session["idCompra"]);
+                if(compraId == 0)
+                {
+                    int proveedorId = Convert.ToInt32(ddlProveedor.SelectedValue);
+                    Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
+                }
+                else
+                {
+                    CompraNegocio compraNegocio = new CompraNegocio();
+                    if(compraNegocio.estaConfirmada(compraId))
+                    {
+                        int proveedorId = Convert.ToInt32(ddlProveedor.SelectedValue);
+                        Response.Redirect("FormularioCompra.aspx?id=" + proveedorId);
+                    }
+                    else
+                    {
+                        Session.Remove("idCompra");
+                        Response.Redirect("Compras.aspx");
+                    }
+                }
+            }   
         }
 
         protected void lnkSeleccionar_Command(object sender, CommandEventArgs e)

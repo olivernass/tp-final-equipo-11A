@@ -26,6 +26,7 @@ namespace TPComercio
                     int confirmada = Convert.ToInt32(Session["confirmada"]);
                     if(confirmada==1)
                     {
+                       
                        long compraId = Convert.ToInt64(Session["idCompra"]);
                        Detalle_Compra_Negocio negoc1o = new Detalle_Compra_Negocio();
                        listaDetalle = negoc1o.listar2(compraId);
@@ -36,7 +37,7 @@ namespace TPComercio
                        btnConfirmarDescarga.Visible = false;
                        Session.Remove("confirmada");
                        Session.Remove("idCompra");
-                       //Session.Remove("ListaDetalleCompra");
+                       Session.Remove("ListaDetalleCompra");
                     }
                     else
                     {
@@ -49,6 +50,7 @@ namespace TPComercio
                         btnActualizar.Visible = false;
                         btnNuevaOC.Visible = false;
                         btnConfirmarDescarga.Visible = true;
+                        Session.Remove("idCompra");
                     }
                 }
                 else
@@ -202,6 +204,13 @@ namespace TPComercio
                 }
             }
             compraNegocio.confirmarCompra(codigoCompra);
+            Response.Redirect("Compras.aspx");
+            Session.Remove("ListaDetalleCompra");
+            Session.Remove("idCompra");
+        }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
             Response.Redirect("Compras.aspx");
             Session.Remove("ListaDetalleCompra");
             Session.Remove("idCompra");

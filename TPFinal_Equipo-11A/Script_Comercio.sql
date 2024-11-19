@@ -1256,7 +1256,7 @@ CREATE OR ALTER PROCEDURE SP_ActualizarStock(
 )
 as
 begin
-	UPDATE Productos SET Stock_Actual = @stock WHERE ID = @idproducto
+	UPDATE Productos SET Stock_Actual += @stock WHERE ID = @idproducto
 end
 go
 
@@ -1274,6 +1274,7 @@ GO
 SELECT * FROM COMPRAS
 SELECT * FROM Productos_x_compra
 SELECT * FROM Productos
+SELECT * FROM Productos_x_Proveedores
 GO
 
 --SELECT * 
@@ -1282,7 +1283,7 @@ GO
 --  AND FechaCreacion >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
 --  AND FechaCreacion < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0);
 
---SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP 
---INNER JOIN Productos as P ON P.ID = PXP.IDProducto
---WHERE IDCompra = 1
+SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Minimo 
+FROM Productos_x_compra AS PXP 
+INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra = 14
 

@@ -18,7 +18,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra =" + idcompra);
+                datos.setearConsulta("SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra =" + idcompra);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -30,10 +30,11 @@ namespace Negocio
                     aux.Compra.Id = (long)datos.Lector["IDCompra"];
                     aux.Producto.Id = (long)datos.Lector["IDProducto"];
                     aux.Cantidad = (int)datos.Lector["Cantidad"];
+                    aux.CantidadVieja = (int)datos.Lector["CantidadVieja"];
                     aux.Producto.Precio_Compra = (decimal)datos.Lector["Precio_UnitarioC"];
                     aux.Subtotal = (decimal)datos.Lector["Subtotal"];
                     aux.Producto.Nombre = datos.Lector["Nombre"].ToString();
-                    aux.Producto.StockActual = (int)datos.Lector["Stock_Actual"];
+                    aux.Producto.StockActual = aux.CantidadVieja;
                     aux.Producto.StockMinimo = (int)datos.Lector["Stock_Minimo"];
 
                     lista.Add(aux);
@@ -59,7 +60,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Actual,P.Stock_Minimo FROM Productos_x_compra AS PXP INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra =" + idcompra);
+                datos.setearConsulta("SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Minimo FROM Productos_x_compra AS PXP INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra =" + idcompra);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -75,9 +76,8 @@ namespace Negocio
                     aux.Producto.Precio_Compra = (decimal)datos.Lector["Precio_UnitarioC"];
                     aux.Subtotal = (decimal)datos.Lector["Subtotal"];
                     aux.Producto.Nombre = datos.Lector["Nombre"].ToString();
-                    aux.Producto.StockActual = (int)datos.Lector["Stock_Actual"];
                     aux.Producto.StockMinimo = (int)datos.Lector["Stock_Minimo"];
-                    aux.Producto.StockActual = aux.Producto.StockActual - aux.Cantidad;
+                    aux.Producto.StockActual = aux.CantidadVieja;
                     lista.Add(aux);
                 }
 
@@ -151,8 +151,7 @@ namespace Negocio
             {
                 datos.setearProcedimiento("SP_ActualizarStock");
                 datos.setearParametro("@idproducto", producto.Producto.Id);
-                producto.Producto.StockActual += producto.Cantidad;
-                datos.setearParametro("@stock", producto.Producto.StockActual);
+                datos.setearParametro("@stock", producto.Cantidad);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
