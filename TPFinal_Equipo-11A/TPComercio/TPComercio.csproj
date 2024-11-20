@@ -93,6 +93,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="FormularioCompra.aspx" />
+    <Content Include="FormularioVenta.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Inventario.aspx" />
     <Content Include="Login.aspx" />
@@ -162,6 +163,13 @@
     </Compile>
     <Compile Include="FormularioCompra.aspx.designer.cs">
       <DependentUpon>FormularioCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioVenta.aspx.cs">
+      <DependentUpon>FormularioVenta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioVenta.aspx.designer.cs">
+      <DependentUpon>FormularioVenta.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
