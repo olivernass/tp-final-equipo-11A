@@ -26,11 +26,11 @@
         </div>
         <div class="coldf">
             <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Inventario.aspx';">
-                <img src="Content/Iconos/warehouse.png" alt="Inventario">
-                <div>Inventario</div>
+                <img src="Content/Iconos/warehouse.png" alt="Productos">
+                <div>Productos</div>
             </button>
         </div>
-        <div class="coldf">
+        <div class="coldf" runat="server" id="btnUsuariosDiv">
             <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Usuarios.aspx';">
                 <img src="Content/Iconos/usuario.png" alt="Usuarios">
                 <div>Usuarios</div>
@@ -60,7 +60,7 @@
                 <div>Categorias</div>
             </button>
         </div>
-        <div class="coldf">
+        <div class="coldf" runat="server" id="btnAdminDiv">
             <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Admin.aspx';">
                 <img src="Content/Iconos/admin.png" alt="Admin Panel">
                 <div>Admin Panel</div>

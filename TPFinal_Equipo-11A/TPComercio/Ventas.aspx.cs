@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 
 namespace TPComercio
 {
@@ -13,6 +14,8 @@ namespace TPComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
+
             if (!IsPostBack)
             {
                 cargarClientes();
@@ -99,7 +102,7 @@ namespace TPComercio
                                         $"<td>{(cliente.Activo ? "Sí" : "No")}</td>" +
                                         $"<td>" +
                                             // Botón Facturar en HTML
-                                            $"<button type='button' class='btn btn-primary' onclick='redirigirFormularioVenta({cliente.Id})'>Facturar</button>" +
+                                            $"<button type='button' class='btn btn-primary btn-sm' onclick='redirigirFormularioVenta({cliente.Id})'>Facturar</button>" +
                                         $"</td>" +
                                      $"</tr>";
                 }

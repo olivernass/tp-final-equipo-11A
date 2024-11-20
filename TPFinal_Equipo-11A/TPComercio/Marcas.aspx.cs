@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TPComercio
@@ -14,6 +15,8 @@ namespace TPComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
+
             if (!IsPostBack)
             {
                 cargarMarcas();
@@ -179,31 +182,6 @@ namespace TPComercio
         }
 
 
-        //protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
-        //{
-        //        if (e.CommandName == "Inactivar")
-        //        {
-        //            int idMarca = Convert.ToInt32(e.CommandArgument);
-        //            Marca marcaEliminar = new Marca();
-        //            {
-        //                marcaEliminar.Id = idMarca;
-        //            }
-        //            MarcaNegocio negocio = new MarcaNegocio();
-        //            negocio.eliminarL(marcaEliminar);
-        //            cargarMarcas();
-        //        }
-        //        else if (e.CommandName == "Activar")
-        //        {
-        //            int idMarca = Convert.ToInt32(e.CommandArgument);
-        //            Marca marcaActivar = new Marca();
-        //            {
-        //                marcaActivar.Id = idMarca;
-        //            }
-        //            MarcaNegocio negocio = new MarcaNegocio();
-        //            negocio.activar(marcaActivar);
-        //            cargarMarcas();
-        //        }
-        //}
 
         protected void rptMarcas_ItemCommand(object source, RepeaterCommandEventArgs e)
         {

@@ -7,14 +7,18 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 
 namespace TPComercio
 {
     public partial class Clientes : System.Web.UI.Page
     {
+
         public bool FiltroAvanzado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
+
             FiltroAvanzado = chkAvanzado.Checked;
 
             if (!IsPostBack)

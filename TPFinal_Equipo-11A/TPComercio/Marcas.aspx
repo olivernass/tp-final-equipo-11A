@@ -69,15 +69,6 @@
                                             Modificar
                                         </button>
 
-                                        <%--<!-- Botón Eliminar -->
-                                    <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-acciones btn-sm" Text="Inactivar"
-                                        OnClientClick="return confirm('¿Estás seguro de que deseas eliminar esta marca?');"
-                                        CommandName="Inactivar" CommandArgument='<%# Eval("Id") %>' />
-
-                                    <!-- Botón Activar -->
-                                    <asp:Button ID="btnActivar" runat="server" CssClass="btn btn-success btn-acciones btn-sm" Text="Activar"
-                                        OnClientClick="return confirm('¿Estás seguro de que deseas activar esta marca?');"
-                                        CommandName="Activar" CommandArgument='<%# Eval("Id") %>' />--%>
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -148,35 +139,6 @@
     </div>
 
 
-    <%--<script type="text/javascript">
-        function cargarDatosModal(id, nombre) {
-            document.getElementById('<%= hdnIdMarca.ClientID %>').value = id;
-            document.getElementById('<%= txtNombreMarcaMod.ClientID %>').value = nombre;
-        }
-    </script>--%>
-
-    <%--<script type="text/javascript">
-        function cargarDatosModal(id, nombre, estado) {
-            // Establecer el ID y el nombre en los elementos ocultos y en el campo de texto
-            document.getElementById('<%= hdnIdMarca.ClientID %>').value = id;
-        document.getElementById('<%= txtNombreMarcaMod.ClientID %>').value = nombre;
-        
-        // Configurar la visibilidad de los botones según el estado
-        const btnInactivar = document.getElementById('<%= btnInactivarModal.ClientID %>');
-        const btnActivar = document.getElementById('<%= btnActivarModal.ClientID %>');
-
-            if (estado == "Activo") {
-                btnInactivar.style.display = 'none';
-                btnActivar.style.display = 'block';
-                
-            } else if (estado == "Inactivo"){
-                btnInactivar.style.display = 'block';
-                btnActivar.style.display = 'none';
-            }
-        }
-    </script>--%>
-
-
     <script type="text/javascript">
         function cargarDatosModal(id, nombre, estado) {
             document.getElementById('<%= hdnIdMarca.ClientID %>').value = id;
@@ -205,29 +167,6 @@
         }
     </script>
 
-
-
-    <%--<script type="text/javascript">
-        function toggleFiltro(filtro) {
-            var chkFiltroNombre = document.getElementById('<%= chkFiltroNombre.ClientID %>');
-        var txtFiltroMarcas = document.getElementById('<%= txtFiltroMarcas.ClientID %>');
-        var chkFiltroEstado = document.getElementById('<%= chkFiltroEstado.ClientID %>');
-        var ddlEstadoMarcas = document.getElementById('<%= ddlEstadoMarcas.ClientID %>');
-        var btnBuscar = document.getElementById('<%= btnBuscar.ClientID %>');
-
-            if (filtro === 'nombre') {
-                txtFiltroMarcas.disabled = !chkFiltroNombre.checked;
-                ddlEstadoMarcas.disabled = chkFiltroNombre.checked;
-                btnBuscar.disabled = chkFiltroNombre.checked; // Deshabilita "Buscar" cuando se selecciona el filtro por nombre
-                chkFiltroEstado.checked = false; // Desmarcar la casilla de estado si se activa el filtro de nombre
-            } else if (filtro === 'estado') {
-                ddlEstadoMarcas.disabled = !chkFiltroEstado.checked;
-                txtFiltroMarcas.disabled = chkFiltroEstado.checked;
-                btnBuscar.disabled = !chkFiltroEstado.checked; // Habilita "Buscar" solo cuando el filtro de estado está seleccionado
-                chkFiltroNombre.checked = false; // Desmarcar la casilla de nombre si se activa el filtro de estado
-            }
-        }
-    </script>--%>
 
 
     <script type="text/javascript">

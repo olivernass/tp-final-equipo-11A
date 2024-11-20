@@ -139,11 +139,15 @@
     width: 100%;
 }
 
-    .tableClientes th, .tableClientes td {
-        text-align: left;
-        vertical-align: middle;
-        padding: 8px;
-    }
+.tableVentasClientes {
+    width: 100%;
+}
+
+.tableClientes th, .tableClientes td {
+    text-align: left;
+    vertical-align: middle;
+    padding: 8px;
+}
 
 .tableProductos {
     width: 100%;
@@ -305,6 +309,24 @@ tr:hover .btn-acciones {
     text-align: center;
 }
 
-.reporteClientes ul + ul {
-    margin-top: 15px;
- }
+    .reporteClientes ul + ul {
+        margin-top: 15px;
+    }
+
+.containerVentas {
+    padding-top: 70px;
+    padding-left: 25px;
+}
+
+.containerVolver {
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.tableVentasClientes tbody tr td .btn {
+    display: none; /* Oculta el botón Facturar por defecto */
+}
+
+.tableVentasClientes tbody tr:hover td .btn {
+    display: inline-block; /* Muestra el botón cuando el mouse está sobre la fila */
+}

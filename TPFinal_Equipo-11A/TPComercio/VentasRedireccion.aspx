@@ -8,13 +8,13 @@
 
         <div class="coldf">
             <button type="button" class="btn btn-light btn-default" onclick="window.location.href='Ventas.aspx';">
-                <img src="Content/Iconos/barcode.png" alt="Facturar">
+                <img src="Content/Iconos/online-payment.png" alt="Facturar">
                 <div>Facturar</div>
             </button>
         </div>
         <div class="coldf">
             <button type="button" class="btn btn-light btn-default" onclick="window.location.href='VentasHistorial.aspx';">
-                <img src="Content/Iconos/ecommerce.png" alt="Ver historial">
+                <img src="Content/Iconos/search.png" alt="Ver historial">
                 <div>Ver historial</div>
             </button>
         </div>

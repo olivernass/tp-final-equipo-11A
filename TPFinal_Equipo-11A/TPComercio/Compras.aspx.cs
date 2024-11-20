@@ -7,14 +7,17 @@ using System.Web;
 using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 
 namespace TPComercio
 {
     public partial class Compras : System.Web.UI.Page
     {
+
         public List<Proveedor> listaproveedores { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
 
             if (!IsPostBack)
             {

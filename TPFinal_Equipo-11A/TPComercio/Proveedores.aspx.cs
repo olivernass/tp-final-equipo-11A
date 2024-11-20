@@ -13,10 +13,11 @@ namespace TPComercio
 {
     public partial class Proveedores : System.Web.UI.Page
     {
+
         public bool FiltroAvanzado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            AuthHelper.ValidarAcceso(new List<int> { 1 }, Response, Session);
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
 
             FiltroAvanzado = chkAvanzado.Checked;
 
@@ -62,43 +63,13 @@ namespace TPComercio
 
 
 
-        // Modificar un Proveedor existente
-        //protected void btnGuardarCambios_Click(object sender, EventArgs e)
-        //{
-        //    if (!string.IsNullOrEmpty(txtCUITProveedorMod.Text) && !string.IsNullOrEmpty(txtNombreProveedorMod.Text))
-        //    {
-        //        int idProveedor = int.Parse(hdnIdProveedor.Value); // ID del Proveedor almacenado en el HiddenField
-        //        long cuitProveedor = Convert.ToInt64(txtCUITProveedorMod.Text);
 
-        //        Proveedor ProveedorModificado = new Proveedor
-        //        {
-        //            Id = idProveedor,
-        //            CUIT = cuitProveedor,
-        //            Siglas = txtSiglasProveedorMod.Text,
-        //            Nombre = txtNombreProveedorMod.Text,
-        //            Direccion = txtDireccionProveedorMod.Text,
-        //            Correo = txtCorreoProveedorMod.Text,
-        //            Telefono = txtTelefonoProveedorMod.Text,
-        //        };
-
-        //        ProveedorNegocio negocio = new ProveedorNegocio();
-        //        negocio.modificar(ProveedorModificado);
-
-        //        // Recargar la lista de Proveedores
-        //        cargarProveedores();
-
-        //        limpiarCamposModificacion();
-
-        //        // Cerrar el modal de modificar Proveedor
-        //        ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarProveedor').modal('hide');", true);
-        //    }
-        //}
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
             ProveedorNegocio negocio = new ProveedorNegocio();
 
-            // Validación de los campos del formulario
+
             if (string.IsNullOrEmpty(txtCUITProveedorMod.Text) ||
                 string.IsNullOrEmpty(txtSiglasProveedorMod.Text) ||
                 string.IsNullOrEmpty(txtNombreProveedorMod.Text) ||
@@ -106,50 +77,50 @@ namespace TPComercio
                 string.IsNullOrEmpty(txtTelefonoProveedorMod.Text) ||
                 string.IsNullOrEmpty(txtCorreoProveedorMod.Text))
             {
-                // Mostrar mensaje de error en caso de campos vacíos
+
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Todos los campos son obligatorios.');", true);
                 return;
             }
 
-            // Validar CUIT (solo números)
+
             if (!Regex.IsMatch(txtCUITProveedorMod.Text, @"^\d+$"))
             {
-                // Mostrar mensaje si el CUIT no contiene solo números
+
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El CUIT solo debe contener números.');", true);
                 return;
             }
 
-            // Obtener el ID del proveedor y el CUIT ingresado
-            int idProveedor = Convert.ToInt32(hdnIdProveedor.Value); // ID del proveedor desde el HiddenField
+
+            int idProveedor = Convert.ToInt32(hdnIdProveedor.Value);
             long cuitProveedor = Convert.ToInt64(txtCUITProveedorMod.Text);
 
-            // Verificar si el CUIT ya existe para otro proveedor
+
             if (negocio.existeCUITProveedorModificado(cuitProveedor, idProveedor))
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El CUIT ingresado ya está registrado para otro proveedor.');", true);
                 return;
             }
 
-            // Validar formato de correo electrónico
+
             if (!Regex.IsMatch(txtCorreoProveedorMod.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Correo electrónico no válido.');", true);
                 return;
             }
 
-            // Validar teléfono (solo números)
+
             if (!Regex.IsMatch(txtTelefonoProveedorMod.Text, @"^\d+$"))
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('El teléfono solo debe contener números.');", true);
                 return;
             }
 
-            // Procesar la actualización del proveedor
+
             try
             {
                 Proveedor proveedorModificado = new Proveedor
                 {
-                    Id = idProveedor, // Usar el ID obtenido del HiddenField
+                    Id = idProveedor,
                     CUIT = cuitProveedor,
                     Siglas = txtSiglasProveedorMod.Text,
                     Nombre = txtNombreProveedorMod.Text,
@@ -160,21 +131,21 @@ namespace TPComercio
 
                 negocio.modificar(proveedorModificado);
 
-                cargarProveedores(); // Recargar la lista de proveedores
+                cargarProveedores();
 
-                // Cerrar el modal y limpiar campos
+
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModalModificar", "$('#modalModificarProveedor').modal('hide');", true);
-                limpiarCamposModificacion(); // Limpia los campos después de la actualización
+                limpiarCamposModificacion();
             }
             catch (Exception ex)
             {
-                // Manejo de errores
+
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "error", "alert('Hubo un error al actualizar el proveedor: " + ex.Message + "');", true);
             }
         }
 
 
-        // Eliminar un Proveedor
+
         protected void rptProveedores_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "Inactivar")
@@ -210,17 +181,17 @@ namespace TPComercio
 
             Proveedor proveedorEliminar = new Proveedor { Id = idProveedor };
             negocio.eliminarL(proveedorEliminar);
-            cargarProveedores(); // Actualizar la lista de marcas
+            cargarProveedores();
 
-            // Limpiar los controles de filtro
+
             txtFiltroProveedores.Text = string.Empty;
             ddlEstadoProveedores.SelectedValue = "Todos";
 
-            // Restablecer los estados de los filtros
+
             chkFiltroNombre.Checked = false;
             chkFiltroEstado.Checked = false;
 
-            // Desactivar los controles de filtro
+
             txtFiltroProveedores.Enabled = false;
             ddlEstadoProveedores.Enabled = false;
             btnBuscar.Enabled = false;
@@ -233,17 +204,17 @@ namespace TPComercio
 
             Proveedor proveedorActivar = new Proveedor { Id = idProveedor };
             negocio.activar(proveedorActivar);
-            cargarProveedores(); // Actualizar la lista de marcas
+            cargarProveedores();
 
-            // Limpiar los controles de filtro
+
             txtFiltroProveedores.Text = string.Empty;
             ddlEstadoProveedores.SelectedValue = "Todos";
 
-            // Restablecer los estados de los filtros
+
             chkFiltroNombre.Checked = false;
             chkFiltroEstado.Checked = false;
 
-            // Desactivar los controles de filtro
+
             txtFiltroProveedores.Enabled = false;
             ddlEstadoProveedores.Enabled = false;
             btnBuscar.Enabled = false;
@@ -260,22 +231,18 @@ namespace TPComercio
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
 
-            //cargarMarcas();
-            //txtFiltroMarcas.Text = string.Empty;
-            //ddlEstadoMarcas.SelectedValue = "Todos";
 
-            // Cargar todas las marcas
             cargarProveedores();
 
-            // Limpiar los controles de filtro
+
             txtFiltroProveedores.Text = string.Empty;
             ddlEstadoProveedores.SelectedValue = "Todos";
 
-            // Restablecer los estados de los filtros
+
             chkFiltroNombre.Checked = false;
             chkFiltroEstado.Checked = false;
 
-            // Desactivar los controles de filtro
+
             txtFiltroProveedores.Enabled = false;
             ddlEstadoProveedores.Enabled = false;
             btnBuscar.Enabled = true;
@@ -290,13 +257,11 @@ namespace TPComercio
 
             if (FiltroAvanzado)
             {
-                // Establecer "CUIT" como valor predeterminado en ddlCampo
+
                 ddlCampo.SelectedValue = "CUIT";
 
-                // Llamar al método para actualizar los criterios según el campo seleccionado
                 ddlCampo_SelectedIndexChanged(sender, e);
 
-                // Establecer "Igual a" como valor predeterminado en ddlCriterio
                 ddlCriterio.SelectedValue = "Igual a";
             }
         }
@@ -319,50 +284,7 @@ namespace TPComercio
             }
         }
 
-        //protected void btnBuscar_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-
-        //        ProveedorNegocio negocio = new ProveedorNegocio();
-
-        //        // Verificar si se seleccionó algún criterio o texto de filtro avanzado
-        //        string campo = ddlCampo.SelectedItem.ToString();
-        //        string criterio = ddlCriterio.SelectedItem != null ? ddlCriterio.SelectedItem.ToString() : string.Empty;
-        //        string filtroAvanzado = !string.IsNullOrEmpty(txtFiltroAvanzado.Text) ? txtFiltroAvanzado.Text : string.Empty;
-        //        string estado = ddlEstado.SelectedItem.ToString();
-
-        //        // Llamar al método filtrar con los parámetros adecuados
-        //        rptProveedores.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado, estado);
-        //        rptProveedores.DataBind();
-
-        //        //// Limpiar los criterios y el filtro avanzado
-        //        //ddlCriterio.Items.Clear();
-        //        //txtFiltroAvanzado.Text = string.Empty;
-
-        //        // Limpiar el filtro avanzado
-        //        txtFiltroAvanzado.Text = string.Empty;
-
-        //        // Restablecer "CUIT" como valor predeterminado en ddlCampo
-        //        ddlCampo.SelectedValue = "CUIT";
-
-        //        // Llamar al método para actualizar los criterios de "DNI"
-        //        ddlCampo_SelectedIndexChanged(sender, e);
-
-        //        // Establecer "Igual a" como valor predeterminado en ddlCriterio
-        //        ddlCriterio.SelectedValue = "Igual a";
-
-
-        //        //ProveedorNegocio negocio = new ProveedorNegocio();
-        //        //rptProveedores.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(), ddlCriterio.SelectedItem.ToString(), txtFiltroAvanzado.Text, ddlEstado.SelectedItem.ToString());
-        //        //rptProveedores.DataBind();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Session.Add("Error", ex);
-        //        throw;
-        //    }
-        //}
+       
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -371,40 +293,34 @@ namespace TPComercio
 
                 ProveedorNegocio negocio = new ProveedorNegocio();
 
-                // Verificar si se seleccionó algún criterio o texto de filtro avanzado
+                
                 string campo = ddlCampo.SelectedItem.ToString();
                 string criterio = ddlCriterio.SelectedItem != null ? ddlCriterio.SelectedItem.ToString() : string.Empty;
                 string filtroAvanzado = !string.IsNullOrEmpty(txtFiltroAvanzado.Text) ? txtFiltroAvanzado.Text : string.Empty;
 
 
-                // Llamar al método filtrar con los parámetros adecuados
+               
                 rptProveedores.DataSource = negocio.filtrar(campo, criterio, filtroAvanzado);
                 rptProveedores.DataBind();
 
-                //// Limpiar los criterios y el filtro avanzado
+           
                 ddlCriterio.Items.Clear();
                 txtFiltroAvanzado.Text = string.Empty;
 
 
-                // Limpiar el filtro avanzado
                 txtFiltroAvanzado.Text = string.Empty;
 
-                // Restablecer "CUIT" como valor predeterminado en ddlCampo
+              
                 ddlCampo.SelectedValue = "CUIT";
 
-                // Llamar al método para actualizar los criterios de "CUIT"
+           
                 ddlCampo_SelectedIndexChanged(sender, e);
 
-                // Establecer "Igual a" como valor predeterminado en ddlCriterio
+           
                 ddlCriterio.SelectedValue = "Igual a";
 
 
-                //ClienteNegocio negocio = new ClienteNegocio();
-                //rptClientes.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),ddlCriterio.SelectedItem.ToString(),txtFiltroAvanzado.Text);
-                //rptClientes.DataBind();
-
-                //ddlCriterio.Items.Clear();
-                //txtFiltroAvanzado.Text = string.Empty;
+           
             }
             catch (Exception ex)
             {
@@ -421,15 +337,15 @@ namespace TPComercio
                 rptProveedores.DataSource = negocio.filtrarEstado(ddlEstadoProveedores.SelectedItem.ToString());
                 rptProveedores.DataBind();
 
-                // Limpiar los controles de filtro
+               
                 txtFiltroProveedores.Text = string.Empty;
                 ddlEstadoProveedores.SelectedValue = "Todos";
 
-                // Restablecer los estados de los filtros
+              
                 chkFiltroNombre.Checked = false;
                 chkFiltroEstado.Checked = false;
 
-                // Desactivar los controles de filtro
+                
                 txtFiltroProveedores.Enabled = false;
                 ddlEstadoProveedores.Enabled = false;
                 btnBuscar.Enabled = false;
@@ -441,49 +357,22 @@ namespace TPComercio
             }
         }
 
-        //protected void btnLimpiar_Click(object sender, EventArgs e)
-        //{
-        //    cargarProveedores();
-        //    ddlCriterio.Items.Clear();
-        //    txtFiltroAvanzado.Text = string.Empty;
-
-        //    //// Establecer valores predeterminados en ddlCampo y ddlEstado
-        //    //ddlCampo.SelectedValue = "CUIT";
-        //    //ddlEstado.SelectedValue = "Todos";
-
-        //    // Establecer "CUIT" como valor predeterminado en ddlCampo
-        //    ddlCampo.SelectedValue = "CUIT";
-
-        //    // Llamar a ddlCampo_SelectedIndexChanged para cargar los criterios de "DNI"
-        //    ddlCampo_SelectedIndexChanged(sender, e);
-
-        //    // Establecer "Igual a" como valor predeterminado en ddlCriterio
-        //    ddlCriterio.SelectedValue = "Igual a";
-
-        //    // Establecer el estado predeterminado en ddlEstado
-        //    ddlEstado.SelectedValue = "Todos";
-        //}
+        
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
             cargarProveedores();
-            //ddlCriterio.Items.Clear();
+            
             txtFiltroAvanzado.Text = string.Empty;
 
-            //// Establecer valores predeterminados en ddlCampo y ddlEstado
-            //ddlCampo.SelectedValue = "DNI";
-            //ddlCriterio.SelectedValue = "Igual a";
-            //ddlEstado.SelectedValue = "Todos";
-
-            // Establecer "DNI" como valor predeterminado en ddlCampo
+ 
             ddlCampo.SelectedValue = "CUIT";
 
-            // Llamar a ddlCampo_SelectedIndexChanged para cargar los criterios de "DNI"
             ddlCampo_SelectedIndexChanged(sender, e);
 
-            // Establecer "Igual a" como valor predeterminado en ddlCriterio
+    
             ddlCriterio.SelectedValue = "Igual a";
 
-            // Establecer el estado predeterminado en ddlEstado
+       
             ddlEstadoProveedores.SelectedValue = "Todos";
         }
 
@@ -492,20 +381,20 @@ namespace TPComercio
         {
             try
             {
-                // Crear la instancia de MarcaNegocio
+                
                 ProveedorNegocio negocio = new ProveedorNegocio();
 
                 List<Proveedor> listaFiltrada;
 
-                if (string.IsNullOrEmpty(filtro)) // Si el filtro está vacío, devolver toda la lista
+                if (string.IsNullOrEmpty(filtro)) 
                 {
                     listaFiltrada = negocio.listar2();
                 }
                 else
                 {
-                    // Filtrar la lista de marcas basándonos en el texto ingresado
+                    
                     listaFiltrada = negocio.listar2()
-                        .Where(x => x.Nombre.ToLower().Contains(filtro.ToLower())) // Filtrar por nombre
+                        .Where(x => x.Nombre.ToLower().Contains(filtro.ToLower())) 
                         .ToList();
                 }
 

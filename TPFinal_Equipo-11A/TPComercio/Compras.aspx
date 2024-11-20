@@ -45,7 +45,7 @@
             </asp:Repeater>
 
             <br />
-            <asp:Button ID="btnGenerarCompra" runat="server" Text="Generar nueva compra" OnClick="btnGenerarCompra_Click"/>
-            <asp:Button ID="btnVolver" runat="server" Text="Volver" OnClick="btnVolver_Click"/>
+            <asp:Button ID="btnGenerarCompra" runat="server" CssClass="btn btn-primary" Text="Generar nueva compra" OnClick="btnGenerarCompra_Click"/>
+            <asp:Button ID="btnVolver" runat="server" CssClass="btn btn-primary" Text="Volver" OnClick="btnVolver_Click"/>
         
 </asp:Content>

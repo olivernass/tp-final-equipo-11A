@@ -50,9 +50,9 @@
           </table>
         </FooterTemplate>
     </asp:Repeater>
-    <asp:Button ID="btnVolver" runat="server" Text="Volver" OnClick="btnVolver_Click"/>
-    <asp:Button ID="btnActualizarMontos" runat="server" Text="Actualizar montos" OnClick="btnActualizarMontos_Click"/>
-    <asp:Button ID="btnGenerarVenta" runat="server" Text="Generar Venta" OnClick="btnGenerarVenta_Click" Visible="false"/>
+    <asp:Button ID="btnVolver" runat="server" Text="Volver" CssClass="btn btn-primary" OnClick="btnVolver_Click"/>
+    <asp:Button ID="btnActualizarMontos" runat="server" CssClass="btn btn-primary" Text="Actualizar montos" OnClick="btnActualizarMontos_Click"/>
+    <asp:Button ID="btnGenerarVenta" runat="server" CssClass="btn btn-primary" Text="Generar Venta" OnClick="btnGenerarVenta_Click" Visible="false"/>
 
     <script>
         function validarCantidad(input) {
