@@ -49,6 +49,7 @@
     <Compile Include="Detalle_Compra.cs" />
     <Compile Include="Detalle_Venta.cs" />
     <Compile Include="Factura.cs" />
+    <Compile Include="HistorialVenta.cs" />
     <Compile Include="Imagen.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="MarcaReportes.cs" />

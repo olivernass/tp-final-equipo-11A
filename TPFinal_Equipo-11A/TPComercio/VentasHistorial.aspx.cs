@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +13,28 @@ namespace TPComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                //CargarHistorialEnVista();
 
+                CargarHistorialEnVista();
+            }
+        }
+
+        //private void CargarHistorialEnVista()
+        //{
+        //    HistorialVentasNegocio negocio = new HistorialVentasNegocio();
+        //    List<HistorialVenta> historial = negocio.CargarHistorialVentas();
+        //    gvHistorialVentas.DataSource = historial;
+        //    gvHistorialVentas.DataBind();
+        //}
+
+        private void CargarHistorialEnVista()
+        {
+            HistorialVentasNegocio negocio = new HistorialVentasNegocio();
+            List<HistorialVenta> historial = negocio.CargarHistorialVentas();
+            gvHistorialVentas.DataSource = historial;
+            gvHistorialVentas.DataBind();
         }
     }
 }
