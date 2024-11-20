@@ -11,35 +11,17 @@ namespace TPComercio
 {
 
 
-    public partial class Ventas
+    public partial class VentasHistorial
     {
 
         /// <summary>
-        /// Control txtFiltroDNIClientes.
+        /// Control gvHistorialVentas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFiltroDNIClientes;
-
-        /// <summary>
-        /// Control btnBorrar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBorrar;
-
-        /// <summary>
-        /// Control rptVentasClientes.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptVentasClientes;
+        protected global::System.Web.UI.WebControls.GridView gvHistorialVentas;
 
         /// <summary>
         /// Control btnVolver.

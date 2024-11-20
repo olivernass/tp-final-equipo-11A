@@ -93,6 +93,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="FormularioCompra.aspx" />
+    <Content Include="FormularioVenta.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Inventario.aspx" />
     <Content Include="Login.aspx" />
@@ -108,6 +109,8 @@
     <Content Include="RepProveedores.aspx" />
     <Content Include="Usuarios.aspx" />
     <Content Include="Ventas.aspx" />
+    <Content Include="VentasHistorial.aspx" />
+    <Content Include="VentasRedireccion.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +169,13 @@
     </Compile>
     <Compile Include="FormularioCompra.aspx.designer.cs">
       <DependentUpon>FormularioCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioVenta.aspx.cs">
+      <DependentUpon>FormularioVenta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioVenta.aspx.designer.cs">
+      <DependentUpon>FormularioVenta.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -276,6 +286,20 @@
     </Compile>
     <Compile Include="Ventas.aspx.designer.cs">
       <DependentUpon>Ventas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VentasHistorial.aspx.cs">
+      <DependentUpon>VentasHistorial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VentasHistorial.aspx.designer.cs">
+      <DependentUpon>VentasHistorial.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VentasRedireccion.aspx.cs">
+      <DependentUpon>VentasRedireccion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VentasRedireccion.aspx.designer.cs">
+      <DependentUpon>VentasRedireccion.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
