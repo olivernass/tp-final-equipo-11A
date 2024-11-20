@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+    <asp:Label ID="lblCodigosStock" runat="server" Text="Articulos a pedir stock:" Visible="false"></asp:Label>
     <asp:Repeater ID="rptDetalleVenta" runat="server" OnItemDataBound="rptDetalleVenta_ItemDataBound">
         <HeaderTemplate>
             <table class="table">
@@ -32,6 +32,8 @@
                 <td>
                     <asp:Label ID="lblProductoStockActual" runat="server" Text='<%# Eval("Producto.StockActual") %>'></asp:Label></td>
                 <td>
+                    <asp:Label ID="lblProductoStockMinimo" runat="server" Text='<%# Eval("Producto.StockMinimo") %>' Visible="false"></asp:Label></td>
+                <td>
                     <asp:TextBox
                         ID="txtCantidad"
                         runat="server"
@@ -58,16 +60,24 @@
         function validarCantidad(input) {
             const value = input.value.trim();
             const errorMsg = document.getElementById("error-msg");
+            const btnActualizarMontos = document.getElementById("<%= btnActualizarMontos.ClientID %>");
 
+            // Validar que el valor no esté vacío, sea un número positivo, y no comience con 0
+            if (value === "" || isNaN(value) || parseInt(value, 10) < 0 || /^0\d+/.test(value)) {
+                if (value === "" || isNaN(value)) {
+                    errorMsg.textContent = "La cantidad debe ser un número válido y no estar vacío.";
+                } else if (parseInt(value, 10) < 0) {
+                    errorMsg.textContent = "La cantidad debe ser un número positivo.";
+                } else if (/^0\d+/.test(value)) {
+                    errorMsg.textContent = "La cantidad no puede comenzar con un 0.";
+                }
 
-            if (value === "" || isNaN(value) || parseInt(value, 10) < 0) {
-                errorMsg.textContent = "La cantidad debe ser un número positivo y no estar vacío.";
                 input.style.borderColor = "red";
-
+                btnActualizarMontos.disabled = true;
             } else {
                 errorMsg.textContent = "";
                 input.style.borderColor = "";
-
+                btnActualizarMontos.disabled = false;
             }
         }
     </script>

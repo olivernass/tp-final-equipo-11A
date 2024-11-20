@@ -58,8 +58,16 @@
         const errorMsg = document.getElementById("error-msg");
         const btnActualizar = document.getElementById("<%= btnActualizar.ClientID %>");
 
-        if (value === "" || isNaN(value) || parseInt(value, 10) < 0) {
-            errorMsg.textContent = "La cantidad debe ser un número positivo y no estar vacío.";
+        // Validar que el valor no esté vacío, sea un número positivo, y no comience con 0
+        if (value === "" || isNaN(value) || parseInt(value, 10) < 0 || /^0\d+/.test(value)) {
+            if (value === "" || isNaN(value)) {
+                errorMsg.textContent = "La cantidad debe ser un número válido y no estar vacío.";
+            } else if (parseInt(value, 10) < 0) {
+                errorMsg.textContent = "La cantidad debe ser un número positivo.";
+            } else if (/^0\d+/.test(value)) {
+                errorMsg.textContent = "La cantidad no puede comenzar con un 0.";
+            }
+
             input.style.borderColor = "red";
             btnActualizar.disabled = true;
         } else {

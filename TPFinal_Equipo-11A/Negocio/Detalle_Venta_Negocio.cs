@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT ID, Nombre, Precio_Venta, Stock_Actual FROM Productos");
+                datos.setearConsulta("SELECT ID, Nombre, Precio_Venta, Stock_Actual, Stock_Minimo FROM Productos");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -28,6 +28,7 @@ namespace Negocio
                     aux.Producto.Nombre = datos.Lector["Nombre"].ToString();
                     aux.Producto.Precio_Venta = (decimal)datos.Lector["Precio_Venta"];
                     aux.Producto.StockActual = (int)datos.Lector["Stock_Actual"];
+                    aux.Producto.StockMinimo = (int)datos.Lector["Stock_Minimo"];
 
                     lista.Add(aux);
                 }
