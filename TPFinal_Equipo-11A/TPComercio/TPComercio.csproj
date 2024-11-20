@@ -105,6 +105,8 @@
     <Content Include="Reportes.aspx" />
     <Content Include="Usuarios.aspx" />
     <Content Include="Ventas.aspx" />
+    <Content Include="VentasHistorial.aspx" />
+    <Content Include="VentasRedireccion.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -252,6 +254,20 @@
     </Compile>
     <Compile Include="Ventas.aspx.designer.cs">
       <DependentUpon>Ventas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VentasHistorial.aspx.cs">
+      <DependentUpon>VentasHistorial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VentasHistorial.aspx.designer.cs">
+      <DependentUpon>VentasHistorial.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VentasRedireccion.aspx.cs">
+      <DependentUpon>VentasRedireccion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VentasRedireccion.aspx.designer.cs">
+      <DependentUpon>VentasRedireccion.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

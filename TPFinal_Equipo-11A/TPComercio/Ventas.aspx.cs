@@ -42,7 +42,7 @@ namespace TPComercio
         }
         protected void btnVolver_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Default.aspx");
+            Response.Redirect("VentasRedireccion.aspx");
         }
 
         protected void txtFiltroDNIClientes_TextChanged(object sender, EventArgs e)
