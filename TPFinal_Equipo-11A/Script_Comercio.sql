@@ -223,6 +223,11 @@ AS
 SELECT TOP 1 ID FROM Compras ORDER BY FechaCreacion DESC
 GO
 
+CREATE VIEW VW_TraerUltimaVenta
+AS
+SELECT TOP 1 ID FROM Ventas ORDER BY FechaCreacion DESC
+GO
+
 -------- NO VA
 --SELECT PXC.IDProducto, PXC.Precio_UnitarioC, PXC.Cantidad, PXC.Subtotal FROM Productos_x_compra AS PXC
 --INNER JOIN Compras AS C ON C.ID = PXC.ID
@@ -575,6 +580,16 @@ CREATE PROCEDURE SP_Alta_Compra(
 AS
 BEGIN
 	INSERT INTO Compras(IDProveedor,FechaCreacion,FechaEntrega,Total) VALUES (@idproveedor,GETDATE(),DATEADD(DAY, 5, GETDATE()),@total)
+END
+GO
+
+CREATE PROCEDURE SP_Alta_Venta(
+	@idcliente bigint,
+	@total money
+)
+AS
+BEGIN
+	INSERT INTO Ventas(IDCliente,Total,FechaCreacion) VALUES (@idcliente,@total,GETDATE())
 END
 GO
 
@@ -1890,6 +1905,16 @@ begin
 end
 go
 
+CREATE PROCEDURE SP_ActualizarStockVenta(
+	@idproducto bigint,
+	@stock int
+)
+AS
+BEGIN
+	UPDATE Productos SET Stock_Actual -= @stock WHERE ID = @idproducto
+END
+GO
+
 CREATE PROCEDURE SP_ConfirmarCompra(
 	@idcompra BIGINT
 )
@@ -1899,10 +1924,32 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SP_AgregarProductoVenta(
+	@idventa bigint,
+	@idproducto bigint,
+	@cantidad int,
+	@preciounitario money,
+	@subtotal money
+)
+AS
+BEGIN
+	INSERT INTO Productos_x_venta(IDVenta,IDProducto,Cantidad,Precio_UnitarioV,Subtotal)
+	VALUES (@idventa,@idproducto,@cantidad,@preciounitario,@subtotal)
+END
+GO
 
+CREATE PROCEDURE SP_ActualizarMontoEnVenta(
+	@idventa bigint,
+	@total money
+)
+as
+begin
+	UPDATE Ventas SET Total = @total WHERE ID = @idventa
+end
+go
 
-SELECT * FROM COMPRAS
-SELECT * FROM Productos_x_compra
+SELECT * FROM Ventas
+SELECT * FROM Productos_x_venta
 SELECT * FROM Productos
 SELECT * FROM Productos_x_Proveedores
 GO
@@ -1917,3 +1964,4 @@ SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja
 FROM Productos_x_compra AS PXP 
 INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra = 14
 
+SELECT ID, Nombre, Precio_Venta, Stock_Actual, Stock_Minimo FROM Productos
