@@ -31,9 +31,7 @@
                     <asp:Label ID="lblProductoPrecioVenta" runat="server" Text='<%# Eval("Producto.Precio_Venta", "{0:C}") %>'></asp:Label></td>
                 <td>
                     <asp:Label ID="lblProductoStockActual" runat="server" Text='<%# Eval("Producto.StockActual") %>'></asp:Label></td>
-                <td>
-                    <asp:Label ID="lblProductoStockMinimo" runat="server" Text='<%# Eval("Producto.StockMinimo") %>' Visible="false"></asp:Label></td>
-                <td>
+                <td>   
                     <asp:TextBox
                         ID="txtCantidad"
                         runat="server"
@@ -43,6 +41,7 @@
                 <span id="error-msg" style="color: red;"></span>
                 <td>
                     <asp:Label ID="lblSubtotal" runat="server" Text='<%# Eval("Subtotal", "{0:C}") %>'></asp:Label></td>
+                <asp:Label ID="lblProductoStockMinimo" runat="server" Text='<%# Eval("Producto.StockMinimo") %>' Visible="false"></asp:Label></td>       
             </tr>
         </ItemTemplate>
 

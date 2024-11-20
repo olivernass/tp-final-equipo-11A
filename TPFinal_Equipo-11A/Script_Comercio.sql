@@ -1947,21 +1947,3 @@ begin
 	UPDATE Ventas SET Total = @total WHERE ID = @idventa
 end
 go
-
-SELECT * FROM Ventas
-SELECT * FROM Productos_x_venta
-SELECT * FROM Productos
-SELECT * FROM Productos_x_Proveedores
-GO
-
---SELECT * 
---FROM Compras 
---WHERE IDProveedor = 1
---  AND FechaCreacion >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
---  AND FechaCreacion < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0);
-
-SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Minimo 
-FROM Productos_x_compra AS PXP 
-INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra = 14
-
-SELECT ID, Nombre, Precio_Venta, Stock_Actual, Stock_Minimo FROM Productos
