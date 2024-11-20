@@ -1947,3 +1947,27 @@ begin
 	UPDATE Ventas SET Total = @total WHERE ID = @idventa
 end
 go
+
+--CARGA EL HISOTRIAL DE VENTAS
+CREATE PROCEDURE SP_CargarHistorialVentas
+AS
+BEGIN
+    SELECT 
+        c.DNI AS NumeroDocumento,
+        c.Nombre AS NombreCliente,
+        c.Apellido AS ApellidoCliente,
+        p.Nombre AS NombreProducto,
+        pxv.Cantidad,
+        pxv.Subtotal,
+        v.Nro_Factura AS NumeroFactura,
+        v.FechaCreacion,
+        ROW_NUMBER() OVER (PARTITION BY v.Nro_Factura ORDER BY pxv.ID) AS EsPrimeraFila,
+        SUM(pxv.Subtotal) OVER (PARTITION BY v.Nro_Factura) AS TotalFactura
+    FROM Clientes c
+    JOIN Ventas v ON c.ID = v.IDCliente
+    JOIN Productos_x_venta pxv ON v.ID = pxv.IDVenta
+    JOIN Productos p ON pxv.IDProducto = p.ID
+    WHERE pxv.Cantidad > 0
+    ORDER BY v.FechaCreacion DESC, v.Nro_Factura, pxv.ID;
+END;
+GO

@@ -17,6 +17,15 @@ namespace Dominio
         //public long NumeroFactura { get; set; }
         //public DateTime FechaCreacion { get; set; }
 
+        //public int? NumeroDocumento { get; set; }
+        //public string NombreCliente { get; set; }
+        //public string ApellidoCliente { get; set; }
+        //public string NombreProducto { get; set; }
+        //public int Cantidad { get; set; }
+        //public decimal Subtotal { get; set; }
+        //public long? NumeroFactura { get; set; }
+        //public DateTime? FechaCreacion { get; set; }
+
         public int? NumeroDocumento { get; set; }
         public string NombreCliente { get; set; }
         public string ApellidoCliente { get; set; }
@@ -25,5 +34,6 @@ namespace Dominio
         public decimal Subtotal { get; set; }
         public long? NumeroFactura { get; set; }
         public DateTime? FechaCreacion { get; set; }
+        public decimal? TotalFactura { get; set; } // Total por factura
     }
 }

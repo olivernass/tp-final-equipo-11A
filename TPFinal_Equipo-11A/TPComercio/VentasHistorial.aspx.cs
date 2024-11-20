@@ -36,5 +36,10 @@ namespace TPComercio
             gvHistorialVentas.DataSource = historial;
             gvHistorialVentas.DataBind();
         }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("VentasRedireccion.aspx");
+        }
     }
 }
