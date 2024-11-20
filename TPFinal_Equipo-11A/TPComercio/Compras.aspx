@@ -7,6 +7,7 @@
                               AutoPostBack="true" OnSelectedIndexChanged="ddlProveedor_SelectedIndexChanged">
             </asp:DropDownList>
             <asp:Label ID="lblMensajeProveedor" runat="server" Text="Label" Visible="False"></asp:Label>
+            <asp:Label ID="lblCodigosStock" runat="server" Text="Articulos a pedir stock:" Visible="false"></asp:Label>
             <br />
             <asp:Repeater ID="rptCompras" runat="server">
                 <HeaderTemplate>

@@ -12,7 +12,6 @@ namespace TPComercio
     public partial class FormularioVenta : System.Web.UI.Page
     {
         public List<Detalle_Venta> listaDetalleVenta { get; set; }
-        public List<long> productosAPedirStock { get; set; }
         public string codigo { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,18 +20,6 @@ namespace TPComercio
             if (!IsPostBack)
             {
                 cargarProductos();
-                if (Session["productosAPedirStock"] != null)
-                {
-                    List<long> productosAPedirStock = Session["productosAPedirStock"] as List<long>;
-
-                    if (productosAPedirStock != null && productosAPedirStock.Count > 0)
-                    {
-                        lblCodigosStock.Visible = true;
-                        string codigos = string.Join(", ", productosAPedirStock);
-                        lblCodigosStock.Text = "Productos a pedir stock: " + codigos;
-                        Session.Remove("productosAPedirStock");
-                    }
-                }
             }
         }
 
@@ -61,7 +48,6 @@ namespace TPComercio
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Session.Remove("ListaDetalleVenta");
-            Session.Remove("productosAPedirStock");
             Session.Remove("idVenta");
             Response.Redirect("Ventas.aspx");
         }
@@ -113,25 +99,17 @@ namespace TPComercio
                     {
                         int cantidad = 0;
                         if (int.TryParse(txtCantidad.Text, out cantidad))
-                        {
-                            int cantidadCalculada = stockactual - cantidad;
-                            if (cantidadCalculada < stockminimo)
-                            {
-                                if (productosAPedirStock == null)
-                                {
-                                    productosAPedirStock = new List<long>();
-                                }
-                                    productosAPedirStock.Add(productoId);
-                            }
+                        {   
                             if(cantidad > stockactual)
                             {
+                                //PATEA SI LA CANTIDAD ES A VENDER ES MAYOR AL STOCK ACTUAL, DEBERIA DE MOSTRAR ALERTA.
                                 Response.Redirect("Ventas.aspx");
                             }
                             decimal subtotal = Math.Round(precioVenta * cantidad, 2);
                             if (listaDetalleVenta == null)
                             {
                                 Detalle_Venta_Negocio detailneg = new Detalle_Venta_Negocio();
-                                listaDetalleVenta = new List<Detalle_Venta>(); // Inicializa una lista vacía si es null
+                                listaDetalleVenta = new List<Detalle_Venta>();
                                 listaDetalleVenta = detailneg.listarProductos();
                             }
                             Detalle_Venta detalle_Venta = listaDetalleVenta.FirstOrDefault(d => d.Producto.Id == productoId);
@@ -164,7 +142,6 @@ namespace TPComercio
             }
             Session["ListaDetalleVenta"] = listaDetalleVenta;
             Session["idVenta"] = 1;
-            Session["productosAPedirStock"] = productosAPedirStock;
             rptDetalleVenta.DataSource = listaDetalleVenta;
             rptDetalleVenta.DataBind();
             btnGenerarVenta.Visible = true;

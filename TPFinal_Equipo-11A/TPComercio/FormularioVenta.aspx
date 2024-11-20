@@ -4,7 +4,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <asp:Label ID="lblCodigosStock" runat="server" Text="Articulos a pedir stock:" Visible="false"></asp:Label>
     <asp:Repeater ID="rptDetalleVenta" runat="server" OnItemDataBound="rptDetalleVenta_ItemDataBound">
         <HeaderTemplate>
             <table class="table">

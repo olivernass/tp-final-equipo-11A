@@ -215,8 +215,45 @@ namespace Negocio
                     aux.StockMinimo = (int)datos.Lector["Stock_Minimo"];
                     aux.Precio_Compra = (decimal)datos.Lector["Precio_Compra"];
                     aux.Activo = (bool)datos.Lector["Activo"];
-
+                    
                     lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<long> listarIDProducto(int proveedor)
+        {
+            List<long> lista = new List<long>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT P.ID, P.Stock_Actual, P.Stock_Minimo FROM Productos AS P INNER JOIN Productos_x_Proveedores AS PXP ON PXP.IDProducto = P.ID WHERE P.ID = PXP.IDProducto AND PXP.IDProveedor =" + proveedor + "AND P.Activo = 1");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Producto aux = new Producto();
+                    aux.Marca = new Marca();
+                    aux.Categoria = new Categoria();
+                    aux.Imagen = new Imagen();
+                    aux.Id = (long)datos.Lector["ID"];
+                    aux.StockActual = (int)datos.Lector["Stock_Actual"];
+                    aux.StockMinimo = (int)datos.Lector["Stock_Minimo"]; 
+                    if(aux.StockActual < aux.StockMinimo)
+                    {
+                        lista.Add(aux.Id);
+                    }
                 }
 
                 return lista;
