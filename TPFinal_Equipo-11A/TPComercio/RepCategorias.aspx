@@ -4,7 +4,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container-fluid">
+
+        <div class="container-fluid">
         <div class="row">
             <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar position-fixed">
                 <div class="position-sticky pt-3">
@@ -18,10 +19,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="RepProveedores.aspx">Proveedores
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="RepClientes.aspx">Clientes
                             </a>
                         </li>
@@ -30,11 +27,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="RepVentas.aspx">Ventas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="RepCompras.aspx">Compras
+                            <a class="nav-link" href="RepProveedores.aspx">Proveedores
                             </a>
                         </li>
                     </ul>

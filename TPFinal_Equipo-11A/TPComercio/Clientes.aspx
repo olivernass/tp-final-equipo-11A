@@ -7,6 +7,7 @@
 
     <div class="containerClientes">
         <h2 class="h2listado">Listado de Clientes</h2>
+        <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-bs-original-title="Popover Title">Right</button>
 
         <!-- Botón Agregar Cliente -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">

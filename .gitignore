@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/TPFinal_Equipo-11A/TPComercio/RepCompras.aspx
+/TPFinal_Equipo-11A/TPComercio/RepCompras.aspx.cs
+/TPFinal_Equipo-11A/TPComercio/RepCompras.aspx.designer.cs

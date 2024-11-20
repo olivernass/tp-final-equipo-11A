@@ -4,6 +4,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar position-fixed">
@@ -18,10 +19,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="RepProveedores.aspx">Proveedores
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="RepClientes.aspx">Clientes
                             </a>
                         </li>
@@ -30,11 +27,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="RepVentas.aspx">Ventas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="RepCompras.aspx">Compras
+                            <a class="nav-link" href="RepProveedores.aspx">Proveedores
                             </a>
                         </li>
                     </ul>
@@ -43,17 +36,11 @@
         </div>
     </div>
 
-    <%--<div class="containerRepMarcas">
-    <div id="chart_div" style="width: 100%; height: 700px;"></div>
-    <div id="expensive_chart_div" style="width: 100%; height: 500px;"></div>
-    </div>--%>
-
 
     <div class="containerRepMarcas">
         <div style="padding-left: 15px;">
             <h2 class="mb-4 text-center">Marcas con Mayor Cantidad de Productos</h2>
             <div id="chart_div" class="chart-section"></div>
-            <%--<asp:Label runat="server" ID="lblMarcaNombre"></asp:Label>--%>
         </div>
         <div>
             <h2 class="mb-4">Top 10 Marcas con Productos Más Costosos</h2>
@@ -80,7 +67,6 @@
         <div>
             <h2 class="mb-4 text-center">Marcas con Productos Bajos de Stock</h2>
             <div id="chart_div_bajo_stock" class="chart-section"></div>
-            <%-- <asp:Label runat="server" ID="lblMarcasProductosBajoStock"></asp:Label>--%>
         </div>
         <div>
             <div style="padding-top: 170px; padding-left: 3px;">
@@ -96,15 +82,9 @@
                     </tbody>
                 </table>
                 <asp:Label runat="server" ID="lblMarcasSinProductos"></asp:Label>
-                <%--<asp:Label runat="server" ID="lblMarcasActivasInactivas" style="display: none;"></asp:Label>--%>
             </div>
         </div>
     </div>
-
-
-
-
-
 
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
