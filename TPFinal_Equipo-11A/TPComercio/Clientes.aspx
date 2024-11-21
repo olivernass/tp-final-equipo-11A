@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="containerClientes">
-        <h2 class="h2listado">Listado de Clientes</h2>
+        <h2 class="h2listado">Listado de Clientes</h2>        
 
         <!-- Botón Agregar Cliente -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">

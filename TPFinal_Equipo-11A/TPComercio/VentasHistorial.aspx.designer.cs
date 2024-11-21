@@ -11,25 +11,25 @@ namespace TPComercio
 {
 
 
-    public partial class Default
+    public partial class VentasHistorial
     {
 
         /// <summary>
-        /// btnUsuariosDiv control.
+        /// btnVolver control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnUsuariosDiv;
+        protected global::System.Web.UI.WebControls.Button btnVolver;
 
         /// <summary>
-        /// btnAdminDiv control.
+        /// gvHistorialVentas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnAdminDiv;
+        protected global::System.Web.UI.WebControls.GridView gvHistorialVentas;
     }
 }

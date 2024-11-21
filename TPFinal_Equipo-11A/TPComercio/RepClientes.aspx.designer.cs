@@ -11,61 +11,52 @@ namespace TPComercio
 {
 
 
-    public partial class FormularioCompra
+    public partial class RepClientes
     {
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// divReporteClientes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReporteClientes;
 
         /// <summary>
-        /// rptDetalleCompra control.
+        /// divPromedioAntiguedadClientes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptDetalleCompra;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPromedioAntiguedadClientes;
 
         /// <summary>
-        /// btnActualizar control.
+        /// lblClientePromedioAntiguedad control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActualizar;
+        protected global::System.Web.UI.WebControls.Label lblClientePromedioAntiguedad;
 
         /// <summary>
-        /// btnNuevaOC control.
+        /// divPrimerCliente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevaOC;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPrimerCliente;
 
         /// <summary>
-        /// btnConfirmarDescarga control.
+        /// divUltimoCliente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmarDescarga;
-
-        /// <summary>
-        /// btnVolver control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVolver;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divUltimoCliente;
     }
 }

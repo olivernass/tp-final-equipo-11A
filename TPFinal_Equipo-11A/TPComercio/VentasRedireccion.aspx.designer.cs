@@ -11,7 +11,7 @@ namespace TPComercio
 {
 
 
-    public partial class Reportes
+    public partial class VentasRedireccion
     {
     }
 }

@@ -223,6 +223,11 @@ AS
 SELECT TOP 1 ID FROM Compras ORDER BY FechaCreacion DESC
 GO
 
+CREATE VIEW VW_TraerUltimaVenta
+AS
+SELECT TOP 1 ID FROM Ventas ORDER BY FechaCreacion DESC
+GO
+
 -------- NO VA
 --SELECT PXC.IDProducto, PXC.Precio_UnitarioC, PXC.Cantidad, PXC.Subtotal FROM Productos_x_compra AS PXC
 --INNER JOIN Compras AS C ON C.ID = PXC.ID
@@ -575,6 +580,16 @@ CREATE PROCEDURE SP_Alta_Compra(
 AS
 BEGIN
 	INSERT INTO Compras(IDProveedor,FechaCreacion,FechaEntrega,Total) VALUES (@idproveedor,GETDATE(),DATEADD(DAY, 5, GETDATE()),@total)
+END
+GO
+
+CREATE PROCEDURE SP_Alta_Venta(
+	@idcliente bigint,
+	@total money
+)
+AS
+BEGIN
+	INSERT INTO Ventas(IDCliente,Total,FechaCreacion) VALUES (@idcliente,@total,GETDATE())
 END
 GO
 
@@ -1785,8 +1800,16 @@ INSERT INTO Permisos (NombrePermiso)
 VALUES ('Admin');
 GO
 
+INSERT INTO Permisos (NombrePermiso)
+VALUES ('Vendedor');
+GO
+
 INSERT INTO Usuarios (IDPermiso, NombreUsuario, Contrasenia, Activo)
 VALUES (1, 'admin', 'admin', 1);
+GO
+
+INSERT INTO Usuarios (IDPermiso, NombreUsuario, Contrasenia, Activo)
+VALUES (2, 'vendedor1', '123', 1);
 GO
 
 INSERT INTO Imagenes (ImagenURL) VALUES
@@ -1799,10 +1822,10 @@ GO
 
 --Inserciones en la tabla Productos (solo 5 productos)
 INSERT INTO Productos (Nombre, Descripcion, IDMarca, IDCategoria,IDImagen, Stock_Actual, Stock_Minimo, Precio_Compra, Precio_Venta, Porcentaje_Ganancia, Activo) VALUES
-('Teclado Logitech', 'Teclado inal?mbrico', 4, 2, 1, 100, 20, 25.00, 40.00, 60.00, 1),
+('Teclado Logitech', 'Teclado inalambrico', 4, 2, 1, 100, 20, 25.00, 40.00, 60.00, 1),
 ('Monitor Samsung', 'Monitor 24 pulgadas', 3, 3, 2, 30, 5, 150.00, 220.00, 46.67, 1),
 ('Smartphone Apple', 'iPhone 13 Pro', 2, 4, 3, 15, 5, 800.00, 1100.00, 37.50, 1),
-('Mouse Logitech', 'Mouse inal?mbrico', 4, 2, 4, 150, 30, 15.00, 25.00, 66.67, 1),
+('Mouse Logitech', 'Mouse inalambrico', 4, 2, 4, 150, 30, 15.00, 25.00, 66.67, 1),
 ('PlayStation 5', 'Consola de videojuegos Sony', 5, 5, 5, 10, 2, 450.00, 550.00, 22.22, 1);
 GO
 
@@ -1890,6 +1913,16 @@ begin
 end
 go
 
+CREATE PROCEDURE SP_ActualizarStockVenta(
+	@idproducto bigint,
+	@stock int
+)
+AS
+BEGIN
+	UPDATE Productos SET Stock_Actual -= @stock WHERE ID = @idproducto
+END
+GO
+
 CREATE PROCEDURE SP_ConfirmarCompra(
 	@idcompra BIGINT
 )
@@ -1899,21 +1932,50 @@ BEGIN
 END
 GO
 
-
-
-SELECT * FROM COMPRAS
-SELECT * FROM Productos_x_compra
-SELECT * FROM Productos
-SELECT * FROM Productos_x_Proveedores
+CREATE PROCEDURE SP_AgregarProductoVenta(
+	@idventa bigint,
+	@idproducto bigint,
+	@cantidad int,
+	@preciounitario money,
+	@subtotal money
+)
+AS
+BEGIN
+	INSERT INTO Productos_x_venta(IDVenta,IDProducto,Cantidad,Precio_UnitarioV,Subtotal)
+	VALUES (@idventa,@idproducto,@cantidad,@preciounitario,@subtotal)
+END
 GO
 
---SELECT * 
---FROM Compras 
---WHERE IDProveedor = 1
---  AND FechaCreacion >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
---  AND FechaCreacion < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0);
+CREATE PROCEDURE SP_ActualizarMontoEnVenta(
+	@idventa bigint,
+	@total money
+)
+as
+begin
+	UPDATE Ventas SET Total = @total WHERE ID = @idventa
+end
+go
 
-SELECT PXP.ID, PXP.IDCompra, P.ID AS IDProducto, PXP.Cantidad, PXP.CantidadVieja, PXP.Precio_UnitarioC, PXP.Subtotal, P.Nombre,P.Stock_Minimo 
-FROM Productos_x_compra AS PXP 
-INNER JOIN Productos as P ON P.ID = PXP.IDProducto WHERE IDCompra = 14
-
+--CARGA EL HISOTRIAL DE VENTAS
+CREATE PROCEDURE SP_CargarHistorialVentas
+AS
+BEGIN
+    SELECT 
+        c.DNI AS NumeroDocumento,
+        c.Nombre AS NombreCliente,
+        c.Apellido AS ApellidoCliente,
+        p.Nombre AS NombreProducto,
+        pxv.Cantidad,
+        pxv.Subtotal,
+        v.Nro_Factura AS NumeroFactura,
+        v.FechaCreacion,
+        ROW_NUMBER() OVER (PARTITION BY v.Nro_Factura ORDER BY pxv.ID) AS EsPrimeraFila,
+        SUM(pxv.Subtotal) OVER (PARTITION BY v.Nro_Factura) AS TotalFactura
+    FROM Clientes c
+    JOIN Ventas v ON c.ID = v.IDCliente
+    JOIN Productos_x_venta pxv ON v.ID = pxv.IDVenta
+    JOIN Productos p ON pxv.IDProducto = p.ID
+    WHERE pxv.Cantidad > 0
+    ORDER BY v.FechaCreacion DESC, v.Nro_Factura, pxv.ID;
+END;
+GO

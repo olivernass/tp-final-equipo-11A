@@ -7,6 +7,7 @@
                               AutoPostBack="true" OnSelectedIndexChanged="ddlProveedor_SelectedIndexChanged">
             </asp:DropDownList>
             <asp:Label ID="lblMensajeProveedor" runat="server" Text="Label" Visible="False"></asp:Label>
+            <asp:Label ID="lblCodigosStock" runat="server" Text="Articulos a pedir stock:" Visible="false"></asp:Label>
             <br />
             <asp:Repeater ID="rptCompras" runat="server">
                 <HeaderTemplate>
@@ -44,7 +45,7 @@
             </asp:Repeater>
 
             <br />
-            <asp:Button ID="btnGenerarCompra" runat="server" Text="Generar nueva compra" OnClick="btnGenerarCompra_Click"/>
-            <asp:Button ID="btnVolver" runat="server" Text="Volver" OnClick="btnVolver_Click"/>
+            <asp:Button ID="btnGenerarCompra" runat="server" CssClass="btn btn-primary" Text="Generar nueva compra" OnClick="btnGenerarCompra_Click"/>
+            <asp:Button ID="btnVolver" runat="server" CssClass="btn btn-primary" Text="Volver" OnClick="btnVolver_Click"/>
         
 </asp:Content>

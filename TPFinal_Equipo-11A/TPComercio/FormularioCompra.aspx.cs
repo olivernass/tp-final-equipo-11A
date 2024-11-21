@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 
 namespace TPComercio
 {
@@ -17,6 +18,8 @@ namespace TPComercio
         public string codigo { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
+
             codigo = Request.QueryString["id"].ToString();
             int codigoprov = int.Parse(codigo);
             if (!IsPostBack)

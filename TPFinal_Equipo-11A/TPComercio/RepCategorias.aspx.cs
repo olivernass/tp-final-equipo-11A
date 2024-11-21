@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 
 namespace TPComercio
 {
@@ -13,6 +14,8 @@ namespace TPComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
+
             if (!IsPostBack)
             {       
                 
@@ -32,31 +35,6 @@ namespace TPComercio
             }
         }
 
-        //private void MostrarCategoriasConMasProductos()
-        //{
-        //    CategoriaReportesNegocio categoriaRepoNegocio = new CategoriaReportesNegocio();
-        //    List<CategoriaReportes> categoriasConMasProductos = categoriaRepoNegocio.ObtenerCategoriasConMasProductos();
-
-        //    if (categoriasConMasProductos != null && categoriasConMasProductos.Count > 0)
-        //    {
-        //        // Construir un texto para mostrar todas las categorías con la mayor cantidad de productos
-        //        string categoriasTexto = "Categorías con más productos: <br />";
-        //        foreach (var categoria in categoriasConMasProductos)
-        //        {
-        //            categoriasTexto += $"ID: {categoria.Id}, Nombre: {categoria.NombreCategoria}, Cantidad de productos: {categoria.CantidadProductos}<br />";
-        //        }
-
-        //        // Mostrar el texto en las etiquetas correspondientes
-        //        lblCategoriaNombre.Text = categoriasTexto;
-        //        lblCategoriaID.Text = string.Empty; // Opcional, si no necesitas mostrar un ID individual
-        //    }
-        //    else
-        //    {
-        //        lblCategoriaNombre.Text = "No se encontró ninguna categoría con productos.";
-        //        lblCategoriaID.Text = string.Empty;
-        //    }
-        //}
-
         private void MostrarCategoriasConMasProductos()
         {
             CategoriaReportesNegocio categoriaRepoNegocio = new CategoriaReportesNegocio();
@@ -64,7 +42,7 @@ namespace TPComercio
 
             if (categoriasConMasProductos != null && categoriasConMasProductos.Count > 0)
             {
-                // Construir datos en formato JSON
+
                 var jsonData = new System.Text.StringBuilder();
                 jsonData.Append("[['Categoría', 'Cantidad de Productos'],");
 
@@ -73,11 +51,11 @@ namespace TPComercio
                     jsonData.Append($"['{categoria.NombreCategoria}', {categoria.CantidadProductos}],");
                 }
 
-                // Elimina la última coma y cierra el JSON
+  
                 jsonData.Length--;
                 jsonData.Append("]");
 
-                // Pasar el JSON al cliente usando un control oculto o literal
+
                 ClientScript.RegisterStartupScript(this.GetType(), "chartDataCategorias", $"var chartDataCategorias = {jsonData};", true);
             }
             else
@@ -93,7 +71,7 @@ namespace TPComercio
 
             if (categoriasConProductoMasCostoso != null && categoriasConProductoMasCostoso.Count > 0)
             {
-                // Generar contenido HTML para las filas de la tabla
+
                 var tableRows = new System.Text.StringBuilder();
                 foreach (var item in categoriasConProductoMasCostoso)
                 {
@@ -106,7 +84,6 @@ namespace TPComercio
                     tableRows.Append("</tr>");
                 }
 
-                // Pasar las filas al cliente
                 ClientScript.RegisterStartupScript(this.GetType(), "tableDataCategorias",
                     $"document.getElementById('tableBodyCategorias').innerHTML = `{tableRows}`;", true);
             }
@@ -124,19 +101,19 @@ namespace TPComercio
 
             if (categoriasConBajoStock != null && categoriasConBajoStock.Count > 0)
             {
-                // Generar JSON para Google Charts
+
                 var chartData = new List<object[]>();
-                chartData.Add(new object[] { "Categoría", "Cantidad de Productos con Bajo Stock" }); // Cabecera
+                chartData.Add(new object[] { "Categoría", "Cantidad de Productos con Bajo Stock" }); 
 
                 foreach (var item in categoriasConBajoStock)
                 {
                     chartData.Add(new object[] { item.NombreCategoria, item.StockActual });
                 }
 
-                // Serializar datos a JSON
+                
                 string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(chartData);
 
-                // Registrar el JSON en el cliente
+           
                 ClientScript.RegisterStartupScript(this.GetType(), "chartDataCategorias",
                     $"var chartDataCategorias = {jsonData};", true);
             }
@@ -149,7 +126,7 @@ namespace TPComercio
 
         private void MostrarCategoriasSinProductos()
         {
-            var negocio = new CategoriaReportesNegocio(); // Asegúrate de usar la capa de negocio adecuada.
+            var negocio = new CategoriaReportesNegocio(); 
             var categoriasSinProductos = negocio.ObtenerCategoriasSinProductos();
 
             if (categoriasSinProductos != null && categoriasSinProductos.Count > 0)
@@ -173,15 +150,7 @@ namespace TPComercio
         {
             CategoriaReportesNegocio categoriaNegocio = new CategoriaReportesNegocio();
             CategoriaReportes reporte = categoriaNegocio.ObtenerReporteCategoriasPorEstado();
-
-            //if (reporte != null)
-            //{
-            //    lblCategoriasActivasInactivas.Text = $"Categorías Activas: {reporte.TotalActivos}<br />Categorías Inactivas: {reporte.TotalInactivos}";
-            //}
-            //else
-            //{
-            //    lblCategoriasActivasInactivas.Text = "No se pudo generar el reporte.";
-            //}
+          
         }
 
         private void MostrarReporteCompletoDeCategorias()
@@ -191,7 +160,7 @@ namespace TPComercio
 
             if (reporte != null)
             {
-                // Generar contenido HTML para las filas de la tabla
+       
                 var tableRows = new System.Text.StringBuilder();
                 tableRows.Append("<tr>");
                 tableRows.Append("<td>Categorías Activas</td>");
@@ -208,13 +177,13 @@ namespace TPComercio
                 tableRows.Append($"<td>{reporte.TotalSinProductos}</td>");
                 tableRows.Append("</tr>");
 
-                // Insertar las filas en el cliente
+
                 ClientScript.RegisterStartupScript(this.GetType(), "tableDataReporteCategorias",
                     $"document.getElementById('tableBodyReporteCategorias').innerHTML = `{tableRows}`;", true);
             }
             else
             {
-                // Si no hay datos, muestra un mensaje en la tabla
+       
                 ClientScript.RegisterStartupScript(this.GetType(), "tableDataReporteCategorias",
                     "document.getElementById('tableBodyReporteCategorias').innerHTML = '<tr><td colspan=\"2\">No se pudo generar el reporte.</td></tr>';", true);
             }

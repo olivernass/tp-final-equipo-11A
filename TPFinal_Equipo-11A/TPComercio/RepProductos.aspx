@@ -1,7 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Reportes.aspx.cs" Inherits="TPComercio.Reportes" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="RepProductos.aspx.cs" Inherits="TPComercio.RepProductos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="container-fluid">
@@ -18,15 +19,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="RepProveedores.aspx">Proveedores
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="RepClientes.aspx">Clientes
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="RepProductos.aspx">Productos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="RepProveedores.aspx">Proveedores
                             </a>
                         </li>
                     </ul>
@@ -35,10 +36,14 @@
         </div>
     </div>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <h1>Reportes</h1>
-        <p>Aquí puedes navegar por los distintos reportes.</p>
-    </main>
-
+    <div class="reporteClientes">
+        <asp:Label runat="server" ID="lblProductosMasCaros"></asp:Label>
+        <asp:Label runat="server" ID="lblProductosConProveedores"></asp:Label>
+        <%--<asp:Label runat="server" ID="lblProductosBajoStock"></asp:Label>--%>
+        <asp:Label runat="server" ID="lblProductosSinStock"></asp:Label>
+        <asp:Label runat="server" ID="lblProductosMasRentables"></asp:Label>
+        <asp:Label runat="server" ID="lblProductosConProveedoresExclusivos"></asp:Label>
+        <asp:Label runat="server" ID="lblProductosPrecioBajo"></asp:Label>
+    </div>
 
 </asp:Content>

@@ -8,11 +8,11 @@ using TPComercio.Utils;
 
 namespace TPComercio
 {
-    public partial class Admin : System.Web.UI.Page
+    public partial class VentasRedireccion : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            AuthHelper.ValidarAcceso(new List<int> { 1 }, Response, Session);
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
         }
     }
 }

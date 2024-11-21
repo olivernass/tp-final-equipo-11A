@@ -11,53 +11,17 @@ namespace TPComercio
 {
 
 
-    public partial class FormularioCompra
+    public partial class FormularioVenta
     {
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// rptDetalleVenta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
-
-        /// <summary>
-        /// rptDetalleCompra control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptDetalleCompra;
-
-        /// <summary>
-        /// btnActualizar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActualizar;
-
-        /// <summary>
-        /// btnNuevaOC control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevaOC;
-
-        /// <summary>
-        /// btnConfirmarDescarga control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmarDescarga;
+        protected global::System.Web.UI.WebControls.Repeater rptDetalleVenta;
 
         /// <summary>
         /// btnVolver control.
@@ -67,5 +31,23 @@ namespace TPComercio
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnVolver;
+
+        /// <summary>
+        /// btnActualizarMontos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActualizarMontos;
+
+        /// <summary>
+        /// btnGenerarVenta control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGenerarVenta;
     }
 }

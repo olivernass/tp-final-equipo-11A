@@ -11,61 +11,61 @@ namespace TPComercio
 {
 
 
-    public partial class FormularioCompra
+    public partial class RepProductos
     {
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// lblProductosMasCaros control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Label lblProductosMasCaros;
 
         /// <summary>
-        /// rptDetalleCompra control.
+        /// lblProductosConProveedores control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptDetalleCompra;
+        protected global::System.Web.UI.WebControls.Label lblProductosConProveedores;
 
         /// <summary>
-        /// btnActualizar control.
+        /// lblProductosSinStock control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActualizar;
+        protected global::System.Web.UI.WebControls.Label lblProductosSinStock;
 
         /// <summary>
-        /// btnNuevaOC control.
+        /// lblProductosMasRentables control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevaOC;
+        protected global::System.Web.UI.WebControls.Label lblProductosMasRentables;
 
         /// <summary>
-        /// btnConfirmarDescarga control.
+        /// lblProductosConProveedoresExclusivos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmarDescarga;
+        protected global::System.Web.UI.WebControls.Label lblProductosConProveedoresExclusivos;
 
         /// <summary>
-        /// btnVolver control.
+        /// lblProductosPrecioBajo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVolver;
+        protected global::System.Web.UI.WebControls.Label lblProductosPrecioBajo;
     }
 }

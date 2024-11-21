@@ -11,61 +11,61 @@ namespace TPComercio
 {
 
 
-    public partial class FormularioCompra
+    public partial class RepProveedores
     {
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// lblProveedorConMasProductos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Label lblProveedorConMasProductos;
 
         /// <summary>
-        /// rptDetalleCompra control.
+        /// lblProveedorConMasProductosID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptDetalleCompra;
+        protected global::System.Web.UI.WebControls.Label lblProveedorConMasProductosID;
 
         /// <summary>
-        /// btnActualizar control.
+        /// lblReporteProveedores control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActualizar;
+        protected global::System.Web.UI.WebControls.Label lblReporteProveedores;
 
         /// <summary>
-        /// btnNuevaOC control.
+        /// lblProveedoresSinProductos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevaOC;
+        protected global::System.Web.UI.WebControls.Label lblProveedoresSinProductos;
 
         /// <summary>
-        /// btnConfirmarDescarga control.
+        /// lblProveedoresProductosBajoStock control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmarDescarga;
+        protected global::System.Web.UI.WebControls.Label lblProveedoresProductosBajoStock;
 
         /// <summary>
-        /// btnVolver control.
+        /// lblProveedoresActivosInactivos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVolver;
+        protected global::System.Web.UI.WebControls.Label lblProveedoresActivosInactivos;
     }
 }

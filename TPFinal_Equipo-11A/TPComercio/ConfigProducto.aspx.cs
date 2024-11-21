@@ -7,17 +7,21 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 
 namespace TPComercio
 {
     public partial class ConfigProducto : System.Web.UI.Page
     {
+
         public string codigo { get; set; }
         public Producto producto { get; set; }
         public List<Proveedor> listaproveedores { get; set; }
         public List<Proveedor> listaproveedoressinproducto{ get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
+
             ProductoNegocio negocioProducto = new ProductoNegocio();
             codigo = Request.QueryString["Id"].ToString();
             long numeroProducto = long.Parse(codigo);

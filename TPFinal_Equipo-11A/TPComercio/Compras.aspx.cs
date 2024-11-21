@@ -7,14 +7,17 @@ using System.Web;
 using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPComercio.Utils;
 
 namespace TPComercio
 {
     public partial class Compras : System.Web.UI.Page
     {
+
         public List<Proveedor> listaproveedores { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            AuthHelper.ValidarAcceso(new List<int> { 1, 2 }, Response, Session);
 
             if (!IsPostBack)
             {
@@ -33,6 +36,7 @@ namespace TPComercio
         {
             if(ddlProveedor.SelectedValue == "")
             {
+                lblCodigosStock.Visible = false;
                 lblMensajeProveedor.Visible = true;
                 lblMensajeProveedor.Text = "Por favor, selecciona un proveedor.";
                 rptCompras.Visible = false;
@@ -44,10 +48,23 @@ namespace TPComercio
                 int proveedorId = Convert.ToInt32(ddlProveedor.SelectedValue);
                 List<Compra> compras = new List<Compra>();
                 CompraNegocio negocio = new CompraNegocio();
+                ProductoNegocio negocioProducto = new ProductoNegocio();
+                List<long> productosConStockMinimoSuperado = new List<long>();
                 compras = negocio.listarCompras(proveedorId);
+                productosConStockMinimoSuperado = negocioProducto.listarIDProducto(proveedorId);
+                if (productosConStockMinimoSuperado != null && productosConStockMinimoSuperado.Count > 0)
+                {
+                    lblCodigosStock.Visible = true;
+                    string codigos = string.Join(", ", productosConStockMinimoSuperado);
+                    lblCodigosStock.Text = "Productos a pedir stock: " + codigos;
+                }
+                else
+                {
+                    lblCodigosStock.Text = "";
+                    lblCodigosStock.Visible = false;
+                }
                 rptCompras.DataSource = compras;
                 rptCompras.DataBind();
-
             }
         }
 
