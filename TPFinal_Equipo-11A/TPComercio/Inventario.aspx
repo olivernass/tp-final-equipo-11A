@@ -3,11 +3,25 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="containerProductos">
-        <h2 class="h2listado">Mantenimiento de Productos</h2>
-        <!-- Botón Agregar Producto -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">
-            Agregar Producto    
-        </button>
+        <h2 class="h2listado">
+            <asp:Label ID="lblMant" runat="server" Text="Mantenimiento de Productos"></asp:Label>
+            <!-- Botón Agregar Producto -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">
+                Agregar Producto    
+            </button>
+        </h2>
+        <!-- filtro ID Producto -->
+        <div class="containerProductos">
+            <div class="col-6">
+                <div class="mb-3">
+                    <asp:Label ID="lblProductoID" Text="Ingrese el ID del Producto" runat="server" />
+                    <div class="d-flex espacioFiltro">
+                        <asp:TextBox runat="server" ID="txtFiltroID" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltroID_TextChanged"/>
+                    </div>
+                    <label>Presionar enter para actualizar</label>
+                </div>
+            </div>
+        </div>
         <!-- Tabla de Productos -->
         <div class="card-container">
             <asp:Repeater ID="rptProductos" runat="server"> 
@@ -30,6 +44,7 @@
                </ItemTemplate>
             </asp:Repeater>
         </div>
+        <asp:Button ID="btnVolver" class="btn btn-primary" runat="server" Text="Volver" OnClick="btnVolver_Click" />
     </div>
 
     <!-- Modal para agregar producto -->

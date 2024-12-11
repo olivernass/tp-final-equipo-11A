@@ -2,6 +2,7 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -19,7 +20,7 @@ namespace TPComercio
 
             if (!IsPostBack)
             {
-                cargarProductos();
+                //cargarProductos();
                 cargarMarcas();
                 cargarCategorias();
                 cargarProveedores();
@@ -163,7 +164,7 @@ namespace TPComercio
 
             ProductoNegocio negocio = new ProductoNegocio();
             negocio.agregar(nuevoProducto);
-            cargarProductos();
+            //cargarProductos();
             limpiarCampos();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#modalAgregarProducto').modal('hide');", true);
 
@@ -174,6 +175,32 @@ namespace TPComercio
             decimal precioCompra = decimal.Parse(txtPrecioCompra.Text);
             decimal porcentajeGanancia = decimal.Parse(txtPorcentajeGanancia.Text);
             txtPrecioVenta.Text = Convert.ToString(precioCompra * (1 + porcentajeGanancia / 100));
+        }
+
+        protected void txtFiltroID_TextChanged(object sender, EventArgs e)
+        {
+            string codigo = txtFiltroID.Text;
+            if (!string.IsNullOrEmpty(codigo))
+            {
+                long codigoID = Convert.ToInt64(codigo);
+                ProductoNegocio negocio = new ProductoNegocio();
+                Producto producto = new Producto();
+                producto = negocio.verDetalle(codigoID);
+                List<Producto> lista = new List<Producto>();
+                lista.Add(producto);
+                rptProductos.DataSource = lista;
+                rptProductos.DataBind();
+            }
+            else
+            {
+                rptProductos.DataSource= null;
+                rptProductos.DataBind();
+            }
+        }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
         }
     }
 }

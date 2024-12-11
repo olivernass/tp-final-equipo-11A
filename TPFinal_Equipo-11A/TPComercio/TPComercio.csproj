@@ -102,7 +102,6 @@
     <Content Include="Proveedores.aspx" />
     <Content Include="RepCategorias.aspx" />
     <Content Include="RepClientes.aspx" />
-    <Content Include="RepCompras.aspx" />
     <Content Include="RepMarcas.aspx" />
     <Content Include="Reportes.aspx" />
     <Content Include="RepProductos.aspx" />
@@ -236,13 +235,6 @@
     </Compile>
     <Compile Include="RepClientes.aspx.designer.cs">
       <DependentUpon>RepClientes.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="RepCompras.aspx.cs">
-      <DependentUpon>RepCompras.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RepCompras.aspx.designer.cs">
-      <DependentUpon>RepCompras.aspx</DependentUpon>
     </Compile>
     <Compile Include="RepMarcas.aspx.cs">
       <DependentUpon>RepMarcas.aspx</DependentUpon>

@@ -140,5 +140,10 @@ namespace TPComercio
             decimal porcentajeGanancia = decimal.Parse(txtPorcentajeGanancia.Text);
             txtPrecioVenta.Text = Convert.ToString(precioCompra * (1 + porcentajeGanancia / 100));
         }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Inventario.aspx");
+        }
     }
 }
